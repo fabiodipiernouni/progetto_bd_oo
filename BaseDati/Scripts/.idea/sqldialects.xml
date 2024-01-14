@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/03.GeoDomain/01.CreateGeoDomain.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/03.GeoDomain/0a.ComuniFull.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/03.GeoDomain/0b.fillComuniFull.sql" dialect="Oracle" />
+  </component>
+</project>
