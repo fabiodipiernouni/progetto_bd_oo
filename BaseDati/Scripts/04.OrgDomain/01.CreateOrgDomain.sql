@@ -36,9 +36,11 @@ end;
 create table Magazzino (
     id integer not null, --pk
     Nome varchar2(255 char) not null,
-    Indirizzo integer not null,
+    IdIndirizzo integer not null,
+    IdFiliale integer not null,
     constraint Magazzino_pk primary key (id),
-    constraint Magazzino_Indirizzo_fk foreign key (Indirizzo) references Indirizzo (id)
+    constraint Magazzino_Indirizzo_fk foreign key (IdIndirizzo) references Indirizzo (id),
+    constraint Magazzino_Filiale_fk foreign key (IdFiliale) references Filiale (id)
 );
 
 begin
@@ -48,7 +50,7 @@ end;
 
 create table CatalogoProdotti (
     id integer not null, --pk
-    CodiceEan varchar2(255 char) not null,
+    CodiceEan varchar2(13 char) not null, --codice univoco
     Nome varchar2(255 char) not null,
     Descrizione varchar2(255 char) not null,
     UrlPhoto varchar2(255 char) not null,
@@ -60,6 +62,7 @@ create table CatalogoProdotti (
     Profondita number,
     Pericolosita varchar2(20 byte) not null, --enum Nessuna, Infiammabile, Esplosivo, Tossico, Chimico, Corrosivo, Infettante, Radioattivo
     constraint CatalogoProdotti_pk primary key (id),
+    constraint CatalogoProdotti_CodiceEan_uq unique (CodiceEan),
     constraint ProfonditaCheck check (Pericolosita in ('Nessuna', 'Infiammabile', 'Esplosivo', 'Tossico', 'Chimico', 'Corrosivo', 'Infettante', 'Radioattivo')),
     constraint CheckTipo check( Tipo in ('Abbigliamento', 'Alimentari', 'Elettronica', 'Casa', 'Sport', 'Giardino', 'Altro') )
 );
