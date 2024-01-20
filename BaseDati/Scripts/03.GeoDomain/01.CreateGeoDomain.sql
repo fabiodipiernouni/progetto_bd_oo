@@ -20,14 +20,14 @@ end;
 /
 
 create table indirizzo (
-    id number,
+    id integer not null,
     nome varchar2(50) not null,
     cognome varchar2(50) not null,
     CF_PIVA varchar2(16) not null,
     Indirizzo_1 varchar2(50) not null,
     Indirizzo_2 varchar2(50),
     CAP varchar2(5) not null,
-    idComune number not null,
+    idComune integer not null,
     constraint pk_indirizzo primary key (id),
     constraint fk_indirizzo_comune foreign key (idComune) references ComuneFull(id)
 );

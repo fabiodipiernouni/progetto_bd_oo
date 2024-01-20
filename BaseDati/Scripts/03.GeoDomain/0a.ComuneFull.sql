@@ -5,7 +5,7 @@ end;
 /
 
 create table ComuneFull (
-    Id number,
+    Id SMALLINT NOT NULL,
 	CodiceRegione varchar2(1000 byte),
 	CodiceCittaMetropolitana varchar2(1000 byte),
 	CodiceProvincia varchar2(1000 byte),

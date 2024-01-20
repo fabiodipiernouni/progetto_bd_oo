@@ -6,11 +6,11 @@ exception when others then null;
 end;
 
 create table Org (
-    id number(10) not null, --pk
+    id integer not null, --pk
     Paese varchar2(255 char) not null,
     RagioneSociale varchar2(255 char) not null,
     PartitaIva varchar2(255 char) not null,
-    SedeLegaleIndirizzo number not null,
+    SedeLegaleIndirizzo integer not null,
     constraint Org_pk primary key (id),
     constraint Org_SedeLegaleIndirizzo_fk foreign key (SedeLegaleIndirizzo) references Indirizzo (id)
 );
@@ -21,8 +21,9 @@ exception when others then null;
 end;
 
 create table filiale (
-    id number(10) not null, --pk
-    Sede number not null,
+    id integer not null, --pk
+    nome varchar2(50) not null,
+    Sede integer not null,
     constraint filiale_pk primary key (id),
     constraint filiale_Sede_fk foreign key (Sede) references Indirizzo (id)
 );
@@ -33,9 +34,9 @@ exception when others then null;
 end;
 
 create table Magazzino (
-    id number(10) not null, --pk
+    id integer not null, --pk
     Nome varchar2(255 char) not null,
-    Indirizzo number not null,
+    Indirizzo integer not null,
     constraint Magazzino_pk primary key (id),
     constraint Magazzino_Indirizzo_fk foreign key (Indirizzo) references Indirizzo (id)
 );
@@ -46,13 +47,13 @@ exception when others then null;
 end;
 
 create table CatalogoProdotti (
-    id number(10) not null, --pk
+    id integer not null, --pk
     CodiceEan varchar2(255 char) not null,
     Nome varchar2(255 char) not null,
     Descrizione varchar2(255 char) not null,
     UrlPhoto varchar2(255 char) not null,
     Tipo varchar2(20 byte) not null, --enum Abbigliamento, Alimentari, Elettronica, Casa, Sport, Giardino, Altro
-    Prezzo number(12,2) not null,
+    Prezzo double not null,
     Peso number,
     Larghezza number,
     Altezza number,
@@ -69,10 +70,10 @@ exception when others then null;
 end;
 
 create table MerceStoccata (
-    id number(10) not null, --pk
-    IdProdotto number not null,
+    id integer not null, --pk
+    IdProdotto integer not null,
     Quantita number not null,
-    IdMagazzino number not null,
+    IdMagazzino integer not null,
     SettoreMagazzino varchar2(255 char),
     constraint MerceStoccata_pk primary key (id),
     constraint MerceStoccata_IdProdotto_fk foreign key (IdProdotto) references CatalogoProdotti (id),
@@ -85,11 +86,12 @@ exception when others then null;
 end;
 
 create table GruppoCorriere (
-    id number(10) not null, --pk
-    CodiceCorriere varchar2(255 char) not null,
-    NumeroDipendenti number not null,
-    IdFiliale number not null,
+    id integer not null, --pk
+    CodiceCorriere varchar2(255 char) not null, --unique
+    NumeroDipendenti integer not null,
+    IdFiliale integer not null,
     constraint GruppoCorriere_pk primary key (id),
+    constraint GruppoCorriere_CodiceCorriere_uq unique (CodiceCorriere),
     constraint GruppoCorriere_IdFiliale_fk foreign key (IdFiliale) references filiale (id)
 );
 
@@ -99,7 +101,7 @@ exception when others then null;
 end;
 
 create table MezziTrasporto (
-    id number(10) not null, --pk
+    id integer not null, --pk
     Targa varchar2(255 char) not null,
     TipoMezzo varchar2(255 char) not null, --enum Treno, Camion, Furgone, Auto, Moto, Bicicletta
     constraint MezziTrasporto_pk primary key (id),
