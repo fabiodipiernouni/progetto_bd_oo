@@ -1,15 +1,15 @@
 create or replace view regione as
-select distinct codiceRegione as codIstat, denominazioneRegione as nome from ComuniFull
+select distinct codiceRegione as codIstat, denominazioneRegione as nome from ComuneFull
 order by denominazioneRegione;
 
 create or replace view provincia as
 select distinct codiceProvincia as codIstat,
                 case when denominazioneCittaMetropolitana = '-' then denominazioneProvincia else denominazioneCittaMetropolitana end as nome,
-                CodiceRegione as codIstatRegione from ComuniFull
+                CodiceRegione as codIstatRegione from ComuneFull
 order by 2;
 
 create or replace view comune as
-select distinct id, codiceComuneFormatoNumerico as codIstat, denominazioneInItaliano as nome, CodiceProvincia as codIstatProvincia from ComuniFull
+select distinct id, codiceComuneFormatoNumerico as codIstat, denominazioneInItaliano as nome, CodiceProvincia as codIstatProvincia from ComuneFull
 order by 3;
 
 begin
@@ -29,5 +29,5 @@ create table indirizzo (
     CAP varchar2(5) not null,
     idComune number not null,
     constraint pk_indirizzo primary key (id),
-    constraint fk_indirizzo_comune foreign key (idComune) references comuniFull(id)
+    constraint fk_indirizzo_comune foreign key (idComune) references ComuneFull(id)
 );
