@@ -1,31 +1,29 @@
---crea tabella oracle Org in camel case senza underscore e con la prima lettera maiuscola
-
 begin
     execute immediate 'drop table Org cascade constraints purge';
 exception when others then null;
 end;
 
 create table Org (
-    id integer not null, --pk
+    Id integer not null, --pk
     Paese varchar2(255 char) not null,
     RagioneSociale varchar2(255 char) not null,
-    PartitaIva varchar2(255 char) not null,
+    PartitaIVA varchar2(255 char) not null,
     SedeLegaleIndirizzo integer not null,
-    constraint Org_pk primary key (id),
-    constraint Org_SedeLegaleIndirizzo_fk foreign key (SedeLegaleIndirizzo) references Indirizzo (id)
+    constraint pk_Org primary key (id),
+    constraint fk_Org_SedeLegaleIndirizzo foreign key (SedeLegaleIndirizzo) references Indirizzo (Id)
 );
 
 begin
-    execute immediate 'drop table filiale cascade constraints purge';
+    execute immediate 'drop table Filiale cascade constraints purge';
 exception when others then null;
 end;
 
-create table filiale (
-    id integer not null, --pk
-    nome varchar2(50) not null,
+create table Filiale (
+    Id integer not null, --pk
+    Nome varchar2(50) not null,
     Sede integer not null,
-    constraint filiale_pk primary key (id),
-    constraint filiale_Sede_fk foreign key (Sede) references Indirizzo (id)
+    constraint pk_Filiale primary key (id),
+    constraint fk_Filiale_Sede foreign key (Sede) references Indirizzo (Id)
 );
 
 begin
@@ -34,13 +32,13 @@ exception when others then null;
 end;
 
 create table Magazzino (
-    id integer not null, --pk
+    Id integer not null, --pk
     Nome varchar2(255 char) not null,
     IdIndirizzo integer not null,
     IdFiliale integer not null,
-    constraint Magazzino_pk primary key (id),
-    constraint Magazzino_Indirizzo_fk foreign key (IdIndirizzo) references Indirizzo (id),
-    constraint Magazzino_Filiale_fk foreign key (IdFiliale) references Filiale (id)
+    constraint pk_Magazzino_ primary key (id),
+    constraint fk_Magazzino_Indirizzo foreign key (IdIndirizzo) references Indirizzo (id),
+    constraint fk_Magazzino_Filiale foreign key (IdFiliale) references Filiale (id)
 );
 
 begin
@@ -49,22 +47,22 @@ exception when others then null;
 end;
 
 create table CatalogoProdotti (
-    id integer not null, --pk
-    CodiceEan varchar2(13 char) not null, --codice univoco
+    Id integer not null, --pk
+    CodiceEAN varchar2(13 char) not null, --codice univoco
     Nome varchar2(255 char) not null,
     Descrizione varchar2(255 char) not null,
-    UrlPhoto varchar2(255 char) not null,
+    URLPhoto varchar2(255 char) not null,
     Tipo varchar2(20 byte) not null, --enum Abbigliamento, Alimentari, Elettronica, Casa, Sport, Giardino, Altro
-    Prezzo double not null,
+    Prezzo double precision not null,
     Peso number,
     Larghezza number,
     Altezza number,
     Profondita number,
     Pericolosita varchar2(20 byte) not null, --enum Nessuna, Infiammabile, Esplosivo, Tossico, Chimico, Corrosivo, Infettante, Radioattivo
-    constraint CatalogoProdotti_pk primary key (id),
-    constraint CatalogoProdotti_CodiceEan_uq unique (CodiceEan),
-    constraint ProfonditaCheck check (Pericolosita in ('Nessuna', 'Infiammabile', 'Esplosivo', 'Tossico', 'Chimico', 'Corrosivo', 'Infettante', 'Radioattivo')),
-    constraint CheckTipo check( Tipo in ('Abbigliamento', 'Alimentari', 'Elettronica', 'Casa', 'Sport', 'Giardino', 'Altro') )
+    constraint pk_CatalogoProdotti primary key (id),
+    constraint uq_CatalogoProdotti_CodiceEAN unique (CodiceEAN),
+    constraint check_Profondita check (Pericolosita in ('Nessuna', 'Infiammabile', 'Esplosivo', 'Tossico', 'Chimico', 'Corrosivo', 'Infettante', 'Radioattivo')),
+    constraint check_Tipo check( Tipo in ('Abbigliamento', 'Alimentari', 'Elettronica', 'Casa', 'Sport', 'Giardino', 'Altro') )
 );
 
 begin
@@ -73,14 +71,14 @@ exception when others then null;
 end;
 
 create table MerceStoccata (
-    id integer not null, --pk
+    Id integer not null, --pk
     IdProdotto integer not null,
     Quantita number not null,
     IdMagazzino integer not null,
     SettoreMagazzino varchar2(255 char),
-    constraint MerceStoccata_pk primary key (id),
-    constraint MerceStoccata_IdProdotto_fk foreign key (IdProdotto) references CatalogoProdotti (id),
-    constraint MerceStoccata_IdMagazzino_fk foreign key (IdMagazzino) references Magazzino (id)
+    constraint pk_MerceStoccata_pk primary key (id),
+    constraint fk_MerceStoccata_IdProdotto foreign key (IdProdotto) references CatalogoProdotti (id),
+    constraint fk_MerceStoccata_IdMagazzino foreign key (IdMagazzino) references Magazzino (id)
 );
 
 begin
@@ -89,13 +87,13 @@ exception when others then null;
 end;
 
 create table GruppoCorriere (
-    id integer not null, --pk
+    Id integer not null, --pk
     CodiceCorriere varchar2(255 char) not null, --unique
     NumeroDipendenti integer not null,
     IdFiliale integer not null,
-    constraint GruppoCorriere_pk primary key (id),
-    constraint GruppoCorriere_CodiceCorriere_uq unique (CodiceCorriere),
-    constraint GruppoCorriere_IdFiliale_fk foreign key (IdFiliale) references filiale (id)
+    constraint pk_GruppoCorriere primary key (Id),
+    constraint uq_GruppoCorriere_CodiceCorriere unique (CodiceCorriere),
+    constraint fk_GruppoCorriere_IdFiliale foreign key (IdFiliale) references filiale (id)
 );
 
 begin
@@ -104,10 +102,9 @@ exception when others then null;
 end;
 
 create table MezziTrasporto (
-    id integer not null, --pk
+    Id integer not null, --pk
     Targa varchar2(255 char) not null,
     TipoMezzo varchar2(255 char) not null, --enum Treno, Camion, Furgone, Auto, Moto, Bicicletta
-    constraint MezziTrasporto_pk primary key (id),
-    constraint CheckTipoMezzo check( TipoMezzo in ('Treno', 'Camion', 'Furgone', 'Auto', 'Moto', 'Bicicletta'))
+    constraint pk_MezziTrasporto primary key (id),
+    constraint check_TipoMezzo check( TipoMezzo in ('Treno', 'Camion', 'Furgone', 'Auto', 'Moto', 'Bicicletta'))
 );
-

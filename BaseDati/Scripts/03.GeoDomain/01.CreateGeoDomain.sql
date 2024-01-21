@@ -1,33 +1,45 @@
-create or replace view regione as
-select distinct codiceRegione as codIstat, denominazioneRegione as nome from ComuneFull
-order by denominazioneRegione;
+create or replace view Regione as
+    select
+        distinct CodiceRegione as CodIstat,
+        DenominazioneRegione as Nome
+    from ComuneFull
+    order by denominazioneRegione;
 
-create or replace view provincia as
-select distinct codiceProvincia as codIstat,
-                case when denominazioneCittaMetropolitana = '-' then denominazioneProvincia else denominazioneCittaMetropolitana end as nome,
-                CodiceRegione as codIstatRegione from ComuneFull
-order by 2;
+create or replace view Provincia as
+    select
+        distinct CodiceProvincia as CodIstat,
+        case
+            when DenominazioneCittaMetropolitana = '-' then DenominazioneProvincia
+            else DenominazioneCittaMetropolitana end as Nome,
+        CodiceRegione as CodIstatRegione
+    from ComuneFull
+    order by 2;
 
-create or replace view comune as
-select distinct id, codiceComuneFormatoNumerico as codIstat, denominazioneInItaliano as nome, CodiceProvincia as codIstatProvincia from ComuneFull
-order by 3;
+create or replace view Comune as
+    select
+        distinct Id,
+        CodiceComuneFormatoNumerico as CodIstat,
+        DenominazioneInItaliano as Nome,
+        CodiceProvincia as CodIstatProvincia
+    from ComuneFull
+    order by 3;
 
 begin
-    execute immediate 'drop table indirizzo cascade constraints purge';
+    execute immediate 'drop table Indirizzo cascade constraints purge';
 exception when others then
     null;
 end;
 /
 
-create table indirizzo (
-    id integer not null,
-    nome varchar2(50) not null,
-    cognome varchar2(50) not null,
+create table Indirizzo (
+    Id integer not null,
+    Nome varchar2(50) not null,
+    Cognome varchar2(50) not null,
     CF_PIVA varchar2(16) not null,
     Indirizzo_1 varchar2(50) not null,
     Indirizzo_2 varchar2(50),
     CAP varchar2(5) not null,
-    idComune integer not null,
-    constraint pk_indirizzo primary key (id),
-    constraint fk_indirizzo_comune foreign key (idComune) references ComuneFull(id)
+    IdComune integer not null,
+    constraint pk_Indirizzo primary key (Id),
+    constraint fk_Indirizzo_IdComune foreign key (IdComune) references ComuneFull(Id)
 );
