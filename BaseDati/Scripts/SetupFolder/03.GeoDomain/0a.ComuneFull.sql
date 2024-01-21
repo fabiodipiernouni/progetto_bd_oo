@@ -32,5 +32,5 @@ create table ComuneFull (
 	CodiceNUTS12006 varchar2(1000 byte),
 	CodiceNUTS22006 varchar2(1000 byte),
 	CodiceNUTS32006 varchar2(1000 byte),
-    constraint pk_comuni_full primary key (id)
+    constraint pk_ComuneFull primary key (id)
 );
