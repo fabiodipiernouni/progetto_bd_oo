@@ -1,51 +1,180 @@
 insert into Org (Id, RagioneSociale, Paese, partitaIva) values (1, 'Unina Delivery ITA', 'Italia', '12345678901');
 commit;
 
+
 -- Indirizzi filiali
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 1, 'Mario', 'Rossi', 'RSSMRA01A01A001A', 'Via Roma, 12', null, '00042', Id From Comune WHERE Nome = 'Roma';
-
-insert into Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 2, 'Luigi', 'Bianchi', 'BNCGLU01A01A001A', 'Via Milano, 32', null, '20019', Id From Comune WHERE Nome = 'Milano';
+SELECT 1, 'Mario', 'Rossi', 'IT56740210663', 'Via Roma, 12', null, '00042', Id From Comune WHERE Nome = 'Roma';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 3, 'Giuseppe', 'Verdi', 'VRDGPP01A01A001A', 'Via Napoli, 22', null, '80133', Id FROM Comune WHERE Nome = 'Napoli';
+SELECT 2, 'Luigi', 'Bianchi', 'IT71450370425', 'Via Milano, 32', null, '20019', Id From Comune WHERE Nome = 'Milano';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 4, 'Gianfranco', 'Capozzo', 'GNFRCPZ120213333', 'Via Torino, 42', null, '10024', Id FROM Comune WHERE Nome = 'Torino';
+SELECT 3, 'Giuseppe', 'Verdi', 'IT10569000051', 'Via Napoli, 22', null, '80133', Id FROM Comune WHERE Nome = 'Napoli';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 5, 'Fabio', 'Monzati', 'FABMNZ1414242133', 'Via Palermo, 72', null, '90132', Id FROM Comune WHERE Nome = 'Palerno';
+SELECT 4, 'Gianfranco', 'Capozzo', 'IT59076830526', 'Via Torino, 42', null, '10024', Id FROM Comune WHERE Nome = 'Torino';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 6, 'Dario', 'Lampa', 'DRLMP12525133215', 'Via Genova, 52', null, '16100', Id FROM Comune WHERE Nome = 'Genova';
+SELECT 5, 'Fabio', 'Monzati', 'IT67907781008', 'Via Palermo, 72', null, '90132', Id FROM Comune WHERE Nome = 'Palerno';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 7, 'Nicola', 'Bianchi', 'NCLBNC12345555AB', 'Via Bologna, 62', null, '40100', Id FROM Comune WHERE Nome = 'Bologna';
+SELECT 6, 'Dario', 'Lampa', 'IT94059260201', 'Via Genova, 52', null, '16100', Id FROM Comune WHERE Nome = 'Genova';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 8, 'Pasquale', 'Reale', 'PSQREA01A01A001A', 'Via Firenze, 32', null, '50100', Id FROM Comune WHERE Nome = 'Firenze';
+SELECT 7, 'Nicola', 'Bianchi', 'IT71718530281', 'Via Bologna, 62', null, '40100', Id FROM Comune WHERE Nome = 'Bologna';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 9, 'Giuseppe', 'Blu', 'GSPPBL01A01A001A', 'Via Bari, 522', null, '70100', Id FROM Comune WHERE Nome = 'Bari';
+SELECT 8, 'Pasquale', 'Reale', 'IT86207510065', 'Via Firenze, 32', null, '50100', Id FROM Comune WHERE Nome = 'Firenze';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 10, 'Francesco', 'Cincione', 'FRNCNC01A01A001A', 'Via Catania, 212', null, '95100', Id FROM Comune WHERE Nome = 'Catania';
+SELECT 9, 'Giuseppe', 'Blu', 'IT51016750682', 'Via Bari, 522', null, '70100', Id FROM Comune WHERE Nome = 'Bari';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 11, 'Luigi', 'Fumagali', 'LUIGMGL1A01A001A', 'Via Venezia, 1212', null, '20100', Id FROM Comune WHERE Nome = 'Venezia';
+SELECT 10, 'Francesco', 'Cincione', 'IT58344140536', 'Via Catania, 212', null, '95100', Id FROM Comune WHERE Nome = 'Catania';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 12, 'Gianluca', 'Starace', 'GNLCSTRC01A01A1A', 'Via Verona, 5212', null, '37100', Id FROM Comune WHERE Nome = 'Verona';
+SELECT 11, 'Luigi', 'Fumagali', 'IT20517120802', 'Via Venezia, 1212', null, '20100', Id FROM Comune WHERE Nome = 'Venezia';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 13, 'Riccardo', 'Santo', 'RCRDSNT01A01A01A', 'Via Messina, 232', null, '98121', Id FROM Comune WHERE Nome = 'Messina';
+SELECT 12, 'Gianluca', 'Starace', 'IT23660210842', 'Via Verona, 5212', null, '37100', Id FROM Comune WHERE Nome = 'Verona';
 
 INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
-SELECT 14, 'Maria', 'Fiore', 'MARFRR01A01A001A', 'Via Padova, 23', null, '35100', Id FROM Comune WHERE Nome = 'Padova';
+SELECT 13, 'Riccardo', 'Santo', 'IT38241120518', 'Via Messina, 232', null, '98121', Id FROM Comune WHERE Nome = 'Messina';
 
--- TODO: aggiungere altri indirizzi per i magazzini
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 14, 'Maria', 'Fiore', 'IT23104990652', 'Via Padova, 23', null, '35100', Id FROM Comune WHERE Nome = 'Padova';
+
+
+-- Indirizzi magazzini
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 15, 'Isa', 'Paganini', 'IT95013280615', 'Rotonda Via Sbarbaro, 4', null, '00010', Id FROM Comune WHERE Nome = 'Marcellina';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 16, 'Silvia', 'Zampa', 'IT32787900730', 'Vicolo Strada Adriano, 78', null, '00047', Id FROM Comune WHERE Nome = 'Marino';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 17, 'Giovanna', 'Pozzecco', 'IT45105070531', 'Contrada Vicolo Calbo, 97', null, '00013', Id FROM Comune WHERE Nome = 'Mentana';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 18, 'Morena', 'Flaiano', 'IT32868400162', 'Viale Contrada Benito, 26', null, '20081', Id FROM Comune WHERE Nome = 'Abbiategrasso';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 19, 'Ida', 'Donarelli', 'IT63191140837', 'Rotonda Strada Coriolano, 43', null, '20060', Id FROM Comune WHERE Nome = 'Masate';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 20, 'Donatella', 'Bajardi', 'IT45744280160', 'Canale Strada Spinola, 48', null, '20076', Id FROM Comune WHERE Nome = 'Mediglia';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 21, 'Victoria', 'Righi', 'IT95749290656', 'Rotonda Piazza Francesco, 47', null, '80035', Id FROM Comune WHERE Nome = 'Nola';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 22, 'Camilla', 'Taliani', 'IT07973260792', 'Rotonda Borgo Iacovelli, 98', null, '80044', Id FROM Comune WHERE Nome = 'Ottaviano';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 23, 'Stefania', 'Iacobucci', 'IT86181930214', 'Canale Via Fieramosca, 4', null, '80021', Id FROM Comune WHERE Nome = 'Afragola';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 24, 'Mercedes', 'Lucarelli', 'IT29049330037', 'Canale Strada Civaschi, 40', null, '10060', Id FROM Comune WHERE Nome = 'Airasca';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 25, 'Flora', 'Cherubini', 'IT44654940574', 'Incrocio Rotonda Doglioni, 71', null, '10080', Id FROM Comune WHERE Nome = 'Alpette';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 26, 'Amalia', 'Polani', 'IT34067120526', 'Rotonda Canale Alberto, 45', null, '10017', Id FROM Comune WHERE Nome = 'Montanaro';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 27, 'Rosalia', 'Chigi', 'IT72919200278', 'Rotonda Strada Gasperi, 31', null, '90021', Id FROM Comune WHERE Nome = 'Alia';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 28, 'Angelina', 'Marangoni', 'IT40257460598', 'Borgo Contrada Vincenza, 53', null, '90020', Id FROM Comune WHERE Nome = 'Alimena';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 29, 'Stefani', 'Porcellato', 'IT99830090785', 'Piazza Borgo Roero, 99', null, '90010', Id FROM Comune WHERE Nome = 'Isnello';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 30, 'Rosaria', 'Grossi', 'IT24054840053', 'Borgo Viale Luciano, 33', null, '16036', Id FROM Comune WHERE Nome = 'Avegno';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 31, 'Paloma', 'Falloppio', 'IT27750510664', 'Via Incrocio Giacobbe, 84', null, '16031', Id FROM Comune WHERE Nome = 'Bogliasco';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 32, 'Iolanda', 'Malpighi', 'IT70694320303', 'Borgo Strada Ubaldo, 30', null, '16012', Id FROM Comune WHERE Nome = 'Busalla';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 33, 'Maria', 'Tamburini', 'IT56258140476', 'Vicolo Rotonda Comolli, 36', null, '40036', Id FROM Comune WHERE Nome = 'Monzuno';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 34, 'Concetta', 'Pagnotto', 'IT33608190121', 'Vicolo Strada Livia, 11', null, '40026', Id FROM Comune WHERE Nome = 'Mordano';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 35, 'Paoletta', 'Gabba', 'IT46457390444', 'Stretto Canale Ramona, 53', null, '40055', Id FROM Comune WHERE Nome = 'Castenaso';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 36, 'Federica', 'Balotelli', 'IT37508730290', 'Stretto Vicolo Pellico, 18', null, '50068', Id FROM Comune WHERE Nome = 'Rufina';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 37, 'Jolanda', 'Prada', 'IT09277960457', 'Strada Stretto Malaparte, 95', null, '50059', Id FROM Comune WHERE Nome = 'Vinci';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 38, 'Vincenza', 'Cesarotti', 'IT79866780988', 'Contrada Rotonda Adriano, 21', null, '50023', Id FROM Comune WHERE Nome = 'Impruneta';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 39, 'Cecilia', 'Ungaretti', 'IT46377370997', 'Via Stretto Antonino, 96', null, '70015', Id FROM Comune WHERE Nome = 'Noci';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 40, 'Alessandra', 'Sokolov', 'IT20064550484', 'Vicolo Vicolo Gionata, 25', null, 'Noicattaro', Id FROM Comune WHERE Nome = '70016';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 41, 'Elisa', 'Chiesa', 'IT33889730520', 'Piazza Rotonda Eva, 9', null, '70020', Id FROM Comune WHERE Nome = 'Bitetto';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 42, 'Monica', 'Offredi', 'IT63233620853', 'Borgo Stretto Dellucci, 44', null, '95032', Id FROM Comune WHERE Nome = 'Belpasso';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 43, 'Hugo', 'Polesel', 'IT35457320485', 'Vicolo Borgo Roberta, 51', null,  '95034', Id FROM Comune WHERE Nome = 'Bronte';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 44, 'Enzo', 'Manunta', 'IT38271930927', 'Borgo Via Fiamma, 19', null,  '95014', Id FROM Comune WHERE Nome = 'Giarre';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 45, 'Franco', 'Sobrero', 'IT50704610042', 'Canale Piazza Flavio, 12', null,  '30020', Id FROM Comune WHERE Nome = 'Meolo';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 46, 'Giuseppe', 'Solari', 'IT33466410298', 'Strada Viale Gioacchino, 73', null,  '30034', Id FROM Comune WHERE Nome = 'Mira';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 47, 'Girolamo', 'Garibaldi', 'IT39559440738', 'Via Incrocio Giovanna, 7', null,  '30035', Id FROM Comune WHERE Nome = 'Mirano';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 48, 'Gionata', 'Ciani', 'IT29962181201', 'Strada Strada Florio, 71', null,  '37040', Id FROM Comune WHERE Nome = 'Zimella';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 49, 'Gianpaolo', 'Satriani', 'IT59798531006', 'Strada Canale Bandello, 20', null,  '37059', Id FROM Comune WHERE Nome = 'Zevio';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 50, 'Santino', 'Cavalcanti', 'IT01982230987', 'Piazza Piazza Alessandra, 66', null,  '37046', Id FROM Comune WHERE Nome = 'Minerbe';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 51, 'Ermanno', 'Padovano', 'IT94841100954', 'Rotonda Piazza Nadi, 5', null,  '98070', Id FROM Comune WHERE Nome = 'Acquedolci';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 52, 'Eraldo', 'Gussoni', 'IT18220880571', 'Piazza Piazza Morellato, 36', null,  '98060', Id FROM Comune WHERE Nome = 'Oliveri';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 53, 'Pasquale', 'Roccabonella', 'IT09751660458', 'Strada Contrada Amaldi, 55', null,  '98066', Id FROM Comune WHERE Nome = 'Patti';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 54, 'Giuliano', 'Mozart', 'IT47298220717', 'Via Incrocio Napoleone, 72', null,  '35021', Id FROM Comune WHERE Nome = 'Agna';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 55, 'Agnolo', 'Rocca', 'IT99585380415', 'Vicolo Canale Piermaria, 8', null,  '35020', Id FROM Comune WHERE Nome = 'Arre';
+
+INSERT INTO Indirizzo (Id, Nome, Cognome, CF_PIVA, Indirizzo_1, Indirizzo_2, CAP, IdComune)
+SELECT 56, 'Gustavo', 'Nadi', 'IT03017180336', 'Viale Vicolo Giunti, 95', null,  '35035', Id FROM Comune WHERE Nome = 'Mestrino';
+
 
 -- supponiamo una configurazione iniziale di filiali
 
@@ -221,12 +350,134 @@ VALUES (42, 'Corriere Padova 3', 'PAD3', 112, 14);
 
 
 -- supponiamo una configurazione iniziale di 3 magazzini a filiale
--- TODO: aggiungere i magazzini
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (1, 'Magazzino Roma 1', 15, 1);
 
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (2, 'Magazzino Roma 2', 16, 1);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (3, 'Magazzino Roma 3', 17, 1);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (4, 'Magazzino Milano 1', 18, 2);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (5, 'Magazzino Milano 2', 19, 2);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (6, 'Magazzino Milano 3', 20, 2);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (7, 'Magazzino Napoli 1', 21, 3);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (8, 'Magazzino Napoli 2', 22, 3);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (9, 'Magazzino Napoli 3', 23, 3);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (10, 'Magazzino Torino 1', 24, 4);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (11, 'Magazzino Torino 2', 25, 4);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (12, 'Magazzino Torino 3', 26, 4);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (13, 'Magazzino Palermo 1', 27, 5);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (14, 'Magazzino Palermo 2', 28, 5);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (15, 'Magazzino Palermo 3', 29, 5);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (16, 'Magazzino Genova 1', 30, 6);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (17, 'Magazzino Genova 2', 31, 6);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (18, 'Magazzino Genova 3', 32, 6);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (19, 'Magazzino Bologna 1', 33, 7);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (20, 'Magazzino Bologna 2', 34, 7);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (21, 'Magazzino Bologna 3', 35, 7);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (22, 'Magazzino Firenze 1', 36, 8);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (23, 'Magazzino Firenze 2', 37, 8);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (24, 'Magazzino Firenze 3', 38, 8);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (25, 'Magazzino Bari 1', 39, 9);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (26, 'Magazzino Bari 2', 40, 9);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (27, 'Magazzino Bari 3', 41, 9);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (28, 'Magazzino Catania 1', 42, 10);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (29, 'Magazzino Catania 2', 43, 10);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (30, 'Magazzino Catania 3', 44, 10);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (31, 'Magazzino Venezia 1', 45, 11);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (32, 'Magazzino Venezia 2', 46, 11);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (33, 'Magazzino Venezia 3', 47, 11);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (34, 'Magazzino Verona 1', 48, 12);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (35, 'Magazzino Verona 2', 49, 12);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (36, 'Magazzino Verona 3', 50, 12);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (37, 'Magazzino Messina 1', 51, 13);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (38, 'Magazzino Messina 2', 52, 13);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (39, 'Magazzino Messina 3', 53, 13);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (40, 'Magazzino Padova 1', 54, 14);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (41, 'Magazzino Padova 2', 55, 14);
+
+INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
+VALUES (42, 'Magazzino Padova 3', 56, 14);
 
 
 -- supponiamo una configurazione iniziale di prodotti di tipi diversi tra loro
-
 
 -- Abbigliamento
 

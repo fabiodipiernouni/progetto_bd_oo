@@ -102,15 +102,15 @@ exception when others then null;
 end;
 /
 
-create table MezziTrasporto (
+create table MezzoDiTrasporto (
     Id integer not null, --pk
     Targa varchar2(255 char) not null,
     TipoMezzo varchar2(255 char) not null, --enum Treno, Camion, Furgone, Auto, Moto, Bicicletta
     IdGruppoCorriere integer not null,
-    constraint pk_MezziTrasporto primary key (id),
-    constraint uq_MezziTrasporto_Targa unique (Targa),
+    constraint pk_MezzoDiTrasporto primary key (id),
+    constraint uq_MezzoDiTrasporto_Targa unique (Targa),
     constraint check_TipoMezzo check( TipoMezzo in ('Treno', 'Camion', 'Furgone', 'Auto', 'Moto', 'Bicicletta')),
-    constraint fk_MezziTrasporto_IdGruppoCorriere foreign key (IdGruppoCorriere) references GruppoCorriere (id)
+    constraint fk_MezzoDiTrasporto_IdGruppoCorriere foreign key (IdGruppoCorriere) references GruppoCorriere (Id)
 );
 
 begin
@@ -124,6 +124,6 @@ create table ImpegnoMezzo (
     IdMezzo integer not null,
     DataInizio date not null,
     DataFine date,
-    constraint pk_ImpegnoMezzo primary key (id),
-    constraint fk_ImpegnoMezzo_IdMezzo foreign key (IdMezzo) references MezziTrasporto (id)
+    constraint pk_ImpegnoMezzo primary key (Id),
+    constraint fk_ImpegnoMezzo_IdMezzo foreign key (IdMezzo) references MezzoDiTrasporto (Id)
 );
