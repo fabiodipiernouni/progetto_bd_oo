@@ -106,7 +106,7 @@ create table MezzoDiTrasporto (
     Id integer not null, --pk
     Targa varchar2(255 char) not null,
     TipoMezzo varchar2(255 char) not null, --enum Treno, Camion, Furgone, Auto, Moto, Bicicletta
-    IdGruppoCorriere integer not null,
+    IdGruppoCorriere integer,
     constraint pk_MezzoDiTrasporto primary key (id),
     constraint uq_MezzoDiTrasporto_Targa unique (Targa),
     constraint check_TipoMezzo check( TipoMezzo in ('Treno', 'Camion', 'Furgone', 'Auto', 'Moto', 'Bicicletta')),
