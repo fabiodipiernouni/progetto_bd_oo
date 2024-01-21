@@ -6,7 +6,7 @@ end;
 
 create table spedizione (
     Id integer not null,
-    DataCreazione date not null,
+    DataCreazione date default sysdate not null,
     DataInizioLavorazione date,
     DataFineLavorazione date,
     IdOrdine integer not null,
@@ -30,11 +30,12 @@ end;
 
 create table OrdineDiLavoro (
     Id integer not null,
-    DataCreazione date not null,
+    DataCreazione date default sysdate not null,
     DataInizioLavorazione date,
     DataFineLavorazione date,
     IdSpedizione integer not null,
     IdGruppoCorriere integer,
+    IdMezzoDiTrasporto integer,
     Stato varchar2(50) generated always as (case
         when IdGruppoCorriere is null then 'DaAssegnare'
         when IdGruppoCorriere is not null and DataInizioLavorazione is null then 'Assegnato'
@@ -43,5 +44,6 @@ create table OrdineDiLavoro (
     end) virtual, -- la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
     constraint ordinedilavoro_pk primary key (Id),
     constraint ordinedilavoro_spedizione_fk foreign key (IdSpedizione) references spedizione (Id),
-    constraint ordinedilavoro_gruppocorriere_fk foreign key (IdGruppoCorriere) references gruppoCorriere (Id)
+    constraint ordinedilavoro_gruppocorriere_fk foreign key (IdGruppoCorriere) references gruppoCorriere (Id),
+    constraint ordinedilavoro_mezzoditrasporto_fk foreign key (IdMezzoDiTrasporto) references mezzoDiTrasporto (Id)
 );
