@@ -39,13 +39,13 @@ exception when others then null;
 end;
 
 create table Magazzino (
-    Id integer not null, --pk
+    Id integer GENERATED ALWAYS AS IDENTITY not null, --pk
     Nome varchar2(255 char) not null,
     IdIndirizzo integer not null,
     IdFiliale integer not null,
-    constraint PkMagazzino_ primary key (id),
-    constraint FkMagazzino_Indirizzo foreign key (IdIndirizzo) references Indirizzo (id),
-    constraint FkMagazzino_Filiale foreign key (IdFiliale) references Filiale (id)
+    constraint PkMagazzino primary key (id),
+    constraint FkMagazzinoIndirizzo foreign key (IdIndirizzo) references Indirizzo (id),
+    constraint FkMagazzinoFiliale foreign key (IdFiliale) references Filiale (id)
 );
 
 begin
@@ -54,7 +54,7 @@ exception when others then null;
 end;
 
 create table CatalogoProdotti (
-    Id integer not null, --pk
+    Id integer GENERATED ALWAYS AS IDENTITY not null, --pk
     CodiceEAN varchar2(13 char) not null, --codice univoco
     Nome varchar2(255 char) not null,
     Descrizione varchar2(255 char) not null,
@@ -104,13 +104,13 @@ create table GruppoCorriere (
 );
 
 begin
-    execute immediate 'drop table MezziTrasporto cascade constraints purge';
+    execute immediate 'drop table MezzoDiTrasporto cascade constraints purge';
 exception when others then null;
 end;
 /
 
 create table MezzoDiTrasporto (
-    Id integer not null, --pk
+    Id integer GENERATED ALWAYS AS IDENTITY not null, --pk
     Targa varchar2(255 char) not null,
     TipoMezzo varchar2(255 char) not null, --enum Treno, Camion, Furgone, Auto, Moto, Bicicletta
     IdGruppoCorriere integer not null,
