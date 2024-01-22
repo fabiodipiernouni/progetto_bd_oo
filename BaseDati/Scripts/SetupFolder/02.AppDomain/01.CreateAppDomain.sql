@@ -12,9 +12,11 @@ create table Utente
     Id integer not null,
     Username varchar2(255) not null,
     Password Varchar2(128) not null,
+    IdProfilo integer not null,
     IdFilialeOperatore integer,
     constraint PkUtente primary key (Id),
-    constraint UqUtenteUsername unique (Username)
+    constraint UqUtenteUsername unique (Username),
+    constraint FkUtenteProfilo foreign key (IdProfilo) references Profilo (Id)
 )
 /
 
@@ -54,8 +56,8 @@ end;
 create table Funzione
 (
     Id integer not null,
-    "Funzione" VARCHAR2(64 byte),
-    constraint PkFunzione primary key (Id)
+    Funzione VARCHAR2(64 byte),
+    constraint PkFunzione primary key (Id),
     constraint UqFunzioneFunzione unique (Funzione)
 )
 /

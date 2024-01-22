@@ -2,6 +2,7 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/SetupFolder/01.Setup/01.CreateUser.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/02.AppDomain/01.CreateAppDomain.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/SetupFolder/03.GeoDomain/01.CreateGeoDomain.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/SetupFolder/03.GeoDomain/0a.ComuneFull.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/SetupFolder/03.GeoDomain/0b.fillComuneFull.sql" dialect="Oracle" />
