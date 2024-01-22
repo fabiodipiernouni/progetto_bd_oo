@@ -5,7 +5,7 @@ end;
 /
 
 create table ComuneFull (
-    Id SMALLINT NOT NULL,
+    Id integer NOT NULL,
 	CodiceRegione varchar2(1000 byte),
 	CodiceCittaMetropolitana varchar2(1000 byte),
 	CodiceProvincia varchar2(1000 byte),
@@ -32,5 +32,5 @@ create table ComuneFull (
 	CodiceNUTS12006 varchar2(1000 byte),
 	CodiceNUTS22006 varchar2(1000 byte),
 	CodiceNUTS32006 varchar2(1000 byte),
-    constraint pk_ComuneFull primary key (id)
+    constraint PkComuneFull primary key (id)
 );

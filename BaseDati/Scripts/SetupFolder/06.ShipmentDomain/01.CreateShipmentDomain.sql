@@ -1,3 +1,6 @@
+-- convezione nomi constraint: <Ck|Uk|Fk|Pk|WeakRel(fk con on delete cascade)><NomeTabella><Vincolo|NomeColonna>
+-- convezione nomi: non si usano underscore e i nomi sono in camelcase
+
 begin
     execute immediate 'drop table spedizione cascade constraints purge';
 exception when others then null;

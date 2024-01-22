@@ -1,3 +1,6 @@
+-- convezione nomi constraint: <Ck|Uk|Fk|Pk|WeakRel(fk con on delete cascade)><NomeTabella><Vincolo|NomeColonna>
+-- convezione nomi: non si usano underscore e i nomi sono in camelcase
+
 begin
     execute immediate 'DROP TABLE Utente CASCADE CONSTRAINTS PURGE';
 exception when others then null;
@@ -9,10 +12,9 @@ create table Utente
     Id integer not null,
     Username varchar2(255) not null,
     Password Varchar2(128) not null,
-    IdFiliale integer,
-    constraint pk_Utente primary key (Id),
-    constraint uq_Utente_Username unique (Username),
-    constraint fk_Utente_IdFiliale foreign key (IdFiliale) references Filiale (Id)
+    IdFilialeOperatore integer,
+    constraint PkUtente primary key (Id),
+    constraint UqUtenteUsername unique (Username)
 )
 /
 
@@ -32,8 +34,8 @@ create table Profilo
 (
     Id integer not null,
     Profilo VARCHAR2(64 byte) not null,
-    constraint pk_Profilo primary key (Id),
-    constraint uq_Profilo_Profilo unique (Profilo)
+    constraint PkProfilo primary key (Id),
+    constraint UqProfiloProfilo unique (Profilo)
 )
 /
 
@@ -53,8 +55,8 @@ create table Funzione
 (
     Id integer not null,
     "Funzione" VARCHAR2(64 byte),
-    constraint pk_Funzione primary key (Id)
-    constraint uq_Funzione_Funzione unique (Funzione)
+    constraint PkFunzione primary key (Id)
+    constraint UqFunzioneFunzione unique (Funzione)
 )
 /
 
@@ -74,9 +76,9 @@ create table ProfiloFunzione
 (
     "IdProfilo"  int,
     "IdFunzione" int,
-    constraint pk_ProfiloFunzione primary key (IdProfilo, IdFunzione),
-    constraint fk_ProfiloFunzione_IdProfilo foreign key (IdProfilo) references Profilo (Id),
-    constraint fk_ProfiloFunzione_IdFunzione foreign key (IdFunzione) references Funzione (Id)
+    constraint PkProfiloFunzione primary key (IdProfilo, IdFunzione),
+    constraint FkProfiloFunzioneIdProfilo foreign key (IdProfilo) references Profilo (Id),
+    constraint FkProfiloFunzioneIdFunzione foreign key (IdFunzione) references Funzione (Id)
 )
 /
 

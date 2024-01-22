@@ -10,4 +10,12 @@ grant create view to uninadev;
 
 grant create sequence to uninadev;
 
+grant create any procedure to uninadev;
+
+grant create any trigger to uninadev;
+
+grant execute any procedure to uninadev;
+
+grant execute any functions to uninadev;
+
 grant unlimited tablespace to uninadev;

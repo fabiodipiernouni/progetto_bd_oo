@@ -1,3 +1,6 @@
+-- convezione nomi constraint: <Ck|Uk|Fk|Pk|WeakRel(fk con on delete cascade)><NomeTabella><Vincolo|NomeColonna>
+-- convezione nomi: non si usano underscore e i nomi sono in camelcase
+
 begin
     execute immediate 'drop table Org cascade constraints purge';
 exception when others then null;
@@ -9,8 +12,8 @@ create table Org (
     RagioneSociale varchar2(255 char) not null,
     PartitaIVA varchar2(255 char) not null,
     SedeLegaleIndirizzo integer not null,
-    constraint pk_Org primary key (id),
-    constraint fk_Org_SedeLegaleIndirizzo foreign key (SedeLegaleIndirizzo) references Indirizzo (Id)
+    constraint PkOrg primary key (id),
+    constraint FkOrgSedeLegaleIndirizzo foreign key (SedeLegaleIndirizzo) references Indirizzo (Id)
 );
 
 begin
@@ -21,10 +24,14 @@ end;
 create table Filiale (
     Id integer not null, --pk
     Nome varchar2(50) not null,
-    Sede integer not null,
+    IdOrg integer not null,
+    Localita integer not null,
     constraint pk_Filiale primary key (id),
-    constraint fk_Filiale_Sede foreign key (Sede) references Indirizzo (Id)
+    constraint FkOrg foreign key (IdOrg) references Org (Id),
+    constraint FkLocalita foreign key (Localita) references Indirizzo (Id)
 );
+
+alter table Utente add constraint FkUtenteFiliale foreign key (Filiale) references Filiale (Id);
 
 begin
     execute immediate 'drop table Magazzino cascade constraints purge';
@@ -36,9 +43,9 @@ create table Magazzino (
     Nome varchar2(255 char) not null,
     IdIndirizzo integer not null,
     IdFiliale integer not null,
-    constraint pk_Magazzino_ primary key (id),
-    constraint fk_Magazzino_Indirizzo foreign key (IdIndirizzo) references Indirizzo (id),
-    constraint fk_Magazzino_Filiale foreign key (IdFiliale) references Filiale (id)
+    constraint PkMagazzino_ primary key (id),
+    constraint FkMagazzino_Indirizzo foreign key (IdIndirizzo) references Indirizzo (id),
+    constraint FkMagazzino_Filiale foreign key (IdFiliale) references Filiale (id)
 );
 
 begin
@@ -59,10 +66,10 @@ create table CatalogoProdotti (
     Altezza number,
     Profondita number,
     Pericolosita varchar2(20 byte) not null, --enum Nessuna, Infiammabile, Esplosivo, Tossico, Chimico, Corrosivo, Infettante, Radioattivo
-    constraint pk_CatalogoProdotti primary key (id),
-    constraint uq_CatalogoProdotti_CodiceEAN unique (CodiceEAN),
-    constraint check_Profondita check (Pericolosita in ('Nessuna', 'Infiammabile', 'Esplosivo', 'Tossico', 'Chimico', 'Corrosivo', 'Infettante', 'Radioattivo')),
-    constraint check_Tipo check( Tipo in ('Abbigliamento', 'Alimentari', 'Elettronica', 'Casa', 'Sport', 'Giardino', 'Altro') )
+    constraint PkCatalogoProdotti primary key (id),
+    constraint UqCatalogoProdottiCodiceEAN unique (CodiceEAN),
+    constraint CheckProfondita check (Pericolosita in ('Nessuna', 'Infiammabile', 'Esplosivo', 'Tossico', 'Chimico', 'Corrosivo', 'Infettante', 'Radioattivo')),
+    constraint CheckTipo check( Tipo in ('Abbigliamento', 'Alimentari', 'Elettronica', 'Casa', 'Sport', 'Giardino', 'Altro') )
 );
 
 begin
@@ -76,9 +83,9 @@ create table MerceStoccata (
     Quantita number not null,
     IdMagazzino integer not null,
     SettoreMagazzino varchar2(255 char),
-    constraint pk_MerceStoccata_pk primary key (id),
-    constraint fk_MerceStoccata_IdProdotto foreign key (IdProdotto) references CatalogoProdotti (id),
-    constraint fk_MerceStoccata_IdMagazzino foreign key (IdMagazzino) references Magazzino (id)
+    constraint PkMerceStoccatapk primary key (id),
+    constraint FkMerceStoccataIdProdotto foreign key (IdProdotto) references CatalogoProdotti (id),
+    constraint FkMerceStoccataIdMagazzino foreign key (IdMagazzino) references Magazzino (id)
 );
 
 begin
@@ -91,9 +98,9 @@ create table GruppoCorriere (
     CodiceCorriere varchar2(255 char) not null, --unique
     NumeroDipendenti integer not null,
     IdFiliale integer not null,
-    constraint pk_GruppoCorriere primary key (Id),
-    constraint uq_GruppoCorriere_CodiceCorriere unique (CodiceCorriere),
-    constraint fk_GruppoCorriere_IdFiliale foreign key (IdFiliale) references filiale (id)
+    constraint PkGruppoCorriere primary key (Id),
+    constraint UqGruppoCorriereCodiceCorriere unique (CodiceCorriere),
+    constraint FkGruppoCorriereIdFiliale foreign key (IdFiliale) references filiale (id)
 );
 
 begin
@@ -107,10 +114,10 @@ create table MezzoDiTrasporto (
     Targa varchar2(255 char) not null,
     TipoMezzo varchar2(255 char) not null, --enum Treno, Camion, Furgone, Auto, Moto, Bicicletta
     IdGruppoCorriere integer not null,
-    constraint pk_MezzoDiTrasporto primary key (id),
-    constraint uq_MezzoDiTrasporto_Targa unique (Targa),
-    constraint check_TipoMezzo check( TipoMezzo in ('Treno', 'Camion', 'Furgone', 'Auto', 'Moto', 'Bicicletta')),
-    constraint fk_MezzoDiTrasporto_IdGruppoCorriere foreign key (IdGruppoCorriere) references GruppoCorriere (Id)
+    constraint PkMezzoDiTrasporto primary key (id),
+    constraint UqMezzoDiTrasporto_Targa unique (Targa),
+    constraint CheckTipoMezzo check( TipoMezzo in ('Treno', 'Camion', 'Furgone', 'Auto', 'Moto', 'Bicicletta')),
+    constraint FkMezzoDiTrasportoIdGruppoCorriere foreign key (IdGruppoCorriere) references GruppoCorriere (Id)
 );
 
 begin
@@ -124,6 +131,6 @@ create table ImpegnoMezzo (
     IdMezzo integer not null,
     DataInizio date not null,
     DataFine date,
-    constraint pk_ImpegnoMezzo primary key (Id),
-    constraint fk_ImpegnoMezzo_IdMezzo foreign key (IdMezzo) references MezzoDiTrasporto (Id)
+    constraint PkImpegnoMezzo primary key (Id),
+    constraint FkImpegnoMezzoIdMezzo foreign key (IdMezzo) references MezzoDiTrasporto (Id)
 );

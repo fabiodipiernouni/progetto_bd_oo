@@ -1,3 +1,6 @@
+-- convezione nomi constraint: <Ck|Uk|Fk|Pk|WeakRel(fk con on delete cascade)><NomeTabella><Vincolo|NomeColonna>
+-- convezione nomi: non si usano underscore e i nomi sono in camelcase
+
 create or replace view Regione as
     select
         distinct CodiceRegione as CodIstat,
@@ -40,6 +43,6 @@ create table Indirizzo (
     Indirizzo_2 varchar2(50),
     CAP varchar2(5) not null,
     IdComune integer not null,
-    constraint pk_Indirizzo primary key (Id),
-    constraint fk_Indirizzo_IdComune foreign key (IdComune) references ComuneFull(Id)
+    constraint PkIndirizzo primary key (Id),
+    constraint FkIndirizzoIdComune foreign key (IdComune) references ComuneFull(Id)
 );
