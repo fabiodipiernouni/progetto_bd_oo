@@ -21,8 +21,6 @@ create table Spedizione (
     end) virtual, -- la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
     TrackingNumber varchar2(50) not null, -- codice univoco alfanumerico
     TrackingStatus varchar2(50) default 'Registrata' not null, -- Registrata, InPartenza, InTransito, InConsegna, Consegnata
-    Destinazione varchar2(50) not null,
-    Costo number(10,2) not null,
     constraint PkSpedizione primary key (Id),
     constraint FkSpedizioneIdOrdine foreign key (IdOrdine) references ordine (Id),
     constraint UqSpedizioneTrackingNumber unique (TrackingNumber),
@@ -58,5 +56,12 @@ create table OrdineDiLavoro (
     constraint FkOrdineDiLavoroSpedizione foreign key (IdSpedizione) references Spedizione (Id),
     constraint FkOrdineDiLavoroGruppoCorriere foreign key (IdGruppoCorriere) references GruppoCorriere (Id),
     constraint FkOrdineDiLavoroMezzoDiTrasporto foreign key (IdMezzoDiTrasporto) references MezzoDiTrasporto (Id),
-    constraint FkOrdineDiLavoroIdUtenteOperatore foreign key (IdUtenteOperatore) references Utente (Id)
+    constraint FkOrdineDiLavoroIdUtenteOperatore foreign key (IdUtenteOperatore) references Utente (Id),
+    -- Le date di lavorazione possono essere non valorizzate o valorizzata solo DataInizioLavorazione o DataInizioLavorazione e DataFineLavorazione. DataInizioLavorazione, se valorizzata, deve essere sempre maggiore o uguale alla DataCreazione. Se DataFineLavorazione è valorizzato deve essere valorizzato anche DataInizioLavorazione e DataFineLavorazione deve essere maggiore o uguale a DataInizioLavorazione
+    constraint CkOrdineDiLavoroDateLavorazione check (DataFineLavorazione is null or (DataInizioLavorazione is not null AND DataFineLavorazione >= DataInizioLavorazione)),
+    constraint CkOrdineDiLavoroDataInizioLavorazione check (DataInizioLavorazione is null or DataInizioLavorazione >= DataCreazione),
+    -- IdMezzoDiTrasporto e DataInizioLavorazione devono essere valorizzati entrambi o nessuno dei due
+    constraint CkOrdineDiLavoroMezzoDiTrasporto check ((IdMezzoDiTrasporto is null and DataInizioLavorazione is null) or (IdMezzoDiTrasporto is not null and DataInizioLavorazione is not null)),
+    -- se IdGruppoCorriere è valorizzato allora anche IdUtenteOperatore deve essere valorizzato
+    constraint CkOrdineDiLavoroGruppoCorriere check ((IdGruppoCorriere is null and IdUtenteOperatore is null) or (IdGruppoCorriere is not null and IdUtenteOperatore is not null))
 );
