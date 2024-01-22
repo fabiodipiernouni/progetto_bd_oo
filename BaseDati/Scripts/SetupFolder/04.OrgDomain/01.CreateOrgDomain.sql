@@ -9,7 +9,7 @@ create table Org (
     RagioneSociale varchar2(255 char) not null,
     PartitaIVA varchar2(255 char) not null,
     SedeLegaleIndirizzo integer not null,
-    constraint pk_Org primary key (id),
+    constraint pk_Org primary key (Id),
     constraint fk_Org_SedeLegaleIndirizzo foreign key (SedeLegaleIndirizzo) references Indirizzo (Id)
 );
 
@@ -22,7 +22,7 @@ create table Filiale (
     Id integer not null, --pk
     Nome varchar2(50) not null,
     Sede integer not null,
-    constraint pk_Filiale primary key (id),
+    constraint pk_Filiale primary key (Id),
     constraint fk_Filiale_Sede foreign key (Sede) references Indirizzo (Id)
 );
 
@@ -32,11 +32,11 @@ exception when others then null;
 end;
 
 create table Magazzino (
-    Id integer not null, --pk
+    Id integer GENERATED ALWAYS AS IDENTITY not null, --pk
     Nome varchar2(255 char) not null,
     IdIndirizzo integer not null,
     IdFiliale integer not null,
-    constraint pk_Magazzino_ primary key (id),
+    constraint pk_Magazzino_ primary key (Id),
     constraint fk_Magazzino_Indirizzo foreign key (IdIndirizzo) references Indirizzo (id),
     constraint fk_Magazzino_Filiale foreign key (IdFiliale) references Filiale (id)
 );
@@ -47,7 +47,7 @@ exception when others then null;
 end;
 
 create table CatalogoProdotti (
-    Id integer not null, --pk
+    Id integer GENERATED ALWAYS AS IDENTITY not null, --pk
     CodiceEAN varchar2(13 char) not null, --codice univoco
     Nome varchar2(255 char) not null,
     Descrizione varchar2(255 char) not null,
@@ -59,7 +59,7 @@ create table CatalogoProdotti (
     Altezza number,
     Profondita number,
     Pericolosita varchar2(20 byte) not null, --enum Nessuna, Infiammabile, Esplosivo, Tossico, Chimico, Corrosivo, Infettante, Radioattivo
-    constraint pk_CatalogoProdotti primary key (id),
+    constraint pk_CatalogoProdotti primary key (Id),
     constraint uq_CatalogoProdotti_CodiceEAN unique (CodiceEAN),
     constraint check_Profondita check (Pericolosita in ('Nessuna', 'Infiammabile', 'Esplosivo', 'Tossico', 'Chimico', 'Corrosivo', 'Infettante', 'Radioattivo')),
     constraint check_Tipo check( Tipo in ('Abbigliamento', 'Alimentari', 'Elettronica', 'Casa', 'Sport', 'Giardino', 'Altro') )
@@ -77,8 +77,8 @@ create table MerceStoccata (
     IdMagazzino integer not null,
     SettoreMagazzino varchar2(255 char),
     constraint pk_MerceStoccata_pk primary key (id),
-    constraint fk_MerceStoccata_IdProdotto foreign key (IdProdotto) references CatalogoProdotti (id),
-    constraint fk_MerceStoccata_IdMagazzino foreign key (IdMagazzino) references Magazzino (id)
+    constraint fk_MerceStoccata_IdProdotto foreign key (IdProdotto) references CatalogoProdotti (Id),
+    constraint fk_MerceStoccata_IdMagazzino foreign key (IdMagazzino) references Magazzino (Id)
 );
 
 begin
@@ -93,17 +93,17 @@ create table GruppoCorriere (
     IdFiliale integer not null,
     constraint pk_GruppoCorriere primary key (Id),
     constraint uq_GruppoCorriere_CodiceCorriere unique (CodiceCorriere),
-    constraint fk_GruppoCorriere_IdFiliale foreign key (IdFiliale) references filiale (id)
+    constraint fk_GruppoCorriere_IdFiliale foreign key (IdFiliale) references Filiale (Id)
 );
 
 begin
-    execute immediate 'drop table MezziTrasporto cascade constraints purge';
+    execute immediate 'drop table MezzoDiTrasporto cascade constraints purge';
 exception when others then null;
 end;
 /
 
 create table MezzoDiTrasporto (
-    Id integer not null, --pk
+    Id integer GENERATED ALWAYS AS IDENTITY not null, --pk
     Targa varchar2(255 char) not null,
     TipoMezzo varchar2(255 char) not null, --enum Treno, Camion, Furgone, Auto, Moto, Bicicletta
     IdGruppoCorriere integer not null,

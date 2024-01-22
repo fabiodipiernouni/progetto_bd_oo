@@ -349,132 +349,892 @@ INSERT INTO GruppoCorriere (Id, Nome, CodiceCorriere, NumeroDipendenti, IdFilial
 VALUES (42, 'Corriere Padova 3', 'PAD3', 112, 14);
 
 
+--  MezzoDiTrasporto
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('MD140ZG', 'Treno', 1);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YQ139SI', 'Camion', 1);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('PB409CE', 'Furgone', 1);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('WS534BP', 'Auto', 1);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RH318CP', 'Moto', 1);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VI513ZS', 'Bicicletta', 1);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('HO147EH', 'Treno', 2);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('XV413VQ', 'Camion', 2);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VX326NE', 'Furgone', 2);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('MN018MU', 'Auto', 2);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('AG416CM', 'Moto', 2);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('FK105FK', 'Bicicletta', 2);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('GQ061VT', 'Treno', 3);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('KL685BH', 'Camion', 3);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('GV137DQ', 'Furgone', 3);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('FS600ED', 'Auto', 3);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('GP210XS', 'Moto', 3);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VK189UX', 'Bicicletta', 3);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZG483LQ', 'Treno', 4);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RF293AL', 'Camion', 4);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NS721DA', 'Furgone', 4);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NX660JB', 'Auto', 4);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VQ640ME', 'Moto', 4);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZG319AC', 'Bicicletta', 4);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('WX513IJ', 'Treno', 5);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CO234MP', 'Camion', 5);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('HB407AC', 'Furgone', 5);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('XE261BA', 'Auto', 5);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('OI823CY', 'Moto', 5);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('KH616SB', 'Bicicletta', 5);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('PE663AT', 'Treno', 6);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LK106PK', 'Camion', 6);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('EW036JK', 'Furgone', 6);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('XW284VD', 'Auto', 6);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YL252MT', 'Moto', 6);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VI335YP', 'Bicicletta', 6);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('SI148VU', 'Treno', 7);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZR695LO', 'Camion', 7);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('MB410PW', 'Furgone', 7);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('SS888SE', 'Auto', 7);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CD775ZA', 'Moto', 7);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('WI587UI', 'Bicicletta', 7);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('MB247XU', 'Treno', 8);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CP557FI', 'Camion', 8);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('WP804WR', 'Furgone', 8);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('GO001ED', 'Auto', 8);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('UY310RP', 'Moto', 8);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('WA057BD', 'Bicicletta', 8);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YT498HT', 'Treno', 9);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZY681YG', 'Camion', 9);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YT236EC', 'Furgone', 9);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('MP162SN', 'Auto', 9);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('XG720ZA', 'Moto', 9);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZL608XN', 'Bicicletta', 9);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LV728IM', 'Treno', 10);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DY002SF', 'Camion', 10);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('MB433EH', 'Furgone', 10);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('PX611DL', 'Auto', 10);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('KZ033IV', 'Moto', 10);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VD830MG', 'Bicicletta', 10);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('KS795ID', 'Treno', 11);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('IX538AJ', 'Camion', 11);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CN370OT', 'Furgone', 11);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('SO989AV', 'Auto', 11);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DY569PA', 'Moto', 11);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DX177RK', 'Bicicletta', 11);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('AY623YQ', 'Treno', 12);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZE809BJ', 'Camion', 12);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CG315NT', 'Furgone', 12);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('FX461NI', 'Auto', 12);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('TA871IF', 'Moto', 12);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('JC013EZ', 'Bicicletta', 12);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DG876JQ', 'Treno', 13);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZZ144MO', 'Camion', 13);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('BP719BT', 'Furgone', 13);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZB966JU', 'Auto', 13);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CN312NL', 'Moto', 13);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VJ838EL', 'Bicicletta', 13);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('QP481AE', 'Treno', 14);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('XL248WI', 'Camion', 14);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ID695RF', 'Furgone', 14);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('XF555YR', 'Auto', 14);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LM660NT', 'Moto', 14);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ID286QI', 'Bicicletta', 14);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DJ794YW', 'Treno', 15);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('SS413DD', 'Camion', 15);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('FM447SF', 'Furgone', 15);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DJ653JQ', 'Auto', 15);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VZ659OZ', 'Moto', 15);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('AO005CV', 'Bicicletta', 15);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('AE882CH', 'Treno', 16);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CG375QO', 'Camion', 16);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YG205QO', 'Furgone', 16);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CP707AJ', 'Auto', 16);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('GB159OR', 'Moto', 16);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('OX691PO', 'Bicicletta', 16);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NH248DU', 'Treno', 17);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('KY137XP', 'Camion', 17);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('QO860VK', 'Furgone', 17);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('IU619PZ', 'Auto', 17);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YG826TJ', 'Moto', 17);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('AD704BN', 'Bicicletta', 17);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZZ026WF', 'Treno', 18);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RU258VM', 'Camion', 18);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('TR680BM', 'Furgone', 18);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DZ874OV', 'Auto', 18);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NA998AW', 'Moto', 18);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NT429RE', 'Bicicletta', 18);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('AP543PX', 'Treno', 19);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('OL844CB', 'Camion', 19);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RV240VE', 'Furgone', 19);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VZ975VH', 'Auto', 19);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('HL233XC', 'Moto', 19);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RG171XG', 'Bicicletta', 19);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('KC591JM', 'Treno', 20);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('IX410TO', 'Camion', 20);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('JG791EQ', 'Furgone', 20);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NX571AD', 'Auto', 20);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YM023MP', 'Moto', 20);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VF553IK', 'Bicicletta', 20);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('HQ742QZ', 'Treno', 21);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('IF929ZZ', 'Camion', 21);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RF850EQ', 'Furgone', 21);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('AS321AQ', 'Auto', 21);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('KC262EN', 'Moto', 21);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('FY697CN', 'Bicicletta', 21);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('IQ996DB', 'Treno', 22);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('SV574ZZ', 'Camion', 22);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ND790PP', 'Furgone', 22);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('EV891OC', 'Auto', 22);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('JF155NE', 'Moto', 22);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RG931YS', 'Bicicletta', 22);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('SW352QM', 'Treno', 23);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RW585GZ', 'Camion', 23);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('AO961LV', 'Furgone', 23);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZV100YN', 'Auto', 23);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LW893EO', 'Moto', 23);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CF348DY', 'Bicicletta', 23);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('IT817JU', 'Treno', 24);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('UX665KH', 'Camion', 24);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CL671AP', 'Furgone', 24);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('HK727VD', 'Auto', 24);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LE285OQ', 'Moto', 24);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YG038XH', 'Bicicletta', 24);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DM174SC', 'Treno', 25);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VB927JG', 'Camion', 25);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RL163RG', 'Furgone', 25);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('WR325TR', 'Auto', 25);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('UB477HY', 'Moto', 25);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('JX488VO', 'Bicicletta', 25);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('TI157VQ', 'Treno', 26);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('GV268OQ', 'Camion', 26);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('HP626DM', 'Furgone', 26);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('JP592ZV', 'Auto', 26);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('FH611RU', 'Moto', 26);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('EA802IN', 'Bicicletta', 26);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('IM072HN', 'Treno', 27);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('XX599WE', 'Camion', 27);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZZ599JM', 'Furgone', 27);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('IQ651XV', 'Auto', 27);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('XB959OT', 'Moto', 27);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('OE044BS', 'Bicicletta', 27);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('TY698YC', 'Treno', 28);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('AY420XG', 'Camion', 28);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RX531KT', 'Furgone', 28);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('FS077VY', 'Auto', 28);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('BY435QN', 'Moto', 28);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZY976MZ', 'Bicicletta', 28);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YN726QG', 'Treno', 29);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('KW895UH', 'Camion', 29);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('IV456XJ', 'Furgone', 29);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('SY916BF', 'Auto', 29);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZR224CI', 'Moto', 29);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LK722YS', 'Bicicletta', 29);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NK185NJ', 'Treno', 30);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LV171JU', 'Camion', 30);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('UC373PX', 'Furgone', 30);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CV541UE', 'Auto', 30);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LE529FY', 'Moto', 30);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NT939SH', 'Bicicletta', 30);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('HM834NY', 'Treno', 31);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('WM830FZ', 'Camion', 31);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YY220NX', 'Furgone', 31);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ZT527YZ', 'Auto', 31);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RR251XC', 'Moto', 31);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('PH934FV', 'Bicicletta', 31);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NC821TK', 'Treno', 32);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('EB302IP', 'Camion', 32);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('SD551XV', 'Furgone', 32);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('IA062HH', 'Auto', 32);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('TJ794FE', 'Moto', 32);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('QM317JX', 'Bicicletta', 32);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('XK162OW', 'Treno', 33);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('WK982SC', 'Camion', 33);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('JH751QP', 'Furgone', 33);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CM778KB', 'Auto', 33);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('OT979NM', 'Moto', 33);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RT509JI', 'Bicicletta', 33);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LU754DM', 'Treno', 34);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('JT527WI', 'Camion', 34);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('KK928ME', 'Furgone', 34);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LB652QQ', 'Auto', 34);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('CA836JI', 'Moto', 34);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('EK105MA', 'Bicicletta', 34);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('MO026LQ', 'Treno', 35);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YG047JG', 'Camion', 35);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NE971VJ', 'Furgone', 35);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ER799QO', 'Auto', 35);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DI369UA', 'Moto', 35);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LV302HO', 'Bicicletta', 35);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('UL820GD', 'Treno', 36);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('MI169IC', 'Camion', 36);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VU080SY', 'Furgone', 36);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('OI573QA', 'Auto', 36);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('JV181QX', 'Moto', 36);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('OA831GX', 'Bicicletta', 36);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('XD843HM', 'Treno', 37);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('FI545QN', 'Camion', 37);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DP228DC', 'Furgone', 37);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('UR014KP', 'Auto', 37);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DP660UT', 'Moto', 37);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('JY378PM', 'Bicicletta', 37);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NH572QD', 'Treno', 38);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('EB389NW', 'Camion', 38);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('BM043CD', 'Furgone', 38);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('FY376NO', 'Auto', 38);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YD861DE', 'Moto', 38);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RS263PI', 'Bicicletta', 38);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RC122LX', 'Treno', 39);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('IO475CK', 'Camion', 39);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LV972MM', 'Furgone', 39);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('BZ740QC', 'Auto', 39);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RB856CK', 'Moto', 39);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('NI240MO', 'Bicicletta', 39);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('RB592OX', 'Treno', 40);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('OO028LR', 'Camion', 40);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('HD854MD', 'Furgone', 40);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('WQ191OK', 'Auto', 40);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VG803JX', 'Moto', 40);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VX999VB', 'Bicicletta', 40);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('GD146IP', 'Treno', 41);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('YC779ZL', 'Camion', 41);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VD279CT', 'Furgone', 41);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('LU302KL', 'Auto', 41);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('WI233CV', 'Moto', 41);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('ML375EC', 'Bicicletta', 41);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('PL008AX', 'Treno', 42);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DB893ON', 'Camion', 42);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('KJ419QV', 'Furgone', 42);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('KX581GS', 'Auto', 42);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('DW369QY', 'Moto', 42);
+
+INSERT INTO MezzoDiTrasporto (Targa, TipoMezzo, IdGruppoCorriere)
+VALUES('VZ286HO', 'Bicicletta', 42);
+
+
 -- supponiamo una configurazione iniziale di 3 magazzini a filiale
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (1, 'Magazzino Roma 1', 15, 1);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (2, 'Magazzino Roma 2', 16, 1);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Roma 1', 15, 1);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (3, 'Magazzino Roma 3', 17, 1);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Roma 2', 16, 1);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (4, 'Magazzino Milano 1', 18, 2);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Roma 3', 17, 1);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (5, 'Magazzino Milano 2', 19, 2);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Milano 1', 18, 2);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (6, 'Magazzino Milano 3', 20, 2);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Milano 2', 19, 2);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (7, 'Magazzino Napoli 1', 21, 3);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Milano 3', 20, 2);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (8, 'Magazzino Napoli 2', 22, 3);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Napoli 1', 21, 3);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (9, 'Magazzino Napoli 3', 23, 3);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Napoli 2', 22, 3);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (10, 'Magazzino Torino 1', 24, 4);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Napoli 3', 23, 3);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (11, 'Magazzino Torino 2', 25, 4);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Torino 1', 24, 4);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (12, 'Magazzino Torino 3', 26, 4);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Torino 2', 25, 4);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (13, 'Magazzino Palermo 1', 27, 5);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Torino 3', 26, 4);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (14, 'Magazzino Palermo 2', 28, 5);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Palermo 1', 27, 5);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (15, 'Magazzino Palermo 3', 29, 5);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Palermo 2', 28, 5);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (16, 'Magazzino Genova 1', 30, 6);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Palermo 3', 29, 5);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (17, 'Magazzino Genova 2', 31, 6);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Genova 1', 30, 6);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (18, 'Magazzino Genova 3', 32, 6);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Genova 2', 31, 6);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (19, 'Magazzino Bologna 1', 33, 7);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Genova 3', 32, 6);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (20, 'Magazzino Bologna 2', 34, 7);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Bologna 1', 33, 7);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (21, 'Magazzino Bologna 3', 35, 7);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Bologna 2', 34, 7);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (22, 'Magazzino Firenze 1', 36, 8);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Bologna 3', 35, 7);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (23, 'Magazzino Firenze 2', 37, 8);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Firenze 1', 36, 8);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (24, 'Magazzino Firenze 3', 38, 8);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Firenze 2', 37, 8);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (25, 'Magazzino Bari 1', 39, 9);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Firenze 3', 38, 8);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (26, 'Magazzino Bari 2', 40, 9);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Bari 1', 39, 9);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (27, 'Magazzino Bari 3', 41, 9);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Bari 2', 40, 9);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (28, 'Magazzino Catania 1', 42, 10);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Bari 3', 41, 9);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (29, 'Magazzino Catania 2', 43, 10);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Catania 1', 42, 10);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (30, 'Magazzino Catania 3', 44, 10);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Catania 2', 43, 10);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (31, 'Magazzino Venezia 1', 45, 11);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Catania 3', 44, 10);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (32, 'Magazzino Venezia 2', 46, 11);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Venezia 1', 45, 11);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (33, 'Magazzino Venezia 3', 47, 11);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Venezia 2', 46, 11);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (34, 'Magazzino Verona 1', 48, 12);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Venezia 3', 47, 11);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (35, 'Magazzino Verona 2', 49, 12);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Verona 1', 48, 12);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (36, 'Magazzino Verona 3', 50, 12);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Verona 2', 49, 12);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (37, 'Magazzino Messina 1', 51, 13);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Verona 3', 50, 12);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (38, 'Magazzino Messina 2', 52, 13);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Messina 1', 51, 13);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (39, 'Magazzino Messina 3', 53, 13);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Messina 2', 52, 13);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (40, 'Magazzino Padova 1', 54, 14);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Messina 3', 53, 13);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (41, 'Magazzino Padova 2', 55, 14);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Padova 1', 54, 14);
 
-INSERT INTO Magazzino(Id, Nome, IdIndirizzo, IdFiliale)
-VALUES (42, 'Magazzino Padova 3', 56, 14);
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Padova 2', 55, 14);
+
+INSERT INTO Magazzino(Nome, IdIndirizzo, IdFiliale)
+VALUES ('Magazzino Padova 3', 56, 14);
 
 
 -- supponiamo una configurazione iniziale di prodotti di tipi diversi tra loro
