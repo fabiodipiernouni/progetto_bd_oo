@@ -1,12 +1,6 @@
 -- convezione nomi constraint: <Ck|Uk|Fk|Pk|WeakRel(fk con on delete cascade)><NomeTabella><Vincolo|NomeColonna>
 -- convezione nomi: non si usano underscore e i nomi sono in camelcase
 
-begin
-    execute immediate 'drop table Spedizione cascade constraints purge';
-exception when others then null;
-end;
-/
-
 create table Spedizione (
     Id integer not null,
     DataCreazione date default sysdate not null,
@@ -22,7 +16,7 @@ create table Spedizione (
     TrackingNumber varchar2(50) not null, -- codice univoco alfanumerico
     TrackingStatus varchar2(50) default 'Registrata' not null, -- Registrata, InPartenza, InTransito, InConsegna, Consegnata
     constraint PkSpedizione primary key (Id),
-    constraint FkSpedizioneIdOrdine foreign key (IdOrdine) references ordine (Id),
+    constraint FkSpedizioneIdOrdine foreign key (IdOrdine) references OrdineCliente (Id),
     constraint UqSpedizioneTrackingNumber unique (TrackingNumber),
     constraint CkSpedizioneTrackingStatus check (TrackingStatus in ('Registrata', 'InPartenza', 'InTransito', 'InConsegna', 'Consegnata')),
     constraint FkSpedizioneIdUtenteOrganizzatore foreign key (IdUtenteOrganizzatore) references Utente (Id),
@@ -30,12 +24,6 @@ create table Spedizione (
     constraint CkSpedizioneDateLavorazione check (DataFineLavorazione is null or (DataInizioLavorazione is not null AND DataFineLavorazione >= DataInizioLavorazione)),
     constraint CkSpedizioneDataInizioLavorazione check (DataInizioLavorazione is null or DataInizioLavorazione >= DataCreazione)
 );
-
-begin
-    execute immediate 'drop table OrdineDiLavoro cascade constraints purge';
-exception when others then null;
-end;
-/
 
 create table OrdineDiLavoro (
     Id integer not null,

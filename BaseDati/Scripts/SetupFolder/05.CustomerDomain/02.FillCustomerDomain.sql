@@ -1,5 +1,7 @@
 -- inserimento di 10 clienti di esempio
 
+truncate table Cliente;
+
 INSERT INTO Cliente (IdCliente, Nome, Cognome, Email, CodiceFiscale, PartitaIVA)
 VALUES(1, 'Mario', 'Rossi', 'mario.rossi@mail.it', 'RSSMRA80A01H501A', null);
 
@@ -30,41 +32,23 @@ VALUES(9, 'Silvester', 'Stallone', 'Rocky srl', 'silvester.stallone@mail.it', nu
 INSERT INTO Cliente (IdCliente, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
 VALUES(10, 'Arnold', 'Schwarzenegger', 'Terminator spa', 'arnold@mail.it', null, '01234567895');
 
+truncate table OrdineCliente;
 
 -- inserimento di 2 ordini per cliente
 
-INSERT INTO OrdineCliente (IdOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione)
-VALUES(1, '2020-01-01', 100.00, 'Confermato', 1, 1);
-
-INSERT INTO OrdineCliente (IdOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione)
-VALUES(2, '2020-01-02', 20.00, 'Confermato', 1, 1);
-
-INSERT INTO OrdineCliente (IdOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione)
-VALUES(3, '2020-01-03', 15.00, 'Confermato', 2, 2);
-
-INSERT INTO OrdineCliente (IdOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione)
-VALUES(4, '2020-01-04', 10.00, 'Confermato', 2, 2);
-
-INSERT INTO OrdineCliente (IdOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione)
-VALUES(5, '2020-01-05', 5.00, 'Confermato', 3, 3);
-
-INSERT INTO OrdineCliente (IdOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione)
-VALUES(6, '2020-01-06', 13.00, 'Confermato', 3, 3);
-
-INSERT INTO OrdineCliente (IdOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione)
-VALUES(7, '2020-01-07', 25.00, 'Confermato', 4, 4);
-
-INSERT INTO OrdineCliente (IdOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione)
-VALUES(8, '2020-01-08', 30.00, 'Confermato', 4, 4);
-
-INSERT INTO OrdineCliente (IdOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione)
-VALUES(9, '2020-01-09', 40.00, 'Confermato', 5, 5);
-
-INSERT INTO OrdineCliente (IdOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione, IdIndirizzoSpedizione)
-VALUES(10, '2020-01-10', 50.00, 'Confermato', 5, 5, 6);
-
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(1, to_date('20200101', 'YYYYMMDD'), 100.00, 'Confermato', 1, 1);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(2, to_date('20200102', 'YYYYMMDD'), 20.00, 'Confermato', 1, 1);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(3, to_date('20200103', 'YYYYMMDD'), 15.00, 'Confermato', 2, 2);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(4, to_date('20200104', 'YYYYMMDD'), 10.00, 'Confermato', 2, 2);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(5, to_date('20200105', 'YYYYMMDD'), 5.00, 'Confermato', 3, 3);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(6, to_date('20200106', 'YYYYMMDD'), 13.00, 'Confermato', 3, 3);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(7, to_date('20200107', 'YYYYMMDD'), 25.00, 'Confermato', 4, 4);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(8, to_date('20200108', 'YYYYMMDD'), 30.00, 'Confermato', 4, 4);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(9, to_date('20200109', 'YYYYMMDD'), 40.00, 'Confermato', 5, 5);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione, IdIndirizzoSpedizione) VALUES(10, to_date('20200110', 'YYYYMMDD'), 50.00, 'Confermato', 5, 5, 6);
 
 -- inserimento di 1 dettaglio ordine per ogni ordine
+truncate table DettaglioOrdine;
 
 INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
 VALUES(1, 1, 1);
@@ -95,6 +79,5 @@ VALUES(9, 9, 9);
 
 INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
 VALUES(10, 10, 10);
-
 
 commit;

@@ -1,9 +1,3 @@
-begin
-    execute immediate 'drop table ComuneFull cascade constraints purge';
-exception when others then null;
-end;
-/
-
 create table ComuneFull (
     Id integer NOT NULL,
 	CodiceRegione varchar2(1000 byte),

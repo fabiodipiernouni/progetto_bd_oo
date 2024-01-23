@@ -27,13 +27,6 @@ create or replace view Comune as
     from ComuneFull
     order by 3;
 
-begin
-    execute immediate 'drop table Indirizzo cascade constraints purge';
-exception when others then
-    null;
-end;
-/
-
 create table Indirizzo (
     Id integer not null,
     Nome varchar2(50) not null,
