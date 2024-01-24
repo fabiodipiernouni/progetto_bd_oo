@@ -12,7 +12,7 @@ create table Cliente
     PartitaIVA VARCHAR2(16 byte), -- ammette null ma i valori sono unique
     constraint PKCliente primary key (IDCliente),
     --uno tra CodiceFiscale e partitaIVA deve essere valorizzato
-    constraint CkClienteCForPIVA check (CodiceFiscale is not null or PartitaIVA is not null),
+    constraint CkClienteCForPIVA check ((CodiceFiscale is not null and PartitaIVA is null) or (CodiceFiscale is null and PartitaIVA is not null)),
     constraint UkClienteCodiceFiscale unique (CodiceFiscale),
     constraint UkClientePartitaIVA unique (PartitaIVA),
     -- se è valorizzata RagioneSociale allora deve esserlo anche PartitaIVA

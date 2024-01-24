@@ -51,5 +51,5 @@ create table OrdineDiLavoro (
     -- IdMezzoDiTrasporto e DataInizioLavorazione devono essere valorizzati entrambi o nessuno dei due
     constraint CkOrdineDiLavoroMezzoDiTrasporto check ((IdMezzoDiTrasporto is null and DataInizioLavorazione is null) or (IdMezzoDiTrasporto is not null and DataInizioLavorazione is not null)),
     -- se IdGruppoCorriere è valorizzato allora anche IdUtenteOperatore deve essere valorizzato
-    constraint CkOrdineDiLavoroGruppoCorriere check ((IdGruppoCorriere is null and IdUtenteOperatore is null) or (IdGruppoCorriere is not null and IdUtenteOperatore is not null))
+    constraint CkOrdineDiLavoroGruppoCorriere check ((IdGruppoCorriere is null and IdUtenteOperatore is null) or (IdGruppoCorriere is not null and IdUtenteOperatore is not null)),
 );
