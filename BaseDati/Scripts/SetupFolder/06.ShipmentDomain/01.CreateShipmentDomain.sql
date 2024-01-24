@@ -6,7 +6,7 @@ create table Spedizione (
     DataCreazione date default sysdate not null,
     DataInizioLavorazione date,
     DataFineLavorazione date,
-    IdOrdine integer not null,
+    IdOrdineCliente integer not null,
     IdUtenteOrganizzatore integer not null,
     Stato varchar2(50) generated always as (case
         when DataInizioLavorazione is null then 'DaLavorare'
@@ -16,7 +16,7 @@ create table Spedizione (
     TrackingNumber varchar2(50) not null, -- codice univoco alfanumerico
     TrackingStatus varchar2(50) default 'Registrata' not null, -- Registrata, InPartenza, InTransito, InConsegna, Consegnata
     constraint PkSpedizione primary key (Id),
-    constraint FkSpedizioneIdOrdine foreign key (IdOrdine) references OrdineCliente (Id),
+    constraint FkSpedizioneIdOrdineCliente foreign key (IdOrdineCliente) references OrdineCliente (Id),
     constraint UqSpedizioneTrackingNumber unique (TrackingNumber),
     constraint CkSpedizioneTrackingStatus check (TrackingStatus in ('Registrata', 'InPartenza', 'InTransito', 'InConsegna', 'Consegnata')),
     constraint FkSpedizioneIdUtenteOrganizzatore foreign key (IdUtenteOrganizzatore) references Utente (Id),
@@ -51,5 +51,5 @@ create table OrdineDiLavoro (
     -- IdMezzoDiTrasporto e DataInizioLavorazione devono essere valorizzati entrambi o nessuno dei due
     constraint CkOrdineDiLavoroMezzoDiTrasporto check ((IdMezzoDiTrasporto is null and DataInizioLavorazione is null) or (IdMezzoDiTrasporto is not null and DataInizioLavorazione is not null)),
     -- se IdGruppoCorriere è valorizzato allora anche IdUtenteOperatore deve essere valorizzato
-    constraint CkOrdineDiLavoroGruppoCorriere check ((IdGruppoCorriere is null and IdUtenteOperatore is null) or (IdGruppoCorriere is not null and IdUtenteOperatore is not null)),
+    constraint CkOrdineDiLavoroGruppoCorriere check ((IdGruppoCorriere is null and IdUtenteOperatore is null) or (IdGruppoCorriere is not null and IdUtenteOperatore is not null))
 );
