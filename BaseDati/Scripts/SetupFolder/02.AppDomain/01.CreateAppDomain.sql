@@ -21,10 +21,12 @@ create table Utente
     Id integer not null,
     Username varchar2(255) not null,
     Password Varchar2(128) not null,
+    MatricolaUnina varchar2(255) not null,
     IdProfilo integer not null,
     IdFilialeOperatore integer,
     constraint PkUtente primary key (Id),
     constraint UqUtenteUsername unique (Username),
+    constraint UqUtenteMatricolaUnina unique (MatricolaUnina),
     constraint FkUtenteProfilo foreign key (IdProfilo) references Profilo (Id)
 )
 /
