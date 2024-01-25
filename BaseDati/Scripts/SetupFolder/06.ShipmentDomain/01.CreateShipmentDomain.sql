@@ -12,7 +12,7 @@ create table Spedizione (
         when DataInizioLavorazione is null then 'DaLavorare'
         when DataInizioLavorazione is not null and DataFineLavorazione is null then 'InLavorazione'
         when DataInizioLavorazione is not null and DataFineLavorazione is not null then 'Lavorata'
-    end) virtual, -- la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
+    end) virtual not null, -- la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
     TrackingNumber varchar2(50) not null, -- codice univoco alfanumerico
     TrackingStatus varchar2(50) default 'Registrata' not null, -- Registrata, InPartenza, InTransito, InConsegna, Consegnata
     constraint PkSpedizione primary key (Id),
@@ -39,7 +39,7 @@ create table OrdineDiLavoro (
         when IdGruppoCorriere is not null and DataInizioLavorazione is null then 'Assegnato'
         when IdGruppoCorriere is not null and DataInizioLavorazione is not null and DataFineLavorazione is null then 'InLavorazione'
         when IdGruppoCorriere is not null and DataInizioLavorazione is not null and DataFineLavorazione is not null then 'Lavorato'
-    end) virtual, -- la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
+    end) virtual not null, -- la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
     constraint PkOrdineDiLavoro primary key (Id),
     constraint FkOrdineDiLavoroSpedizione foreign key (IdSpedizione) references Spedizione (Id),
     constraint FkOrdineDiLavoroGruppoCorriere foreign key (IdGruppoCorriere) references GruppoCorriere (Id),
