@@ -83,9 +83,11 @@ create table MezzoDiTrasporto (
     Targa varchar2(255 char) not null, -- unique
     TipoMezzo varchar2(255 char) not null, --enum Treno, Camion, Furgone, Auto, Moto, Bicicletta
     IdGruppoCorriere integer not null,
+    PesoTrasportabile decimal not null, -- deve essere sempre maggiore di zero
     constraint PkMezzoDiTrasporto primary key (id),
     constraint UkMezzoDiTrasportoTarga unique (Targa),
     constraint CkMezzoDiTrasportoTipoMezzo check( TipoMezzo in ('Treno', 'Camion', 'Furgone', 'Auto', 'Moto', 'Bicicletta')),
+    constraint CkMezzoDiTrasportoPesoTrasportabile check (PesoTrasportabile > 0),
     constraint WeakRelGruppoCorriere foreign key (IdGruppoCorriere) references GruppoCorriere (Id) on delete cascade
 );
 

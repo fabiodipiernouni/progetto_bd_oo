@@ -30,7 +30,7 @@ create table OrdineDiLavoro (
     DataCreazione date default sysdate not null,
     DataInizioLavorazione date,
     DataFineLavorazione date,
-    IdSpedizione integer not null,
+    --IdSpedizione integer not null,
     IdGruppoCorriere integer,
     IdMezzoDiTrasporto integer,
     IdUtenteOperatore integer not null,
@@ -41,7 +41,7 @@ create table OrdineDiLavoro (
         when IdGruppoCorriere is not null and DataInizioLavorazione is not null and DataFineLavorazione is not null then 'Lavorato'
     end) virtual, -- la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
     constraint PkOrdineDiLavoro primary key (Id),
-    constraint FkOrdineDiLavoroSpedizione foreign key (IdSpedizione) references Spedizione (Id),
+    --constraint FkOrdineDiLavoroSpedizione foreign key (IdSpedizione) references Spedizione (Id),
     constraint FkOrdineDiLavoroGruppoCorriere foreign key (IdGruppoCorriere) references GruppoCorriere (Id),
     constraint FkOrdineDiLavoroMezzoDiTrasporto foreign key (IdMezzoDiTrasporto) references MezzoDiTrasporto (Id),
     constraint FkOrdineDiLavoroIdUtenteOperatore foreign key (IdUtenteOperatore) references Utente (Id),
@@ -52,4 +52,16 @@ create table OrdineDiLavoro (
     constraint CkOrdineDiLavoroMezzoDiTrasporto check ((IdMezzoDiTrasporto is null and DataInizioLavorazione is null) or (IdMezzoDiTrasporto is not null and DataInizioLavorazione is not null)),
     -- se IdGruppoCorriere è valorizzato allora anche IdUtenteOperatore deve essere valorizzato
     constraint CkOrdineDiLavoroGruppoCorriere check ((IdGruppoCorriere is null and IdUtenteOperatore is null) or (IdGruppoCorriere is not null and IdUtenteOperatore is not null))
+);
+
+/*
+ La tabella OrdineDiLavoroSpedizione è stata creata per gestire la relazione molti a molti tra OrdineDiLavoro e Spedizione.
+ In particolare permette di definire quali ordini di lavoro concorrono alla risoluzione di una spedizione.
+ */
+create table OrdineDiLavoroSpedizione (
+    IdOrdineDiLavoro integer not null,
+    IdSpedizione integer not null,
+    constraint PkOrdineDiLavoroSpedizione primary key (IdOrdineDiLavoro, IdSpedizione),
+    constraint FkOrdineDiLavoroSpedizioneIdOrdineDiLavoro foreign key (IdOrdineDiLavoro) references OrdineDiLavoro (Id),
+    constraint FkOrdineDiLavoroSpedizioneIdSpedizione foreign key (IdSpedizione) references Spedizione (Id)
 );
