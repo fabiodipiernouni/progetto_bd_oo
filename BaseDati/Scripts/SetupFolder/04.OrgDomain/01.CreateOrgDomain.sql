@@ -51,16 +51,16 @@ create table CatalogoProdotti (
     constraint UqCatalogoProdottiCodiceEAN unique (CodiceEAN),
     constraint CkCatalogoProdottiCodiceEAN check (length(CodiceEAN) = 13),
     constraint CkCatalogoProdottiPericolosita check (Pericolosita in ('Nessuna', 'Infiammabile', 'Esplosivo', 'Tossico', 'Chimico', 'Corrosivo', 'Infettante', 'Radioattivo')),
-    constraint CkCatalogoProdottiTipo check( Tipo in ('Abbigliamento', 'Alimentari', 'Elettronica', 'Casa', 'Sport', 'Giardino', 'Altro') )
+    constraint CkCatalogoProdottiTipo check( Tipo in ('Abbigliamento', 'Alimentari', 'Elettrodomestici', 'Elettronica', 'Casa', 'Sport', 'Giardino', 'Altro') )
 );
 
 create table MerceStoccata (
-    Id integer not null, --pk
+    Id integer generated always as identity not null, --pk
     IdProdotto integer not null,
     Quantita number not null, -- deve essere sempre maggiore di zero
     IdMagazzino integer not null,
-    SettoreMagazzino varchar2(255 char),
-    constraint PkMerceStoccatapk primary key (id),
+    SettoreMagazzino char(1),
+    constraint PkMerceStoccata primary key (Id),
     constraint FkMerceStoccataIdProdotto foreign key (IdProdotto) references CatalogoProdotti (id),
     constraint FkMerceStoccataIdMagazzino foreign key (IdMagazzino) references Magazzino (id),
     constraint CkMerceStoccataQuantita check (Quantita > 0)
@@ -110,4 +110,3 @@ create table ImpegnoMezzo
     --dataFine se valorizzato deve essere maggiore di datainizio
     constraint CkImpegnoMezzoDataFine check ( DataFine is null or (DataInizio <= DataFine) )
 );
-
