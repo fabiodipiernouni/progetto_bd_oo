@@ -8,7 +8,7 @@
 create or replace trigger CkWfNewOrdineClienteStato
     before insert on OrdineCliente
     for each row
-    when (new.Stato != 'Confermato')
+    when (new.Stato != 'Bozza')
 begin
-    raise_application_error(-20001, 'Stato deve essere valorizzato a ''Confermato''');
+    raise_application_error(-20001, 'Stato deve essere valorizzato inizialmente a ''Bozza''');
 end;

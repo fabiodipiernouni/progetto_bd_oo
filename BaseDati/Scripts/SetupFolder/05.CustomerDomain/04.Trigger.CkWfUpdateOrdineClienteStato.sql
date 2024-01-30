@@ -4,25 +4,22 @@
  *  descrizione:
  *      OrdineCliente.Stato può variare solo seguendo workflow:
 
- *      'Confermato' -> 'Spedito'
- *      'Spedito' -> 'Consegnato'
- *      'Consegnato' -> 'ResoAvviato'
- *      'ResoAvviato' -> 'ResoInCorso'
- *      'ResoInCorso' -> 'ResoEffettuato'
- *      'Confermato' -> 'Annullato'
+ *      'Bozza' -> 'Confermato'
+ *      'Confermato' -> 'Completato'
+ *      'Completato' -> 'InLavorazione'
+ *      'InLavorazione' -> 'Lavorato'
  */
 
 create or replace trigger CkWfUpdateOrdineClienteStato
 before update on OrdineCliente
 for each row
+when ( new.Stato <> old.Stato )
 begin
     if
-        (:new.Stato = 'Confermato' and (:old.Stato != 'Spedito' or :old.Stato != 'Annullato')) or
-        (:new.Stato = 'Spedito' and :old.Stato != 'Consegnato') or
-        (:new.Stato = 'Consegnato' and :old.Stato != 'ResoAvviato') or
-        (:new.Stato = 'ResoAvviato' and :old.Stato != 'ResoInCorso') or
-        (:new.Stato = 'ResoInCorso' and :old.Stato != 'ResoEffettuato') or
-        (:new.Stato = 'Confermato' and :old.Stato != 'Annullato') then
+        (:old.Stato = 'Bozza' and :new.Stato <> 'Confermato') or
+        (:old.Stato = 'Confermato' and :new.Stato <> 'Completato') or
+        (:old.Stato = 'Completato' and :new.Stato <> 'InLavorazione') or
+        (:old.Stato = 'InLavorazione' and :new.Stato <> 'Lavorato') then
             raise_application_error(-20002, 'Stato non valido');
     end if;
 end;

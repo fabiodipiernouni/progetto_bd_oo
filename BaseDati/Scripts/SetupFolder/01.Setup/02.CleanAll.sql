@@ -1,8 +1,38 @@
 begin
-    execute immediate 'drop table OrdineDiLavoro cascade constraints purge';
-    dbms_output.put_line('OrdineDiLavoro dropped');
+    execute immediate 'drop table OrdineDiLavoroSpedizionePacchi cascade constraints purge';
+    dbms_output.put_line('OrdineDiLavoroSpedizionePacchi dropped');
 exception when others then
-    dbms_output.put_line('WARNING: tabella OrdineDiLavoro non esistente.');
+    dbms_output.put_line('WARNING: tabella OrdineDiLavoroSpedizionePacchi non esistente.');
+end;
+begin
+    execute immediate 'drop table OrdineDiLavoroSpedizione cascade constraints purge';
+    dbms_output.put_line('OrdineDiLavoroSpedizione dropped');
+exception when others then
+    dbms_output.put_line('WARNING: tabella OrdineDiLavoroSpedizione non esistente.');
+end;
+begin
+    execute immediate 'drop table PaccoDettaglioOrdine cascade constraints purge';
+    dbms_output.put_line('PaccoDettaglioOrdine dropped');
+exception when others then
+    dbms_output.put_line('WARNING: tabella PaccoDettaglioOrdine non esistente.');
+end;
+begin
+    execute immediate 'drop table Pacco cascade constraints purge';
+    dbms_output.put_line('Pacco dropped');
+exception when others then
+    dbms_output.put_line('WARNING: tabella Pacco non esistente.');
+end;
+begin
+    execute immediate 'drop table PackagingDetails cascade constraints purge';
+    dbms_output.put_line('PackagingDetails dropped');
+exception when others then
+    dbms_output.put_line('WARNING: tabella PackagingDetails non esistente.');
+end;
+begin
+    execute immediate 'drop table OrdineDiLavoroPackaging cascade constraints purge';
+    dbms_output.put_line('OrdineDiLavoroPackaging dropped');
+exception when others then
+    dbms_output.put_line('WARNING: tabella OrdineDiLavoroPackaging non esistente.');
 end;
 begin
     execute immediate 'drop table Spedizione cascade constraints purge';
@@ -15,6 +45,12 @@ begin
     dbms_output.put_line('DettaglioOrdine dropped');
 exception when others then
     dbms_output.put_line('WARNING: tabella DettaglioOrdine non esistente.');
+end;
+begin
+    execute immediate 'DROP TABLE StatoOrdineClienteFiliale CASCADE CONSTRAINTS PURGE';
+    dbms_output.put_line('StatoOrdineClienteFiliale dropped');
+exception when others then
+    dbms_output.put_line('WARNING: tabella StatoOrdineClienteFiliale non esistente.');
 end;
 begin
     execute immediate 'DROP TABLE OrdineCliente CASCADE CONSTRAINTS PURGE';

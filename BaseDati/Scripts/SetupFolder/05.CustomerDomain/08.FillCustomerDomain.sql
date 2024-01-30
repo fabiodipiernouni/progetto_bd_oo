@@ -1,5 +1,7 @@
 -- inserimento di 10 clienti di esempio
 
+truncate table DettaglioOrdine;
+truncate table OrdineCliente;
 truncate table Cliente;
 
 INSERT INTO Cliente (IdCliente, Nome, Cognome, Email, CodiceFiscale, PartitaIVA)
@@ -32,23 +34,21 @@ VALUES(9, 'Silvester', 'Stallone', 'Rocky srl', 'silvester.stallone@mail.it', nu
 INSERT INTO Cliente (IdCliente, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
 VALUES(10, 'Arnold', 'Schwarzenegger', 'Terminator spa', 'arnold@mail.it', null, '01234567895');
 
-truncate table OrdineCliente;
 
 -- inserimento di 2 ordini per cliente
 
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(1, to_date('20200101', 'YYYYMMDD'), 100.00, 'Confermato', 1, 1);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(2, to_date('20200102', 'YYYYMMDD'), 20.00, 'Confermato', 1, 1);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(3, to_date('20200103', 'YYYYMMDD'), 15.00, 'Confermato', 2, 2);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(4, to_date('20200104', 'YYYYMMDD'), 10.00, 'Confermato', 2, 2);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(5, to_date('20200105', 'YYYYMMDD'), 5.00, 'Confermato', 3, 3);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(6, to_date('20200106', 'YYYYMMDD'), 13.00, 'Confermato', 3, 3);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(7, to_date('20200107', 'YYYYMMDD'), 25.00, 'Confermato', 4, 4);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(8, to_date('20200108', 'YYYYMMDD'), 30.00, 'Confermato', 4, 4);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(9, to_date('20200109', 'YYYYMMDD'), 40.00, 'Confermato', 5, 5);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione, IdIndirizzoSpedizione) VALUES(10, to_date('20200110', 'YYYYMMDD'), 50.00, 'Confermato', 5, 5, 6);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(1, to_date('20200101', 'YYYYMMDD'), 100.00, 'Bozza', 1, 1);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(2, to_date('20200102', 'YYYYMMDD'), 20.00, 'Bozza', 1, 1);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(3, to_date('20200103', 'YYYYMMDD'), 15.00, 'Bozza', 2, 2);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(4, to_date('20200104', 'YYYYMMDD'), 10.00, 'Bozza', 2, 2);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(5, to_date('20200105', 'YYYYMMDD'), 5.00, 'Bozza', 3, 3);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(6, to_date('20200106', 'YYYYMMDD'), 13.00, 'Bozza', 3, 3);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(7, to_date('20200107', 'YYYYMMDD'), 25.00, 'Bozza', 4, 4);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(8, to_date('20200108', 'YYYYMMDD'), 30.00, 'Bozza', 4, 4);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(9, to_date('20200109', 'YYYYMMDD'), 40.00, 'Bozza', 5, 5);
+INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione, IdIndirizzoSpedizione) VALUES(10, to_date('20200110', 'YYYYMMDD'), 50.00, 'Bozza', 5, 5, 6);
 
 -- inserimento di 1 dettaglio ordine per ogni ordine
-truncate table DettaglioOrdine;
 
 INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
 VALUES(1, 1, 1);
@@ -79,5 +79,9 @@ VALUES(9, 9, 9);
 
 INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
 VALUES(10, 10, 10);
+
+commit;
+
+update OrdineCliente set Stato = 'Confermato' where Id between 1 and 10;
 
 commit;

@@ -592,7 +592,7 @@ INSERT INTO CatalogoProdotti (Id, CodiceEAN, Nome, Descrizione, URLPhoto, Tipo, 
 INSERT INTO CatalogoProdotti (Id, CodiceEAN, Nome, Descrizione, URLPhoto, Tipo, Prezzo, Peso, Larghezza, Altezza, Profondita, Pericolosita) VALUES (125, '9876543210987', 'Macchina per il Caffè a Capsule', 'Macchina per il caffè a capsule con cappuccinatore', 'http://www.example.com/macchina_caffe_capsule.jpg', 'Elettrodomestico', 129.99, 6.0, 15, 30, 25, 'Nessuna');
 INSERT INTO CatalogoProdotti (Id, CodiceEAN, Nome, Descrizione, URLPhoto, Tipo, Prezzo, Peso, Larghezza, Altezza, Profondita, Pericolosita) VALUES (126, '4567890123456', 'Ventilatore da Terra', 'Ventilatore da terra con tre velocità', 'http://www.example.com/ventilatore_terra.jpg', 'Elettrodomestico', 69.99, 10.0, 40, 120, 30, 'Nessuna');
 INSERT INTO CatalogoProdotti (Id, CodiceEAN, Nome, Descrizione, URLPhoto, Tipo, Prezzo, Peso, Larghezza, Altezza, Profondita, Pericolosita) VALUES (127, '7890123456789', 'Forno a Microonde con Funzione Grill', 'Forno a microonde con funzione grill e convezione', 'http://www.example.com/forno_microonde_grill_convezione.jpg', 'Elettrodomestico', 219.99, 20.0, 45, 30, 40, 'Nessuna');
-
+commit;
 
 
 -- MerceStoccata
