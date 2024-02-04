@@ -17,6 +17,8 @@
  *          Condizione: solo se TUTTI gli ordini di lavoro sono in stato Lavorato"
  */
 
+drop trigger CkWfSpedizioneTrackingStatusOdm;
+-- non lo utilizzo più
 create or replace trigger CkWfSpedizioneTrackingStatusOdm
     before update of TrackingStatus on Spedizione
     for each row
@@ -29,7 +31,7 @@ begin
     if :old.TrackingStatus = 'Registrata' and :new.TrackingStatus = 'InPartenza' then
         select count(*)
         into v_count
-        from OrdineDiLavoro odm
+        from OrdineDiLavoroSpedizione odm
         where odm.IdSpedizione = :new.Id
         and Stato = 'Assegnato';
 

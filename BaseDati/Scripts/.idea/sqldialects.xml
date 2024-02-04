@@ -9,6 +9,8 @@
     <file url="file://$PROJECT_DIR$/SetupFolder/03.GeoDomain/0b.fillComuneFull.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/SetupFolder/04.OrgDomain/01.CreateOrgDomain.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/SetupFolder/05.CustomerDomain/01.CreateCustomerDomain.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/05.CustomerDomain/10.Trigger.CkWfNuovoOrdinePackaging.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/05.CustomerDomain/11.Trigger.WfStartOrdinePackaging.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/SetupFolder/06.ShipmentDomain/01.CreateShipmentDomain.sql" dialect="Oracle" />
   </component>
 </project>

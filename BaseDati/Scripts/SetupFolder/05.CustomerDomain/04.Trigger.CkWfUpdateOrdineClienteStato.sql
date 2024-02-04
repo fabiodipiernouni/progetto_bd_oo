@@ -16,10 +16,10 @@ for each row
 when ( new.Stato <> old.Stato )
 begin
     if
-        (:old.Stato = 'Bozza' and :new.Stato <> 'Confermato') or
+        (:old.Stato = 'Bozza' and :new.Stato not in ('Confermato', 'Completato')) or
         (:old.Stato = 'Confermato' and :new.Stato <> 'Completato') or
         (:old.Stato = 'Completato' and :new.Stato <> 'InLavorazione') or
         (:old.Stato = 'InLavorazione' and :new.Stato <> 'Lavorato') then
-            raise_application_error(-20002, 'Stato non valido');
+            raise_application_error(-20002, 'Stato non valido. IdOrdine: ' || :old.Id || ' Stato: ' || :old.Stato || ' -> ' || :new.Stato);
     end if;
 end;

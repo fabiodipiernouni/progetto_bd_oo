@@ -1,36 +1,21 @@
-insert into Profilo (Id, Profilo)
-values (1, 'Operatore');
-insert into Profilo (Id, Profilo)
-values (2, 'OperatoreCorriere');
-insert into Profilo (Id, Profilo)
-values (3, 'Manager');
-insert into Profilo (Id, Profilo)
-values (4, 'Admin');
+insert into Profilo (Id, Profilo) values (1, 'Operatore');
+insert into Profilo (Id, Profilo) values (2, 'OperatoreCorriere');
+insert into Profilo (Id, Profilo) values (3, 'Manager');
+insert into Profilo (Id, Profilo) values (4, 'Admin');
 
 commit;
 
-insert into Funzione (Id, Funzione)
-values (1, 'GESTIONE_MAGAZZINI'); -- Menu di Gestione Magazzini
-insert into Funzione (Id, Funzione)
-values (2, 'VIEW_MAGAZZINI'); -- Pagina di elenco Magazzini, Visualizzazione Magazzino (dettaglio delle merci stocked)
-insert into Funzione (Id, Funzione)
-values (3, 'EDIT_MAGAZZINO'); -- Aggiornamento quantità magazzino, delete di merce stocked, inserimento di merce stocked
-insert into Funzione (Id, Funzione)
-values (4, 'GESTIONE_CLIENTI'); -- menu gestione clienti
-insert into Funzione (Id, Funzione)
-values (5, 'VIEW_ORDINICLIENTI'); -- visualizzazione elenco ordini clienti, visualizza dettaglio ordine
-insert into Funzione (Id, Funzione)
-values (6,  'GESTIONE_SPEDIZIONI'); -- menu gestione spedizioni
-insert into Funzione (Id, Funzione)
-values (7, 'VIEW_SPEDIZIONI'); -- visualizza elenco delle spedizioni, visualizza dettaglio spedizione
-insert into Funzione (Id, Funzione)
-values (8, 'VIEW_ORDINILAVORO'); -- Visualizza Ordini di lavoro
-insert into Funzione (Id, Funzione)
-values (9, 'EDIT_ORDINILAVORO'); -- delete ordiniLavoro, update OrdiniLavoro
-insert into Funzione (Id, Funzione)
-values (10, 'GESTIONE_REPORTS'); -- gestione reportistica
-insert into Funzione (Id, Funzione)
-values (11, 'VIEW_REPORTS'); -- gestione reportistica
+insert into Funzione (Id, Funzione) values (1, 'GESTIONE_MAGAZZINI'); -- Menu di Gestione Magazzini
+insert into Funzione (Id, Funzione) values (2, 'VIEW_MAGAZZINI'); -- Pagina di elenco Magazzini, Visualizzazione Magazzino (dettaglio delle merci stocked)
+insert into Funzione (Id, Funzione) values (3, 'EDIT_MAGAZZINO'); -- Aggiornamento quantità magazzino, delete di merce stocked, inserimento di merce stocked
+insert into Funzione (Id, Funzione) values (4, 'GESTIONE_CLIENTI'); -- menu gestione clienti
+insert into Funzione (Id, Funzione) values (5, 'VIEW_ORDINICLIENTI'); -- visualizzazione elenco ordini clienti, visualizza dettaglio ordine
+insert into Funzione (Id, Funzione) values (6,  'GESTIONE_SPEDIZIONI'); -- menu gestione spedizioni
+insert into Funzione (Id, Funzione) values (7, 'VIEW_SPEDIZIONI'); -- visualizza elenco delle spedizioni, visualizza dettaglio spedizione
+insert into Funzione (Id, Funzione) values (8, 'VIEW_ORDINILAVORO'); -- Visualizza Ordini di lavoro
+insert into Funzione (Id, Funzione) values (9, 'EDIT_ORDINILAVORO'); -- delete ordiniLavoro, update OrdiniLavoro
+insert into Funzione (Id, Funzione) values (10, 'GESTIONE_REPORTS'); -- gestione reportistica
+insert into Funzione (Id, Funzione) values (11, 'VIEW_REPORTS'); -- gestione reportistica
 
 commit;
 

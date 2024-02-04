@@ -36,6 +36,7 @@ create table Indirizzo (
     Indirizzo_2 varchar2(50),
     CAP varchar2(5) not null,
     IdComune integer not null,
+    noteAggiuntive varchar2(512 byte),
     constraint PkIndirizzo primary key (Id),
     constraint FkIndirizzoIdComune foreign key (IdComune) references ComuneFull(Id)
 );

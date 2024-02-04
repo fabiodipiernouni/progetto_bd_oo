@@ -1,6 +1,8 @@
 -- inserimento di 10 clienti di esempio
 
+truncate table LocationDettaglioOrdine;
 truncate table DettaglioOrdine;
+truncate table StatoOrdineClienteFiliale;
 truncate table OrdineCliente;
 truncate table Cliente;
 
@@ -50,35 +52,44 @@ INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIn
 
 -- inserimento di 1 dettaglio ordine per ogni ordine
 
-INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
-VALUES(1, 1, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(1, 1, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(1, 76, 4);
 
-INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
-VALUES(2, 2, 2);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(2, 2, 2);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(2, 59, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(2, 61, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(2, 62, 1);
 
-INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
-VALUES(3, 3, 3);
 
-INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
-VALUES(4, 4, 4);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(3, 7, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(3, 49, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(3, 50, 1);
 
-INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
-VALUES(5, 5, 5);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(4, 4, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(4, 8, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(4, 6, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(4, 2, 1);
 
-INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
-VALUES(6, 6, 6);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(5, 16, 10);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(5, 15, 2);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(5, 14, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(5, 18, 2);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(5, 11, 5);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(5, 12, 1);
 
-INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
-VALUES(7, 7, 7);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(6, 23, 1);
 
-INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
-VALUES(8, 8, 8);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(7, 24, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(7, 25, 1);
 
-INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
-VALUES(9, 9, 9);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(8, 28, 1);
 
-INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita)
-VALUES(10, 10, 10);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(9, 9, 9);
+
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(10, 94, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(10, 95, 3);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(10, 96, 1);
+INSERT INTO DettaglioOrdine (IdOrdine, IDProdotto, Quantita) VALUES(10, 97, 1);
 
 commit;
 
