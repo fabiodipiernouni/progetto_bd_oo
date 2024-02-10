@@ -49,10 +49,6 @@ begin
         end;
 
         if vFlagDistribuita = 'N' then
-            -- inserisce in LocationDettaglioOrdine la filiale e il magazzino di riferimento dal quale prelevare la merce
-            insert into LocationDettaglioOrdine (IdDettaglioOrdine, IdFilialeRiferimento, IdMagazzinoRiferimento)
-            values (dettaglio.IdDettaglio, vIdFiliale, vIdMagazzino);
-
             -- inserisce in StatoOrdineClienteFiliale lo stato dell'ordine per la filiale di riferimento
             insert into StatoOrdineClienteFiliale (IdOrdineCliente, IdFiliale, Stato) values (:new.Id, vIdFiliale, 'Completato');
 
@@ -64,7 +60,8 @@ begin
                senza disponibilità a magazzino. Tali errori a volte sono generati o dal sistema Back-end o da errato aggiornamento
                delle disponibilità a magazzino da parte dell'operatore.
              */
-            update DettaglioOrdine set FlagQuantitaDisponibile = 'Y', FLAGCOMPLETATO = 'Y' where Id = dettaglio.IdDettaglio;
+            update DettaglioOrdine set FlagQuantitaDisponibile = 'Y', FLAGCOMPLETATO = 'Y', IdFilialeRiferimento = vIdFiliale, IdMagazzinoRiferimento = vIdMagazzino
+            where Id = dettaglio.IdDettaglio;
         else
             /*
                 Gestione di quantità disponibile in più magazzini:
@@ -92,20 +89,15 @@ begin
                 loop
                     vQuantitaSum := vQuantitaSum + dep.quantitaDisponibile;
 
+                    update DettaglioOrdine set IdFilialeRiferimento = dep.IDFILIALE, IdMagazzinoRiferimento = dep.IDMAGAZZINO, DataAssegnazione = sysdate
+                    where Id = dettaglio.IdDettaglio;
+
                     if dettaglio.quantitaOrdinata >= vQuantitaSum then
-                        --diamo fondo a tutto le scorte di quel prodotto in quel magazzino
-
-                        -- inserisce in LocationDettaglioOrdine la filiale e il magazzino di riferimento dal quale prelevare la merce
-                        insert into LocationDettaglioOrdine (IdDettaglioOrdine, IdFilialeRiferimento, IdMagazzinoRiferimento)
-                        values (dettaglio.IdDettaglio, dep.IDFILIALE, dep.IDMAGAZZINO);
-
+                        -- diamo fondo a tutto le scorte di quel prodotto in quel magazzino
                         -- aggiorno la quantitaprenotata con quella reale
                         update MERCESTOCCATA set QUANTITAPRENOTATA = QUANTITAREALE where ID = dep.ID;
                     else
                         vQuantitaSum := vQuantitaSum - dep.quantitaDisponibile;
-
-                        insert into LocationDettaglioOrdine (IdDettaglioOrdine, IdFilialeRiferimento, IdMagazzinoRiferimento)
-                        values (dettaglio.IdDettaglio, dep.IDFILIALE, dep.IDMAGAZZINO);
 
                         update MERCESTOCCATA set QUANTITAPRENOTATA = QUANTITAPRENOTATA + (dettaglio.quantitaOrdinata - vQuantitaSum) where ID = dep.ID;
                     end if;

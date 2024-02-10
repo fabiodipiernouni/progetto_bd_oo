@@ -49,7 +49,7 @@ begin
                 recPacco := null;
                 recPacco.IdMagazzino := ordinePackaging.IdMagazzino;
                 recPacco.IdIndirizzoDestinazione := ordinePackaging.IdIndirizzoSpedizione;
-                recPacco.IdOrdineLavoroOrigine := IdOrdinePackaging;
+                recPacco.IdOrdineLavoroOrigine := IdOrdinePackaging;  
                 recPacco.IdSpedizione := ordinePackaging.IdSpedizione;
                 recPacco.Peso := 0; --sarà aggiornato in seguito
 

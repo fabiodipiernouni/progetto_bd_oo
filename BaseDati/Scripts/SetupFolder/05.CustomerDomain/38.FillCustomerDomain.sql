@@ -1,6 +1,5 @@
 -- inserimento di 10 clienti di esempio
 
-truncate table LocationDettaglioOrdine;
 truncate table DettaglioOrdine;
 truncate table StatoOrdineClienteFiliale;
 truncate table OrdineCliente;
