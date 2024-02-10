@@ -1,6 +1,6 @@
 /*
     Nome: CkWfNuovaSpedizione
-    Descrizione: creazione trigger di aggiornamento ordineclient a seguito di inserimento di una nuova spedizione
+    Descrizione: creazione trigger di aggiornamento ordinecliente a seguito di inserimento di una nuova spedizione
  */
 create or replace trigger CkWfNuovaSpedizione
     after insert on Spedizione
@@ -18,6 +18,4 @@ begin
         set Stato = 'InLavorazione', DataInizioLavorazione = sysdate
         where Id = :new.IdOrdineCliente;
     end if;
-
-    -- aggiorno le quantità prenotate in magazzino
 end;

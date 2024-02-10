@@ -18,6 +18,7 @@
  */
 
 drop trigger CkWfSpedizioneTrackingStatusOdm;
+
 -- non lo utilizzo più
 create or replace trigger CkWfSpedizioneTrackingStatusOdm
     before update of TrackingStatus on Spedizione

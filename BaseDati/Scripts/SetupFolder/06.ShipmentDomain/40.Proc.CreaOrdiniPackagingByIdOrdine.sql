@@ -36,7 +36,12 @@ create or replace procedure UNINADEV.CreaOrdiniPackagingByIdOrdine(pIdOrdine in 
     currPropostaPacco integer;
     statoOrdine OrdineCliente.Stato%type;
     cntPackaging integer;
+    vNoteAggiuntiveOperatore varchar2(512);
+    vNoteAggiuntiveCliente varchar2(512);
 begin
+    vNoteAggiuntiveCliente := null;
+    vNoteAggiuntiveOperatore := null;
+
     -- verifico che l'ordine sia in stato Completato
 
     select Stato into statoOrdine from OrdineCliente where Id = pIdOrdine;
@@ -59,6 +64,14 @@ begin
         raise_application_error(-20002, 'Esistono già ordini di packaging per l''ordine ' || pIdOrdine);
     end if;
 
+    begin
+        select Id into vIdSpedizione
+        from Spedizione where IdOrdineCliente = pIdOrdine;
+    exception
+        when no_data_found then
+            raise_application_error(-20003, 'Non esiste una spedizione per l''ordine ' || pIdOrdine);
+    end;
+
     -- mi ricavo per ogni dettaglio ordine le info necessarie per creare l'ordine di lavoro di packaging
 
     open cAnalisiOrdine(pIdOrdine);
@@ -73,16 +86,16 @@ begin
         currPeso := currPeso + rec.Peso_Kg;
         if currIdMagazzino is null or currIdMagazzino <> rec.IDMAGAZZINORIFERIMENTO then
 
-            begin
-                select Id into vIdSpedizione
-                from Spedizione where IdOrdineCliente = pIdOrdine;
-            exception
-                when no_data_found then
-                    raise_application_error(-20003, 'Non esiste una spedizione per l''ordine ' || pIdOrdine);
-            end;
+            if(rec.PERICOLOSITA != 'Nessuna') then
+                vNoteAggiuntiveOperatore := 'Attenzione: il pacco contiene merce pericolosa (' || rec.PERICOLOSITA || ')';
+                vNoteAggiuntiveCliente := 'Attenzione: il pacco contiene merce pericolosa (' || rec.PERICOLOSITA || '). Utilizzare con cautela e utilizzare confezioni protettive.';
+            else
+                vNoteAggiuntiveOperatore := null;
+                vNoteAggiuntiveCliente := null;
+            end if;
 
-            insert into OrdineDiLavoroPackaging (IdFiliale, IdMagazzino, IdSpedizione, IdIndirizzoSpedizione)
-            values (rec.IDFILIALERIFERIMENTO, rec.IDMAGAZZINORIFERIMENTO, vIdSpedizione, rec.idIndirizzoSpedizione) returning id into idPackaging;
+            insert into OrdineDiLavoroPackaging (IdFiliale, IdMagazzino, IdSpedizione, IdIndirizzoSpedizione, NoteAggiuntiveOperatore, NoteAggiuntiveCliente)
+            values (rec.IDFILIALERIFERIMENTO, rec.IDMAGAZZINORIFERIMENTO, vIdSpedizione, rec.idIndirizzoSpedizione, vNoteAggiuntiveOperatore, vNoteAggiuntiveCliente) returning id into idPackaging;
 
             currIdMagazzino := rec.IDMAGAZZINORIFERIMENTO;
             currPropostaPacco := currPropostaPacco + 1;

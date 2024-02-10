@@ -9,11 +9,10 @@ create or replace trigger WfStartOrdinePackaging
     for each row
     when ( old.DataInizioLavorazione is null and new.DataInizioLavorazione is not null )
 declare
-    vIdStatoOrdineClienteFiliale StatoOrdineClienteFiliale.Id%type;
+    vIdOrdineCliente StatoOrdineClienteFiliale.IDORDINECLIENTE%type;
     vStatoOrdineClienteFiliale StatoOrdineClienteFiliale.Stato%type;
 begin
-
-    select Id, Stato into vIdStatoOrdineClienteFiliale, vStatoOrdineClienteFiliale
+    select socf.IdOrdineCliente, socf.Stato into vIdOrdineCliente, vStatoOrdineClienteFiliale
     from
         StatoOrdineClienteFiliale socf,
         spedizione s
@@ -25,6 +24,6 @@ begin
     if vStatoOrdineClienteFiliale = 'Completato' then
         update StatoOrdineClienteFiliale
         set Stato = 'Packaging'
-        where Id = vIdStatoOrdineClienteFiliale;
+        where IdOrdineCliente = vIdOrdineCliente and IdFiliale = :new.IdFiliale;
     end if;
 end;

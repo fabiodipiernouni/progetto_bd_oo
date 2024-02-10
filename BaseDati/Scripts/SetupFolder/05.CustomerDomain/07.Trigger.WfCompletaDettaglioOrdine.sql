@@ -1,10 +1,11 @@
 /*
-    Nome: WorkerCompletaDettaglioOrdine
+    Nome: WfCompletaDettaglioOrdine
     Descrizione:
         la seguente procedura si preoccupa di completare i dettagli ordine in base alla giacenza in magazzino e alla filiale di riferimento
         Il trigger scatta quando il back-end conferma l'ordine.
  */
-create or replace trigger WorkerCompletaDettaglioOrdine
+
+create or replace trigger WfCompletaDettaglioOrdine
     before update of Stato on OrdineCliente
     for each row
     when ( new.Stato = 'Confermato' )

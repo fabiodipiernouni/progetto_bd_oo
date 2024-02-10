@@ -11,9 +11,8 @@
  */
 
 create or replace trigger CkWfUpdateOrdineClienteStato
-before update on OrdineCliente
+before update of Stato on OrdineCliente
 for each row
-when ( new.Stato <> old.Stato )
 begin
     if
         (:old.Stato = 'Bozza' and :new.Stato not in ('Confermato', 'Completato')) or

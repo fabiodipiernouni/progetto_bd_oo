@@ -42,7 +42,7 @@ create table CatalogoProdotti (
     URLPhoto varchar2(255 char) not null,
     Tipo varchar2(20 byte) not null, --enum Abbigliamento, Alimentari, Elettronica, Casa, Sport, Giardino, Altro
     Prezzo double precision not null,
-    Peso number,
+    Peso number not null,
     Larghezza number,
     Altezza number,
     Profondita number,

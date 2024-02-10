@@ -41,7 +41,7 @@ comment on column Utente.Username is 'Username è intesa la matricola UNINA'
 create table Funzione
 (
     Id integer not null,
-    Funzione VARCHAR2(64 byte),
+    Funzione varchar2(64 byte) not null,
     constraint PkFunzione primary key (Id),
     constraint UqFunzioneFunzione unique (Funzione)
 )
@@ -55,8 +55,8 @@ comment on column Funzione.Funzione is 'Funzione che sarà assegnata ad un profi
 
 create table ProfiloFunzione
 (
-    IdProfilo  int,
-    IdFunzione int,
+    IdProfilo  integer not null,
+    IdFunzione integer not null,
     constraint PkProfiloFunzione primary key (IdProfilo, IdFunzione),
     constraint FkProfiloFunzioneIdProfilo foreign key (IdProfilo) references Profilo (Id),
     constraint FkProfiloFunzioneIdFunzione foreign key (IdFunzione) references Funzione (Id)

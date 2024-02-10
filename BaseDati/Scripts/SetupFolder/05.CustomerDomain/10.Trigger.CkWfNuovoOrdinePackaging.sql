@@ -1,8 +1,8 @@
 /*
     Nome: CkWfNuovoOrdinePackaging
     Descrizione:
-        a seguito di inserimento nuovo ordine packaging verifica se la spedizione in stato 'DaLavorare' e
-        nel caso aggiorna lo stato a 'InLavorazionePackeging'
+        a seguito di inserimento nuovo ordine packaging verifica se la spedizione è in stato 'DaLavorare' e
+        nel caso aggiorna lo stato a 'InLavorazionePackaging'
  */
 create or replace trigger CkWfNuovoOrdinePackaging
 after insert on OrdineDiLavoroPackaging
@@ -16,7 +16,7 @@ begin
 
     if vStatoSpedizione = 'DaLavorare' then
         update Spedizione
-        set Stato = 'InLavorazionePackeging', DataInizioLavorazione = sysdate
+        set Stato = 'InLavorazionePackaging', DataInizioLavorazione = sysdate
         where Id = :new.IdSpedizione and Stato = 'DaLavorare';
     end if;
 end;

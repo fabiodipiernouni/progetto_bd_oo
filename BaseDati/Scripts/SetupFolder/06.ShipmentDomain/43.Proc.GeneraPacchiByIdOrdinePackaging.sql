@@ -4,28 +4,26 @@
         procedura che genera i pacchi per un ordine di lavoro di tipo 'Packaging', secondo i raggruppamenti scelti
         tramite il campo CodicePropostaPacco di PackagingDetails
  */
-create or replace procedure GeneraPacchiByIdOrdinePackaging(IdOrdinePackaging in integer)
-as
+create or replace procedure GeneraPacchiByIdOrdinePackaging(
+    pIdOrdinePackaging in integer,
+    pIdMagazzino in integer,
+    pIdIndirizzoSpedizione in integer,
+    pIdSpedizione in integer)
+is
     vCurrCodicePropostaPacco PackagingDetails.CodicePropostaPacco%type;
 
     cursor cPackagingDetails(pIdOrdine integer) is
         select
-            pd.Pericolosita,
+            --pd.Pericolosita,
             pd.CodicePropostaPacco,
-            o.IdMagazzino,
-            o.IdIndirizzoSpedizione,
-            o.IdSpedizione,
             do.id as IdDettaglioOrdine,
             do.Quantita as quantita_ordinata,
             c2.PESO as peso_prodotto
         from
-            ORDINEDILAVOROPACKAGING o
-            join PackagingDetails pd on pd.IDORDINEDILAVOROPACKAGING = o.ID
+            PackagingDetails pd
             join DETTAGLIOORDINE do on pd.IdDettaglioOrdine = do.Id
             join CATALOGOPRODOTTI C2 on C2.ID = do.IDPRODOTTO
-            where o.Id = pIdOrdine;
-
-    ordinePackaging cPackagingDetails%rowtype;
+            where pd.IDORDINEDILAVOROPACKAGING = pIdOrdine;
 
     recPacco pacco%rowtype;
     vPeso pacco.peso%type;
@@ -35,22 +33,23 @@ begin
     vCurrCodicePropostaPacco := null;
     recPacco := null;
     vPeso := 0;
+    vIdPacco := null;
 
-    for dettaglio in cPackagingDetails(IdOrdinePackaging) loop
+    for dettaglio in cPackagingDetails(pIdOrdinePackaging) loop
 
             if vCurrCodicePropostaPacco is null or dettaglio.CodicePropostaPacco <> vCurrCodicePropostaPacco then
 
-                if recPacco.Id is not null then
+                if vIdPacco is not null then
                     update Pacco set Peso = vPeso where Id = vIdPacco;
                 end if;
 
                 vPeso := 0;
 
                 recPacco := null;
-                recPacco.IdMagazzino := ordinePackaging.IdMagazzino;
-                recPacco.IdIndirizzoDestinazione := ordinePackaging.IdIndirizzoSpedizione;
-                recPacco.IdOrdineLavoroOrigine := IdOrdinePackaging;  
-                recPacco.IdSpedizione := ordinePackaging.IdSpedizione;
+                recPacco.IdMagazzino := pIdMagazzino;
+                recPacco.IdIndirizzoDestinazione := pIdIndirizzoSpedizione;
+                recPacco.IdOrdineLavoroOrigine := pIdOrdinePackaging;
+                recPacco.IdSpedizione := pIdSpedizione;
                 recPacco.Peso := 0; --sarà aggiornato in seguito
 
                 loop
@@ -70,9 +69,9 @@ begin
             vPeso := vPeso + (dettaglio.quantita_ordinata * dettaglio.peso_prodotto);
     end loop;
 
-    commit;
+    --aggiorno l'ultimo record pacco elaborato
+    update Pacco set Peso = vPeso where Id = vIdPacco;
 exception
     when others then
-        rollback;
         dbms_output.put_line('Errore in GeneraPacchiByIdOrdinePackaging: ' || sqlerrm);
 end;
