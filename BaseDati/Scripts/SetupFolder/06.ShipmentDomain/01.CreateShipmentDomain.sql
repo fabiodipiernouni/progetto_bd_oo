@@ -163,3 +163,8 @@ create table OrdineDiLavoroSpedizionePacchi (
     constraint FkOrdineDiLavoroSpedizionePacchiIdPacco foreign key (IdPacco) references Pacco (Id)
 );
 -------------------------
+
+select * from ORDINECLIENTE
+
+select * from dettaglioordine
+where flagcompletato = 'Y'

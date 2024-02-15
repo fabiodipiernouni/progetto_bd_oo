@@ -5,34 +5,34 @@ truncate table StatoOrdineClienteFiliale;
 truncate table OrdineCliente;
 truncate table Cliente;
 
-INSERT INTO Cliente (IdCliente, Nome, Cognome, Email, CodiceFiscale, PartitaIVA)
+INSERT INTO Cliente (Id, Nome, Cognome, Email, CodiceFiscale, PartitaIVA)
 VALUES(1, 'Mario', 'Rossi', 'mario.rossi@mail.it', 'RSSMRA80A01H501A', null);
 
-INSERT INTO Cliente (IdCliente, Nome, Cognome, Email, CodiceFiscale, PartitaIVA)
+INSERT INTO Cliente (Id, Nome, Cognome, Email, CodiceFiscale, PartitaIVA)
 VALUES(2, 'Luigi', 'Verdi', 'luigi.verdi@mail.it', 'VRDLGU80A01H501A', null);
 
-INSERT INTO Cliente (IdCliente, Nome, Cognome, Email, CodiceFiscale, PartitaIVA)
+INSERT INTO Cliente (Id, Nome, Cognome, Email, CodiceFiscale, PartitaIVA)
 VALUES(3, 'Giovanni', 'Bianchi', 'giovanni.bianchi@mail.it', 'BNCVNN80A01H501A', null);
 
-INSERT INTO Cliente (IdCliente, Nome, Cognome, Email, CodiceFiscale, PartitaIVA)
+INSERT INTO Cliente (Id, Nome, Cognome, Email, CodiceFiscale, PartitaIVA)
 VALUES(4, 'Giuseppe', 'Neri', 'giuseppe.neri@mail.it', 'NRIGPP80A01H501A', null);
 
-INSERT INTO Cliente (IdCliente, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
+INSERT INTO Cliente (Id, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
 VALUES(5, 'Pippo', 'Ravazzi', 'Pippo & Co.', 'pippo.ravazzi@mail.it', null, '01234567890');
 
-INSERT INTO Cliente (IdCliente, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
+INSERT INTO Cliente (Id, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
 VALUES(6, 'Pluto', 'Ravazzi', 'Pluto & Co.', 'pluto.ravazzi@mail.it', null, '01234567891');
 
-INSERT INTO Cliente (IdCliente, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
+INSERT INTO Cliente (Id, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
 VALUES(7, 'Paperino', 'Peperino', 'Paperino & Co.', 'paperino.peperino@mail.it', null, '01234567892');
 
-INSERT INTO Cliente (IdCliente, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
+INSERT INTO Cliente (Id, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
 VALUES(8, 'Emilio', 'Estevez', 'Billy spa', 'emilio@email.it', null, '01234567893');
 
-INSERT INTO Cliente (IdCliente, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
+INSERT INTO Cliente (Id, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
 VALUES(9, 'Silvester', 'Stallone', 'Rocky srl', 'silvester.stallone@mail.it', null, '01234567894');
 
-INSERT INTO Cliente (IdCliente, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
+INSERT INTO Cliente (Id, Nome, Cognome, RagioneSociale, Email, CodiceFiscale, PartitaIVA)
 VALUES(10, 'Arnold', 'Schwarzenegger', 'Terminator spa', 'arnold@mail.it', null, '01234567895');
 
 

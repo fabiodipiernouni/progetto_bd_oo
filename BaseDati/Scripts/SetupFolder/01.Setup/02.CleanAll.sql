@@ -1,4 +1,39 @@
 begin
+    execute immediate 'drop procedure GeneraOrdineDiSpedizione';
+exception when others then
+    dbms_output.put_line('WARNING: procedura GeneraOrdineDiSpedizione non esistente.');
+end;
+begin
+    execute immediate 'drop procedure GeneraPacchiByIdOrdinePackaging';
+exception when others then
+    dbms_output.put_line('WARNING: procedura GeneraPacchiByIdOrdinePackaging non esistente.');
+end;
+begin
+    execute immediate 'drop procedure CorriereChiusuraOrdinePackaging';
+exception when others then
+    dbms_output.put_line('WARNING: procedura CorriereChiusuraOrdinePackaging non esistente.');
+end;
+begin
+    execute immediate 'drop procedure CorrierePresaInCaricoPackaging';
+exception when others then
+    dbms_output.put_line('WARNING: procedura CorrierePresaInCaricoPackaging non esistente.');
+end;
+begin
+    execute immediate 'drop procedure CreaOrdiniPackagingByIdOrdine';
+exception when others then
+    dbms_output.put_line('WARNING: procedura CreaOrdiniPackagingByIdOrdine non esistente.');
+end;
+begin
+    execute immediate 'drop procedure CreaSpedizione';
+exception when others then
+    dbms_output.put_line('WARNING: procedura CreaSpedizione non esistente.');
+end;
+begin
+    execute immediate 'drop procedure FILLMERCESTOCCATA';
+exception when others then
+    dbms_output.put_line('WARNING: procedura FillMerceStoccata non esistente.');
+end;
+begin
     execute immediate 'drop table OrdineDiLavoroSpedizionePacchi cascade constraints purge';
     dbms_output.put_line('OrdineDiLavoroSpedizionePacchi dropped');
 exception when others then

@@ -3,7 +3,7 @@
     Descrizione:
         la seguente procedura si preoccupa di completare i dettagli ordine in base alla giacenza in magazzino e alla filiale di riferimento
         Il trigger scatta quando il back-end conferma l'ordine.
- */
+*/
 
 create or replace trigger WfCompletaDettaglioOrdine
     before update of Stato on OrdineCliente
@@ -16,6 +16,7 @@ declare
     vFlagDistribuita char(1) := 'N'; -- Y se occorre gestire la completezza del dettaglio in più magazzini, N altrimenti
     vQuantitaSum integer;
     vSetCompletato char(1) := 'Y';
+    fStatoOrdineInserito integer;
 begin
     vQuantitaSum := 0;
     vIdFiliale := null;
@@ -29,6 +30,7 @@ begin
             dett.IdOrdine = :new.Id and dett.FlagCompletato = 'N')
     loop
         begin
+            -- cerca un magazzino con la quantità necessaria avente la quantità disponibile minima
             select
                 m.IDFILIALE, m.id as IdMagazzino
             into
@@ -46,12 +48,18 @@ begin
                     )
                 and rownum < 2; -- potrebbero esserci più magazzini con la stessa quantità minima disponibile
         exception when no_data_found then
-            vFlagDistribuita := 'Y'; -- un singolo magazzino con la quantità necessaria non esiste, forse è distribuita in più magazzini
+            vFlagDistribuita := 'Y'; -- un singolo magazzino con la quantità necessaria non esiste, forse la quantità richiesta è distribuita in più magazzini
         end;
 
         if vFlagDistribuita = 'N' then
             -- inserisce in StatoOrdineClienteFiliale lo stato dell'ordine per la filiale di riferimento
-            insert into StatoOrdineClienteFiliale (IdOrdineCliente, IdFiliale, Stato) values (:new.Id, vIdFiliale, 'Completato');
+            select count(*) into fStatoOrdineInserito
+            from StatoOrdineClienteFiliale
+            where IdOrdineCliente = :new.Id and IdFiliale = vIdFiliale;
+
+            if fStatoOrdineInserito = 0 then
+                insert into StatoOrdineClienteFiliale (IdOrdineCliente, IdFiliale, Stato) values (:new.Id, vIdFiliale, 'Completato');
+            end if;
 
             -- aggiorna la quantità prenotata in magazzino
             update MERCESTOCCATA set QUANTITAPRENOTATA = QUANTITAPRENOTATA + dettaglio.quantitaOrdinata where ID = vIdMagazzino and IDPRODOTTO = dettaglio.IDPRODOTTO;
@@ -93,7 +101,7 @@ begin
                     update DettaglioOrdine set IdFilialeRiferimento = dep.IDFILIALE, IdMagazzinoRiferimento = dep.IDMAGAZZINO, DataAssegnazione = sysdate
                     where Id = dettaglio.IdDettaglio;
 
-                    if dettaglio.quantitaOrdinata >= vQuantitaSum then
+                    if dettaglio.quantitaOrdinata = vQuantitaSum then
                         -- diamo fondo a tutto le scorte di quel prodotto in quel magazzino
                         -- aggiorno la quantitaprenotata con quella reale
                         update MERCESTOCCATA set QUANTITAPRENOTATA = QUANTITAREALE where ID = dep.ID;
