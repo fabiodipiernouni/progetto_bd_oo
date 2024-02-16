@@ -52,25 +52,26 @@ begin
         end;
 
         if vFlagDistribuita = 'N' then
-            -- inserisce in StatoOrdineClienteFiliale lo stato dell'ordine per la filiale di riferimento
-            select count(*) into fStatoOrdineInserito
-            from StatoOrdineClienteFiliale
-            where IdOrdineCliente = :new.Id and IdFiliale = vIdFiliale;
-
-            if fStatoOrdineInserito = 0 then
-                insert into StatoOrdineClienteFiliale (IdOrdineCliente, IdFiliale, Stato) values (:new.Id, vIdFiliale, 'Completato');
-            end if;
-
             -- aggiorna la quantità prenotata in magazzino
             update MERCESTOCCATA set QUANTITAPRENOTATA = QUANTITAPRENOTATA + dettaglio.quantitaOrdinata where ID = vIdMagazzino and IDPRODOTTO = dettaglio.IDPRODOTTO;
+
+            insert into DettaglioOrdineMagazzino (IdDettaglioOrdine, IdMagazzino) values (dettaglio.IdDettaglio, vIdMagazzino);
 
             /* aggiorna il dettaglio ordine con il flag che indica che la quantità richiesta è disponibile.
                Tale flag viene utilizzato per la gestione di casistiche di errore dove possono pervenire prodotti ordinati
                senza disponibilità a magazzino. Tali errori a volte sono generati o dal sistema Back-end o da errato aggiornamento
                delle disponibilità a magazzino da parte dell'operatore.
              */
-            update DettaglioOrdine set FlagQuantitaDisponibile = 'Y', FLAGCOMPLETATO = 'Y', IdFilialeRiferimento = vIdFiliale, IdMagazzinoRiferimento = vIdMagazzino
+            update DettaglioOrdine set FlagQuantitaDisponibile = 'Y', FLAGCOMPLETATO = 'Y'
+                                     --, IdFilialeRiferimento = vIdFiliale, IdMagazzinoRiferimento = vIdMagazzino
             where Id = dettaglio.IdDettaglio;
+
+            begin
+                insert into StatoOrdineClienteFiliale (IdOrdineCliente, IdFiliale, Stato) values (:new.Id, vIdFiliale, 'Completato');
+            exception when dup_val_on_index then -- elenco named system exceptions: https://www.techonthenet.com/oracle/exceptions/named_system.php
+                -- la filiale è già stata aggiunta
+                null;
+            end;
         else
             /*
                 Gestione di quantità disponibile in più magazzini:
@@ -93,26 +94,43 @@ begin
                         join MAGAZZINO m on ms.IDMAGAZZINO = m.ID
                     where
                         ms.IDPRODOTTO = dettaglio.IDPRODOTTO
-                        and (ms.quantitareale - ms.quantitaprenotata) > 0
-                    order by m.idfiliale, (ms.quantitareale - ms.quantitaprenotata))
-                loop
+                        and (ms.quantitareale - ms.quantitaprenotata) > 0 -- escludo quantità completamente prenotate
+                    order by (ms.quantitareale - ms.quantitaprenotata))
+                loop -- ciclo per ogni magazzino che ha il prodotto richiesto
+                    --tengo conto della quantità dei magazzini in modo da fermarmi in caso di copertura della richiesta
                     vQuantitaSum := vQuantitaSum + dep.quantitaDisponibile;
 
-                    update DettaglioOrdine set IdFilialeRiferimento = dep.IDFILIALE, IdMagazzinoRiferimento = dep.IDMAGAZZINO, DataAssegnazione = sysdate
-                    where Id = dettaglio.IdDettaglio;
-
-                    if dettaglio.quantitaOrdinata = vQuantitaSum then
+                    begin
+                        insert into StatoOrdineClienteFiliale (IdOrdineCliente, IdFiliale, Stato) values (:new.Id, vIdFiliale, 'Completato');
+                    exception when dup_val_on_index then -- elenco named system exceptions: https://www.techonthenet.com/oracle/exceptions/named_system.php
+                        -- la filiale è già stata aggiunta
+                        null;
+                    end;
+                    if vQuantitaSum <= dettaglio.quantitaOrdinata then
                         -- diamo fondo a tutto le scorte di quel prodotto in quel magazzino
                         -- aggiorno la quantitaprenotata con quella reale
                         update MERCESTOCCATA set QUANTITAPRENOTATA = QUANTITAREALE where ID = dep.ID;
                     else
-                        vQuantitaSum := vQuantitaSum - dep.quantitaDisponibile;
-
-                        update MERCESTOCCATA set QUANTITAPRENOTATA = QUANTITAPRENOTATA + (dettaglio.quantitaOrdinata - vQuantitaSum) where ID = dep.ID;
+                        -- diamo fondo a parte delle scorte di quel prodotto in quel magazzino
+                        update MERCESTOCCATA set QUANTITAPRENOTATA = QUANTITAPRENOTATA + dettaglio.quantitaOrdinata where ID = dep.ID;
                     end if;
+
+                    -- inserisco il dettaglio ordine magazzino
+                    insert into DettaglioOrdineMagazzino (IdDettaglioOrdine, IdMagazzino) values (dettaglio.IdDettaglio, dep.idmagazzino);
+
+                    -- esco dal ciclo se ho coperto la richiesta, se la quantità è uguale sicuramente ho gestito tutto,
+                    -- se è maggiore sicuramente ho gestito il parziale necessario
+                    exit when vQuantitaSum >= dettaglio.quantitaOrdinata;
                 end loop;
 
                 update DettaglioOrdine set FlagQuantitaDisponibile = 'Y', FLAGCOMPLETATO = 'Y' where Id = dettaglio.IdDettaglio;
+
+                begin
+                    insert into StatoOrdineClienteFiliale (IdOrdineCliente, IdFiliale, Stato) values (:new.Id, vIdFiliale, 'Completato');
+                exception when dup_val_on_index then -- elenco named system exceptions: https://www.techonthenet.com/oracle/exceptions/named_system.php
+                    -- la filiale è già stata aggiunta
+                    null;
+                end;
             else
                 update DettaglioOrdine set FlagQuantitaDisponibile = 'N' where Id = dettaglio.IdDettaglio;
                 vSetCompletato := 'N';
@@ -120,7 +138,7 @@ begin
 
             vFlagDistribuita := 'N';
         end if;
-    end loop;
+    end loop; -- fine ciclo dettagli ordine non completati
 
     if vSetCompletato = 'Y' then
         :new.Stato := 'Completato';

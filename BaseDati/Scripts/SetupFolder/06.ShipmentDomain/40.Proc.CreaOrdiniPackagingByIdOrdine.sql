@@ -8,7 +8,7 @@ create or replace procedure UNINADEV.CreaOrdiniPackagingByIdOrdine(pIdOrdine in 
         select
             oc.id as idOrdine,
             nvl(oc.IDINDIRIZZOSPEDIZIONE, oc.IDINDIRIZZOFATTURAZIONE) as idIndirizzoSpedizione,
-            D.Id as IdDettaglio, D.IDFILIALERIFERIMENTO, D.IDMAGAZZINORIFERIMENTO,
+            D.Id as IdDettaglio,  M.IDFILIALE as IDFILIALERIFERIMENTO, DM.IDMAGAZZINO as IDMAGAZZINORIFERIMENTO,
             c2.id as idProdotto,
             c2.PERICOLOSITA,
             D.QUANTITA as QuantitaOrdinata,
@@ -16,15 +16,17 @@ create or replace procedure UNINADEV.CreaOrdiniPackagingByIdOrdine(pIdOrdine in 
             M2.QUANTITAREALE as quantitaAMagazzino,
             M2.QUANTITAPRENOTATA as quantitaPrenotata,
             c2.PESO as Peso_Kg,
-            sum(C2.PESO) over (partition by oc.ID, D.IDMAGAZZINORIFERIMENTO) as PesoTotaleMagazzino
+            sum(C2.PESO) over (partition by oc.ID, M.ID) as PesoTotaleMagazzino
         from
             ORDINECLIENTE oc
-            join UNINADEV.DETTAGLIOORDINE D on oc.ID = D.IDORDINE
-            join UNINADEV.CATALOGOPRODOTTI C2 on C2.ID = D.IDPRODOTTO
-            join UNINADEV.MERCESTOCCATA M2 on M2.IDMAGAZZINO = D.IDMAGAZZINORIFERIMENTO and M2.IDPRODOTTO = C2.ID
+            join DETTAGLIOORDINE D on oc.ID = D.IDORDINE
+            join DETTAGLIOORDINEMAGAZZINO DM on D.ID = DM.IDDETTAGLIOORDINE
+            join MAGAZZINO M on DM.IDMAGAZZINO = M.ID
+            join CATALOGOPRODOTTI C2 on C2.ID = D.IDPRODOTTO
+            join MERCESTOCCATA M2 on M2.IDMAGAZZINO = DM.IDMAGAZZINO and M2.IDPRODOTTO = C2.ID
         where
             oc.ID = curIdOrdine
-        order by D.IDFILIALERIFERIMENTO, D.IDMAGAZZINORIFERIMENTO;
+        order by M.IDFILIALE, M.ID;
 
     rec cAnalisiOrdine%rowtype;
 

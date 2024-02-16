@@ -76,6 +76,12 @@ exception when others then
     dbms_output.put_line('WARNING: tabella Spedizione non esistente.');
 end;
 begin
+    execute immediate 'DROP TABLE DettaglioOrdineMagazzino CASCADE CONSTRAINTS PURGE';
+    dbms_output.put_line('DettaglioOrdine dropped');
+exception when others then
+    dbms_output.put_line('WARNING: tabella DettaglioOrdineMagazzino non esistente.');
+end;
+begin
     execute immediate 'DROP TABLE DettaglioOrdine CASCADE CONSTRAINTS PURGE';
     dbms_output.put_line('DettaglioOrdine dropped');
 exception when others then

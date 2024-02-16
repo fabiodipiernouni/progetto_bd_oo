@@ -162,9 +162,4 @@ create table OrdineDiLavoroSpedizionePacchi (
     constraint WeakRelOrdineDiLavoroSpedizionePacchiIdOrdineDiLavoroSpedizione foreign key (IdOrdineDiLavoroSpedizione) references OrdineDiLavoroSpedizione (Id) on delete cascade,
     constraint FkOrdineDiLavoroSpedizionePacchiIdPacco foreign key (IdPacco) references Pacco (Id)
 );
--------------------------
 
-select * from ORDINECLIENTE
-
-select * from dettaglioordine
-where flagcompletato = 'Y'

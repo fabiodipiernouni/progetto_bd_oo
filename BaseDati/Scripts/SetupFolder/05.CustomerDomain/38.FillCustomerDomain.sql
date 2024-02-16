@@ -38,16 +38,16 @@ VALUES(10, 'Arnold', 'Schwarzenegger', 'Terminator spa', 'arnold@mail.it', null,
 
 -- inserimento di 2 ordini per cliente
 
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(1, to_date('20200101', 'YYYYMMDD'), 100.00, 'Bozza', 1, 1);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(2, to_date('20200102', 'YYYYMMDD'), 20.00, 'Bozza', 1, 1);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(3, to_date('20200103', 'YYYYMMDD'), 15.00, 'Bozza', 2, 2);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(4, to_date('20200104', 'YYYYMMDD'), 10.00, 'Bozza', 2, 2);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(5, to_date('20200105', 'YYYYMMDD'), 5.00, 'Bozza', 3, 3);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(6, to_date('20200106', 'YYYYMMDD'), 13.00, 'Bozza', 3, 3);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(7, to_date('20200107', 'YYYYMMDD'), 25.00, 'Bozza', 4, 4);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(8, to_date('20200108', 'YYYYMMDD'), 30.00, 'Bozza', 4, 4);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(9, to_date('20200109', 'YYYYMMDD'), 40.00, 'Bozza', 5, 5);
-INSERT INTO OrdineCliente (Id, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione, IdIndirizzoSpedizione) VALUES(10, to_date('20200110', 'YYYYMMDD'), 50.00, 'Bozza', 5, 5, 6);
+INSERT INTO OrdineCliente (Id, NumeroOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(1, dbms_random.string('X', 16), to_date('20200101', 'YYYYMMDD'), 100.00, 'Bozza', 1, 1);
+INSERT INTO OrdineCliente (Id, NumeroOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(2, dbms_random.string('X', 16), to_date('20200102', 'YYYYMMDD'), 20.00, 'Bozza', 1, 1);
+INSERT INTO OrdineCliente (Id, NumeroOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(3, dbms_random.string('X', 16), to_date('20200103', 'YYYYMMDD'), 15.00, 'Bozza', 2, 2);
+INSERT INTO OrdineCliente (Id, NumeroOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(4, dbms_random.string('X', 16), to_date('20200104', 'YYYYMMDD'), 10.00, 'Bozza', 2, 2);
+INSERT INTO OrdineCliente (Id, NumeroOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(5, dbms_random.string('X', 16), to_date('20200105', 'YYYYMMDD'), 5.00, 'Bozza', 3, 3);
+INSERT INTO OrdineCliente (Id, NumeroOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(6, dbms_random.string('X', 16), to_date('20200106', 'YYYYMMDD'), 13.00, 'Bozza', 3, 3);
+INSERT INTO OrdineCliente (Id, NumeroOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(7, dbms_random.string('X', 16), to_date('20200107', 'YYYYMMDD'), 25.00, 'Bozza', 4, 4);
+INSERT INTO OrdineCliente (Id, NumeroOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(8, dbms_random.string('X', 16), to_date('20200108', 'YYYYMMDD'), 30.00, 'Bozza', 4, 4);
+INSERT INTO OrdineCliente (Id, NumeroOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione) VALUES(9, dbms_random.string('X', 16), to_date('20200109', 'YYYYMMDD'), 40.00, 'Bozza', 5, 5);
+INSERT INTO OrdineCliente (Id, NumeroOrdine, DataOrdine, ImportoTotale, Stato, IdCliente, IdIndirizzoFatturazione, IdIndirizzoSpedizione) VALUES(10, dbms_random.string('X', 16), to_date('20200110', 'YYYYMMDD'), 50.00, 'Bozza', 5, 5, 6);
 
 -- inserimento di 1 dettaglio ordine per ogni ordine
 
