@@ -20,7 +20,13 @@ begin
         RAISE_APPLICATION_ERROR(-20001, 'Lo stato dell''ordine non permette la creazione della spedizione.');
     end if;
 
-    insert into Spedizione (IdOrdineCliente, IdUtenteOrganizzatore, TrackingNumber) values (pIdOrdine, pIdOperatore, 'TRK' || pIdOrdine) returning Id into pIdSpedizione;
-
-    commit;
+    -- se esiste già torna l'id già creato altrimenti l'inserisce
+    begin
+        select id into pIdSpedizione
+        from spedizione
+        where idordinecliente = pIdOrdine;
+    exception when no_data_found then
+        insert into Spedizione (IdOrdineCliente, IdUtenteOrganizzatore, TrackingNumber) values (pIdOrdine, pIdOperatore, 'TRK' || pIdOrdine) returning Id into pIdSpedizione;
+        commit;
+    end;
 end;

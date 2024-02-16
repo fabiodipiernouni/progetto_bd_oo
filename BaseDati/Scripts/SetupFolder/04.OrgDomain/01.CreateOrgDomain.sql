@@ -44,7 +44,7 @@ create table CatalogoProdotti (
     URLPhoto varchar2(255 char) not null,
     Tipo varchar2(20 byte) not null, --enum Abbigliamento, Alimentari, Elettronica, Casa, Sport, Giardino, Altro
     Prezzo double precision not null,
-    Peso number not null,
+    Peso number(12,2) not null,
     Larghezza number,
     Altezza number,
     Profondita number,
@@ -91,7 +91,7 @@ create table MezzoDiTrasporto (
     Targa varchar2(255 char) not null, -- unique
     TipoMezzo varchar2(255 char) not null, --enum Camion, Furgone, Auto
     IdGruppoCorriere integer not null,
-    PesoTrasportabile decimal not null, -- deve essere sempre maggiore di zero
+    PesoTrasportabile number(12,2) not null, -- deve essere sempre maggiore di zero
     constraint PkMezzoDiTrasporto primary key (id),
         constraint UqMezzoDiTrasportoTarga unique (Targa),
     constraint CkMezzoDiTrasportoTipoMezzo check( TipoMezzo in ('Camion', 'Furgone', 'Auto')),

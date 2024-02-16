@@ -643,6 +643,17 @@ insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values 
 insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (46, 'Lorenzo_corriere_32', 'lorenzo', 2, 32);
 insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (47, 'Giacomo_corriere_33', 'giacomo', 2, 33);
 insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (48, 'Riccardo_corriere_34', 'riccardo', 2, 34);
+insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (49, 'Tommaso_corriere_35', 'tommaso', 2, 35);
+insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (50, 'Vincenzo_corriere_36', 'vincenzo', 2, 36);
+insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (51, 'Salvatore_corriere_37', 'salvatore', 2, 37);
+insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (52, 'Antonio_corriere_38', 'antonio', 2, 38);
+insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (53, 'Angelo_corriere_39', 'angelo', 2, 39);
+insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (54, 'Daniele_corriere_40', 'daniele', 2, 40);
+insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (55, 'Giovanni_corriere_41', 'giovanni', 2, 41);
+insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (56, 'Giuseppe_corriere_42', 'giuseppe', 2, 42);
+
+
+
 
 commit;
 

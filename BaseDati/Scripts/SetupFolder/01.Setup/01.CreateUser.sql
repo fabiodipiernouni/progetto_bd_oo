@@ -18,4 +18,6 @@ grant execute any procedure to uninadev;
 
 grant execute any functions to uninadev;
 
+grant create any sequence to uninadev;
+
 grant unlimited tablespace to uninadev;

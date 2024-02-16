@@ -2,7 +2,7 @@
     Nome procedure: CreaOrdiniPackagingByIdOrdine
     Descrizione: crea gli ordini di packaging per l'ordine IdOrdine ricevuto in input
 */
-create or replace procedure UNINADEV.CreaOrdiniPackagingByIdOrdine(pIdOrdine in integer) is
+create or replace procedure CreaOrdiniPackagingByIdOrdine(pIdOrdine in integer, pIdFiliale integer) is
 
     cursor cAnalisiOrdine(curIdOrdine ORDINECLIENTE.id%type) is
         select
@@ -25,7 +25,7 @@ create or replace procedure UNINADEV.CreaOrdiniPackagingByIdOrdine(pIdOrdine in 
             join CATALOGOPRODOTTI C2 on C2.ID = D.IDPRODOTTO
             join MERCESTOCCATA M2 on M2.IDMAGAZZINO = DM.IDMAGAZZINO and M2.IDPRODOTTO = C2.ID
         where
-            oc.ID = curIdOrdine
+            oc.ID = curIdOrdine and M.IDFILIALE = pIdFiliale
         order by M.IDFILIALE, M.ID;
 
     rec cAnalisiOrdine%rowtype;
@@ -48,7 +48,7 @@ begin
 
     select Stato into statoOrdine from OrdineCliente where Id = pIdOrdine;
 
-    if statoOrdine <> 'Completato' then
+    if statoOrdine <> 'InLavorazione' then -- Se è in lavorazione vuol dire che la spedizione è stata creata o c'è un problema di consistenza e workflow
         raise_application_error(-20001, 'L''ordine non è in stato Completato');
     end if;
 
@@ -60,7 +60,7 @@ begin
                 join PACKAGINGDETAILS pd on do.Id = pd.IdDettaglioOrdine
                 join ORDINEDILAVOROPACKAGING olp on pd.IdOrdineDiLavoroPackaging = olp.Id
         where
-            do.IdOrdine = pIdOrdine;
+            do.IdOrdine = pIdOrdine and olp.IDFILIALE = pIdFiliale;
 
     if cntPackaging > 0 then
         raise_application_error(-20002, 'Esistono già ordini di packaging per l''ordine ' || pIdOrdine);
@@ -89,8 +89,8 @@ begin
         if currIdMagazzino is null or currIdMagazzino <> rec.IDMAGAZZINORIFERIMENTO then
 
             if(rec.PERICOLOSITA != 'Nessuna') then
-                vNoteAggiuntiveOperatore := 'Attenzione: il pacco contiene merce pericolosa (' || rec.PERICOLOSITA || ')';
-                vNoteAggiuntiveCliente := 'Attenzione: il pacco contiene merce pericolosa (' || rec.PERICOLOSITA || '). Utilizzare con cautela e utilizzare confezioni protettive.';
+                vNoteAggiuntiveCliente := 'Attenzione: il pacco contiene merce pericolosa (' || rec.PERICOLOSITA || ')';
+                vNoteAggiuntiveOperatore := 'Attenzione: il pacco contiene merce pericolosa (' || rec.PERICOLOSITA || '). Utilizzare con cautela e utilizzare confezioni protettive.';
             else
                 vNoteAggiuntiveOperatore := null;
                 vNoteAggiuntiveCliente := null;
@@ -111,7 +111,7 @@ begin
         recPackagingDetails := null;
         recPackagingDetails.IdOrdineDiLavoroPackaging := idPackaging;
         recPackagingDetails.IdDettaglioOrdine := rec.IdDettaglio;
-        recPackagingDetails.IdMerceStoccataRiferiemento := rec.idMerceStoccata;
+        recPackagingDetails.IdMerceStoccataRiferimento := rec.idMerceStoccata;
         recPackagingDetails.Pericolosita := rec.Pericolosita;
         recPackagingDetails.CodicePropostaPacco := currPropostaPacco;
 

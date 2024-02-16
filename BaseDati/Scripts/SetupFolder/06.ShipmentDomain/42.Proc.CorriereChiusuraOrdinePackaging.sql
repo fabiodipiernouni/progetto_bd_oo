@@ -5,13 +5,11 @@
 */
 create or replace procedure CorriereChiusuraOrdinePackaging(
     pIdOrdineDiLavoro in integer,
-    pIdOperatoreCorriere in integer,
     pNoteAggiuntive in varchar2 default null
 ) as
 begin
     update OrdineDiLavoroPackaging set
-        DataFineLavorazione = sysdate
-        --IdOperatoreCorriere = pIdOperatoreCorriere,
-        --noteAggiuntiveOperatore = nvl(pNoteAggiuntive, noteAggiuntiveOperatore)
+        DataFineLavorazione = sysdate,
+        noteAggiuntiveOperatore = nvl(pNoteAggiuntive, noteAggiuntiveOperatore)
     where Id = pIdOrdineDiLavoro;
 end;

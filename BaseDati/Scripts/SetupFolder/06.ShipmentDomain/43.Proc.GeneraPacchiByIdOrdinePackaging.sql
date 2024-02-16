@@ -4,23 +4,23 @@
         procedura che genera i pacchi per un ordine di lavoro di tipo 'Packaging', secondo i raggruppamenti scelti
         tramite il campo CodicePropostaPacco di PackagingDetails
  */
-create or replace procedure GeneraPacchiByIdOrdinePackaging(
-    pIdOrdinePackaging in integer,
-    pIdMagazzino in integer,
-    pIdIndirizzoSpedizione in integer,
-    pIdSpedizione in integer)
+create or replace procedure GeneraPacchiByIdOrdinePackaging(pIdOrdinePackaging in integer)
 is
     vCurrCodicePropostaPacco PackagingDetails.CodicePropostaPacco%type;
 
     cursor cPackagingDetails(pIdOrdine integer) is
         select
             --pd.Pericolosita,
+            olp.IDMAGAZZINO,
+            olp.IDSPEDIZIONE,
+            olp.IDINDIRIZZOSPEDIZIONE,
             pd.CodicePropostaPacco,
             do.id as IdDettaglioOrdine,
             do.Quantita as quantita_ordinata,
-            c2.PESO as peso_prodotto
+            c2.PESO as pesoUnitario
         from
-            PackagingDetails pd
+            ORDINEDILAVOROPACKAGING olp
+            join PackagingDetails pd on olp.ID = pd.IDORDINEDILAVOROPACKAGING
             join DETTAGLIOORDINE do on pd.IdDettaglioOrdine = do.Id
             join CATALOGOPRODOTTI C2 on C2.ID = do.IDPRODOTTO
             where pd.IDORDINEDILAVOROPACKAGING = pIdOrdine;
@@ -46,10 +46,10 @@ begin
                 vPeso := 0;
 
                 recPacco := null;
-                recPacco.IdMagazzino := pIdMagazzino;
-                recPacco.IdIndirizzoDestinazione := pIdIndirizzoSpedizione;
+                recPacco.IdMagazzino := dettaglio.IDMAGAZZINO;
+                recPacco.IdIndirizzoDestinazione := dettaglio.IDINDIRIZZOSPEDIZIONE;
                 recPacco.IdOrdineLavoroOrigine := pIdOrdinePackaging;
-                recPacco.IdSpedizione := pIdSpedizione;
+                recPacco.IdSpedizione := dettaglio.IDSPEDIZIONE;
                 recPacco.Peso := 0; --sarà aggiornato in seguito
 
                 loop
@@ -61,16 +61,20 @@ begin
 
                 insert into Pacco values recPacco returning Id into vIdPacco;
                 vCurrCodicePropostaPacco := dettaglio.CodicePropostaPacco;
+                dbms_output.put_line('DEBUG - nuovo pacco con codice ' || recPacco.CodicePacco || ' e id ' || vIdPacco);
             end if;
 
             -- aggiungo il dettaglio ordine al pacco
             insert into PaccoDettaglioOrdine (IdPacco, IdDettaglioOrdine) values (vIdPacco, dettaglio.IdDettaglioOrdine);
 
-            vPeso := vPeso + (dettaglio.quantita_ordinata * dettaglio.peso_prodotto);
+            dbms_output.put_line('DEBUG - vPeso prima dell''aggiornamento = ' || to_char(vPeso, 'FM90.99'));
+            vPeso := vPeso + (dettaglio.quantita_ordinata * dettaglio.pesoUnitario);
+            dbms_output.put_line('DEBUG - aggiorno vPeso = ' || to_char(vPeso, 'FM90.99') || ' (quantita_ordinata = ' || dettaglio.quantita_ordinata || ' * pesoUnitario = ' || to_char(dettaglio.pesoUnitario, 'FM90.99') || ') = ' || to_char(dettaglio.quantita_ordinata * dettaglio.pesoUnitario, 'FM90.99'));
     end loop;
 
     --aggiorno l'ultimo record pacco elaborato
     update Pacco set Peso = vPeso where Id = vIdPacco;
+    dbms_output.put_line('DEBUG - aggiorno pacco con id ' || vIdPacco || ' con vPeso = ' || to_char(vPeso, 'FM90.99'));
 exception
     when others then
         dbms_output.put_line('Errore in GeneraPacchiByIdOrdinePackaging: ' || sqlerrm);
