@@ -1,5 +1,6 @@
 /*
     Nome: CkWfAggiornamentoStatoSpedizione
+    scopo: risoluzione vincolo VI.34 (fare riferimento al documento di analisi)
     Descrizione:
         Trigger per evitare che lo stato di una spedizione venga modificato in 'LavorataSpedizione' se non tutti gli ordini di lavoro
         ad essa associati sono in stato 'Lavorato'

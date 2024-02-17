@@ -61,7 +61,7 @@ create table MerceStoccata (
     IdProdotto integer not null,
     QuantitaReale integer not null, -- deve essere sempre maggiore di zero
     QuantitaPrenotata integer default 0 not null, -- deve essere sempre maggiore o uguale a zero
-    QuantitaDisponibile integer generated always as (QuantitaReale - QuantitaPrenotata) virtual not null,
+    QuantitaDisponibile integer generated always as (QuantitaReale - QuantitaPrenotata) virtual not null, --IdVincolo: CL.01
     IdMagazzino integer not null,
     SettoreMagazzino char(1),
     constraint PkMerceStoccata primary key (Id),

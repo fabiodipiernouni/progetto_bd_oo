@@ -1,5 +1,6 @@
 /*
     Nome: CkWfNuovaSpedizioneCheckStatoOrdineCliente
+    scopo: risoluzione vincolo VI.35 (fare riferimento al documento di analisi)
     Descrizione:
         creazione trigger di verifica stato ordinecliente a seguito di inserimento di una nuova spedizione.
         Lo stato dell'ordine deve essere 'Completato'.

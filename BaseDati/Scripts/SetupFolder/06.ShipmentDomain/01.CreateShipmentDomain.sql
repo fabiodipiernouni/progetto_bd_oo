@@ -54,7 +54,7 @@ create table OrdineDiLavoroPackaging (
         when IdGruppoCorriere is not null and DataInizioLavorazione is null then 'Assegnato'
         when IdGruppoCorriere is not null and DataInizioLavorazione is not null and DataFineLavorazione is null then 'InLavorazione'
         when IdGruppoCorriere is not null and DataInizioLavorazione is not null and DataFineLavorazione is not null then 'Lavorato'
-    end) virtual not null, -- la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
+    end) virtual not null, -- IdVincolo: DE.02; la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
     noteAggiuntiveCliente varchar2(512 byte),
     noteAggiuntiveOperatore varchar2(512 byte),
     constraint PkOrdineDiLavoroPackaging primary key (Id),
@@ -139,7 +139,7 @@ create table OrdineDiLavoroSpedizione (
         when IdGruppoCorriere is not null and DataInizioLavorazione is null then 'Assegnato'
         when IdGruppoCorriere is not null and DataInizioLavorazione is not null and DataFineLavorazione is null then 'InLavorazione'
         when IdGruppoCorriere is not null and DataInizioLavorazione is not null and DataFineLavorazione is not null then 'Lavorato'
-    end) virtual not null, -- la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
+    end) virtual not null, --IdVincolo: DE.03; la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
     noteAggiuntiveOperatore VARCHAR2(512),
     constraint PkOrdineDiLavoroSpedizione primary key (Id),
     constraint FkOrdineDiLavoroSpedizioneIdSpedizione foreign key (IdSpedizione) references Spedizione (Id),
@@ -148,13 +148,13 @@ create table OrdineDiLavoroSpedizione (
     constraint FkOrdineDiLavoroSpedizioneMezzoDiTrasporto foreign key (IdMezzoDiTrasporto) references MezzoDiTrasporto (Id),
     constraint FkOrdineDiLavoroSpedizioneIdOperatoreCorriere foreign key (IdOperatoreCorriere) references Utente (Id),
     -- Le date di lavorazione possono essere non valorizzate o valorizzata solo DataInizioLavorazione o DataInizioLavorazione e DataFineLavorazione. DataInizioLavorazione, se valorizzata, deve essere sempre maggiore o uguale alla DataCreazione. Se DataFineLavorazione è valorizzato deve essere valorizzato anche DataInizioLavorazione e DataFineLavorazione deve essere maggiore o uguale a DataInizioLavorazione
-    constraint CkOrdineDiLavoroSpedizioneDataInizioPianificazione check (DataInizioPianificazione is null or DataInizioPianificazione >= DataCreazione),
-    constraint CkOrdineDiLavoroSpedizioneDataInizioLavorazione check (DataInizioLavorazione is null or DataInizioLavorazione >= nvl(DataInizioPianificazione, DataCreazione)),
-    constraint CkOrdineDiLavoroSpedizioneDateLavorazione check (DataFineLavorazione is null or (DataInizioLavorazione is not null AND DataFineLavorazione >= DataInizioLavorazione)),
+    constraint CkOrdineDiLavoroSpedizioneDataInizioPianificazione check (DataInizioPianificazione is null or DataInizioPianificazione >= DataCreazione), --IdVincolo: VI.27
+    constraint CkOrdineDiLavoroSpedizioneDataInizioLavorazione check (DataInizioLavorazione is null or DataInizioLavorazione >= nvl(DataInizioPianificazione, DataCreazione)), --IdVincolo: VI.28
+    constraint CkOrdineDiLavoroSpedizioneDateLavorazione check (DataFineLavorazione is null or (DataInizioLavorazione is not null AND DataFineLavorazione >= DataInizioLavorazione)), --IdVincolo: VI.29
     -- IdMezzoDiTrasporto e DataInizioLavorazione devono essere valorizzati entrambi o nessuno dei due
-    constraint CkOrdineDiLavoroSpedizioneMezzoDiTrasporto check ((IdMezzoDiTrasporto is null and DataInizioLavorazione is null) or (IdMezzoDiTrasporto is not null and DataInizioLavorazione is not null)),
+    constraint CkOrdineDiLavoroSpedizioneMezzoDiTrasporto check ((IdMezzoDiTrasporto is null and DataInizioLavorazione is null) or (IdMezzoDiTrasporto is not null and DataInizioLavorazione is not null)), --IdVincolo: VI.30
     -- se IdGruppoCorriere è valorizzato allora anche IdUtenteOperatore deve essere valorizzato
-    constraint CkOrdineDiLavoroSpedizioneGruppoCorriere check ((IdGruppoCorriere is null and IdOperatoreCorriere is null) or (IdGruppoCorriere is not null and IdOperatoreCorriere is not null))
+    constraint CkOrdineDiLavoroSpedizioneGruppoCorriere check ((IdGruppoCorriere is null and IdOperatoreCorriere is null) or (IdGruppoCorriere is not null and IdOperatoreCorriere is not null)) --IdVincolo: VI.31
 );
 
 /*

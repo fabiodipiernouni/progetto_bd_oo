@@ -1,6 +1,6 @@
 /*
  *  Trigger: CkWfSpedizioneTrackingStatus
- *  scopo: risoluzione vincolo VI.28 (fare riferimento al documento di analisi)
+ *  scopo: risoluzione vincolo VI.33 (fare riferimento al documento di analisi)
  *  descrizione:
  *      Spedizione.TrackingStatus può variare solo secondo il seguente workflow:
  *          'Registrata' -> 'InPartenza'

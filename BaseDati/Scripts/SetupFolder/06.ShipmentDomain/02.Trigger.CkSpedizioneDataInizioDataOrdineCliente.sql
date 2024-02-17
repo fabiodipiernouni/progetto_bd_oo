@@ -1,6 +1,6 @@
 /*
  *  Trigger: CkSpedizioneDataInizioDataOrdineCliente
- *  scopo: risoluzione vincolo VI.26 (fare riferimento al documento di analisi)
+ *  scopo: risoluzione vincolo VI.32 (fare riferimento al documento di analisi)
  *  descrizione:
  *      Se Spedizione.DataInizioLavorazione è valorizzato allora deve essere maggiore di OrdineCliente.DataOrdine
  */
