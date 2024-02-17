@@ -6,5 +6,5 @@ create or replace trigger WfOrdineSpedizioneCreato
 after insert on ORDINEDILAVOROSPEDIZIONE
 for each row
 begin
-    update spedizione set stato = 'InLavorazioneSpedizione' where id = :new.idspedizione and stato = 'LavorataPackaging';
+    update spedizione set stato = 'InLavorazioneSpedizione', TRACKINGSTATUS = 'InTransito' where id = :new.idspedizione and stato = 'LavorataPackaging';
 end;
