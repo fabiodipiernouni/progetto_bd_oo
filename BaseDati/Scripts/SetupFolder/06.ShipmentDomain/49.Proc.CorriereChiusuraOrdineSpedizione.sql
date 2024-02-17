@@ -41,7 +41,7 @@ begin
             dbms_output.put_line('DEBUG - Aggiorno stato spedizione ' || vIdSpedizione || ' a LavorataSpedizione.');
 
             update SPEDIZIONE set
-                stato = 'LavorataSpedizione'
+                stato = 'LavorataSpedizione', TRACKINGSTATUS = 'Consegnata'
             where ID = vIdSpedizione;
         end if;
     end if;

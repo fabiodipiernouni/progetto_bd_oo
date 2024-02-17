@@ -18,7 +18,13 @@ create table Spedizione (
     constraint PkSpedizione primary key (Id),
     constraint FkSpedizioneIdOrdineCliente foreign key (IdOrdineCliente) references OrdineCliente (Id),
     constraint UqSpedizioneTrackingNumber unique (TrackingNumber),
-    constraint CkSpedizioneTrackingStatus check (TrackingStatus in ('Registrata', 'InPartenza', 'InTransito', 'InConsegna', 'Consegnata')),
+    constraint CkSpedizioneTrackingStatus check (TrackingStatus in (
+                                                                    'Registrata', -- stato iniziale, la spedizione è stata registrata ma non è ancora partita
+                                                                    'InPartenza', -- gli ordini di packaging sono stati chiusi tutti e i pacchi sono pronti per partire
+                                                                    'InTransito', -- la prima spedizione è avvenuta, quindi almeno un ordine di spedizione è in lavorazione e i pacchi sono in transito
+                                                                    'InConsegna', -- questo cambio di stato deve essere effettuato dall'operatore corriere quando ritiene di essere in consegna, non è un cambio obbligatorio
+                                                                    'Consegnata' -- tutti gli ordini di spedizione sono andati a conclusione
+                                                                   )),
     constraint FkSpedizioneIdUtenteOrganizzatore foreign key (IdUtenteOrganizzatore) references Utente (Id),
     -- se DataFineLavorazione è valorizzato allora DataInizioLavorazione deve essere valorizzato
     constraint CkSpedizioneDateLavorazione check (DataFineLavorazione is null or (DataInizioLavorazione is not null AND DataFineLavorazione >= DataInizioLavorazione)), --IdVincolo: VI.21
