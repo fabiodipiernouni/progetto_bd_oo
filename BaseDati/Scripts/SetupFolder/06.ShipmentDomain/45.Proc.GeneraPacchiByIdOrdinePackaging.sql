@@ -60,6 +60,7 @@ begin
                 end loop;
 
                 insert into Pacco values recPacco returning Id into vIdPacco;
+                recPacco.ID := vIdPacco;
                 vCurrCodicePropostaPacco := dettaglio.CodicePropostaPacco;
                 dbms_output.put_line('DEBUG - nuovo pacco con codice ' || recPacco.CodicePacco || ' e id ' || vIdPacco);
             end if;
@@ -75,6 +76,21 @@ begin
     --aggiorno l'ultimo record pacco elaborato
     update Pacco set Peso = vPeso where Id = vIdPacco;
     dbms_output.put_line('DEBUG - aggiorno pacco con id ' || vIdPacco || ' con vPeso = ' || to_char(vPeso, 'FM90.99'));
+
+    if recPacco.ID is not null then
+        -- check per verificare se sono l'ultimo pacco da generare
+        vCnt := PacchiTuttiGenerati(recPacco.IDSPEDIZIONE);
+        dbms_output.put_line('DEBUG - vCnt = ' || vCnt);
+        if vCnt = 1 then
+            dbms_output.put_line('DEBUG - aggiorno lo stato dell''ordine di lavoro a ''LavorataPackaging''');
+            --se lo sono, aggiorno lo stato dell'ordine di lavoro a 'LavorataPackaging'
+            update Spedizione
+            set Stato = 'LavorataPackaging'
+            where Id = recPacco.IDSPEDIZIONE;
+        end if;
+    else
+        dbms_output.put_line('DEBUG - Errore in GeneraPacchiByIdOrdinePackaging: nessun pacco generato');
+    end if;
 exception
     when others then
         dbms_output.put_line('Errore in GeneraPacchiByIdOrdinePackaging: ' || sqlerrm);

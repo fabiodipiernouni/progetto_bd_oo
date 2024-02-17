@@ -17,9 +17,11 @@
  *          Condizione: solo se TUTTI gli ordini di lavoro sono in stato Lavorato"
  */
 
-drop trigger CkWfSpedizioneTrackingStatusOdm;
+--drop trigger CkWfSpedizioneTrackingStatusOdm;
 
 -- non lo utilizzo più
+
+/*
 create or replace trigger CkWfSpedizioneTrackingStatusOdm
     before update of TrackingStatus on Spedizione
     for each row
@@ -80,3 +82,5 @@ begin
     end if;
 
 end;
+
+ */

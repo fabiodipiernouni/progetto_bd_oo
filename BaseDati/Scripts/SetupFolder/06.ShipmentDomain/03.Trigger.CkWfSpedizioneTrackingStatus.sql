@@ -10,7 +10,7 @@
  */
 
 create or replace trigger CkWfSpedizioneTrackingStatus
-    before update on Spedizione
+    before update of TRACKINGSTATUS on Spedizione
     for each row
     when (new.TrackingStatus != old.TrackingStatus)
 declare

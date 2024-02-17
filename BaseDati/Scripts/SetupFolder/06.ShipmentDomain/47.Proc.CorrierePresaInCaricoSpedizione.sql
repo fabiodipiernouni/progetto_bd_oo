@@ -1,12 +1,12 @@
 /*
- Nome: CorrierePresaInCaricoPackaging
+ Nome: CorrierePresaInCaricoSpedizione
  Descrizione:
-    la procedura prende in input idGruppoCorriere e idOperatoreCorriere e Id dell'ordine di lavoro di tipo 'Packaging' e lo assegna al corriere
+    la procedura prende in input idGruppoCorriere e idOperatoreCorriere e Id dell'ordine di lavoro di tipo 'Spedizione' e lo assegna al corriere
     settando la datainiziolavorazione.
  */
-create or replace procedure CorrierePresaInCaricoPackaging(
+create or replace procedure CorrierePresaInCaricoSpedizione(
     pIdOperatoreCorriere in integer,
-    pIdOrdineDiLavoroPackaging in integer)
+    pIdOrdineDiLavoroSpedizione in integer)
 as
     vIdGruppoCorriere GruppoCorriere.Id%type;
     vProfilo Profilo.Profilo%type;
@@ -23,11 +23,10 @@ begin
         raise_application_error(-20001, 'L''utente non è un operatore corriere');
     end if;
 
-    update OrdineDiLavoroPackaging
+    update OrdineDiLavoroSpedizione
     set IdGruppoCorriere = vIdGruppoCorriere,
-        IdOperatoreCorriere = pIdOperatoreCorriere--,
-        --DataInizioLavorazione = sysdate
-    where Id = pIdOrdineDiLavoroPackaging;
+        IdOperatoreCorriere = pIdOperatoreCorriere
+    where Id = pIdOrdineDiLavoroSpedizione;
 
     -- eccezione volutamente non gestita. Transazione lasciata aperta e demandata al chiamante
 end;

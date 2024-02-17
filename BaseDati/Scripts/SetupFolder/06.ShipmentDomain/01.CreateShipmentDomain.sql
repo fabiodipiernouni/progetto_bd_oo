@@ -134,6 +134,7 @@ create table OrdineDiLavoroSpedizione (
         when IdGruppoCorriere is not null and DataInizioLavorazione is not null and DataFineLavorazione is null then 'InLavorazione'
         when IdGruppoCorriere is not null and DataInizioLavorazione is not null and DataFineLavorazione is not null then 'Lavorato'
     end) virtual not null, -- la scelta di rendere virtuale lo stato è dovuta al fatto che non c'è necessità di indicizzare lo stato, inoltre si vuole evitare l'uso di trigger che potrebbero rallentare il sistema
+    noteAggiuntiveOperatore VARCHAR2(512),
     constraint PkOrdineDiLavoroSpedizione primary key (Id),
     constraint FkOrdineDiLavoroSpedizioneIdSpedizione foreign key (IdSpedizione) references Spedizione (Id),
     constraint FkOrdineDiLavoroSpedizioneIdFiliale foreign key (IdFiliale) references Filiale (Id),
@@ -162,4 +163,6 @@ create table OrdineDiLavoroSpedizionePacchi (
     constraint WeakRelOrdineDiLavoroSpedizionePacchiIdOrdineDiLavoroSpedizione foreign key (IdOrdineDiLavoroSpedizione) references OrdineDiLavoroSpedizione (Id) on delete cascade,
     constraint FkOrdineDiLavoroSpedizionePacchiIdPacco foreign key (IdPacco) references Pacco (Id)
 );
+
+----
 
