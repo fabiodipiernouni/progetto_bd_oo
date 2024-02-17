@@ -21,9 +21,9 @@ create table Spedizione (
     constraint CkSpedizioneTrackingStatus check (TrackingStatus in ('Registrata', 'InPartenza', 'InTransito', 'InConsegna', 'Consegnata')),
     constraint FkSpedizioneIdUtenteOrganizzatore foreign key (IdUtenteOrganizzatore) references Utente (Id),
     -- se DataFineLavorazione è valorizzato allora DataInizioLavorazione deve essere valorizzato
-    constraint CkSpedizioneDateLavorazione check (DataFineLavorazione is null or (DataInizioLavorazione is not null AND DataFineLavorazione >= DataInizioLavorazione)),
+    constraint CkSpedizioneDateLavorazione check (DataFineLavorazione is null or (DataInizioLavorazione is not null AND DataFineLavorazione >= DataInizioLavorazione)), --IdVincolo: VI.21
     constraint CkSpedizioneStato check (Stato in ('DaLavorare', 'InLavorazionePackaging', 'LavorataPackaging', 'InLavorazioneSpedizione', 'LavorataSpedizione')),
-    constraint CkSpedizioneDataInizioLavorazione check (DataInizioLavorazione is null or DataInizioLavorazione >= DataCreazione)
+    constraint CkSpedizioneDataInizioLavorazione check (DataInizioLavorazione is null or DataInizioLavorazione >= DataCreazione) --IdVincolo: VI.22
 );
 
 /*
@@ -55,14 +55,14 @@ create table OrdineDiLavoroPackaging (
     constraint FkOrdineDiLavoroPackagingGruppoCorriere foreign key (IdGruppoCorriere) references GruppoCorriere (Id),
     constraint FkOrdineDiLavoroPackagingIdOperatoreCorriere foreign key (IdOperatoreCorriere) references Utente (Id),
     -- Le date di lavorazione possono essere non valorizzate o valorizzata solo DataInizioLavorazione o DataInizioLavorazione e DataFineLavorazione. DataInizioLavorazione, se valorizzata, deve essere sempre maggiore o uguale alla DataCreazione. Se DataFineLavorazione è valorizzato deve essere valorizzato anche DataInizioLavorazione e DataFineLavorazione deve essere maggiore o uguale a DataInizioLavorazione
-    constraint CkOrdineDiLavoroPackagingDataInizioPianificazione check (DataInizioPianificazione is null or DataInizioPianificazione >= DataCreazione),
-    constraint CkOrdineDiLavoroPackagingDataInizioLavorazione check (DataInizioLavorazione is null or DataInizioLavorazione >= nvl(DataInizioPianificazione, DataCreazione)),
-    constraint CkOrdineDiLavoroPackagingDateLavorazione check (DataFineLavorazione is null or (DataInizioLavorazione is not null AND DataFineLavorazione >= DataInizioLavorazione)),
+    constraint CkOrdineDiLavoroPackagingDataInizioPianificazione check (DataInizioPianificazione is null or DataInizioPianificazione >= DataCreazione), --IdVincolo: VI.23
+    constraint CkOrdineDiLavoroPackagingDataInizioLavorazione check (DataInizioLavorazione is null or DataInizioLavorazione >= nvl(DataInizioPianificazione, DataCreazione)), --IdVincolo: VI.24
+    constraint CkOrdineDiLavoroPackagingDateLavorazione check (DataFineLavorazione is null or (DataInizioLavorazione is not null AND DataFineLavorazione >= DataInizioLavorazione)), --IdVincolo: VI.25
     constraint FkOrdineDiLavoroPackagingIdFiliale foreign key (IdFiliale) references Filiale (Id),
     constraint FkOrdineDiLavoroPackagingIdMagazzino foreign key (IdMagazzino) references Magazzino (Id),
     constraint FkOrdineDiLavoroPackagingIdSpedizione foreign key (IdSpedizione) references Spedizione (Id),
     -- se IdGruppoCorriere è valorizzato allora anche IdUtenteOperatore deve essere valorizzato
-    constraint CkOrdineDiLavoroPackagingGruppoCorriere check ((IdGruppoCorriere is null and IdOperatoreCorriere is null) or (IdGruppoCorriere is not null and IdOperatoreCorriere is not null))
+    constraint CkOrdineDiLavoroPackagingGruppoCorriere check ((IdGruppoCorriere is null and IdOperatoreCorriere is null) or (IdGruppoCorriere is not null and IdOperatoreCorriere is not null)) --IdVincolo: VI.26
 );
 
 /*

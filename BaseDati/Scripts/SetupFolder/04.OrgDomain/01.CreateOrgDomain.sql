@@ -8,7 +8,7 @@ create table Org (
     PartitaIVA varchar2(255 char), -- se valorizzata deve essere di 11 cifre
     SedeLegaleIndirizzo integer not null,
     constraint PkOrg primary key (id),
-    constraint CkOrgPartitaIVA check (PartitaIVA is null or (length(PartitaIVA) = 11)),
+    constraint CkOrgPartitaIVA check (PartitaIVA is null or (length(PartitaIVA) = 11)), --IdVincolo: VI.02
     constraint FkOrgSedeLegaleIndirizzo foreign key (SedeLegaleIndirizzo) references Indirizzo (Id)
 );
 
@@ -51,7 +51,7 @@ create table CatalogoProdotti (
     Pericolosita varchar2(20 byte) not null, --enum Nessuna, Infiammabile, Esplosivo, Tossico, Chimico, Corrosivo, Infettante, Radioattivo
     constraint PkCatalogoProdotti primary key (id),
     constraint UqCatalogoProdottiCodiceEAN unique (CodiceEAN),
-    constraint CkCatalogoProdottiCodiceEAN check (length(CodiceEAN) = 13),
+    constraint CkCatalogoProdottiCodiceEAN check (length(CodiceEAN) = 13), --IdVincolo: VI.03
     constraint CkCatalogoProdottiPericolosita check (Pericolosita in ('Nessuna', 'Infiammabile', 'Esplosivo', 'Tossico', 'Chimico', 'Corrosivo', 'Infettante', 'Radioattivo')),
     constraint CkCatalogoProdottiTipo check( Tipo in ('Abbigliamento', 'Alimentari', 'Elettrodomestici', 'Elettronica', 'Casa', 'Sport', 'Giardino', 'Altro') )
 );
@@ -67,9 +67,9 @@ create table MerceStoccata (
     constraint PkMerceStoccata primary key (Id),
     constraint FkMerceStoccataIdProdotto foreign key (IdProdotto) references CatalogoProdotti (id),
     constraint FkMerceStoccataIdMagazzino foreign key (IdMagazzino) references Magazzino (id),
-    constraint UqMerceStoccataIdProdottoIdMagazzino unique (IdProdotto, IdMagazzino),
-    constraint CkMerceStoccataQuantitaReale check (QuantitaReale > 0),
-    constraint CkMerceStoccataQuantitaPrenotata check (QuantitaPrenotata >= 0)
+    constraint UqMerceStoccataIdProdottoIdMagazzino unique (IdProdotto, IdMagazzino), --IdVincolo: VI.04
+    constraint CkMerceStoccataQuantitaReale check (QuantitaReale > 0), --IdVincolo: VI.05
+    constraint CkMerceStoccataQuantitaPrenotata check (QuantitaPrenotata >= 0) --IdVincolo: VI.06
 );
 
 create table GruppoCorriere (
@@ -81,7 +81,7 @@ create table GruppoCorriere (
     constraint PkGruppoCorriere primary key (Id),
     constraint UqGruppoCorriereCodiceCorriere unique (CodiceCorriere),
     constraint FkGruppoCorriereIdFiliale foreign key (IdFiliale) references filiale (id),
-    constraint CkGruppoCorriereNumeroDipendenti check (NumeroDipendenti > 0)
+    constraint CkGruppoCorriereNumeroDipendenti check (NumeroDipendenti > 0) --IdVincolo: VI.07
 );
 
 alter table Utente add constraint FkUtenteGruppoCorriere foreign key (IdGruppoCorriere) references GruppoCorriere (Id);
@@ -93,9 +93,9 @@ create table MezzoDiTrasporto (
     IdGruppoCorriere integer not null,
     PesoTrasportabile number(12,2) not null, -- deve essere sempre maggiore di zero
     constraint PkMezzoDiTrasporto primary key (id),
-        constraint UqMezzoDiTrasportoTarga unique (Targa),
+    constraint UqMezzoDiTrasportoTarga unique (Targa),
     constraint CkMezzoDiTrasportoTipoMezzo check( TipoMezzo in ('Camion', 'Furgone', 'Auto')),
-    constraint CkMezzoDiTrasportoPesoTrasportabile check (PesoTrasportabile > 0),
+    constraint CkMezzoDiTrasportoPesoTrasportabile check (PesoTrasportabile > 0), --IdVincolo: VI.08
     constraint WeakRelGruppoCorriere foreign key (IdGruppoCorriere) references GruppoCorriere (Id) on delete cascade
 );
 
@@ -108,5 +108,5 @@ create table ImpegnoMezzo
     constraint PkImpegnoMezzo primary key (Id),
     constraint FkImpegnoMezzoIdMezzo foreign key (IdMezzo) references MezzoDiTrasporto (Id),
     --dataFine se valorizzato deve essere maggiore di datainizio
-    constraint CkImpegnoMezzoDataFine check ( DataFine is null or (DataInizio <= DataFine) )
+    constraint CkImpegnoMezzoDataFine check ( DataFine is null or (DataInizio <= DataFine) ) --IdVincolo: VI.09
 );

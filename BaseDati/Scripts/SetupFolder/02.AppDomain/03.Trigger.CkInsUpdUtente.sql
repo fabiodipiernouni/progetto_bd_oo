@@ -1,6 +1,7 @@
 /*
     Nome: CkInsUpdUtente
     Descrizione: Controllo inserimento o aggiornamento utente
+    IdVincolo: VI.01
  */
 create or replace trigger CkInsUpdUtente
 before insert or update ON Utente

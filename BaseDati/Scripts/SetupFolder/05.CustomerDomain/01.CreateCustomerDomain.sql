@@ -16,11 +16,11 @@ create table Cliente
     PartitaIVA VARCHAR2(16 byte), -- ammette null ma i valori sono unique
     constraint PKCliente primary key (Id),
     --uno tra CodiceFiscale e partitaIVA deve essere valorizzato
-    constraint CkClienteCForPIVA check ((CodiceFiscale is not null and PartitaIVA is null) or (CodiceFiscale is null and PartitaIVA is not null)),
-    constraint UkClienteCodiceFiscale unique (CodiceFiscale),
-    constraint UkClientePartitaIVA unique (PartitaIVA),
+    constraint CkClienteCForPIVA check ((CodiceFiscale is not null and PartitaIVA is null) or (CodiceFiscale is null and PartitaIVA is not null)),--IdVincolo: VI.11
+    constraint UqClienteCodiceFiscale unique (CodiceFiscale),
+    constraint UqClientePartitaIVA unique (PartitaIVA),
     -- se è valorizzata RagioneSociale allora deve esserlo anche PartitaIVA
-    constraint CkClienteRagioneSociale check (RagioneSociale is null and PartitaIVA is null or RagioneSociale is not null and PartitaIVA is not null)
+    constraint CkClienteRagioneSociale check (RagioneSociale is null and PartitaIVA is null or RagioneSociale is not null and PartitaIVA is not null) --IdVincolo: VI.12
 );
 
 /*
@@ -43,7 +43,7 @@ create table OrdineCliente
     constraint UqOrdineClienteNumeroOrdine unique (NumeroOrdine),
     constraint WeakRelOrdineClienteCliente foreign key (IDCliente) references Cliente (Id) on delete cascade,
     constraint CkOrdineClienteStato check (Stato in ('Bozza', 'Confermato', 'Completato', 'InLavorazione', 'Lavorato')),
-	constraint CkOrdineClienteDate check (DataInizioLavorazione is null and DataFineLavorazione is null or (DataInizioLavorazione is not null and (DataFineLavorazione is null or DataFineLavorazione >= DataInizioLavorazione))),
+	constraint CkOrdineClienteDate check (DataInizioLavorazione is null and DataFineLavorazione is null or (DataInizioLavorazione is not null and (DataFineLavorazione is null or DataFineLavorazione >= DataInizioLavorazione))), --IdVincolo: VI.13
     constraint FkOrdineClienteIndirizzoFatturazione foreign key (IdIndirizzoFatturazione) references Indirizzo (Id),
     constraint FkOrdineClienteIndirizzoSpedizione foreign key (IdIndirizzoSpedizione) references Indirizzo (Id)
 );
@@ -86,10 +86,10 @@ create table DettaglioOrdine (
     --IdMagazzinoRiferimento integer,
     --DataAssegnazione DATE,
     constraint PkDettaglioOrdine primary key (Id),
-    constraint UqDettaglioOrdineIdOrdineIdProdotto unique (IdOrdine, IdProdotto),
+    constraint UqDettaglioOrdineIdOrdineIdProdotto unique (IdOrdine, IdProdotto), --IdVincolo: VI.14
     constraint WeakRelDettaglioOrdineIdOrdine foreign key (IdOrdine) references OrdineCliente (Id) on delete cascade,
     constraint FkDettaglioOrdineIdProdotto foreign key (IdProdotto) references CatalogoProdotti (Id),
-    constraint CkDettaglioOrdineQuantita check (Quantita > 0),
+    constraint CkDettaglioOrdineQuantita check (Quantita > 0), --IdVincolo: VI.15
     constraint CkDettaglioOrdineFlagCompletato check (FlagCompletato in ('Y', 'N')),
     constraint CkDettaglioOrdineFlagQuantitaDisponibile check (FlagQuantitaDisponibile in ('Y', 'N'))
 );

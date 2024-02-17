@@ -1,6 +1,6 @@
 /*
  *  Trigger: CkImpegnoMezzoDateRange
- *  scopo: risoluzione vincolo VI.13 (fare riferimento al documento di analisi)
+ *  scopo: risoluzione vincolo VI.10 (fare riferimento al documento di analisi)
  *  descrizione:
  *      per il controllo della data di inizio e fine dell'impegno
  *      di un mezzo.

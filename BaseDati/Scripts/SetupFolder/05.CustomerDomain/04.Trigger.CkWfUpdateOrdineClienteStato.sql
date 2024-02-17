@@ -1,6 +1,6 @@
 /*
  *  Trigger: CkWfUpdateOrdineClienteStato
- *  scopo: risoluzione vincolo VI.20 (fare riferimento al documento di analisi)
+ *  scopo: risoluzione vincolo VI.19 (fare riferimento al documento di analisi)
  *  descrizione:
  *      OrdineCliente.Stato può variare solo seguendo workflow:
 

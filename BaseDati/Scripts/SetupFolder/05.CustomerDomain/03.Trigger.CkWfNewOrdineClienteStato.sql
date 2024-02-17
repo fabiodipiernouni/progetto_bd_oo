@@ -1,6 +1,6 @@
 /*
  *  Trigger: CkWfNewOrdineClienteStato
- *  scopo: risoluzione vincolo VI.19 (fare riferimento al documento di analisi)
+ *  scopo: risoluzione vincolo VI.16 (fare riferimento al documento di analisi)
  *  descrizione:
  *      OrdineCliente.Stato deve essere valorizzato a 'Bozza' in fase di insert
 */
