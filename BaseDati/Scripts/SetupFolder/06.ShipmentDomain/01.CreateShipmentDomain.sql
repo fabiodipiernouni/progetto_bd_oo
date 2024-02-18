@@ -17,6 +17,7 @@ create table Spedizione (
     TrackingStatus varchar2(50) default 'Registrata' not null, -- Registrata, InPartenza, InTransito, InConsegna, Consegnata
     constraint PkSpedizione primary key (Id),
     constraint FkSpedizioneIdOrdineCliente foreign key (IdOrdineCliente) references OrdineCliente (Id),
+    constraint UqSpedizioneIdOrdineCliente unique (IdOrdineCliente), --IdVincolo: VI.20
     constraint UqSpedizioneTrackingNumber unique (TrackingNumber),
     constraint CkSpedizioneTrackingStatus check (TrackingStatus in (
                                                                     'Registrata', -- stato iniziale, la spedizione è stata registrata ma non è ancora partita
