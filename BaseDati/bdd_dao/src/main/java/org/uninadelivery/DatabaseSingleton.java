@@ -87,8 +87,4 @@ public class DatabaseSingleton {
         return connection;
     }
 
-    /**
-     * Metodo pubblico per chiudere la connessione
-     */
-
 }

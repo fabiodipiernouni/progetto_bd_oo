@@ -4,14 +4,14 @@ import java.time.YearMonth;
 
 public class Starter {
     /*
-    Nella traccia era richiesto soltatno di mostrare il funzionamento di una classe di tipo DAO.
+    Nella traccia era richiesto soltanto di mostrare il funzionamento di una classe di tipo DAO.
 
-    In questo progetto abbiamo scelto di mostrare il funzionamento della classe DAO di OrdineCLiente.
+    In questo progetto abbiamo scelto di mostrare il funzionamento della classe DAO di OrdineCliente.
 
     Altre classi di tipo DAO sono state inserite soltanto perché necessarie al funzionamento del DAO di cui si intende
-    emostrare il funzionamento. Infatti a tali classi sono stati implementati soltanto i metodi strettamente necessari.
+    mostrare il funzionamento. Infatti a tali classi sono stati implementati soltanto i metodi strettamente necessari.
 
-    Inoltre per semplicità ignoriamo i dettagli dell'euristica entity-boundary-control e nel metodo Main facciamo soltantno
+    Inoltre per semplicità ignoriamo i dettagli dell'euristica entity-boundary-control e nel metodo Main facciamo soltanto
     qualche test per mostrare il funzionamento del DAO di OrdineCliente.
     */
 

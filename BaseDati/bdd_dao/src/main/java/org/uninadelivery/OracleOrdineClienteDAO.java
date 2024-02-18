@@ -173,27 +173,26 @@ public class OracleOrdineClienteDAO implements OrdineClienteDAO {
         try {
             preparedStatement = connection.prepareStatement(
             "UPDATE OrdineCliente"
-                + " SET id = ?, dataOrdine = ?, importoTotale = ?, dataInizioLavorazione = ?, dataFineLavorazione = ?, stato = ?, idCliente = ?, idIndirizzoFatturazione = ?, idIndirizzoSpedizione = ?, numeroOrdine = ?"
+                + " SET dataOrdine = ?, importoTotale = ?, dataInizioLavorazione = ?, dataFineLavorazione = ?, stato = ?, idCliente = ?, idIndirizzoFatturazione = ?, idIndirizzoSpedizione = ?, numeroOrdine = ?"
                 + " WHERE id = ?"
             );
 
-            preparedStatement.setLong(1, ordineCliente.getId());
-            preparedStatement.setObject(2, ordineCliente.getDataOrdine());
-            preparedStatement.setDouble(3, ordineCliente.getImportoTotale());
-            preparedStatement.setObject(4, ordineCliente.getDataInizioLavorazione()); //può essere null
-            preparedStatement.setObject(5, ordineCliente.getDataFineLavorazione()); //può essere null
-            preparedStatement.setString(6, ordineCliente.getStato());
-            preparedStatement.setLong(7, ordineCliente.getCliente().getId());
-            preparedStatement.setLong(8, ordineCliente.getIndirizzoFatturazione().getId());
+            preparedStatement.setObject(1, ordineCliente.getDataOrdine());
+            preparedStatement.setDouble(2, ordineCliente.getImportoTotale());
+            preparedStatement.setObject(3, ordineCliente.getDataInizioLavorazione()); //può essere null
+            preparedStatement.setObject(4, ordineCliente.getDataFineLavorazione()); //può essere null
+            preparedStatement.setString(5, ordineCliente.getStato());
+            preparedStatement.setLong(6, ordineCliente.getCliente().getId());
+            preparedStatement.setLong(7, ordineCliente.getIndirizzoFatturazione().getId());
 
             if(ordineCliente.getIndirizzoSpedizione() == null)
-                preparedStatement.setNull(9, Types.NUMERIC );
+                preparedStatement.setNull(8, Types.NUMERIC );
             else
-                preparedStatement.setLong(9, ordineCliente.getIndirizzoSpedizione().getId());
+                preparedStatement.setLong(8, ordineCliente.getIndirizzoSpedizione().getId());
 
-            preparedStatement.setString(10, ordineCliente.getNumeroOrdine());
+            preparedStatement.setString(9, ordineCliente.getNumeroOrdine());
 
-            preparedStatement.setLong(11, ordineCliente.getId());
+            preparedStatement.setLong(10, ordineCliente.getId());
 
             preparedStatement.executeUpdate();
 
