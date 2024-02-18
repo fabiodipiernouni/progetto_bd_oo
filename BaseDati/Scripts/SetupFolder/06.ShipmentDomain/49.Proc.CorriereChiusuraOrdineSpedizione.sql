@@ -12,11 +12,13 @@ create or replace procedure CorriereChiusuraOrdineSpedizione(
     vIdSpedizione spedizione.id%type;
     vCount integer;
 begin
+    -- aggiorno l'ordine di lavoro con la data di fine lavorazione e le note aggiuntive
     update OrdineDiLavoroSpedizione set
         DataFineLavorazione = sysdate,
         noteAggiuntiveOperatore = nvl(pNoteAggiuntive, noteAggiuntiveOperatore)
     where Id = pIdOrdineDiLavoro;
 
+    -- aggiorno lo stato dell'ordine cliente filiale se non ci sono altri ordini di lavoro aperti
     select
         ols.IDFILIALE, s.id, s.IDORDINECLIENTE into vIdFiliale, vIdSpedizione, vIdOrdineCliente
     from
@@ -33,13 +35,13 @@ begin
             stato = 'Consegnato'
         where IDORDINECLIENTE = vidordinecliente and IDFILIALE = vIdFiliale;
 
-        -- verifico se sono l'ultimo
+        -- verifico se sono l'ultima filiale a consegnare l'ordine cliente
         select count(*) into vCount from STATOORDINECLIENTEFILIALE where IDORDINECLIENTE = vidordinecliente and stato <> 'Consegnato';
         dbms_output.put_line('DEBUG - vCount STATOORDINECLIENTEFILIALE con stato non Consegnato: ' || vCount);
 
         if vCount = 0 then
             dbms_output.put_line('DEBUG - Aggiorno stato spedizione ' || vIdSpedizione || ' a LavorataSpedizione.');
-
+            -- chiudo la spedizione
             update SPEDIZIONE set
                 stato = 'LavorataSpedizione', TRACKINGSTATUS = 'Consegnata'
             where ID = vIdSpedizione;
