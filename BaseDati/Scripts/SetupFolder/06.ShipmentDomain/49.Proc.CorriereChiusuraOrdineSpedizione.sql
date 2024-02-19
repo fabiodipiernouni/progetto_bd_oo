@@ -10,6 +10,7 @@ create or replace procedure CorriereChiusuraOrdineSpedizione(
     vIdFiliale spedizione.id%type;
     vIdOrdineCliente ordinecliente.id%type;
     vIdSpedizione spedizione.id%type;
+    vIdMezzo ORDINEDILAVOROSPEDIZIONE.IDMEZZODITRASPORTO%type;
     vCount integer;
 begin
     -- aggiorno l'ordine di lavoro con la data di fine lavorazione e le note aggiuntive
@@ -20,7 +21,7 @@ begin
 
     -- aggiorno lo stato dell'ordine cliente filiale se non ci sono altri ordini di lavoro aperti
     select
-        ols.IDFILIALE, s.id, s.IDORDINECLIENTE into vIdFiliale, vIdSpedizione, vIdOrdineCliente
+        ols.IDFILIALE, ols.IDMEZZODITRASPORTO, s.id, s.IDORDINECLIENTE into vIdFiliale, vIdMezzo, vIdSpedizione, vIdOrdineCliente
     from
         ORDINEDILAVOROSPEDIZIONE ols
         join SPEDIZIONE s on s.id = ols.IDSPEDIZIONE
@@ -35,7 +36,10 @@ begin
             stato = 'Consegnato'
         where IDORDINECLIENTE = vidordinecliente and IDFILIALE = vIdFiliale;
 
-        -- verifico se sono l'ultima filiale a consegnare l'ordine cliente
+        -- aggiorno la data di fine utilizzo del mezzo di trasporto
+        update IMPEGNOMEZZO set DATAFINE = sysdate where IDMEZZO = vIdMezzo;
+
+        -- verifico se sono l'ultima filiale a consegnare l'ordine cliente per aggiornare lo stato della spedizione
         select count(*) into vCount from STATOORDINECLIENTEFILIALE where IDORDINECLIENTE = vidordinecliente and stato <> 'Consegnato';
         dbms_output.put_line('DEBUG - vCount STATOORDINECLIENTEFILIALE con stato non Consegnato: ' || vCount);
 
