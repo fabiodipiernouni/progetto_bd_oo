@@ -4,9 +4,10 @@
  */
 create or replace procedure InizioLavorazioneSpedizione
 (
-  pIdOrdineLavoroSpedizione in number,
-  pDataInizioLavorazione in date,
-  pIdMezzoDiTrasporto in integer)
+    pIdOrdineLavoroSpedizione in number,
+    pDataInizioLavorazione in date,
+    pDataFinePrevista in date,
+    pIdMezzoDiTrasporto in integer)
 as
     vIdGruppoCorriere GruppoCorriere.Id%type;
     vIdMezzoDiTrasporto MezzoDiTrasporto.Id%type;
@@ -17,6 +18,10 @@ begin
         vDataInizioLavorazione := sysdate;
     else
         vDataInizioLavorazione := pDataInizioLavorazione;
+    end if;
+
+    if pDataFinePrevista is not null and pDataFinePrevista < vDataInizioLavorazione then
+        raise_application_error(-20000, 'La data fine prevista non può essere antecedente alla data di inizio lavorazione');
     end if;
 
     select stato, idGruppoCorriere into vStato, vIdGruppoCorriere
@@ -58,4 +63,8 @@ begin
     update OrdineDiLavoroSpedizione
     set DATAINIZIOLAVORAZIONE = vDataInizioLavorazione, IDMEZZODITRASPORTO = vIdMezzoDiTrasporto
     where Id = pIdOrdineLavoroSpedizione;
+
+    -- inserisco l'impegno del mezzo di trasporto e assumo, nel caso in cui l'operatore corriere non abbia specificato una
+    -- data fine prevista per la spedizione, che la spedizione debba avvenire nei prossimi 7gg
+    insert into IMPEGNOMEZZO (IDMEZZO, DATAINIZIO, DATAFINE) values (vIdMezzoDiTrasporto, vDataInizioLavorazione, nvl(pDataFinePrevista, sysdate + 7));
 end InizioLavorazioneSpedizione;
