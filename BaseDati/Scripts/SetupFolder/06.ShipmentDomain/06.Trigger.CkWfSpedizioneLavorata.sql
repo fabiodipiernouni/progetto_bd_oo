@@ -8,8 +8,6 @@ create or replace trigger WfAggiornamentoStatoSpedizione
   after update of STATO on SPEDIZIONE
   for each row
 when (new.STATO = 'LavorataSpedizione')
-declare
-    v_count number;
 begin
     -- aggiorno l'ordine del cliente in
     update ordinecliente set STATO = 'Lavorato', dataFineLavorazione = sysdate
