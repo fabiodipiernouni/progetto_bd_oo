@@ -3,8 +3,9 @@
     Descrizione:
         quando l'ordine di spedizione viene preso in carico e comincia,
         occorre aggiornare lo stato dell'ordine cliente per la filiale in Spedito
+    ***NOTA***: cambiato nome dopo consegna BD
  */
-create or replace trigger CkWfPresaInCaricoSpedizione
+create or replace trigger WfPresaInCaricoSpedizione
 after update of datainiziolavorazione on ordinedilavorospedizione
 for each row
 when (new.datainiziolavorazione is not null and new.DATAFINELAVORAZIONE is null)

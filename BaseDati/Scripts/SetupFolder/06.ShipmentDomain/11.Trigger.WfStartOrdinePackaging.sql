@@ -8,6 +8,7 @@ create or replace trigger WfStartOrdinePackaging
     after update of DataInizioLavorazione on OrdineDiLavoroPackaging
     for each row
     when ( old.DataInizioLavorazione is null and new.DataInizioLavorazione is not null )
+    -- QUANDO HO VALORIZZATO LA DATA DI INIZIO LAVORAZIONE
 declare
     vIdOrdineCliente StatoOrdineClienteFiliale.IDORDINECLIENTE%type;
     vStatoOrdineClienteFiliale StatoOrdineClienteFiliale.Stato%type;

@@ -1,7 +1,10 @@
 /*
     Nome: CorriereChiusuraOrdineSpedizione
-    Descrizione: la procedura rappresenta la chiusura di un ordine di lavoro di tipo 'Spedizione' da parte del corriere.
-    Prende in input l'Id dell'ordine di lavoro e l'Id dell'operatore corriere che ha chiuso l'ordine di lavoro.
+    Descrizione:
+        la procedura rappresenta la chiusura di un ordine di lavoro di tipo 'Spedizione' da parte del corriere.
+        Prende in input l'Id dell'ordine di lavoro e l'Id dell'operatore corriere che ha chiuso l'ordine di lavoro.
+    ***NOTA***: modificato dopo la consegna a BD
+
 */
 create or replace procedure CorriereChiusuraOrdineSpedizione(
     pIdOrdineDiLavoro in integer,
@@ -47,7 +50,7 @@ begin
             dbms_output.put_line('DEBUG - Aggiorno stato spedizione ' || vIdSpedizione || ' a LavorataSpedizione.');
             -- chiudo la spedizione
             update SPEDIZIONE set
-                stato = 'LavorataSpedizione', TRACKINGSTATUS = 'Consegnata'
+                stato = 'LavorataSpedizione', DATAFINELAVORAZIONE = sysdate, TRACKINGSTATUS = 'Consegnata'
             where ID = vIdSpedizione;
         end if;
     end if;
