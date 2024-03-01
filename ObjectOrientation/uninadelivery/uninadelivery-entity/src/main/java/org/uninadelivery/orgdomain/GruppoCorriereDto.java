@@ -1,5 +1,8 @@
 package org.uninadelivery.orgdomain;
 
+import lombok.Data;
+
+@Data
 public class GruppoCorriereDto {
     private Long id;
     private String nome;
