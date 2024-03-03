@@ -1,17 +1,14 @@
-package org.uninadelivery.controller;
+package org.unina.uninadelivery33.presentation.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
-import org.uninadelivery.controller.appdomain.LoginController;
 
 import java.io.IOException;
 
@@ -32,8 +29,6 @@ public class UninaController {
         // Crea l'effetto di sfocatura
         GaussianBlur blur = new GaussianBlur();
 
-
-
         Stage stage = new Stage();
         stage.setTitle("popup");
         stage.setResizable(false);
@@ -49,7 +44,7 @@ public class UninaController {
 
         //stage.setAlwaysOnTop(true);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/appdomain/login-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/views/appdomain/login-view.fxml"));
         Scene scene = new Scene(loader.load(), 600, 400);
 
         stage.setScene(scene);

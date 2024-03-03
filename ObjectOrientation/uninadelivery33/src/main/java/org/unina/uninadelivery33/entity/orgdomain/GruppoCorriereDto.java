@@ -1,4 +1,4 @@
-package org.uninadelivery.orgdomain;
+package org.unina.uninadelivery33.entity.orgdomain;
 
 import lombok.Data;
 

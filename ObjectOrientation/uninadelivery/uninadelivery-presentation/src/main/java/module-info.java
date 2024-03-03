@@ -9,6 +9,7 @@ module org.uninadelivery.uninadeliverypresentation {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires org.uninadelivery.entity;
 
     opens view to javafx.fxml;
     opens org.uninadelivery.controller to javafx.fxml;

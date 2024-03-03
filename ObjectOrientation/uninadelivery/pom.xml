@@ -23,13 +23,4 @@
         <module>uninadelivery-entity</module>
     </modules>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.unina</groupId>
-                <artifactId>uninadelivery-entity</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 </project>

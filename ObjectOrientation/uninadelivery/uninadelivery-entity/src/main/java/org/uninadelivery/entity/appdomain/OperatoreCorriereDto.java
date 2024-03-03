@@ -1,7 +1,7 @@
-package org.uninadelivery.appdomain;
+package org.uninadelivery.entity.appdomain;
 
 import lombok.Data;
-import org.uninadelivery.orgdomain.GruppoCorriereDto;
+import org.uninadelivery.entity.orgdomain.GruppoCorriereDto;
 
 @Data
 public class OperatoreCorriereDto extends UtenteDto{

@@ -1,0 +1,8 @@
+org\unina\uninadelivery33\presentation\controller\UninaController.class
+module-info.class
+org\unina\uninadelivery33\entity\appdomain\OperatoreFilialeDto.class
+org\unina\uninadelivery33\entity\orgdomain\FilialeDto.class
+org\unina\uninadelivery33\entity\orgdomain\GruppoCorriereDto.class
+org\unina\uninadelivery33\entity\appdomain\OperatoreCorriereDto.class
+org\unina\uninadelivery33\entity\appdomain\UtenteDto.class
+org\unina\uninadelivery33\presentation\app\UninaApplication.class

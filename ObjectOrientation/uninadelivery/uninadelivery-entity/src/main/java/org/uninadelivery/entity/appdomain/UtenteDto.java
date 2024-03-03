@@ -1,7 +1,6 @@
-package org.uninadelivery.appdomain;
+package org.uninadelivery.entity.appdomain;
 
 import lombok.Data;
-import org.uninadelivery.orgdomain.FilialeDto;
 
 import java.util.ArrayList;
 
