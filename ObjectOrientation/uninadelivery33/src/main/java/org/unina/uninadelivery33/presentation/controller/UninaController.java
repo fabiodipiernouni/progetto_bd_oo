@@ -9,45 +9,28 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.GaussianBlur;
 import javafx.stage.Stage;
+import org.unina.uninadelivery33.entity.appdomain.UtenteDTO;
+import org.unina.uninadelivery33.presentation.helper.Session;
 
 import java.io.IOException;
 
 public class UninaController {
-    //private static final Logger logger = LoggerFactory.getLogger(UninaController.class);
+
 
     @FXML
-    private Label welcomeText;
-
+    public Label eleAppartenenzaLabel;
     @FXML
-    private Button btn;
-
+    public Label utenteLabel;
     @FXML
-    protected void onHelloButtonClick(ActionEvent event) throws IOException {
+    public Label filialeGruppoLabel;
+    @FXML
+    public Label matricolaLabel;
 
-        var window = ((Node) event.getTarget()).getScene().getWindow();
+    public void setupUserData() {
+        Session session = Session.getInstance();
+        UtenteDTO userData = session.getUserDto().getValue();
 
-        // Crea l'effetto di sfocatura
-        GaussianBlur blur = new GaussianBlur();
-
-        Stage stage = new Stage();
-        stage.setTitle("popup");
-        stage.setResizable(false);
-        stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-
-        stage.setOnShown(windowEvent -> {
-            window.getScene().getRoot().setEffect(blur);
-        });
-
-        stage.setOnHidden(windowEvent -> {
-            window.getScene().getRoot().setEffect(null);
-        });
-
-        //stage.setAlwaysOnTop(true);
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/views/appdomain/login-view.fxml"));
-        Scene scene = new Scene(loader.load(), 600, 400);
-
-        stage.setScene(scene);
-        stage.showAndWait();
+        utenteLabel.setText(userData.getUsername());
     }
+
 }
