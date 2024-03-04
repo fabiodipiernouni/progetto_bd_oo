@@ -16,17 +16,13 @@ public class UtenteDTO {
     @NonNull
     private Long id;
 
-    @NonNull
-    private String username;
+    private String username = "";
 
-    @NonNull
-    private String password;
+    private String password = "";
 
-    private String matricolaUnina;
+    private String matricolaUnina = "";
 
-    @NonNull
-    private String profilo;
+    private String profilo = "";
 
-    @NonNull
-    private List<String> funzioni;
+    private List<String> funzioni = null;
 }

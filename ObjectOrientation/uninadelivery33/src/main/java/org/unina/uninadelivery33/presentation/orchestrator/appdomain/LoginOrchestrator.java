@@ -22,7 +22,7 @@ import java.util.Objects;
 
 
 public class LoginOrchestrator implements LoginOrchestration {
-    private final Stage loginStage;
+    private Stage loginStage;
     private final Stage dashboardStage;
     private UninaController dashboardController;
     private LoginController loginController;
@@ -41,7 +41,6 @@ public class LoginOrchestrator implements LoginOrchestration {
 
     private LoginOrchestrator(Stage dashboardStage) {
         this.dashboardStage = dashboardStage;
-        this.loginStage = new Stage();
     }
 
     public void loginClicked(String username, String password) {
@@ -83,6 +82,8 @@ public class LoginOrchestrator implements LoginOrchestration {
 
             // Crea l'effetto di sfocatura
             GaussianBlur blur = new GaussianBlur();
+
+            loginStage = new Stage();
 
             loginStage.setTitle("UninaDelivery - Login");
             loginStage.setResizable(false);

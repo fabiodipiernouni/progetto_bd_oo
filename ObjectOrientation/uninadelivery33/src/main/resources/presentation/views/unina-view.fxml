@@ -5,11 +5,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.unina.uninadelivery33.presentation.controller.UninaController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery33.presentation.controller.UninaController">
    <left>
-      <VBox prefHeight="400.0" prefWidth="151.0" BorderPane.alignment="CENTER" />
+      <VBox prefHeight="400.0" prefWidth="151.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#onBtnLogout" text="Logout" />
+         </children></VBox>
    </left>
    <top>
       <HBox prefHeight="102.0" prefWidth="794.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">

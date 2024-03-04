@@ -48,4 +48,9 @@ public class UninaController {
         utenteLabel.setText(userData.getUsername());
     }
 
+    public void onBtnLogout(ActionEvent actionEvent) {
+        Session session = Session.getInstance();
+        Property<UtenteDTO> user = session.getUserDto();
+        user.setValue(new UtenteDTO());
+    }
 }
