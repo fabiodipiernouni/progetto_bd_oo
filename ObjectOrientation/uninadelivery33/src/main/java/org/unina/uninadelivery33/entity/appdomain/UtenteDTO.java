@@ -15,8 +15,10 @@ import java.util.List;
 public class UtenteDTO {
     @NonNull
     private Long id;
+
     @NonNull
     private String username;
+
     @NonNull
     private String password;
 
@@ -24,6 +26,7 @@ public class UtenteDTO {
 
     @NonNull
     private String profilo;
+
     @NonNull
     private List<String> funzioni;
 }

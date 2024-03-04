@@ -1,45 +1,58 @@
-package org.unina.uninadelivery33.dal;
+package org.unina.uninadelivery33.dal.factory;
 
+import org.unina.uninadelivery33.dal.exception.PersistenceException;
 import org.unina.uninadelivery33.entity.orgdomain.FilialeDTO;
-import org.unina.uninadelivery33.entity.orgdomain.GruppoCorriereDTO;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class OracleGruppoCorriereDAO {
+class OracleFilialeDAO implements FilialeDAO {
     private final Connection connection = DatabaseSingleton.getInstance().connect();
 
-    public GruppoCorriereDTO selectById(long id) throws PersistenceException {
+    @Override
+    public FilialeDTO selectById(long id) throws PersistenceException {
         Statement statement = null;
         ResultSet resultSet = null;
 
         String nome;
-        String codiceCorriere;
-        int numeroDipendenti;
-        long idFiliale;
+        String orgCountry;
+        String orgRagioneSociale;
+        String orgPartitaIva;
+
+
 
         try {
 
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM GruppoCorriere WHERE id = " + id);
+            resultSet = statement.executeQuery("""
+                SELECT 
+                    Filiale.nome,
+                    Org.paese, Org.ragioneSociale, Org.partitaIVA
+                    FROM Filiale
+                LEFT JOIN Org ON Filiale.idOrg = Org.id
+                WHERE Filiale.id = """ + id);
 
             if(!resultSet.next())
-                throw new PersistenceException("GruppoCorriere non trovato");
+                return new FilialeDTO();
 
             //sono sicuro che otterrò una sola tupla, non metto in un while
 
             nome = resultSet.getString("nome");
-            codiceCorriere = resultSet.getString("codiceCorriere");
-            numeroDipendenti = resultSet.getInt("numeroDipendenti");
+            orgCountry = resultSet.getString("paese");
+            orgRagioneSociale = resultSet.getString("ragioneSociale");
+            orgPartitaIva = resultSet.getString("partitaIVA");
 
-            idFiliale = resultSet.getLong("idFiliale");
 
-            FilialeDTO filiale = new OracleFilialeDAO().selectById(idFiliale);
+            return new FilialeDTO(
+                    id,
+                    nome,
+                    orgCountry,
+                    orgRagioneSociale,
+                    orgPartitaIva
+            );
 
-            //return new GruppoCorriereDTO(id, nome, codiceCorriere, numeroDipendenti, null);
-            return new GruppoCorriereDTO(0, "","", 0, null);
         }
         catch(SQLException sqe) {
             throw new PersistenceException("Errore in OracleComuneFullDAO: " + sqe.getMessage());

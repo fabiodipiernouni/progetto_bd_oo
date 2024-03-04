@@ -1,16 +1,14 @@
 package org.unina.uninadelivery33.bll.appdomain;
 
-import org.unina.uninadelivery33.dal.OracleUtenteDAO;
-import org.unina.uninadelivery33.dal.PersistenceException;
+import org.unina.uninadelivery33.dal.factory.Factory;
+import org.unina.uninadelivery33.dal.factory.UtenteDAO;
+import org.unina.uninadelivery33.dal.exception.PersistenceException;
 import org.unina.uninadelivery33.entity.appdomain.UtenteDTO;
 
 public class AuthService {
     public UtenteDTO login(String username, String password) throws PersistenceException {
-        UtenteDTO ret = null;
-        OracleUtenteDAO dao = new OracleUtenteDAO();
+        UtenteDAO dao = Factory.buildUtenteDAO();
 
-        ret = dao.selectByUsernamePassword(username, password);
-
-        return ret;
+        return dao.selectByUsernamePassword(username, password);
     }
 }

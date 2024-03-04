@@ -9,7 +9,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.unina.uninadelivery33.bll.appdomain.AuthService;
-import org.unina.uninadelivery33.dal.PersistenceException;
+import org.unina.uninadelivery33.dal.exception.PersistenceException;
 import org.unina.uninadelivery33.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery33.presentation.app.UninaApplication;
 import org.unina.uninadelivery33.presentation.controller.LoginController;
@@ -69,33 +69,45 @@ public class LoginOrchestrator implements LoginOrchestration {
         dashboardStage.setScene(scene);
         dashboardStage.show();
 
-        //Show del popup
-        var window = scene.getWindow();
+        //add stage to session
+        Session session = Session.getInstance();
+        session.addSessionData("dashboardStage", dashboardStage);
 
-        // Crea l'effetto di sfocatura
-        GaussianBlur blur = new GaussianBlur();
+        showLoginPopup(scene);
+    }
 
-        loginStage.setTitle("UninaDelivery - Login");
-        loginStage.setResizable(false);
-        loginStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+    public void showLoginPopup(Scene scene) {
+        try {
+            //Show del popup
+            var window = scene.getWindow();
 
-        loginStage.setOnShown(windowEvent -> {
-            window.getScene().getRoot().setEffect(blur);
-        });
+            // Crea l'effetto di sfocatura
+            GaussianBlur blur = new GaussianBlur();
 
-        loginStage.setOnHidden(windowEvent -> {
-            window.getScene().getRoot().setEffect(null);
-        });
+            loginStage.setTitle("UninaDelivery - Login");
+            loginStage.setResizable(false);
+            loginStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
 
-        //stage.setAlwaysOnTop(true);
+            loginStage.setOnShown(windowEvent -> {
+                window.getScene().getRoot().setEffect(blur);
+            });
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/views/appdomain/login-view.fxml"));
-        Scene loginScene = new Scene(loader.load(), 600, 400);
+            loginStage.setOnHidden(windowEvent -> {
+                window.getScene().getRoot().setEffect(null);
+            });
 
-        loginController = loader.getController();
+            //stage.setAlwaysOnTop(true);
 
-        loginStage.setScene(loginScene);
-        loginStage.showAndWait();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/views/appdomain/login-view.fxml"));
+            Scene loginScene = new Scene(loader.load(), 600, 400);
+
+            loginController = loader.getController();
+
+            loginStage.setScene(loginScene);
+            loginStage.showAndWait();
+        } catch (IOException e) {
+            //todo: gestire meglio eventuali errori
+        }
     }
 
     private void doLoginClicked(String username, String password, ChangeListener<UtenteDTO> utenteDtoChanged)  {

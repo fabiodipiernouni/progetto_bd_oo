@@ -1,12 +1,10 @@
 package org.unina.uninadelivery33.entity.orgdomain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 public class FilialeDTO {

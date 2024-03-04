@@ -1,5 +1,6 @@
-package org.unina.uninadelivery33.dal;
+package org.unina.uninadelivery33.dal.factory;
 
+import org.unina.uninadelivery33.dal.exception.PersistenceException;
 import org.unina.uninadelivery33.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery33.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery33.entity.appdomain.UtenteDTO;
@@ -8,10 +9,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OracleUtenteDAO {
+class OracleUtenteDAO implements UtenteDAO {
     private final Connection connection = DatabaseSingleton.getInstance().connect();
 
-    private List<String> getFunzioniByUtente(long idUtente) throws PersistenceException {
+    @Override
+    public List<String> getFunzioniByUtente(long idUtente) throws PersistenceException {
         Statement statement = null;
         ResultSet resultSet = null;
 
@@ -38,16 +40,13 @@ public class OracleUtenteDAO {
             }
             finally {
                 //libero le risorse
-
                 try {
                     if (resultSet != null)
                         resultSet.close();
                     if (statement != null)
                         statement.close();
-
                 }
                 catch(SQLException sqe) {
-                    throw new PersistenceException("Errore in OracleUtenteDAO: " + sqe.getMessage());
                 }
 
         }
@@ -55,6 +54,7 @@ public class OracleUtenteDAO {
     }
 
 
+    @Override
     public UtenteDTO selectByUsernamePassword(String usernameIn, String passwordIn) throws PersistenceException {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -66,7 +66,6 @@ public class OracleUtenteDAO {
         String profilo;
 
         //Long e non long perché potrebbe essere null
-        Long idGruppoCorriere;
         Long idFilialeOperatore;
 
         List<String> funzioni;
@@ -99,7 +98,7 @@ public class OracleUtenteDAO {
 
             profilo = resultSet.getString("profilo");
 
-            idGruppoCorriere = resultSet.getLong("idGruppoCorriere");
+            Long idGruppoCorriere = resultSet.getLong("idGruppoCorriere");
             if(resultSet.wasNull())
                 idGruppoCorriere = null;
 
@@ -151,12 +150,21 @@ public class OracleUtenteDAO {
                     resultSet.close();
                 if(preparedStatement != null)
                     preparedStatement.close();
-
             }
             catch(SQLException sqe) {
-                throw new PersistenceException("Errore in OracleOrdineClienteDAO: " + sqe.getMessage());
+                //non faccio nulla
             }
         }
 
+    }
+
+    @Override
+    public void closeConnection() {
+        try {
+            connection.close();
+        }
+        catch(Exception ex) {
+            //non faccio nulla
+        }
     }
 }

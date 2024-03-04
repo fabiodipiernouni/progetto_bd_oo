@@ -6,6 +6,7 @@ import org.unina.uninadelivery33.entity.orgdomain.GruppoCorriereDTO;
 import java.util.List;
 
 
+@NoArgsConstructor
 @ToString(callSuper=true)
 @Getter
 @Setter

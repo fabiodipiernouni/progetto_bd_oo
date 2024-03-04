@@ -1,19 +1,13 @@
-package org.unina.uninadelivery33.dal;
+package org.unina.uninadelivery33.dal.factory;
 
-
-import lombok.Value;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Map;
-import java.util.Properties;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -21,7 +15,7 @@ import org.yaml.snakeyaml.Yaml;
 /**
  * Classe per la connessione al database
  */
-public class DatabaseSingleton {
+class DatabaseSingleton {
     //istanza statica e privata di questa classe
     private static DatabaseSingleton istanza = null;
 

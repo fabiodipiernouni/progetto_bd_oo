@@ -1,4 +1,4 @@
-package org.unina.uninadelivery33.dal;
+package org.unina.uninadelivery33.dal.exception;
 /**
  * PersistenceException estende la libreria standard RunTimeException. Questa eccezione
  * viene lanciata da una qualsiasi classe DAO

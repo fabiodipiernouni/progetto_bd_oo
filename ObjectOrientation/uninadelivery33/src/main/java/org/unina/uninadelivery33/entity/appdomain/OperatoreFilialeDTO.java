@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.unina.uninadelivery33.entity.orgdomain.FilialeDTO;
 
+@NoArgsConstructor
 @ToString(callSuper=true)
 @Getter
 @Setter

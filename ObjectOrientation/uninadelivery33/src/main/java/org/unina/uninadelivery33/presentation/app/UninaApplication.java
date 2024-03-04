@@ -10,6 +10,7 @@ public class UninaApplication extends Application {
     @Override
     public void stop() {
         //todo: richiamare service per chiudere la connessione
+
     }
 
     @Override
