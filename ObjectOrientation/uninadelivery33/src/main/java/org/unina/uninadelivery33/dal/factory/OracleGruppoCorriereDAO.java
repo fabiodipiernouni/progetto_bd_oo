@@ -1,5 +1,6 @@
 package org.unina.uninadelivery33.dal.factory;
 
+import org.unina.uninadelivery33.dal.exception.ConsistencyException;
 import org.unina.uninadelivery33.dal.exception.PersistenceException;
 import org.unina.uninadelivery33.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery33.entity.orgdomain.GruppoCorriereDTO;
@@ -8,12 +9,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 class OracleGruppoCorriereDAO implements GruppoCorriereDAO {
     private final Connection connection = DatabaseSingleton.getInstance().connect();
 
     @Override
-    public GruppoCorriereDTO selectById(long id) throws PersistenceException {
+    public Optional<GruppoCorriereDTO> selectById(long id) throws PersistenceException {
+        Optional<GruppoCorriereDTO>  gruppoCorriere = Optional.empty();
+
         Statement statement = null;
         ResultSet resultSet = null;
 
@@ -27,20 +31,24 @@ class OracleGruppoCorriereDAO implements GruppoCorriereDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM GruppoCorriere WHERE id = " + id);
 
-            if(!resultSet.next())
-                throw new PersistenceException("GruppoCorriere non trovato");
+            if(resultSet.next()) {
+                //sono sicuro che otterrò una sola tupla, non metto in un while
 
-            //sono sicuro che otterrò una sola tupla, non metto in un while
+                nome = resultSet.getString("nome");
+                codiceCorriere = resultSet.getString("codiceCorriere");
+                numeroDipendenti = resultSet.getInt("numeroDipendenti");
 
-            nome = resultSet.getString("nome");
-            codiceCorriere = resultSet.getString("codiceCorriere");
-            numeroDipendenti = resultSet.getInt("numeroDipendenti");
+                idFiliale = resultSet.getLong("idFiliale");
 
-            idFiliale = resultSet.getLong("idFiliale");
+                Optional<FilialeDTO> filiale = new OracleFilialeDAO().selectById(idFiliale);
+                if(filiale.isEmpty())
+                    throw new ConsistencyException( "Filiale non trovata");
 
-            FilialeDTO filiale = new OracleFilialeDAO().selectById(idFiliale);
+                gruppoCorriere = Optional.of(new GruppoCorriereDTO(id, nome, codiceCorriere, numeroDipendenti, filiale.get()));
 
-            return new GruppoCorriereDTO(id, nome, codiceCorriere, numeroDipendenti, filiale);
+            }
+
+            return gruppoCorriere;
         }
         catch(SQLException sqe) {
             throw new PersistenceException("Errore in OracleComuneFullDAO: " + sqe.getMessage());

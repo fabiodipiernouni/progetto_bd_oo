@@ -7,12 +7,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Optional;
 
 class OracleFilialeDAO implements FilialeDAO {
     private final Connection connection = DatabaseSingleton.getInstance().connect();
 
     @Override
-    public FilialeDTO selectById(long id) throws PersistenceException {
+    public Optional<FilialeDTO> selectById(long id) throws PersistenceException {
+        Optional<FilialeDTO>  filiale = Optional.empty();
+
+
         Statement statement = null;
         ResultSet resultSet = null;
 
@@ -20,7 +24,6 @@ class OracleFilialeDAO implements FilialeDAO {
         String orgCountry;
         String orgRagioneSociale;
         String orgPartitaIva;
-
 
 
         try {
@@ -34,24 +37,25 @@ class OracleFilialeDAO implements FilialeDAO {
                 LEFT JOIN Org ON Filiale.idOrg = Org.id
                 WHERE Filiale.id = """ + id);
 
-            if(!resultSet.next())
-                return new FilialeDTO();
+            if(resultSet.next()) {
+                //sono sicuro che otterrò una sola tupla, non metto in un while
 
-            //sono sicuro che otterrò una sola tupla, non metto in un while
+                nome = resultSet.getString("nome");
+                orgCountry = resultSet.getString("paese");
+                orgRagioneSociale = resultSet.getString("ragioneSociale");
+                orgPartitaIva = resultSet.getString("partitaIVA");
 
-            nome = resultSet.getString("nome");
-            orgCountry = resultSet.getString("paese");
-            orgRagioneSociale = resultSet.getString("ragioneSociale");
-            orgPartitaIva = resultSet.getString("partitaIVA");
+                filiale = Optional.of(new FilialeDTO(
+                        id,
+                        nome,
+                        orgCountry,
+                        orgRagioneSociale,
+                        orgPartitaIva
+                ));
 
+            }
 
-            return new FilialeDTO(
-                    id,
-                    nome,
-                    orgCountry,
-                    orgRagioneSociale,
-                    orgPartitaIva
-            );
+            return filiale;
 
         }
         catch(SQLException sqe) {

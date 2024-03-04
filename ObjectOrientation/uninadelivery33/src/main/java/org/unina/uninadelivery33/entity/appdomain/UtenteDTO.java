@@ -3,6 +3,7 @@ package org.unina.uninadelivery33.entity.appdomain;
 
 import lombok.*;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -16,13 +17,18 @@ public class UtenteDTO {
     @NonNull
     private Long id;
 
+    @NonNull
     private String username = "";
 
+    @NonNull
     private String password = "";
 
+    @NonNull
     private String matricolaUnina = "";
 
+    @NonNull
     private String profilo = "";
 
-    private List<String> funzioni = null;
+    @NonNull
+    private List<String> funzioni = Collections.emptyList();
 }

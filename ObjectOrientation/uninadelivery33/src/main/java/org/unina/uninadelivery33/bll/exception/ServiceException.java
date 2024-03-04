@@ -1,10 +1,11 @@
-package org.unina.uninadelivery33.dal.exception;
+package org.unina.uninadelivery33.bll.exception;
+
 /**
- * PersistenceException estende la libreria standard RunTimeException. Questa eccezione
- * viene lanciata da una qualsiasi classe DAO
+ * ServiceException estende la libreria standard RunTimeException. Questa eccezione
+ * viene lanciata da una qualsiasi classe Service
  */
 
-public class PersistenceException extends Exception {
+public class ServiceException extends Exception {
     //estendo Exception e non RuntimeException perché voglio che sia checked
 
 
@@ -12,14 +13,14 @@ public class PersistenceException extends Exception {
      * Costruttore
      * @param errorMessage    stringa che spiega qual è la condizione dell'eccezione
      */
-    public PersistenceException(String errorMessage) {
+    public ServiceException(String errorMessage) {
         super(errorMessage);
     }
 
     /**
      * Costruttore (in questo caso non c'è nessuna stringa che spiega qual è la condizione dell'eccezione)
      */
-    public PersistenceException() {
+    public ServiceException() {
         super();
     }
 

@@ -142,6 +142,7 @@ fabric.properties
 .idea/**/markdown-navigator/
 
 ### Maven ###
+/target/
 src/docker_virtualentity/target/
 src/docker_virtualentity/pom.xml.tag
 src/docker_virtualentity/pom.xml.releaseBackup

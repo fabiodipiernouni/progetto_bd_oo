@@ -9,6 +9,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.unina.uninadelivery33.bll.appdomain.AuthService;
+import org.unina.uninadelivery33.bll.exception.ServiceException;
 import org.unina.uninadelivery33.dal.exception.PersistenceException;
 import org.unina.uninadelivery33.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery33.presentation.app.UninaApplication;
@@ -19,6 +20,7 @@ import org.unina.uninadelivery33.presentation.helper.Session;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.Optional;
 
 
 public class LoginOrchestrator implements LoginOrchestration {
@@ -124,15 +126,15 @@ public class LoginOrchestrator implements LoginOrchestration {
 
         AuthService authService = new AuthService();
         try {
-            UtenteDTO ut = authService.login(username, password);
-            if(ut != null) {
-                utenteDtoProperty.setValue(ut);
+            Optional<UtenteDTO> utente = authService.login(username, password);
+            if(utente.isEmpty()) {
+                utenteDtoProperty.setValue(null); //TODO: null o Optional?
             }
             else {
                 isValid = false;
             }
         }
-        catch (PersistenceException e) {
+        catch (ServiceException e) {
             //todo: gestire
             isValid = false;
         }

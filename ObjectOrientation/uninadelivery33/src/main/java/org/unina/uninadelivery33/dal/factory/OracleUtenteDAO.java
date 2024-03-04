@@ -1,19 +1,23 @@
 package org.unina.uninadelivery33.dal.factory;
 
+import org.unina.uninadelivery33.dal.exception.ConsistencyException;
 import org.unina.uninadelivery33.dal.exception.PersistenceException;
 import org.unina.uninadelivery33.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery33.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery33.entity.appdomain.UtenteDTO;
+import org.unina.uninadelivery33.entity.orgdomain.FilialeDTO;
+import org.unina.uninadelivery33.entity.orgdomain.GruppoCorriereDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 class OracleUtenteDAO implements UtenteDAO {
     private final Connection connection = DatabaseSingleton.getInstance().connect();
 
     @Override
-    public List<String> getFunzioniByUtente(long idUtente) throws PersistenceException {
+    public List<String> getFunzioniByUtente(Long idUtente) throws PersistenceException {
         Statement statement = null;
         ResultSet resultSet = null;
 
@@ -47,6 +51,7 @@ class OracleUtenteDAO implements UtenteDAO {
                         statement.close();
                 }
                 catch(SQLException sqe) {
+                    //non faccio nulla
                 }
 
         }
@@ -55,9 +60,10 @@ class OracleUtenteDAO implements UtenteDAO {
 
 
     @Override
-    public UtenteDTO selectByUsernamePassword(String usernameIn, String passwordIn) throws PersistenceException {
+    public Optional<UtenteDTO> selectByUsernamePassword(String usernameIn, String passwordIn) throws PersistenceException {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+        Optional<UtenteDTO> utente = Optional.empty();
 
         long id;
         String username;
@@ -85,58 +91,78 @@ class OracleUtenteDAO implements UtenteDAO {
 
             resultSet = preparedStatement.executeQuery();
 
-            if(!resultSet.next())
-                throw new PersistenceException("Errore in OracleUtenteDAO: non ho ottenuto il risultato");
+            if(resultSet.next()) {
 
-            id = resultSet.getLong("id");
-            username = resultSet.getString("username");
-            password = resultSet.getString("password");
+                id = resultSet.getLong("id");
+                username = resultSet.getString("username");
+                password = resultSet.getString("password");
 
-            matricolaUnina = resultSet.getString("matricolaUnina");
-            if(resultSet.wasNull())
-                matricolaUnina = null;
+                matricolaUnina = resultSet.getString("matricolaUnina");
+                if (resultSet.wasNull())
+                    matricolaUnina = null;
 
-            profilo = resultSet.getString("profilo");
+                profilo = resultSet.getString("profilo");
 
-            Long idGruppoCorriere = resultSet.getLong("idGruppoCorriere");
-            if(resultSet.wasNull())
-                idGruppoCorriere = null;
+                Long idGruppoCorriere = resultSet.getLong("idGruppoCorriere");
+                if (resultSet.wasNull())
+                    idGruppoCorriere = null;
 
-            idFilialeOperatore = resultSet.getLong("idFilialeOperatore");
-            if(resultSet.wasNull())
-                idFilialeOperatore = null;
+                idFilialeOperatore = resultSet.getLong("idFilialeOperatore");
+                if (resultSet.wasNull())
+                    idFilialeOperatore = null;
 
-            funzioni = getFunzioniByUtente(id);
+                funzioni = getFunzioniByUtente(id);
+
+                switch (profilo) {
+                    case "Operatore":
+                        if(idFilialeOperatore == null)
+                            throw new ConsistencyException("Errore in OracleUtenteDAO: idFilialeOperatore non può essere null");
+
+                        Optional<FilialeDTO> filiale = new OracleFilialeDAO().selectById(idFilialeOperatore);
+
+                        if (filiale.isEmpty())
+                            throw new ConsistencyException("Errore in OracleUtenteDAO: filiale non trovata");
+
+                        utente = Optional.of(new OperatoreFilialeDTO(
+                                id,
+                                username,
+                                password,
+                                matricolaUnina,
+                                profilo,
+                                funzioni,
+                                filiale.get()
+                        ));
+                        break;
+                    case "OperatoreCorriere":
+                        if(idGruppoCorriere == null)
+                            throw new ConsistencyException("Errore in OracleUtenteDAO: idGruppoCorriere non può essere null");
 
 
-            if(profilo.equals("Operatore"))
-                return new OperatoreFilialeDTO(
-                        id,
-                        username,
-                        password,
-                        matricolaUnina,
-                        profilo,
-                        funzioni,
-                        new OracleFilialeDAO().selectById(idFilialeOperatore)
-                );
+                        Optional<GruppoCorriereDTO> gruppoCorriere = new OracleGruppoCorriereDAO().selectById(idGruppoCorriere);
 
-            if(profilo.equals("OperatoreCorriere"))
-                return new OperatoreCorriereDTO(
-                        id,
-                        username,
-                        password,
-                        matricolaUnina,
-                        profilo,
-                        funzioni,
-                        //new OracleGruppoCorriereDAO().selectById(idGruppoCorriere)
-                        null
-                );
+                        if (gruppoCorriere.isEmpty())
+                            throw new ConsistencyException("Errore in OracleUtenteDAO: gruppo corriere non trovato");
+
+                        utente = Optional.of(new OperatoreCorriereDTO(
+                                id,
+                                username,
+                                password,
+                                matricolaUnina,
+                                profilo,
+                                funzioni,
+                                gruppoCorriere.get()
+                        ));
+                        break;
+
+                    //TODO: gestire altri profili
+
+                    default:
+                        throw new ConsistencyException("Errore in OracleUtenteDAO: profilo non riconosciuto");
+                }
+            }
 
 
-            throw new PersistenceException("Errore in OracleUtenteDAO: profilo non riconosciuto"
-
-            );
-
+            return utente;
 
         }
         catch(SQLException sqe) {

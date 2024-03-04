@@ -1,7 +1,5 @@
 package org.unina.uninadelivery33.dal.factory;
 
-import java.sql.Connection;
-
 public class Factory {
     public static FilialeDAO buildFilialeDAO() {
         return new OracleFilialeDAO();
@@ -14,4 +12,18 @@ public class Factory {
     public static GruppoCorriereDAO buildGruppoCorriereDAO() {
         return new OracleGruppoCorriereDAO();
     }
+
+    public static OrdineClienteDAO buildOrdineClienteDAO() {
+        return new OracleOrdineClienteDAO();
+    }
+
+    public static IndirizzoDAO buildIndirizzoDAO() {
+        return new OracleIndirizzoDAO();
+    }
+
+    public static ProdottoDAO buildProdottoDAO() {
+        return new OracleProdottoDAO();
+    }
+
+
 }
