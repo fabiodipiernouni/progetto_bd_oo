@@ -62,8 +62,13 @@ class OracleClienteDAO implements ClienteDAO {
                         partitaIVA
                 ));
 
-                if(codiceFiscale != null ^ (ragioneSociale != null && partitaIVA != null))
-                    throw new ConsistencyException("Errore di consistenza: il cliente deve avere o codice fiscale o ragione sociale e partita IVA");
+                if(
+                        !(
+                            (codiceFiscale != null && partitaIVA == null && ragioneSociale == null) ||
+                            (codiceFiscale == null && partitaIVA != null && ragioneSociale != null)
+                        )
+                )
+                        throw new ConsistencyException("Problema di consistenza: il cliente deve avere o codice fiscale o entrambe ragione sociale e partita IVA");
 
             }
 
@@ -71,7 +76,7 @@ class OracleClienteDAO implements ClienteDAO {
 
         }
         catch(SQLException sqe) {
-            throw new PersistenceException("Errore in OracleClienteDAO: " + sqe.getMessage());
+            throw new PersistenceException(sqe.getMessage());
         }
         finally {
             //libero le risorse
@@ -84,7 +89,7 @@ class OracleClienteDAO implements ClienteDAO {
 
             }
             catch(SQLException sqe) {
-                throw new PersistenceException("Errore in OracleClienteDAO: " + sqe.getMessage());
+                //non faccio niente
             }
         }
     }

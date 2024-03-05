@@ -5,7 +5,7 @@ import org.unina.uninadelivery33.entity.geodomain.IndirizzoDTO;
 import org.unina.uninadelivery33.entity.orgdomain.ProdottoDTO;
 
 import java.time.LocalDate;
-import java.util.Map;
+import java.util.List;
 
 
 /**
@@ -48,6 +48,6 @@ public class OrdineClienteDTO {
     private String numeroOrdine;
 
     @NonNull
-    private Map<ProdottoDTO, Integer> dettaglio;
+    private List<DettaglioOrdineDTO> dettaglio;
 
 }

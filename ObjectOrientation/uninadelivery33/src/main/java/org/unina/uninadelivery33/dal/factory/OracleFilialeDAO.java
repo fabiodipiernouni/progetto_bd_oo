@@ -30,8 +30,7 @@ class OracleFilialeDAO implements FilialeDAO {
 
             statement = connection.createStatement();
             resultSet = statement.executeQuery("""
-                SELECT 
-                    Filiale.nome,
+                SELECT Filiale.nome,
                     Org.paese, Org.ragioneSociale, Org.partitaIVA
                     FROM Filiale
                 LEFT JOIN Org ON Filiale.idOrg = Org.id
@@ -59,7 +58,7 @@ class OracleFilialeDAO implements FilialeDAO {
 
         }
         catch(SQLException sqe) {
-            throw new PersistenceException("Errore in OracleComuneFullDAO: " + sqe.getMessage());
+            throw new PersistenceException(sqe.getMessage());
         }
         finally {
             //libero le risorse
@@ -71,7 +70,7 @@ class OracleFilialeDAO implements FilialeDAO {
                     statement.close();
             }
             catch(SQLException sqe) {
-                throw new PersistenceException("Errore in OracleComuneFullDAO: " + sqe.getMessage());
+                //non faccio niente
             }
         }
 

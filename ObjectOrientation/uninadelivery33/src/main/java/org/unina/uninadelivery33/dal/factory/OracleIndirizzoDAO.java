@@ -80,7 +80,7 @@ class OracleIndirizzoDAO implements IndirizzoDAO {
 
         }
         catch(SQLException throwables) {
-            throw new PersistenceException("Errore in OracleIndirizzoDAO: " + throwables.getMessage());
+            throw new PersistenceException(throwables.getMessage());
         }
         finally {
             //libero le risorse
@@ -93,7 +93,7 @@ class OracleIndirizzoDAO implements IndirizzoDAO {
 
             }
             catch(SQLException sqe) {
-                throw new PersistenceException("Errore in OracleIndirizzoDAO: " + sqe.getMessage());
+                //non faccio nulla
             }
         }
 

@@ -40,7 +40,7 @@ class OracleGruppoCorriereDAO implements GruppoCorriereDAO {
 
                 idFiliale = resultSet.getLong("idFiliale");
 
-                Optional<FilialeDTO> filiale = new OracleFilialeDAO().selectById(idFiliale);
+                Optional<FilialeDTO> filiale = Factory.buildFilialeDAO().selectById(idFiliale);
                 if(filiale.isEmpty())
                     throw new ConsistencyException( "Filiale non trovata");
 
@@ -51,7 +51,7 @@ class OracleGruppoCorriereDAO implements GruppoCorriereDAO {
             return gruppoCorriere;
         }
         catch(SQLException sqe) {
-            throw new PersistenceException("Errore in OracleComuneFullDAO: " + sqe.getMessage());
+            throw new PersistenceException(sqe.getMessage());
         }
         finally {
             //libero le risorse
@@ -63,7 +63,7 @@ class OracleGruppoCorriereDAO implements GruppoCorriereDAO {
                     statement.close();
             }
             catch(SQLException sqe) {
-                throw new PersistenceException("Errore in OracleComuneFullDAO: " + sqe.getMessage());
+                //non faccio nulla
             }
         }
 

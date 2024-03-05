@@ -116,12 +116,12 @@ class OracleUtenteDAO implements UtenteDAO {
                 switch (profilo) {
                     case "Operatore":
                         if(idFilialeOperatore == null)
-                            throw new ConsistencyException("Errore in OracleUtenteDAO: idFilialeOperatore non può essere null");
+                            throw new ConsistencyException("idFilialeOperatore non può essere null");
 
-                        Optional<FilialeDTO> filiale = new OracleFilialeDAO().selectById(idFilialeOperatore);
+                        Optional<FilialeDTO> filiale = Factory.buildFilialeDAO().selectById(idFilialeOperatore);
 
                         if (filiale.isEmpty())
-                            throw new ConsistencyException("Errore in OracleUtenteDAO: filiale non trovata");
+                            throw new ConsistencyException("filiale non trovata");
 
                         utente = Optional.of(new OperatoreFilialeDTO(
                                 id,
@@ -135,13 +135,13 @@ class OracleUtenteDAO implements UtenteDAO {
                         break;
                     case "OperatoreCorriere":
                         if(idGruppoCorriere == null)
-                            throw new ConsistencyException("Errore in OracleUtenteDAO: idGruppoCorriere non può essere null");
+                            throw new ConsistencyException("idGruppoCorriere non può essere null");
 
 
-                        Optional<GruppoCorriereDTO> gruppoCorriere = new OracleGruppoCorriereDAO().selectById(idGruppoCorriere);
+                        Optional<GruppoCorriereDTO> gruppoCorriere = Factory.buildGruppoCorriereDAO().selectById(idGruppoCorriere);
 
                         if (gruppoCorriere.isEmpty())
-                            throw new ConsistencyException("Errore in OracleUtenteDAO: gruppo corriere non trovato");
+                            throw new ConsistencyException("gruppo corriere non trovato");
 
                         utente = Optional.of(new OperatoreCorriereDTO(
                                 id,
@@ -157,7 +157,7 @@ class OracleUtenteDAO implements UtenteDAO {
                     //TODO: gestire altri profili
 
                     default:
-                        throw new ConsistencyException("Errore in OracleUtenteDAO: profilo non riconosciuto");
+                        throw new ConsistencyException("profilo non riconosciuto");
                 }
             }
 
@@ -166,7 +166,7 @@ class OracleUtenteDAO implements UtenteDAO {
 
         }
         catch(SQLException sqe) {
-            throw new PersistenceException("Errore in OracleOrdineClienteDAO: " + sqe.getMessage());
+            throw new PersistenceException(sqe.getMessage());
         }
         finally {
             //libero le risorse

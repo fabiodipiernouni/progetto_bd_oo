@@ -1,6 +1,10 @@
 package org.unina.uninadelivery33.dal.factory;
 
-public interface IndirizzoDAO {
+import org.unina.uninadelivery33.dal.exception.PersistenceException;
+import org.unina.uninadelivery33.entity.geodomain.IndirizzoDTO;
 
-    //TODO
+import java.util.Optional;
+
+public interface IndirizzoDAO {
+    Optional<IndirizzoDTO> selectById(long id) throws PersistenceException;
 }

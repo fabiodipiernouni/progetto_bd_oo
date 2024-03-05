@@ -25,5 +25,16 @@ public class Factory {
         return new OracleProdottoDAO();
     }
 
+    public static MagazzinoDAO buildMagazzinoDAO() {
+        return new OracleMagazzinoDAO();
+    }
+
+    public static DettaglioOrdineDAO buildDettaglioOrdineDAO() {
+        return new OracleDettaglioOrdineDAO();
+    }
+
+    public static ClienteDAO buildClienteDAO() {
+        return new OracleClienteDAO();
+    }
 
 }
