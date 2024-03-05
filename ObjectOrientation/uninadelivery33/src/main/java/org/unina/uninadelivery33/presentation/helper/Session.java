@@ -23,7 +23,7 @@ public class Session {
         getUserDto().setValue(user.getValue());
     }
 
-    public void addSessionData(String key, Object value) {
+    public void setSessionData(String key, Object value) {
         if(sessionData.containsKey(key)) {
             sessionData.remove(key);
         }

@@ -5,3 +5,7 @@ database:
     user: uninaDelivery
     password: UnidevProd4010$
     schema: uninaDelivery
+
+application:
+    version: 1.0.0
+    loginEnabled: false

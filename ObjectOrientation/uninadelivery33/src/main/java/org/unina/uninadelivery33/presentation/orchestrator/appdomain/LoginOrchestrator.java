@@ -1,5 +1,6 @@
 package org.unina.uninadelivery33.presentation.orchestrator.appdomain;
 
+import javafx.application.Platform;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
@@ -7,25 +8,32 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.unina.uninadelivery33.bll.appdomain.AuthService;
 import org.unina.uninadelivery33.dal.exception.PersistenceException;
 import org.unina.uninadelivery33.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery33.presentation.app.UninaApplication;
 import org.unina.uninadelivery33.presentation.controller.LoginController;
-import org.unina.uninadelivery33.presentation.controller.UninaController;
+import org.unina.uninadelivery33.presentation.controller.DashboardController;
+import org.unina.uninadelivery33.presentation.css.themes.MFXThemeManager;
+import org.unina.uninadelivery33.presentation.css.themes.Themes;
 import org.unina.uninadelivery33.presentation.helper.Session;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Map;
 import java.util.Objects;
-
+import org.yaml.snakeyaml.Yaml;
 
 public class LoginOrchestrator implements LoginOrchestration {
     private Stage loginStage;
     private final Stage dashboardStage;
-    private UninaController dashboardController;
+    private DashboardController dashboardController;
     private LoginController loginController;
+    private Map<String, Object> yamlValues;
 
     private static LoginOrchestrator instance;
     public static LoginOrchestrator getLoginOrchestrator() {
@@ -51,28 +59,71 @@ public class LoginOrchestrator implements LoginOrchestration {
         doLoginClicked(username, password, utenteDtoChanged);
     }
 
+    private void LoadApplicationYaml() throws IOException {
+        Yaml yaml = new Yaml();
 
-    public void applicationStarted() throws IOException {
-        URL res = UninaApplication.class.getResource("/presentation/views/unina-view.fxml");
-        FXMLLoader fxmlLoader = new FXMLLoader(res);
-        Parent parent = fxmlLoader.load();
+        try (InputStream inputStream = this.getClass()
+                .getClassLoader()
+                .getResourceAsStream("application.yml")) {
 
-        Scene scene = new Scene(parent, 800, 600);
+            yamlValues = yaml.load(inputStream);
 
-        dashboardController = fxmlLoader.getController();
+            Session session = Session.getInstance();
+            session.setSessionData("application.yml", yamlValues);
+        }
+        catch (IOException e) {
+            throw e;
+        }
+    }
 
-        scene.setUserData(parent);
 
-        dashboardStage.getIcons().add(new Image(Objects.requireNonNull(UninaApplication.class.getResourceAsStream("/presentation/icons/delivery-truck_12731488.png"))));
-        dashboardStage.setTitle("UninaDelivery - Unina delivery service");
-        dashboardStage.setScene(scene);
-        dashboardStage.show();
+    public void applicationStarted(Stage dashboardStage) throws IOException {
+
+        LoadApplicationYaml();
+
+        Scene scene = buildDashboardScene(dashboardStage);
 
         //add stage to session
         Session session = Session.getInstance();
-        session.addSessionData("dashboardStage", dashboardStage);
+        session.setSessionData("dashboardStage", dashboardStage);
 
-        showLoginPopup(scene);
+        Map<String, Object> applicationConfig;
+        try {
+            applicationConfig = (Map<String, Object>) yamlValues.get("application");
+        } catch (Exception e) {
+            applicationConfig = null;
+        }
+
+        if(applicationConfig == null) Platform.exit(); //todo: gestire meglio, magari con un messaggio di errore
+
+        if(applicationConfig.get("loginEnabled").equals("true"))
+            showLoginPopup(scene);
+    }
+
+    private Scene buildDashboardScene(Stage dashboardStage) throws IOException {
+        URL res = UninaApplication.class.getResource("/presentation/views/dashboard-view.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader(res);
+        fxmlLoader.setControllerFactory(c -> new DashboardController(dashboardStage));
+        Parent root = fxmlLoader.load();
+
+        Scene scene = new Scene(root);
+        scene.setFill(Color.TRANSPARENT);
+        MFXThemeManager.addOn(scene, Themes.DEFAULT, Themes.LEGACY);
+
+        dashboardController = fxmlLoader.getController();
+
+        scene.setUserData(root);
+
+        dashboardStage.initStyle(StageStyle.TRANSPARENT);
+        //dashboardStage.getIcons().add(new Image(Objects.requireNonNull(UninaApplication.class.getResourceAsStream("/presentation/icons/delivery-truck_12731488.png"))));
+        dashboardStage.setTitle("UninaDelivery - Unina delivery service");
+        dashboardStage.setScene(scene);
+        dashboardStage.setMinWidth(800);
+        dashboardStage.setMinHeight(600);
+        dashboardStage.setWidth(1200);
+        dashboardStage.setHeight(750);
+        dashboardStage.show();
+        return scene;
     }
 
     public void showLoginPopup(Scene scene) {
@@ -144,7 +195,7 @@ public class LoginOrchestrator implements LoginOrchestration {
         if(isValid) {
             Session.getInstance().addUserDto(utenteDtoProperty);
             loginStage.close();
-            /*URL res = UninaApplication.class.getResource("/presentation/views/unina-view.fxml");
+            /*URL res = UninaApplication.class.getResource("/presentation/views/dashboard-view.fxml");
             FXMLLoader fxmlLoader = new FXMLLoader(res);*/
 
 

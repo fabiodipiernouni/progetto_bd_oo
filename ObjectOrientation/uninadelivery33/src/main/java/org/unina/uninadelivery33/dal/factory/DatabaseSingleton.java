@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Map;
 
+import org.unina.uninadelivery33.presentation.helper.Session;
 import org.yaml.snakeyaml.Yaml;
 
 
@@ -25,20 +26,12 @@ class DatabaseSingleton {
 
     // costruttore privato che sovrascrive quello predefinito
     private DatabaseSingleton(){
-        Yaml yaml = new Yaml();
 
-        try (InputStream inputStream = this.getClass()
-                .getClassLoader()
-                .getResourceAsStream("application.yml")) {
+        Session session = Session.getInstance();
 
-            yamlValues = yaml.load(inputStream);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        yamlValues = (Map<String, Object>) session.getSessionData("application.yml");
 
     }
-
 
     private Map<String, Object> yamlValues;
 
@@ -76,7 +69,6 @@ class DatabaseSingleton {
                 SEVERE: attempt to configure ONS in FanManager failed with oracle.ons.NoServersAvailable: Subscription time out
                 */
                 System.setProperty("oracle.jdbc.fanEnabled", "false");
-
 
                 //registra il driver
                 Class.forName((String) database.get("driver"));
