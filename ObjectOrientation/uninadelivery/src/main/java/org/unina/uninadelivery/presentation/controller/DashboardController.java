@@ -18,7 +18,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.presentation.helper.MfxToggleButtonsHelper;
@@ -26,6 +25,7 @@ import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.orchestrator.appdomain.LoginOrchestrator;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
@@ -74,9 +74,7 @@ public class DashboardController implements Initializable {
             }
         });
 
-        UtenteDTO userData = session.getUserDto().getValue();
-
-        utenteLabel.setText(userData.getUsername());
+        utenteLabel.setText(utente.getUsername());
     }
 
     public void onBtnLogout(ActionEvent actionEvent) {
@@ -87,8 +85,7 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //imposto il comportamento
-
+        //imposto il comportamento dei pulsanti di chiusura applicazione, minimizza e sempre in primo piano
         closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> Platform.exit());
         minimizeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Stage) rootPane.getScene().getWindow()).setIconified(true));
         alwaysOnTopIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -97,6 +94,7 @@ public class DashboardController implements Initializable {
             dashboardStage.setAlwaysOnTop(newVal);
         });
 
+        //imposto il comportamento del trascinamento della finestra
         windowHeader.setOnMousePressed(event -> {
             xOffset = dashboardStage.getX() - event.getScreenX();
             yOffset = dashboardStage.getY() - event.getScreenY();
@@ -106,12 +104,31 @@ public class DashboardController implements Initializable {
             dashboardStage.setY(event.getScreenY() + yOffset);
         });
 
+        //metodo per il loading delle maschere che popoleranno la pagina nello stackpane
         initialLoader();
 
+        
         ScrollUtils.addSmoothScrolling(scrollPane);
 
+        MFXLoader loader = new MFXLoader();
 
+        //Costruisco le voci di menu sulla base delle funzioni associate all'utente loggato
+        buildMenu(loader);
+        
+        //Aggiungo il pulsante di chiusura applicazione
+        buildCloseButton(loader);
 
+    }
+
+    private void buildCloseButton(MFXLoader loader) {
+    }
+
+    private void buildMenu(MFXLoader loader) {
+        List<String> funzioni = utente.getFunzioni();
+        
+        for(String funzione : funzioni) {
+            
+        }
     }
 
     //Qui carichiamo le view in memoria
