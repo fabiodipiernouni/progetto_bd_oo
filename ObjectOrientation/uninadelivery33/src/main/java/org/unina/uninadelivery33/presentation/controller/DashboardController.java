@@ -1,12 +1,15 @@
 package org.unina.uninadelivery33.presentation.controller;
 
-import io.github.palexdev.materialfx.controls.MFXScrollPane;
+import io.github.palexdev.materialfx.utils.ToggleButtonsUtil;
 import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
+import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import javafx.beans.property.Property;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -16,10 +19,14 @@ import org.unina.uninadelivery33.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery33.presentation.helper.Session;
 import org.unina.uninadelivery33.presentation.orchestrator.appdomain.LoginOrchestrator;
 
-public class DashboardController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class DashboardController implements Initializable {
 
 
     private final Stage dashboardStage;
+    private final ToggleGroup toggleGroup;
     @FXML
     public Label eleAppartenenzaLabel;
     @FXML
@@ -41,7 +48,9 @@ public class DashboardController {
     public HBox root;
 
     public DashboardController(Stage dashboardStage) {
+        this.toggleGroup = new ToggleGroup();
         this.dashboardStage = dashboardStage;
+        ToggleButtonsUtil.addAlwaysOneSelectedSupport(toggleGroup);
     }
 
     public void setupUserData() {
@@ -67,5 +76,10 @@ public class DashboardController {
         Session session = Session.getInstance();
         Property<UtenteDTO> user = session.getUserDto();
         user.setValue(new UtenteDTO());
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
     }
 }

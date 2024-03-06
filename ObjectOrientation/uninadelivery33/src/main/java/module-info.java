@@ -1,4 +1,10 @@
 module org.unina.uninadelivery33 {
+    requires mfx.core;
+    requires mfx.effects;
+    requires mfx.resources;
+    requires mfx.localization;
+    requires MaterialFX;
+
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -9,7 +15,6 @@ module org.unina.uninadelivery33 {
     requires fr.brouillard.oss.cssfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.fontawesome5;
-    requires materialfx.all;
 
     requires java.sql;
     requires org.yaml.snakeyaml;

@@ -108,13 +108,30 @@
             <artifactId>scenicview</artifactId>
             <version>17.0.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/io.github.palexdev/materialfx-all -->
+        <!-- https://mvnrepository.com/artifact/org.glavo.materialfx/materialfx -->
+        <dependency>
+            <groupId>org.glavo.materialfx</groupId>
+            <artifactId>materialfx</artifactId>
+            <version>11.13.5</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.palexdev/materialfx -->
         <dependency>
             <groupId>io.github.palexdev</groupId>
-            <artifactId>materialfx-all</artifactId>
-            <version>11.24.2</version>
+            <artifactId>materialfx</artifactId>
+            <version>11.17.0</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/io.github.palexdev/virtualizedfx -->
+        <dependency>
+            <groupId>io.github.palexdev</groupId>
+            <artifactId>virtualizedfx</artifactId>
+            <version>21.4.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.palexdev/mfxresources -->
+        <dependency>
+            <groupId>io.github.palexdev</groupId>
+            <artifactId>mfxresources</artifactId>
+            <version>11.13.1</version>
+        </dependency>
     </dependencies>
 
     <build>
