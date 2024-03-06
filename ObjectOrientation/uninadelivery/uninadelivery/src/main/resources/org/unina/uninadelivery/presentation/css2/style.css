@@ -1,0 +1,55 @@
+@import '../fonts/Fonts.css';
+@import '../css/MFXColors.css';
+
+.side_anchorpane {
+    -fx-background-color: #081B39;
+    -fx-border-color: #081B39;
+    -fx-border-width: 2px 2px 2px 2px;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-border-style: solid;
+}
+
+/**************************************************
+ * Root
+**************************************************/
+.rootPane {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-border-color: #ebebeb;
+    -fx-border-radius: 10;
+}
+
+/**************************************************
+ * Window Header
+**************************************************/
+#windowHeader .close-icon {
+    -mfx-color: -mfx-red;
+    -fx-opacity: 0.5;
+}
+
+#windowHeader .close-icon:hover {
+    -fx-opacity: 1.0;
+}
+
+#windowHeader .minimize-icon {
+    -mfx-color: -mfx-sunshine;
+    -fx-opacity: 0.5;
+}
+
+#windowHeader .minimize-icon:hover {
+    -fx-opacity: 1.0;
+}
+
+#windowHeader .always-on-top-icon {
+    -mfx-color: -mfx-purple;
+    -fx-opacity: 0.5;
+}
+
+#windowHeader .always-on-top-icon:hover {
+    -fx-opacity: 1.0;
+}
+
+#windowHeader .always-on-top-icon:always-on-top {
+    -fx-opacity: 1.0;
+}
