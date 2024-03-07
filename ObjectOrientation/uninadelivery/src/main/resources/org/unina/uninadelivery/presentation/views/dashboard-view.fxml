@@ -15,7 +15,7 @@
       <padding>
          <Insets bottom="10.0" left="5.0" top="20.0" />
       </padding>
-      <ImageView fitHeight="196.0" fitWidth="191.0" layoutX="11.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="213.0" fitWidth="210.0" layoutX="11.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/logo2.png" />
          </image>
