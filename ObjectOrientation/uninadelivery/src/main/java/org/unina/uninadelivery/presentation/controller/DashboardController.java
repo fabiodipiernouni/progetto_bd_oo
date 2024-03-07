@@ -78,16 +78,18 @@ public class DashboardController implements Initializable {
         utente = prop.getValue();
         Scene scene = utenteLabel.getScene();
 
-        //Aggiungo un evento per gestire il momento del logout. Il logout non farà altro che invalidare l'utente corrente
-        //a quel punto il sistema chiederà di fare il login
-        prop.addListener((observable, oldValue, newValue) -> {
-            if(newValue == null || newValue.getUsername().isEmpty()) {
-                LoginOrchestrator loginOrchestrator = LoginOrchestrator.getLoginOrchestrator();
-                loginOrchestrator.showLoginPopup(scene);
-            }
-        });
-
-        utenteLabel.setText(utente.getUsername());
+        try {
+            //Aggiungo un evento per gestire il momento del logout. Il logout non farà altro che invalidare l'utente corrente
+            //a quel punto il sistema chiederà di fare il login
+            prop.addListener((observable, oldValue, newValue) -> {
+                if(newValue == null || newValue.getUsername().isEmpty()) {
+                    LoginOrchestrator loginOrchestrator = LoginOrchestrator.getLoginOrchestrator();
+                    loginOrchestrator.showLoginPopup(scene);
+                }
+            });
+        } catch (Exception e) {
+            //do nothing
+        }
     }
 
     public void onBtnLogout(ActionEvent actionEvent) {
@@ -171,6 +173,33 @@ public class DashboardController implements Initializable {
             //todo gestire profilo non pervenuto o non riconosciuto
         }
 
+        //todo: momentaneo, gestire con le funzioni
+        if(utente.getProfilo().equals("Operatore") || utente.getProfilo().equals("Manager")) {
+            //Gestione clienti
+            loader.addView(MFXLoaderBean.of("CLIENTI", loadURL("/views/customerdomain/clienti-view.fxml"))
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-user-tie", "GESTIONE CLIENTI")).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+
+            //Spedizioni
+            loader.addView(MFXLoaderBean.of("SPEDIZIONI", loadURL("/views/shipmentdomain/spedizioni-view.fxml"))
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-envelope-open-text", "GESTIONE CLIENTI")).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+        }
+
+        if(utente.getProfilo().equals("Manager") || utente.getProfilo().equals("OperatoreCorriere") || utente.getProfilo().equals("Operatore")) {
+            //Gestione ordini di packaging
+            loader.addView(MFXLoaderBean.of("ORDINI PACKAGING", loadURL("/views/shipmentdomain/ordini-packaging-view.fxml"))
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-boxes-packing", "ORDINI DI PACKAGING")).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+
+            //Gestione ordini di packaging
+            loader.addView(MFXLoaderBean.of("ORDINI SPEDIZIONE", loadURL("/views/shipmentdomain/ordini-spedizione-view.fxml"))
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-truck", "ORDINI DI SPEDIZIONE")).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+        }
+
+        if(utente.getProfilo().equals("OperatoreCorriere")) {
+            //Gestione Magazzini
+            loader.addView(MFXLoaderBean.of("MAGAZZINI", loadURL("/views/orgdomain/magazzini-view.fxml"))
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-warehouse", "GESTIONE MAGAZZINI")).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+        }
+
         //attivo tutto
         loader.setOnLoadedAction(beans -> {
             List<ToggleButton> nodes = beans.stream()
@@ -184,7 +213,16 @@ public class DashboardController implements Initializable {
                         return toggle;
                     })
                     .toList();
+
+            //logout
+            MFXLoaderBean logoutBean = MFXLoaderBean.of("LOGOUT", null)
+                    .setBeanToNodeMapper(() ->  mfxToggleButtonsHelper.createToggle("fas-door-open", "LOGOUT")).get();
+
+            ToggleButton logoutBtn = (ToggleButton) logoutBean.getBeanToNodeMapper().get();
+            logoutBtn.setOnAction(event -> session.getUserDto().setValue(new UtenteDTO())); //Lo svuotamento dell'utente farà scattare il logout
+            //nodes.add(logoutBtn);
             navBar.getChildren().setAll(nodes);
+            navBar.getChildren().add(logoutBtn);
         });
         loader.start();
     }
