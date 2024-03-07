@@ -10,22 +10,17 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="rootPane" styleClass="rootPane" stylesheets="@../css2/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.unina.uninadelivery.presentation.controller.DashboardController">
-   <VBox layoutY="4.0" prefHeight="1186.0" prefWidth="168.0" styleClass="side_anchorpane" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="4.0">
+<AnchorPane fx:id="rootPane" styleClass="rootPane" stylesheets="@../css2/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.DashboardController">
+   <VBox layoutX="2.0" layoutY="2.0" prefHeight="1316.0" prefWidth="226.0" spacing="2.0" styleClass="sidebar" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="1.0" AnchorPane.topAnchor="1.0">
       <padding>
-         <Insets bottom="10.0" left="10.0" top="60.0" />
+         <Insets bottom="10.0" left="5.0" top="20.0" />
       </padding>
       <ImageView fitHeight="196.0" fitWidth="191.0" layoutX="11.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/logo2.png" />
          </image>
       </ImageView>
-      <Label fx:id="utenteLabel" layoutX="11.0" layoutY="304.0" text="Pinco Pallino" textFill="#dabb40">
-         <font>
-            <Font name="Serif Bold" size="18.0" />
-         </font>
-      </Label>
+      <Pane prefHeight="21.0" prefWidth="212.0" />
       <ImageView fx:id="imgProfile" fitHeight="67.0" fitWidth="71.0" layoutX="14.0" layoutY="222.0" pickOnBounds="true">
          <image>
             <Image url="@../images/blank-profile-picture-973460_640.png" />
@@ -34,10 +29,18 @@
             <InnerShadow />
          </effect>
       </ImageView>
+      <Label fx:id="utenteLabel" layoutX="11.0" layoutY="304.0" text="Pinco Pallino" textFill="#dabb40">
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+         <font>
+            <Font name="Serif Bold" size="18.0" />
+         </font>
+      </Label>
       <Line endX="110.33331298828125" endY="-0.6214017271995544" layoutX="101.0" layoutY="350.0" startX="-100.0" stroke="#dabb40" AnchorPane.bottomAnchor="452.0" AnchorPane.topAnchor="349.5" />
       <MFXScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
          <VBox.margin>
-            <Insets bottom="10.0" left="5.0" top="15.0" />
+            <Insets bottom="10.0" top="15.0" />
          </VBox.margin>
          <padding>
             <Insets right="10.0" />
@@ -45,7 +48,7 @@
          <VBox fx:id="navBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" styleClass="navbar" />
       </MFXScrollPane>
    </VBox>
-   <StackPane fx:id="contentPane" layoutX="237.0" layoutY="54.0" prefHeight="909.0" prefWidth="970.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="53.0" />
+   <StackPane fx:id="contentPane" layoutX="230.0" layoutY="27.0" prefHeight="1228.0" prefWidth="1039.0" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="26.0" />
       <VBox layoutX="233.0" prefHeight="805.0" prefWidth="970.0">
          <HBox fx:id="windowHeader" alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="1176.0" spacing="10.0">
             <padding>

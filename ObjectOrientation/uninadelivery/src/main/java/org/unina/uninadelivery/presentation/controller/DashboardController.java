@@ -2,6 +2,7 @@ package org.unina.uninadelivery.presentation.controller;
 
 import java.util.Map;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
+import io.github.palexdev.materialfx.controls.MFXTooltip;
 import io.github.palexdev.materialfx.utils.ScrollUtils;
 import io.github.palexdev.materialfx.utils.ToggleButtonsUtil;
 import io.github.palexdev.materialfx.utils.others.loader.MFXLoader;
@@ -15,11 +16,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.presentation.controller.orgdomain.HomeManagerController;
@@ -38,11 +41,14 @@ import static org.unina.uninadelivery.presentation.helper.resourceLoader.loadURL
 public class DashboardController implements Initializable {
 
     private final MfxToggleButtonsHelper mfxToggleButtonsHelper;
+    @FXML
+    public VBox navBar;
     private UtenteDTO utente;
     private final Stage dashboardStage;
     private final ToggleGroup toggleGroup;
     @FXML
     public Label utenteLabel;
+    @FXML
     public MFXScrollPane scrollPane;
     @FXML
     public AnchorPane rootPane;
@@ -96,6 +102,8 @@ public class DashboardController implements Initializable {
         Property<UtenteDTO> prop = session.getUserDto();
         utente = new UtenteDTO();// prop.getValue();
         //todo: fixare
+        utente.setProfilo("Operatore");
+        utente.setUsername("Fabio");
 
         //imposto il comportamento dei pulsanti di chiusura applicazione, minimizza e sempre in primo piano
         closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> Platform.exit());
@@ -105,6 +113,10 @@ public class DashboardController implements Initializable {
             alwaysOnTopIcon.pseudoClassStateChanged(PseudoClass.getPseudoClass("always-on-top"), newVal);
             dashboardStage.setAlwaysOnTop(newVal);
         });
+
+        MFXTooltip.of(closeIcon, "Chiudi").install();
+        MFXTooltip.of(minimizeIcon, "Minimizza").install();
+        MFXTooltip.of(alwaysOnTopIcon, "Sempre in primo piano").install();
 
         //imposto il comportamento del trascinamento della finestra
         windowHeader.setOnMousePressed(event -> {
@@ -146,18 +158,35 @@ public class DashboardController implements Initializable {
 
         //menu home
         if(utente.getProfilo().equals("Operatore"))
-            loader.addView(MFXLoaderBean.of("HOME", loadURL("views/orgdomain/home-opfiliale-view.fxml"))
-                    .setBeanToNodeMapper(() ->  mfxToggleButtonsHelper.createToggle("fa-house-user", "HOME")).setDefaultRoot(true).setControllerFactory(c -> new HomeOpFilialeController(dashboardStage)).get());
+            loader.addView(MFXLoaderBean.of("HOME", loadURL("/views/orgdomain/home-opfiliale-view.fxml"))
+                    .setBeanToNodeMapper(() ->  mfxToggleButtonsHelper.createToggle("fas-house-user", "HOME")).setDefaultRoot(true).setControllerFactory(c -> new HomeOpFilialeController(dashboardStage)).get());
         else if (utente.getProfilo().equals("OperatoreCorriere")) {
-            loader.addView(MFXLoaderBean.of("HOME", loadURL("views/orgdomain/home-opcorriere-view.fxml"))
-                    .setBeanToNodeMapper(() ->  mfxToggleButtonsHelper.createToggle("fa-house-user", "HOME")).setDefaultRoot(true).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+            loader.addView(MFXLoaderBean.of("HOME", loadURL("/views/orgdomain/home-opcorriere-view.fxml"))
+                    .setBeanToNodeMapper(() ->  mfxToggleButtonsHelper.createToggle("fas-house-user", "HOME")).setDefaultRoot(true).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
         } else if (utente.getProfilo().equals("Manager")) {
-            loader.addView(MFXLoaderBean.of("HOME", loadURL("views/orgdomain/home-amministratore-view.fxml"))
-                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fa-house-user", "HOME")).setDefaultRoot(true).setControllerFactory(c -> new HomeManagerController(dashboardStage)).get());
+            loader.addView(MFXLoaderBean.of("HOME", loadURL("/views/orgdomain/home-amministratore-view.fxml"))
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-house-user", "HOME")).setDefaultRoot(true).setControllerFactory(c -> new HomeManagerController(dashboardStage)).get());
         }
         else {
             //todo gestire profilo non pervenuto o non riconosciuto
         }
+
+        //attivo tutto
+        loader.setOnLoadedAction(beans -> {
+            List<ToggleButton> nodes = beans.stream()
+                    .map(bean -> {
+                        ToggleButton toggle = (ToggleButton) bean.getBeanToNodeMapper().get();
+                        toggle.setOnAction(event -> contentPane.getChildren().setAll(bean.getRoot()));
+                        if (bean.isDefaultView()) {
+                            contentPane.getChildren().setAll(bean.getRoot());
+                            toggle.setSelected(true);
+                        }
+                        return toggle;
+                    })
+                    .toList();
+            navBar.getChildren().setAll(nodes);
+        });
+        loader.start();
     }
 
     //Qui carichiamo le view in memoria

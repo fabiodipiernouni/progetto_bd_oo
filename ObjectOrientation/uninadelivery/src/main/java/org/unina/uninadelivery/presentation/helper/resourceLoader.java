@@ -11,7 +11,12 @@ public class resourceLoader {
     }
 
     public static URL loadURL(String path) {
-        return UninaApplication.class.getResource(path);
+        URL url = resourceLoader.class.getResource(path);
+        if (url == null) {
+            url = resourceLoader.class.getResource("/org/unina/uninadelivery/presentation" + (path.startsWith("/") ? "" : "/") + path);
+        }
+
+        return url;
     }
 
     public static String load(String path) {
