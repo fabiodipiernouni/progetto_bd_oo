@@ -1,9 +1,11 @@
 package org.unina.uninadelivery.presentation.controller;
 
+import java.util.Map;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import io.github.palexdev.materialfx.utils.ScrollUtils;
 import io.github.palexdev.materialfx.utils.ToggleButtonsUtil;
 import io.github.palexdev.materialfx.utils.others.loader.MFXLoader;
+import io.github.palexdev.materialfx.utils.others.loader.MFXLoaderBean;
 import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
@@ -20,6 +22,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
+import org.unina.uninadelivery.presentation.controller.orgdomain.HomeManagerController;
+import org.unina.uninadelivery.presentation.controller.orgdomain.HomeOpCorriereController;
+import org.unina.uninadelivery.presentation.controller.orgdomain.HomeOpFilialeController;
 import org.unina.uninadelivery.presentation.helper.MfxToggleButtonsHelper;
 import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.orchestrator.appdomain.LoginOrchestrator;
@@ -28,12 +33,14 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static org.unina.uninadelivery.presentation.helper.resourceLoader.loadURL;
+
 public class DashboardController implements Initializable {
 
+    private final MfxToggleButtonsHelper mfxToggleButtonsHelper;
     private UtenteDTO utente;
     private final Stage dashboardStage;
     private final ToggleGroup toggleGroup;
-    private final MfxToggleButtonsHelper mfxToggleButtonsHelper;
     @FXML
     public Label utenteLabel;
     public MFXScrollPane scrollPane;
@@ -85,6 +92,11 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Session session = Session.getInstance();
+        Property<UtenteDTO> prop = session.getUserDto();
+        utente = new UtenteDTO();// prop.getValue();
+        //todo: fixare
+
         //imposto il comportamento dei pulsanti di chiusura applicazione, minimizza e sempre in primo piano
         closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> Platform.exit());
         minimizeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Stage) rootPane.getScene().getWindow()).setIconified(true));
@@ -124,10 +136,27 @@ public class DashboardController implements Initializable {
     }
 
     private void buildMenu(MFXLoader loader) {
+        Session session = Session.getInstance();
+
+        Map<String, Object> appyml = (Map<String, Object>)session.getSessionData("application.yml");
+
+        Map<String, Object> menuViews = (Map<String, Object>) ((Map<String, Object>)appyml.get("application")).get("menuViews");
+
         List<String> funzioni = utente.getFunzioni();
-        
-        for(String funzione : funzioni) {
-            
+
+        //menu home
+        if(utente.getProfilo().equals("Operatore"))
+            loader.addView(MFXLoaderBean.of("HOME", loadURL("views/orgdomain/home-opfiliale-view.fxml"))
+                    .setBeanToNodeMapper(() ->  mfxToggleButtonsHelper.createToggle("fa-house-user", "HOME")).setDefaultRoot(true).setControllerFactory(c -> new HomeOpFilialeController(dashboardStage)).get());
+        else if (utente.getProfilo().equals("OperatoreCorriere")) {
+            loader.addView(MFXLoaderBean.of("HOME", loadURL("views/orgdomain/home-opcorriere-view.fxml"))
+                    .setBeanToNodeMapper(() ->  mfxToggleButtonsHelper.createToggle("fa-house-user", "HOME")).setDefaultRoot(true).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+        } else if (utente.getProfilo().equals("Manager")) {
+            loader.addView(MFXLoaderBean.of("HOME", loadURL("views/orgdomain/home-amministratore-view.fxml"))
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fa-house-user", "HOME")).setDefaultRoot(true).setControllerFactory(c -> new HomeManagerController(dashboardStage)).get());
+        }
+        else {
+            //todo gestire profilo non pervenuto o non riconosciuto
         }
     }
 

@@ -8,7 +8,7 @@ import lombok.*;
 @Getter
 @Setter
 public class FilialeDTO {
-    @NonNull
+
     private long id;
     @NonNull
     private String nome;

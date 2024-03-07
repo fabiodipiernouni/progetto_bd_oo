@@ -14,7 +14,7 @@ import org.unina.uninadelivery.bll.appdomain.AuthService;
 import org.unina.uninadelivery.dal.exception.PersistenceException;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.presentation.app.UninaApplication;
-import org.unina.uninadelivery.presentation.controller.LoginController;
+import org.unina.uninadelivery.presentation.controller.appdomain.LoginController;
 import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.css.themes.MFXThemeManager;
 import org.unina.uninadelivery.presentation.css.themes.Themes;

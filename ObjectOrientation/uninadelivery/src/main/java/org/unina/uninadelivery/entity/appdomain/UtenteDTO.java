@@ -3,6 +3,7 @@ package org.unina.uninadelivery.entity.appdomain;
 
 import lombok.*;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -24,5 +25,5 @@ public class UtenteDTO {
 
     private String profilo = "";
 
-    private List<String> funzioni = null;
+    private List<String> funzioni = Collections.emptyList();
 }

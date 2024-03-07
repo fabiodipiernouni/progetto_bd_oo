@@ -1,11 +1,10 @@
-package org.unina.uninadelivery.presentation.controller;
+package org.unina.uninadelivery.presentation.controller.appdomain;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import org.unina.uninadelivery.presentation.helper.MfxToggleButtonsHelper;
 import org.unina.uninadelivery.presentation.orchestrator.appdomain.LoginOrchestration;
 import org.unina.uninadelivery.presentation.orchestrator.appdomain.LoginOrchestrator;
 
@@ -23,14 +22,9 @@ public class LoginController implements Initializable {
     @FXML
     private Label lblError;
 
-    private final MfxToggleButtonsHelper mfxToggleButtonsHelper;
-
-    private final ToggleGroup toggleGroup;
-
     public LoginController(Stage stage) {
         this.primaryStage = stage;
-        toggleGroup = new ToggleGroup();
-        mfxToggleButtonsHelper = new MfxToggleButtonsHelper(toggleGroup);
+
     }
 
     @FXML

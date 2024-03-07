@@ -9,3 +9,10 @@ database:
 application:
     version: 1.0.0
     loginEnabled: false
+    menuViews:
+        magazzini: false
+        ordini-packaging: true
+        ordini-spedizione: true
+
+
+
