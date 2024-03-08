@@ -25,5 +25,9 @@ public class UtenteDTO {
 
     private String profilo = "";
 
+    private String filiale = "";
+
+    private String gruppoCorriere = "";
+
     private List<String> funzioni = Collections.emptyList();
 }

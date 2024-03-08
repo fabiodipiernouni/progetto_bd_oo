@@ -49,6 +49,16 @@ public class DashboardController implements Initializable {
     private final MfxToggleButtonsHelper mfxToggleButtonsHelper;
     @FXML
     public VBox navBar;
+    @FXML
+    public HBox formHeader;
+    @FXML
+    public Label lblCorriere;
+    @FXML
+    public Label lblFilialeTitle;
+    @FXML
+    public Label lblFiliale;
+    @FXML
+    public Label lblCorriereTitle;
     private UtenteDTO utente;
     private final Stage dashboardStage;
     private final ToggleGroup toggleGroup;
@@ -83,6 +93,12 @@ public class DashboardController implements Initializable {
         Property<UtenteDTO> prop = session.getUserDto();
         utente = prop.getValue();
         Scene scene = utenteLabel.getScene();
+
+        if(utente.getProfilo() == "Operatore" || utente.getProfilo() == "OperatoreFiliale")
+            lblFiliale.setText(utente.getFiliale());
+
+        if(utente.getProfilo() == "OperatoreCorriere")
+            lblCorriere.setText(utente.getGruppoCorriere());
 
         try {
             //Aggiungo un evento per gestire il momento del logout. Il logout non farà altro che invalidare l'utente corrente
