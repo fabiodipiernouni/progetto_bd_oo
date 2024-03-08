@@ -1,8 +1,0 @@
-bpk3181nciydujmq_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.eu-milan-1.oraclecloud.com))(connect_data=(service_name=gf9265d3a36ea1c_bpk3181nciydujmq_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
-
-bpk3181nciydujmq_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.eu-milan-1.oraclecloud.com))(connect_data=(service_name=gf9265d3a36ea1c_bpk3181nciydujmq_low.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
-
-bpk3181nciydujmq_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.eu-milan-1.oraclecloud.com))(connect_data=(service_name=gf9265d3a36ea1c_bpk3181nciydujmq_medium.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))
-
-
-

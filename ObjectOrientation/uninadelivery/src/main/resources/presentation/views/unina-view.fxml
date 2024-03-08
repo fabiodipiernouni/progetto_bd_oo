@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.UninaController">
+   <left>
+      <VBox prefHeight="400.0" prefWidth="151.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnLogout" mnemonicParsing="false" onAction="#onBtnLogout" text="Logout" />
+         </children></VBox>
+   </left>
+   <top>
+      <HBox prefHeight="102.0" prefWidth="794.0" style="-fx-background-color: gray;" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane prefHeight="100.0" prefWidth="210.0">
+               <children>
+                  <ImageView fitHeight="150.0" fitWidth="217.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </AnchorPane>
+            <GridPane prefHeight="150.0" prefWidth="580.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="283.0" minWidth="10.0" prefWidth="135.33333333333334" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="441.33333333333326" minWidth="10.0" prefWidth="441.33333333333326" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Utente">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="eleAppartenenzaLabel" text="Filiale" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label text="Matricola" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="utenteLabel" text="Label" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="filialeGruppoLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="matricolaLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+         </children></HBox>
+   </top>
+   <right>
+      <Pane prefHeight="400.0" prefWidth="784.0" BorderPane.alignment="CENTER" />
+   </right>
+</BorderPane>
