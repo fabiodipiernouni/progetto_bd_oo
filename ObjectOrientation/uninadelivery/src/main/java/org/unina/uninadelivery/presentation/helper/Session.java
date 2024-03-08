@@ -35,6 +35,10 @@ public class Session {
         return sessionData.get(key);
     }
 
+    public boolean containsKey(String key) {
+        return sessionData.containsKey(key);
+    }
+
     public static Session getInstance() {
         if(instance == null) {
             instance = new Session();

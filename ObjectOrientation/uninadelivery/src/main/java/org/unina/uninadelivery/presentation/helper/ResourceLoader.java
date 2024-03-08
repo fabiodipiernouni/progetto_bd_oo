@@ -5,15 +5,15 @@ import org.unina.uninadelivery.presentation.app.UninaApplication;
 import java.io.InputStream;
 import java.net.URL;
 
-public class resourceLoader {
+public class ResourceLoader {
 
-    public resourceLoader() {
+    public ResourceLoader() {
     }
 
     public static URL loadURL(String path) {
-        URL url = resourceLoader.class.getResource(path);
+        URL url = ResourceLoader.class.getResource(path);
         if (url == null) {
-            url = resourceLoader.class.getResource("/org/unina/uninadelivery/presentation" + (path.startsWith("/") ? "" : "/") + path);
+            url = ResourceLoader.class.getResource("/org/unina/uninadelivery/presentation" + (path.startsWith("/") ? "" : "/") + path);
         }
 
         return url;

@@ -25,14 +25,11 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
 
+import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
 import org.yaml.snakeyaml.Yaml;
 
-public class LoginOrchestrator implements LoginOrchestration {
+public class LoginOrchestrator extends Orchestrator implements LoginOrchestration {
     private Stage loginStage;
-    private final Stage dashboardStage;
-    private DashboardController dashboardController;
-    private LoginController loginController;
-    private Map<String, Object> yamlValues;
 
     private static LoginOrchestrator instance;
     public static LoginOrchestrator getLoginOrchestrator() {
@@ -47,7 +44,7 @@ public class LoginOrchestrator implements LoginOrchestration {
     }
 
     private LoginOrchestrator(Stage dashboardStage) {
-        this.dashboardStage = dashboardStage;
+        super(dashboardStage);
     }
 
     public void loginClicked(String username, String password) {
@@ -151,8 +148,6 @@ public class LoginOrchestrator implements LoginOrchestration {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/views/appdomain/login-view.fxml"));
             Scene loginScene = new Scene(loader.load(), 600, 400);
-
-            loginController = loader.getController();
 
             loginStage.setScene(loginScene);
             loginStage.showAndWait();

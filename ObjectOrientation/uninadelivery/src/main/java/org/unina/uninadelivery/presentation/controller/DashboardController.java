@@ -24,10 +24,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
+import org.unina.uninadelivery.presentation.controller.customerdomain.ClientiController;
+import org.unina.uninadelivery.presentation.controller.orgdomain.GestioneMagazziniController;
 import org.unina.uninadelivery.presentation.controller.orgdomain.HomeManagerController;
 import org.unina.uninadelivery.presentation.controller.orgdomain.HomeOpCorriereController;
 import org.unina.uninadelivery.presentation.controller.orgdomain.HomeOpFilialeController;
+import org.unina.uninadelivery.presentation.controller.shipmentdomain.OrdiniPackagingController;
+import org.unina.uninadelivery.presentation.controller.shipmentdomain.OrdiniSpedizioneController;
+import org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioniController;
 import org.unina.uninadelivery.presentation.helper.MfxToggleButtonsHelper;
 import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.orchestrator.appdomain.LoginOrchestrator;
@@ -36,7 +42,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import static org.unina.uninadelivery.presentation.helper.resourceLoader.loadURL;
+import static org.unina.uninadelivery.presentation.helper.ResourceLoader.loadURL;
 
 public class DashboardController implements Initializable {
 
@@ -130,24 +136,15 @@ public class DashboardController implements Initializable {
             dashboardStage.setY(event.getScreenY() + yOffset);
         });
 
-        //metodo per il loading delle maschere che popoleranno la pagina nello stackpane
-        initialLoader();
-
-        
-        ScrollUtils.addSmoothScrolling(scrollPane);
-
         MFXLoader loader = new MFXLoader();
 
         //Costruisco le voci di menu sulla base delle funzioni associate all'utente loggato
         buildMenu(loader);
-        
-        //Aggiungo il pulsante di chiusura applicazione
-        buildCloseButton(loader);
 
+        //imposto il comportamento del pannello di scorrimento
+        ScrollUtils.addSmoothScrolling(scrollPane);
     }
 
-    private void buildCloseButton(MFXLoader loader) {
-    }
 
     private void buildMenu(MFXLoader loader) {
         Session session = Session.getInstance();
@@ -177,27 +174,27 @@ public class DashboardController implements Initializable {
         if(utente.getProfilo().equals("Operatore") || utente.getProfilo().equals("Manager")) {
             //Gestione clienti
             loader.addView(MFXLoaderBean.of("CLIENTI", loadURL("/views/customerdomain/clienti-view.fxml"))
-                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-user-tie", "GESTIONE CLIENTI")).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-user-tie", "GESTIONE CLIENTI")).setControllerFactory(c -> new ClientiController(dashboardStage)).get());
 
             //Spedizioni
             loader.addView(MFXLoaderBean.of("SPEDIZIONI", loadURL("/views/shipmentdomain/spedizioni-view.fxml"))
-                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-envelope-open-text", "GESTIONE CLIENTI")).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-envelope-open-text", "GESTIONE SPEDIZIONI")).setControllerFactory(c -> new SpedizioniController(dashboardStage)).get());
         }
 
         if(utente.getProfilo().equals("Manager") || utente.getProfilo().equals("OperatoreCorriere") || utente.getProfilo().equals("Operatore")) {
             //Gestione ordini di packaging
             loader.addView(MFXLoaderBean.of("ORDINI PACKAGING", loadURL("/views/shipmentdomain/ordini-packaging-view.fxml"))
-                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-boxes-packing", "ORDINI DI PACKAGING")).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-boxes-packing", "ORDINI DI PACKAGING")).setControllerFactory(c -> new OrdiniPackagingController(dashboardStage)).get());
 
             //Gestione ordini di packaging
             loader.addView(MFXLoaderBean.of("ORDINI SPEDIZIONE", loadURL("/views/shipmentdomain/ordini-spedizione-view.fxml"))
-                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-truck", "ORDINI DI SPEDIZIONE")).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-truck", "ORDINI DI TRASPORTO")).setControllerFactory(c -> new OrdiniSpedizioneController(dashboardStage)).get());
         }
 
         if(utente.getProfilo().equals("OperatoreCorriere")) {
             //Gestione Magazzini
             loader.addView(MFXLoaderBean.of("MAGAZZINI", loadURL("/views/orgdomain/magazzini-view.fxml"))
-                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-warehouse", "GESTIONE MAGAZZINI")).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
+                    .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-warehouse", "GESTIONE MAGAZZINI")).setControllerFactory(c -> new GestioneMagazziniController(dashboardStage)).get());
         }
 
         //attivo tutto
@@ -227,7 +224,18 @@ public class DashboardController implements Initializable {
         loader.start();
     }
 
-    //Qui carichiamo le view in memoria
-    private void initialLoader() {
+    public void changeView(String viewName, String viewUrl, Callback<Class<?>, Object> controllerFactory){
+        //Diciamo al loader cosa fare a load terminato (cioè cambiare la view)
+        MFXLoader loader = new MFXLoader(beans -> contentPane.getChildren().setAll(beans.get(0).getRoot()));
+
+        //creo un bean dalla view caricata
+        MFXLoaderBean bean = MFXLoaderBean.of(viewName, loadURL(viewUrl)).get();
+
+        //imposto il controller factory
+        bean.setControllerFactory(controllerFactory); //per il passaggio dei parametri
+
+        loader.addView(bean);
+        loader.start();
     }
+
 }
