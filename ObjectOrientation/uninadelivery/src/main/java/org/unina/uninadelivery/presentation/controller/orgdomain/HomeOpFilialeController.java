@@ -6,7 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.unina.uninadelivery.bll.customerdomain.CustomerAsyncService;
+import org.unina.uninadelivery.bll.customerdomain.CustomerService;
 import org.unina.uninadelivery.bll.shipmentdomain.ShipmentAsyncService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.presentation.helper.Session;
@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class HomeOpFilialeController implements Initializable {
-    final CustomerAsyncService customerAsyncService;
+    final CustomerService customerAsyncService;
     final ShipmentAsyncService shipmentAsyncService;
     final OperatoreFilialeDTO operatoreFilialeDTO;
 
@@ -39,7 +39,7 @@ public class HomeOpFilialeController implements Initializable {
 
     public HomeOpFilialeController(Stage dashboardStage) {
         this.dashboardStage = dashboardStage;
-        customerAsyncService = new CustomerAsyncService();
+        customerAsyncService = new CustomerService();
         shipmentAsyncService = new ShipmentAsyncService();
 
         Session session = Session.getInstance();

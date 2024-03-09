@@ -2,16 +2,14 @@ package org.unina.uninadelivery.presentation.controller.customerdomain;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import org.unina.uninadelivery.presentation.orchestrator.customerdomain.CustomerOrchestrator;
 
-public class ordiniController {
+public class OrdiniController {
 
     private final Stage dashboardStage;
 
-    public ordiniController(Stage dashboardStage) {
+    public OrdiniController(Stage dashboardStage) {
         this.dashboardStage = dashboardStage;
     }
 

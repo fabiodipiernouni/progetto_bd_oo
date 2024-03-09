@@ -5,9 +5,12 @@ import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.dal.exception.PersistenceException;
 import org.unina.uninadelivery.dal.factory.customerdomain.FactoryCustomerDomain;
 import org.unina.uninadelivery.dal.factory.customerdomain.OrdineClienteDAO;
+import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 
-public class CustomerAsyncService {
+import java.util.Optional;
+
+public class CustomerService {
     public Task<Integer> getCountOrdiniDaLavorareTask(FilialeDTO filiale) {
         return new Task<>() {
             @Override
@@ -25,5 +28,14 @@ public class CustomerAsyncService {
                 return ret;
             }
         };
+    }
+
+    public Optional<OrdineClienteDTO> getOrdineCliente(long id) throws ServiceException {
+        OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
+        try {
+            return dao.select(id);
+        } catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire l'ordine");
+        }
     }
 }

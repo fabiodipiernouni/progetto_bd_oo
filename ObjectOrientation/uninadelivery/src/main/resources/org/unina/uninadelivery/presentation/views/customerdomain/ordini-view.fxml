@@ -5,6 +5,6 @@
 
 <AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css"
             xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.unina.uninadelivery.presentation.controller.customerdomain.ordiniController">
+            fx:controller="org.unina.uninadelivery.presentation.controller.customerdomain.OrdiniController">
 
 </AnchorPane>
