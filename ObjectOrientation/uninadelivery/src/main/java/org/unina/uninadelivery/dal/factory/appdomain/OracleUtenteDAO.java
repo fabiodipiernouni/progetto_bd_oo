@@ -86,7 +86,17 @@ class OracleUtenteDAO implements UtenteDAO {
                 );
                 break;
 
-            //TODO: gestire altri profili
+            case "Manger":
+                utente = new UtenteDTO(
+                        id,
+                        username,
+                        password,
+                        matricolaUnina,
+                        profilo,
+                        funzioni
+                );
+                break;
+
 
             default:
                 throw new ConsistencyException("profilo non riconosciuto");
