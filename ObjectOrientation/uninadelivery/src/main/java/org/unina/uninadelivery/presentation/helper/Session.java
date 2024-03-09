@@ -19,7 +19,7 @@ public class Session {
 
         return user;
     }
-    public void addUserDto(Property<UtenteDTO> user) {
+    public void setUserDto(Property<UtenteDTO> user) {
         getUserDto().setValue(user.getValue());
     }
 

@@ -28,4 +28,8 @@ module org.unina.uninadelivery {
     opens org.unina.uninadelivery.presentation.controller.appdomain to javafx.fxml;
     exports org.unina.uninadelivery.presentation.controller.shipmentdomain;
     opens org.unina.uninadelivery.presentation.controller.shipmentdomain to javafx.fxml;
+    opens org.unina.uninadelivery.presentation.controller.orgdomain to javafx.fxml;
+    exports org.unina.uninadelivery.presentation.controller.orgdomain;
+    opens org.unina.uninadelivery.presentation.controller.customerdomain to javafx.fxml;
+    exports org.unina.uninadelivery.presentation.controller.customerdomain;
 }

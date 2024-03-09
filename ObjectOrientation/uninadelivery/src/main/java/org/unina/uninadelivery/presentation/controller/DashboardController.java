@@ -27,6 +27,7 @@ import javafx.util.Callback;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
+import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
 import org.unina.uninadelivery.presentation.controller.customerdomain.ClientiController;
 import org.unina.uninadelivery.presentation.controller.orgdomain.GestioneMagazziniController;
@@ -41,6 +42,7 @@ import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.orchestrator.appdomain.LoginOrchestrator;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -102,13 +104,11 @@ public class DashboardController implements Initializable {
         lblCorriereTitle.setVisible(true);
         lblCorriere.setVisible(true);
 
-        if(utente.getProfilo().equals("Operatore") && utente instanceof OperatoreFilialeDTO) {
-            OperatoreFilialeDTO operatoreFiliale = (OperatoreFilialeDTO) utente;
+        if(utente.getProfilo().equals("Operatore") && utente instanceof OperatoreFilialeDTO operatoreFiliale) {
             lblFiliale.setText(operatoreFiliale.getFiliale().getNome());
         }
 
-        if(utente.getProfilo().equals("OperatoreCorriere") && utente instanceof OperatoreCorriereDTO) {
-            OperatoreCorriereDTO operatoreCorriere = (OperatoreCorriereDTO) utente;
+        if(utente.getProfilo().equals("OperatoreCorriere") && utente instanceof OperatoreCorriereDTO operatoreCorriere) {
             GruppoCorriereDTO corriereDTO = operatoreCorriere.getGruppoCorriere();
             lblCorriere.setText(corriereDTO.getNome() + "(" + corriereDTO.getCodiceCorriere() + ")");
         }
@@ -144,10 +144,15 @@ public class DashboardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         Session session = Session.getInstance();
         Property<UtenteDTO> prop = session.getUserDto();
-        utente = new UtenteDTO();// prop.getValue();
+        utente = new OperatoreFilialeDTO();// prop.getValue();
         //todo: fixare
         utente.setProfilo("Operatore");
         utente.setUsername("Fabio");
+        utente.setFunzioni(Collections.emptyList());
+        ((OperatoreFilialeDTO)utente).setFiliale(new FilialeDTO(1, "Filiale Napoli", "Italia", "Unina Delivery ITA", "12345678901"));
+
+        prop.setValue(utente);
+        session.setUserDto(prop);
 
         //imposto il comportamento dei pulsanti di chiusura applicazione, minimizza e sempre in primo piano
         closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> Platform.exit());
@@ -277,5 +282,4 @@ public class DashboardController implements Initializable {
         loader.addView(bean);
         loader.start();
     }
-
 }

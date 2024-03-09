@@ -12,23 +12,20 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.unina.uninadelivery.bll.appdomain.AuthService;
 import org.unina.uninadelivery.bll.exception.ServiceException;
-import org.unina.uninadelivery.dal.exception.PersistenceException;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.presentation.app.UninaApplication;
-import org.unina.uninadelivery.presentation.controller.appdomain.LoginController;
 import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.css.themes.MFXThemeManager;
 import org.unina.uninadelivery.presentation.css.themes.Themes;
 import org.unina.uninadelivery.presentation.helper.Session;
+import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
+import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
 import java.util.Optional;
-
-import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
-import org.yaml.snakeyaml.Yaml;
 
 public class LoginOrchestrator extends Orchestrator implements LoginOrchestration {
     private Stage loginStage;
@@ -189,7 +186,7 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
         }
 
         if(isValid) {
-            Session.getInstance().addUserDto(utenteDtoProperty);
+            Session.getInstance().setUserDto(utenteDtoProperty);
             loginStage.close();
             /*URL res = UninaApplication.class.getResource("/presentation/views/dashboard-view.fxml");
             FXMLLoader fxmlLoader = new FXMLLoader(res);*/
@@ -201,7 +198,7 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
         }
         else {
             utenteDtoProperty.setValue(null);
-            Session.getInstance().addUserDto(utenteDtoProperty);
+            Session.getInstance().setUserDto(utenteDtoProperty);
         }
     }
 }

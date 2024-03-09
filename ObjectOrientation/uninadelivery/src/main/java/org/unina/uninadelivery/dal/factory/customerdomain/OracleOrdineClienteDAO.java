@@ -40,7 +40,6 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
         if(cliente.isEmpty())
             throw new ConsistencyException("Cliente non trovato");
 
-
         long idIndirizzoFatturazione = resultSet.getLong("idIndirizzoFatturazione");
         Optional<IndirizzoDTO> indirizzoFatturazione = FactoryGeoDomain.buildIndirizzoDAO().select(idIndirizzoFatturazione);
         if(indirizzoFatturazione.isEmpty())

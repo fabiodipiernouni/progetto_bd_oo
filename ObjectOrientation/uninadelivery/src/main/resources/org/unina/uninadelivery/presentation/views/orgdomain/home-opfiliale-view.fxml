@@ -10,11 +10,11 @@
     <children>
         <Pane layoutX="57.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_1">
             <children>
-                <Label fx:id="lblCntOrdiniClienteFiliale" layoutX="14.0" layoutY="140.0" text="100" textFill="WHITE">
+                <Label fx:id="lblCntOrdiniClienteFiliale" layoutX="14.0" layoutY="140.0" text="-1" textFill="WHITE">
                     <font>
                         <Font name="Verdana Bold" size="36.0" />
                     </font></Label>
-                <Label layoutX="15.0" layoutY="174.0" prefHeight="89.0" prefWidth="170.0" text="Ordini dai clienti da lavorare" textFill="WHITE" wrapText="true">
+                <Label layoutX="15.0" layoutY="174.0" prefHeight="113.0" prefWidth="170.0" text="Ordini clienti da lavorare creando una nuova spedizione" textFill="WHITE" wrapText="true">
                     <font>
                         <Font name="Verdana" size="18.0" />
                     </font>
@@ -27,12 +27,12 @@
             </children></Pane>
         <Pane layoutX="280.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_2">
             <children>
-                <Label fx:id="lblCntOrdiniClienteFiliale1" layoutX="14.0" layoutY="140.0" text="32">
+                <Label fx:id="lblSpedizioniDaLavorare" layoutX="14.0" layoutY="140.0" text="-1">
                     <font>
                         <Font name="Verdana Bold" size="36.0" />
                     </font>
                 </Label>
-                <Label layoutX="15.0" layoutY="174.0" prefHeight="89.0" prefWidth="170.0" text="Spedizioni organizzate" wrapText="true">
+                <Label layoutX="15.0" layoutY="174.0" prefHeight="103.0" prefWidth="170.0" text="Spedizioni create da avanzare con ordini di packaging" wrapText="true">
                     <font>
                         <Font name="Verdana" size="18.0" />
                     </font>
@@ -46,12 +46,12 @@
         </Pane>
         <Pane layoutX="513.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_3">
             <children>
-                <Label fx:id="lblCntOrdiniClienteFiliale11" layoutX="14.0" layoutY="140.0" text="32" textFill="WHITE">
+                <Label fx:id="lblOrdiniPackagingDaTrasportare" layoutX="14.0" layoutY="140.0" text="-1" textFill="WHITE">
                     <font>
                         <Font name="Verdana Bold" size="36.0" />
                     </font>
                 </Label>
-                <Label layoutX="15.0" layoutY="174.0" prefHeight="89.0" prefWidth="170.0" text="Ordini di packaging da organizzare" textFill="WHITE" wrapText="true">
+                <Label layoutX="15.0" layoutY="174.0" prefHeight="103.0" prefWidth="170.0" text="Ordini di packaging conclusi con trasporto da avviare" textFill="WHITE" wrapText="true">
                     <font>
                         <Font name="Verdana" size="18.0" />
                     </font>
@@ -65,12 +65,12 @@
         </Pane>
         <Pane layoutX="743.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_4">
             <children>
-                <Label fx:id="lblCntOrdiniClienteFiliale111" layoutX="14.0" layoutY="140.0" text="32" textFill="WHITE">
+                <Label fx:id="lblCntOrdiniTrasportoNonConclusi" layoutX="14.0" layoutY="140.0" text="-1" textFill="WHITE">
                     <font>
                         <Font name="Verdana Bold" size="36.0" />
                     </font>
                 </Label>
-                <Label layoutX="15.0" layoutY="174.0" prefHeight="89.0" prefWidth="170.0" text="Ordini di trasporto da organizzare" textFill="WHITE" wrapText="true">
+                <Label layoutX="15.0" layoutY="174.0" prefHeight="89.0" prefWidth="170.0" text="Ordini di trasporto non ancora conclusi" textFill="WHITE" wrapText="true">
                     <font>
                         <Font name="Verdana" size="18.0" />
                     </font>
