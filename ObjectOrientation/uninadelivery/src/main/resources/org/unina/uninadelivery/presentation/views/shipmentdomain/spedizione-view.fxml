@@ -9,6 +9,6 @@
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioneController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css">
 
 </AnchorPane>
