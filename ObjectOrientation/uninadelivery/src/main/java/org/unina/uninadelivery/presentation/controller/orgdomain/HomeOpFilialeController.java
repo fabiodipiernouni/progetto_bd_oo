@@ -33,6 +33,7 @@ public class HomeOpFilialeController implements Initializable {
     @FXML
     public Label lblSpedizioniDaLavorare;
     @FXML
+
     public Label lblOrdiniPackagingDaTrasportare;
     @FXML
     public Label lblCntOrdiniTrasportoNonConclusi;
@@ -55,14 +56,29 @@ public class HomeOpFilialeController implements Initializable {
         });
 
         //Setup task per il conteggio delle spedizioni da lavorare
-        Task<Integer> cntSpedioniDaLavorareAsync = shipmentAsyncService.getCountSpedioniDaLavorare(operatoreFilialeDTO);
-        cntSpedioniDaLavorareAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
+        Task<Integer> cntSpedizioniDaLavorareAsync = shipmentAsyncService.getCountSpedizioniDaLavorare(operatoreFilialeDTO);
+        cntSpedizioniDaLavorareAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblSpedizioniDaLavorare.setText(newValue.toString());
         });
+
+        //Setup task per il conteggio degli ordini di packaging conclusi in attesa di trasporto
+        Task<Integer> cntOrdiniPackagingDaTrasportareAsync = shipmentAsyncService.getCountOrdiniDiLavoroPackagingConclusiAttesaTrasporto(operatoreFilialeDTO.getFiliale());
+        cntOrdiniPackagingDaTrasportareAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
+            lblOrdiniPackagingDaTrasportare.setText(newValue.toString());
+        });
+
+        //Setup task per il conteggio degli ordini di trasporto non conclusi
+        Task<Integer> cntOrdiniTrasportoNonConclusiAsync = shipmentAsyncService.getCountOrdiniDiLavoroSpedizioneAperti(operatoreFilialeDTO.getFiliale());
+        cntOrdiniTrasportoNonConclusiAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
+            lblCntOrdiniTrasportoNonConclusi.setText(newValue.toString());
+        });
+
 
         //Eseguo i task
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.submit(cntOrdiniDaLavorareTaskAsync);
-        executorService.submit(cntSpedioniDaLavorareAsync);
+        executorService.submit(cntSpedizioniDaLavorareAsync);
+        executorService.submit(cntOrdiniTrasportoNonConclusiAsync);
+        executorService.submit(cntOrdiniPackagingDaTrasportareAsync);
     }
 }

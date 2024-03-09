@@ -1,5 +1,6 @@
 package org.unina.uninadelivery.presentation.controller.customerdomain;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
@@ -42,7 +43,7 @@ public class ClientiController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setupPaginated();
+        setup();
 
         clientiGrid.autosizeColumnsOnInitialization();
 
@@ -51,33 +52,49 @@ public class ClientiController implements Initializable {
                 .listen();
     }
 
-    private void setupPaginated() {
+    private void setup() {
 
         MFXTableColumn<ClienteDTO> nameColumn = new MFXTableColumn<>("Nome", false, Comparator.comparing(cliente -> cliente.getCognome() + " " + cliente.getNome()));
-        MFXTableColumn<ClienteDTO> ragSocColumn = new MFXTableColumn<>("Ragione Sociale", false, Comparator.comparing(ClienteDTO::getRagioneSociale));
-        MFXTableColumn<ClienteDTO> pivaColumn = new MFXTableColumn<>("Partita IVA", false, Comparator.comparing(ClienteDTO::getPartitaIVA));
-        MFXTableColumn<ClienteDTO> cfColumn = new MFXTableColumn<>("Codice Fiscale", false, Comparator.comparing(ClienteDTO::getCodiceFiscale));
-        MFXTableColumn<ClienteDTO> actionColumn = new MFXTableColumn<>("Azioni", false, Comparator.comparing(ClienteDTO::getId));
+        MFXTableColumn<ClienteDTO> ragSocColumn = new MFXTableColumn<>("Ragione Sociale", false, Comparator.comparing(cliente -> cliente.getRagioneSociale() != null ? cliente.getRagioneSociale() : "")); //il comparatore non deve ritrovarsi a confrontare dei null
+        MFXTableColumn<ClienteDTO> pivaColumn = new MFXTableColumn<>("Partita IVA", false, Comparator.comparing(cliente -> cliente.getPartitaIVA() != null ? cliente.getPartitaIVA() : ""));
+        MFXTableColumn<ClienteDTO> cfColumn = new MFXTableColumn<>("Codice Fiscale", false, Comparator.comparing(cliente -> cliente.getCodiceFiscale() != null ? cliente.getCodiceFiscale() : ""));
+        MFXTableColumn<ClienteDTO> actionColumn = new MFXTableColumn<>("", false, null); //non voglio che sia sortable
 
         nameColumn.setRowCellFactory(cliente -> new MFXTableRowCell<>(clienteDto -> clienteDto.getCognome() + " " + clienteDto.getNome()));
-        ragSocColumn.setRowCellFactory(cliente -> new MFXTableRowCell<>(ClienteDTO::getRagioneSociale) {{
-            setAlignment(Pos.CENTER_RIGHT);
-        }});
-        pivaColumn.setRowCellFactory(cliente -> new MFXTableRowCell<>(ClienteDTO::getPartitaIVA));
-        cfColumn.setRowCellFactory(cliente -> new MFXTableRowCell<>(ClienteDTO::getCodiceFiscale));
+        ragSocColumn.setRowCellFactory(cliente -> new MFXTableRowCell<>(clienteDto -> clienteDto.getRagioneSociale() != null ? clienteDto.getRagioneSociale() : ""));
+        pivaColumn.setRowCellFactory(cliente -> new MFXTableRowCell<>(clienteDto -> clienteDto.getPartitaIVA() != null ? clienteDto.getPartitaIVA() : ""));
+        cfColumn.setRowCellFactory(cliente -> new MFXTableRowCell<>(clienteDto -> clienteDto.getCodiceFiscale() != null ? clienteDto.getCodiceFiscale() : ""));
+        actionColumn.setRowCellFactory(cliente -> {
+            //crea cella vuota
+            MFXTableRowCell<ClienteDTO, Void> cell = new MFXTableRowCell<>(null);
 
-        clientiGrid.getTableColumns().addAll(nameColumn, ragSocColumn, pivaColumn, cfColumn, actionColumn);
-        clientiGrid.getFilters().addAll(
-                new StringFilter<>("Nome", cliente -> cliente.getCognome() + " " + cliente.getNome()),
-                new StringFilter<>("Ragione Sociale", ClienteDTO::getRagioneSociale),
-                new StringFilter<>("Partita IVA", ClienteDTO::getPartitaIVA),
-                new StringFilter<>("Codice Fiscale", ClienteDTO::getCodiceFiscale)
-        );
+            //crea un tasto
+            MFXButton button = new MFXButton("Visualizza Ordini");
+            button.setOnAction(event -> {
+                // Aggiungi qui il codice da eseguire quando il pulsante viene premuto
+                System.out.println("Button clicked for " + cliente.getCognome() + " " + cliente.getNome());
+            });
 
-        List<ClienteDTO> l = new ArrayList<ClienteDTO>();
-        l.add(new ClienteDTO(1, "Umberto", "Rossi", "ragsoc Umbi", "dsd@sds.it", null, "4839483948"));
-        l.add(new ClienteDTO(2, "Silvio", "Rossi", "ragsoc Silvio", "silvio@sds.it", null, "3343121212"));
+            //imposta il tasto come grafica della cella
+            cell.setGraphic(button);
 
-        clientiGrid.setItems(FXCollections.observableArrayList(l));
+            return cell;
+        });
+
+
+       clientiGrid.getTableColumns().addAll(nameColumn, ragSocColumn, pivaColumn, cfColumn, actionColumn);
+
+       clientiGrid.getFilters().addAll(
+           new StringFilter<>("Nome", cliente -> cliente.getCognome() + " " + cliente.getNome()),
+           new StringFilter<>("Ragione Sociale", ClienteDTO::getRagioneSociale),
+           new StringFilter<>("Partita IVA", ClienteDTO::getPartitaIVA),
+           new StringFilter<>("Codice Fiscale", ClienteDTO::getCodiceFiscale)
+       );
+
+       List<ClienteDTO> l = new ArrayList<>();
+       l.add(new ClienteDTO(1, "Umberto", "Rossi", "ragsoc Umbi", "dsd@sds.it", null, "4839483948"));
+       l.add(new ClienteDTO(2, "Silvio", "Rossi", "ragsoc Silvio", "silvio@sds.it", null, "3343121212"));
+
+       clientiGrid.setItems(FXCollections.observableArrayList(l));
     }
 }
