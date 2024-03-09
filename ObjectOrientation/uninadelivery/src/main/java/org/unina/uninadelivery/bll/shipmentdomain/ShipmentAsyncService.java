@@ -15,7 +15,7 @@ public class ShipmentAsyncService {
                 Integer ret;
                 SpedizioneDAO dao = FactoryShipmentDomain.buildSpedizioneDAO();
                 try {
-                    ret = dao.getCount(operatoreFilialeDTO); //todo integrare con lo stato DaLavorare
+                    ret = dao.getCount("DaLavorare", operatoreFilialeDTO); //todo integrare con lo stato DaLavorare
                 } catch (PersistenceException e) {
                     throw new ServiceException("Errore nel reperire il numero di ordini da lavorare");
                 }

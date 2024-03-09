@@ -82,6 +82,7 @@ target/
 
 # Package Files #
 *.jar
+!libs/materialfx-11.16.0-all.jar
 *.war
 *.nar
 *.ear

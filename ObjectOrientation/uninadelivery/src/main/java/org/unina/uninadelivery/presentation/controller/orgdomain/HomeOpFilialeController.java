@@ -48,16 +48,19 @@ public class HomeOpFilialeController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //Setup task per il conteggio degli ordini da lavorare
         Task<Integer> cntOrdiniDaLavorareTaskAsync = customerAsyncService.getCountOrdiniDaLavorareTask(operatoreFilialeDTO.getFiliale());
         cntOrdiniDaLavorareTaskAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblCntOrdiniClienteFiliale.setText(newValue.toString());
         });
 
+        //Setup task per il conteggio delle spedizioni da lavorare
         Task<Integer> cntSpedioniDaLavorareAsync = shipmentAsyncService.getCountSpedioniDaLavorare(operatoreFilialeDTO);
         cntSpedioniDaLavorareAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblSpedizioniDaLavorare.setText(newValue.toString());
         });
 
+        //Eseguo i task
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.submit(cntOrdiniDaLavorareTaskAsync);
         executorService.submit(cntSpedioniDaLavorareAsync);
