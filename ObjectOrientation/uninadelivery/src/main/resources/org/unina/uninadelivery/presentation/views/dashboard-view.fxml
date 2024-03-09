@@ -70,9 +70,5 @@
       <Label fx:id="lblCorriere" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="384.0" styleClass="header-label" text="Napoli1" textFill="#081B39">
       </Label>
    </HBox>
-   <StackPane fx:id="contentPane" layoutX="243.0" layoutY="83.0" prefHeight="627.0" prefWidth="1031.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="82.0">
-      <children>
-         <AnchorPane nodeOrientation="LEFT_TO_RIGHT" prefHeight="200.0" prefWidth="200.0" StackPane.alignment="CENTER" />
-      </children>
-   </StackPane>
+   <StackPane fx:id="contentPane" layoutX="243.0" layoutY="83.0" prefHeight="627.0" prefWidth="1031.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="82.0" />
 </AnchorPane>
