@@ -6,9 +6,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.orgdomain.HomeOpFilialeController">
+<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.orgdomain.HomeOpFilialeController">
     <children>
-        <Pane layoutX="35.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_1">
+        <Pane layoutX="57.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_1">
             <children>
                 <Label fx:id="lblCntOrdiniClienteFiliale" layoutX="14.0" layoutY="140.0" text="100" textFill="WHITE">
                     <font>
@@ -25,7 +25,7 @@
                     </image>
                 </ImageView>
             </children></Pane>
-        <Pane layoutX="258.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_2">
+        <Pane layoutX="280.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_2">
             <children>
                 <Label fx:id="lblCntOrdiniClienteFiliale1" layoutX="14.0" layoutY="140.0" text="32">
                     <font>
@@ -39,12 +39,12 @@
                 </Label>
                 <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/icons8-shipping-64.png" />
+                        <Image url="@../../icons/icons8-workflow-64.png" />
                     </image>
                 </ImageView>
             </children>
         </Pane>
-        <Pane layoutX="491.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_3">
+        <Pane layoutX="513.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_3">
             <children>
                 <Label fx:id="lblCntOrdiniClienteFiliale11" layoutX="14.0" layoutY="140.0" text="32" textFill="WHITE">
                     <font>
@@ -58,12 +58,12 @@
                 </Label>
                 <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/icons8-shipping-64.png" />
+                        <Image url="@../../icons/icons8-work-order-64.png" />
                     </image>
                 </ImageView>
             </children>
         </Pane>
-        <Pane layoutX="721.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_4">
+        <Pane layoutX="743.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_4">
             <children>
                 <Label fx:id="lblCntOrdiniClienteFiliale111" layoutX="14.0" layoutY="140.0" text="32" textFill="WHITE">
                     <font>

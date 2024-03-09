@@ -233,6 +233,10 @@ public class DashboardController implements Initializable {
                     .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-warehouse", "GESTIONE MAGAZZINI")).setControllerFactory(c -> new GestioneMagazziniController(dashboardStage)).get());
         }
 
+        //about
+        loader.addView(MFXLoaderBean.of("ABOUT", loadURL("/views/appdomain/about-view.fxml"))
+                .setBeanToNodeMapper(() ->  mfxToggleButtonsHelper.createToggle("fas-info", "ABOUT")).get());
+
         //attivo tutto
         loader.setOnLoadedAction(beans -> {
             List<ToggleButton> nodes = beans.stream()
@@ -253,7 +257,7 @@ public class DashboardController implements Initializable {
 
             ToggleButton logoutBtn = (ToggleButton) logoutBean.getBeanToNodeMapper().get();
             logoutBtn.setOnAction(event -> session.getUserDto().setValue(new UtenteDTO())); //Lo svuotamento dell'utente farà scattare il logout
-            //nodes.add(logoutBtn);
+
             navBar.getChildren().setAll(nodes);
             navBar.getChildren().add(logoutBtn);
         });
