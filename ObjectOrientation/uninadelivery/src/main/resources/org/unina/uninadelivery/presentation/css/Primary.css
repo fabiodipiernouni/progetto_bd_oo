@@ -5,7 +5,7 @@
  * Root
 **************************************************/
 .rootPane {
-	-fx-background-color: #dcd4c2;
+	-fx-background-color: #EAEEF4;
 	-fx-background-radius: 10;
 	-fx-border-color: #ebebeb;
 	-fx-border-radius: 10;
@@ -135,4 +135,57 @@
 	-fx-font-family: 'Verdana';
 	-fx-font-size: 18;
 	-fx-text-fill: #353A56;
+}
+
+/**************************************************
+ * Form
+**************************************************/
+
+.innerForm {
+	-fx-background-color: transparent;
+	-fx-background-radius: 20;
+	-fx-border-color: #748CF1;
+	-fx-border-width: 2px;
+	-fx-border-style: solid;
+	-fx-border-radius: 20;
+}
+
+.innerForm .pane_1 {
+	-fx-background-color: #748CF1;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #748CF1;
+	-fx-font-family: Verdana;
+}
+
+.innerForm .pane_2 {
+	-fx-background-color: #cbcde3;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #748CF1;
+	-fx-font-family: Verdana;
+}
+
+.innerForm .pane_3 {
+	-fx-background-color: #748CF1;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #748CF1;
+	-fx-font-family: Verdana;
+}
+
+.innerForm .pane_4 {
+	-fx-background-color: #748CF1;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #748CF1;
+	-fx-font-family: Verdana;
 }
