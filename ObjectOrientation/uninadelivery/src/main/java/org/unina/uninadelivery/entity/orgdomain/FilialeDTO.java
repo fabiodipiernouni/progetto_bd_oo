@@ -5,10 +5,11 @@ import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Getter
 @Setter
+@EqualsAndHashCode
 public class FilialeDTO {
-
     private long id;
     @NonNull
     private String nome;

@@ -1,10 +1,11 @@
 package org.unina.uninadelivery.bll.appdomain;
 
-import org.unina.uninadelivery.dal.factory.Factory;
+import org.unina.uninadelivery.dal.factory.appdomain.FactoryAppDomain;
+
 
 public class AppService {
 
     public void chiusuraApplicativa() {
-        Factory.buildUtenteDAO().closeConnection();
+        FactoryAppDomain.buildUtenteDAO().closeConnection();
     }
 }

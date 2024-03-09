@@ -1,14 +1,27 @@
 package org.unina.uninadelivery.bll.appdomain;
 
-import org.unina.uninadelivery.dal.factory.Factory;
-import org.unina.uninadelivery.dal.factory.UtenteDAO;
+import org.unina.uninadelivery.bll.exception.ServiceException;
+import org.unina.uninadelivery.dal.exception.ConsistencyException;
+
+import org.unina.uninadelivery.dal.factory.appdomain.FactoryAppDomain;
+import org.unina.uninadelivery.dal.factory.appdomain.UtenteDAO;
 import org.unina.uninadelivery.dal.exception.PersistenceException;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 
-public class AuthService {
-    public UtenteDTO login(String username, String password) throws PersistenceException {
-        UtenteDAO dao = Factory.buildUtenteDAO();
+import java.util.Optional;
 
-        return dao.selectByUsernamePassword(username, password);
+public class AuthService {
+    public Optional<UtenteDTO> login(String username, String password) throws ServiceException {
+        UtenteDAO dao = FactoryAppDomain.buildUtenteDAO();
+        try {
+            return dao.select(username, password);
+        }
+        catch (ConsistencyException ce) {
+            throw new ServiceException("I dati in nostro possesso non sono validi, contattare un amministratore");
+        }
+        catch (PersistenceException pe) {
+            throw new ServiceException("Il servizio di autenticazione non è riuscito ad effettuare il login");
+        }
+
     }
 }

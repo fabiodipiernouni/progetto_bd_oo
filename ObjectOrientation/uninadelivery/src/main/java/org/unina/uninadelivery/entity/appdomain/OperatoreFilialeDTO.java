@@ -1,10 +1,9 @@
 package org.unina.uninadelivery.entity.appdomain;
 
 import lombok.*;
+import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 
 import java.util.List;
-
-import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 
 @NoArgsConstructor
 @ToString(callSuper=true)

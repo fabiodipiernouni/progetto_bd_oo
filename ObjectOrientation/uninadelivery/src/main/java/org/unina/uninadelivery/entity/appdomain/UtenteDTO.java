@@ -14,20 +14,20 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 public class UtenteDTO {
-    @NonNull
+
     private Long id;
 
+    @NonNull
     private String username = "";
 
+    @NonNull
     private String password = "";
 
     private String matricolaUnina = "";
 
+    @NonNull
     private String profilo = "";
 
-    private String filiale = "";
-
-    private String gruppoCorriere = "";
-
+    @NonNull
     private List<String> funzioni = Collections.emptyList();
 }

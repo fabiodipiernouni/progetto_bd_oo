@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.unina.uninadelivery.bll.appdomain.AuthService;
+import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.dal.exception.PersistenceException;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.presentation.app.UninaApplication;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Map;
+import java.util.Optional;
 
 import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
 import org.yaml.snakeyaml.Yaml;
@@ -169,15 +171,15 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
 
         AuthService authService = new AuthService();
         try {
-            UtenteDTO ut = authService.login(username, password);
-            if(ut != null) {
-                utenteDtoProperty.setValue(ut);
+            Optional<UtenteDTO> ut = authService.login(username, password);
+            if(ut.isPresent()) {
+                utenteDtoProperty.setValue(ut.get());
             }
             else {
                 isValid = false;
             }
         }
-        catch (PersistenceException e) {
+        catch (ServiceException e) {
             //todo: gestire
             isValid = false;
         }

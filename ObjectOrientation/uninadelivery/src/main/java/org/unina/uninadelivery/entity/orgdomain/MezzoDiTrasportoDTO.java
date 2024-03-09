@@ -2,24 +2,21 @@ package org.unina.uninadelivery.entity.orgdomain;
 
 import lombok.*;
 
-
 @AllArgsConstructor
-@NoArgsConstructor
 @ToString
 @Getter
 @Setter
 @EqualsAndHashCode
-public class GruppoCorriereDTO {
+public class MezzoDiTrasportoDTO {
+
     private long id;
 
     @NonNull
-    private String nome;
+    private String targa;
 
     @NonNull
-    private String codiceCorriere;
-
-    private int numeroDipendenti;
+    private String tipo;
 
     @NonNull
-    private FilialeDTO filiale;
+    private GruppoCorriereDTO gruppoCorriere;
 }

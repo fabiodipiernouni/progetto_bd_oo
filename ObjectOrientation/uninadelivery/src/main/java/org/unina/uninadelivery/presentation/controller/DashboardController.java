@@ -1,6 +1,5 @@
 package org.unina.uninadelivery.presentation.controller;
 
-import java.util.Map;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import io.github.palexdev.materialfx.controls.MFXTooltip;
 import io.github.palexdev.materialfx.utils.ScrollUtils;
@@ -25,7 +24,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
+import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
+import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
 import org.unina.uninadelivery.presentation.controller.customerdomain.ClientiController;
 import org.unina.uninadelivery.presentation.controller.orgdomain.GestioneMagazziniController;
 import org.unina.uninadelivery.presentation.controller.orgdomain.HomeManagerController;
@@ -40,6 +42,7 @@ import org.unina.uninadelivery.presentation.orchestrator.appdomain.LoginOrchestr
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import static org.unina.uninadelivery.presentation.helper.ResourceLoader.loadURL;
@@ -94,11 +97,28 @@ public class DashboardController implements Initializable {
         utente = prop.getValue();
         Scene scene = utenteLabel.getScene();
 
-        if(utente.getProfilo() == "Operatore" || utente.getProfilo() == "OperatoreFiliale")
-            lblFiliale.setText(utente.getFiliale());
+        lblFilialeTitle.setText("Filiale:");
+        lblFiliale.setText("");
+        lblCorriereTitle.setVisible(true);
+        lblCorriere.setVisible(true);
 
-        if(utente.getProfilo() == "OperatoreCorriere")
-            lblCorriere.setText(utente.getGruppoCorriere());
+        if(utente.getProfilo().equals("Operatore") && utente instanceof OperatoreFilialeDTO) {
+            OperatoreFilialeDTO operatoreFiliale = (OperatoreFilialeDTO) utente;
+            lblFiliale.setText(operatoreFiliale.getFiliale().getNome());
+        }
+
+        if(utente.getProfilo().equals("OperatoreCorriere") && utente instanceof OperatoreCorriereDTO) {
+            OperatoreCorriereDTO operatoreCorriere = (OperatoreCorriereDTO) utente;
+            GruppoCorriereDTO corriereDTO = operatoreCorriere.getGruppoCorriere();
+            lblCorriere.setText(corriereDTO.getNome() + "(" + corriereDTO.getCodiceCorriere() + ")");
+        }
+
+        if(utente.getProfilo().equals("Manager")) {
+            lblFilialeTitle.setText("Org:");
+            lblFiliale.setText("Unina Delivery ITA");
+            lblCorriereTitle.setVisible(false);
+            lblCorriere.setVisible(false);
+        }
 
         try {
             //Aggiungo un evento per gestire il momento del logout. Il logout non farà altro che invalidare l'utente corrente
