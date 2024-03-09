@@ -161,7 +161,7 @@
 }
 
 .innerForm .pane_2 {
-	-fx-background-color: #cbcde3;
+	-fx-background-color: white;
 	-fx-background-radius: 50px;
 	-fx-border-radius: 50px;
 	-fx-border-style: solid;
@@ -171,12 +171,12 @@
 }
 
 .innerForm .pane_3 {
-	-fx-background-color: #748CF1;
+	-fx-background-color: #e84c83;
 	-fx-background-radius: 50px;
 	-fx-border-radius: 50px;
 	-fx-border-style: solid;
 	-fx-border-width: 2px;
-	-fx-border-color: #748CF1;
+	-fx-border-color: #ce1919;
 	-fx-font-family: Verdana;
 }
 
