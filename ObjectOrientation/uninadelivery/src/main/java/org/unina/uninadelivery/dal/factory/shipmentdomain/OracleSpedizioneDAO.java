@@ -101,17 +101,33 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
 
     }
 
+    @Override
+    public int getCount(FilialeDTO filiale) throws PersistenceException {
+        return getCount(null, filiale);
+    }
+
+    @Override
     public int getCount(OperatoreFilialeDTO operatoreFiliale) throws PersistenceException {
+        return getCount(null, operatoreFiliale);
+    }
+
+    public int getCount(String stato, OperatoreFilialeDTO operatoreFiliale) throws PersistenceException {
+
+        String query = """
+            SELECT COUNT(*)
+            FROM Spedizione
+            WHERE idUtenteOrganizzatore = """ + operatoreFiliale.getId();
+
+        if(stato != null)
+            query += " AND stato = '" + stato + "'";
+
 
         Statement statement = null;
         ResultSet resultSet = null;
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("""
-            SELECT COUNT(*)
-            FROM Spedizione
-            WHERE idUtenteOrganizzatore = """ + operatoreFiliale.getId());
+            resultSet = statement.executeQuery(query);
 
             if(!resultSet.next())
                 throw new PersistenceException("Errore nel reperire il numero di spedizioni");
@@ -137,19 +153,23 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
         }
     }
 
-    public int getCount(FilialeDTO filiale) throws PersistenceException {
+    public int getCount(String stato, FilialeDTO filiale) throws PersistenceException {
+        String query = """
+            SELECT COUNT(*)
+            FROM Spedizione
+            JOIN StatoOrdineClienteFIliale
+            ON Spedizione.idOrdineCliente = StatoOrdineClienteFiliale.idOrdineCliente
+            WHERE idFiliale = """ + filiale.getId();
+        if(stato != null)
+            query += " AND stato = '" + stato + "'";
+
 
         Statement statement = null;
         ResultSet resultSet = null;
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("""
-            SELECT COUNT(*)
-            FROM Spedizione
-            JOIN StatoOrdineClienteFIliale
-            ON Spedizione.idOrdineCliente = StatoOrdineClienteFiliale.idOrdineCliente
-            WHERE idFiliale = """ + filiale.getId());
+            resultSet = statement.executeQuery(query);
 
             if(!resultSet.next())
                 throw new PersistenceException("Errore nel reperire il numero di spedizioni");

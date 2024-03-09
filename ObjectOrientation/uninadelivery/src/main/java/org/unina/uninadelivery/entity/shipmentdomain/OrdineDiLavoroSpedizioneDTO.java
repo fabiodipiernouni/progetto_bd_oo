@@ -21,9 +21,8 @@ public class OrdineDiLavoroSpedizioneDTO extends OrdineDiLavoroDTO {
     @NonNull
     private List<PaccoDTO> pacchi;
 
-    public OrdineDiLavoroSpedizioneDTO(long id, @NonNull LocalDate dataCreazione, LocalDate dataInizioPianificazione, LocalDate dataInizioLavorazione, LocalDate dataFineLavorazione, GruppoCorriereDTO gruppoCorriere, OperatoreCorriereDTO operatoreCorriere, @NonNull FilialeDTO filiale, @NonNull SpedizioneDTO spedizione, @NonNull String stato, String noteAggiuntiveCliente, String noteAggiuntiveOperatore, MezzoDiTrasportoDTO mezzoDiTrasporto, @NonNull List<PaccoDTO> pacchi) {
-        super(id, dataCreazione, dataInizioPianificazione, dataInizioLavorazione, dataFineLavorazione, gruppoCorriere, operatoreCorriere, filiale, spedizione, stato, noteAggiuntiveCliente, noteAggiuntiveOperatore);
+    public OrdineDiLavoroSpedizioneDTO(long id, @NonNull LocalDate dataCreazione, LocalDate dataInizioPianificazione, LocalDate dataInizioLavorazione, LocalDate dataFineLavorazione, GruppoCorriereDTO gruppoCorriere, OperatoreCorriereDTO operatoreCorriere, @NonNull FilialeDTO filiale, @NonNull SpedizioneDTO spedizione, @NonNull String stato, String noteAggiuntiveOperatore, MezzoDiTrasportoDTO mezzoDiTrasporto) {
+        super(id, dataCreazione, dataInizioPianificazione, dataInizioLavorazione, dataFineLavorazione, gruppoCorriere, operatoreCorriere, filiale, spedizione, stato, noteAggiuntiveOperatore);
         this.mezzoDiTrasporto = mezzoDiTrasporto;
-        this.pacchi = pacchi;
     }
 }

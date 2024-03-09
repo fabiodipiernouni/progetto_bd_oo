@@ -10,6 +10,9 @@ public class FactoryOrgDomain {
     public static MagazzinoDAO buildMagazzinoDAO() {
         return new OracleMagazzinoDAO();
     }
+    public static MezzoDiTrasportoDAO buildMezzoDiTrasportoDAO() {
+        return new OracleMezzoDiTrasportoDAO();
+    }
     public static ProdottoDAO buildProdottoDAO() {
         return new OracleProdottoDAO();
     }

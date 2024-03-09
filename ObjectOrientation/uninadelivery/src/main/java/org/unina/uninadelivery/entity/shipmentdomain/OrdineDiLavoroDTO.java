@@ -39,8 +39,6 @@ public class OrdineDiLavoroDTO {
     @NonNull
     private String stato;
 
-    private String noteAggiuntiveCliente;
-
     private String noteAggiuntiveOperatore;
 
 }
