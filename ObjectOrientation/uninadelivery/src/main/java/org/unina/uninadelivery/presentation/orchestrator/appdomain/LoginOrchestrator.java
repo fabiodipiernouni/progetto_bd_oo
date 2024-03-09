@@ -107,7 +107,7 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
 
         dashboardController = fxmlLoader.getController();
 
-        scene.setUserData(root);
+        scene.setUserData(dashboardController);
 
         dashboardStage.initStyle(StageStyle.TRANSPARENT);
         //dashboardStage.getIcons().add(new Image(Objects.requireNonNull(UninaApplication.class.getResourceAsStream("/presentation/icons/delivery-truck_12731488.png"))));

@@ -1,5 +1,6 @@
 package org.unina.uninadelivery.presentation.orchestrator.customerdomain;
 
+import javafx.scene.Node;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.bll.customerdomain.CustomerService;
 import org.unina.uninadelivery.bll.exception.ServiceException;
@@ -25,7 +26,7 @@ public class CustomerOrchestrator extends Orchestrator {
 
             if(ordine != null) {
                 //open ordine view
-                DashboardController controller = (DashboardController) dashboardStage.getScene().getUserData();
+                DashboardController controller = (DashboardController) ((Node)dashboardStage.getScene().getUserData());
                 controller.changeView("ORDINE", "/views/customerdomain/ordine-view.fxml", c -> new OrdineController(ordine));
             }
         } catch (ServiceException e) {

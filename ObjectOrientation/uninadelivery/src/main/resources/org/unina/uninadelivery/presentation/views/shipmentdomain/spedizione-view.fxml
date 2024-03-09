@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioneController"
-            prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css">
-
+<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioneController">
+   <children>
+      <Pane layoutX="59.0" layoutY="35.0" prefHeight="200.0" prefWidth="443.0" styleClass="pane_1" />
+      <Pane layoutX="59.0" layoutY="253.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_3">
+         <children>
+            <Label fx:id="lblCntOrdiniPackagingEmessi" layoutX="14.0" layoutY="140.0" text="-1" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="174.0" prefHeight="103.0" prefWidth="170.0" text="Ordini di packaging conclusi con trasporto da avviare" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Verdana" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/icons8-work-order-64.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="300.0" layoutY="253.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_4">
+         <children>
+            <Label fx:id="lblCntOrdiniTrasportoEmessi" layoutX="14.0" layoutY="140.0" text="-1" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="174.0" prefHeight="89.0" prefWidth="170.0" text="Ordini di trasporto non ancora conclusi" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Verdana" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/icons8-shipping-64.png" />
+               </image>
+            </ImageView>
+         </children>
+         <padding>
+            <Insets right="30.0" />
+         </padding>
+      </Pane>   </children>
 </AnchorPane>
