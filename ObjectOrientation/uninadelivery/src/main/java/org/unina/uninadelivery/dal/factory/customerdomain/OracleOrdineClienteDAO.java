@@ -128,7 +128,7 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
         if(filiale != null)
             query += "AND idFiliale = " + filiale.getId();
         if(statoOrdine != null)
-            query += "AND OrdineCliente.Stato = " + statoOrdine;
+            query += " AND OrdineCliente.Stato = '" + statoOrdine + "'";
 
 
         Statement statement = null;
@@ -213,15 +213,15 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
             WHERE 1=1 """;
 
         if(filiale != null)
-            query += "AND idFiliale = ?";
+            query += "AND idFiliale = ? ";
         if(statoOrdine != null)
-            query += "AND OrdineCliente.Stato = ?";
+            query += "AND OrdineCliente.Stato = ? ";
         if(cliente != null)
-            query += "AND idCliente = ?";
+            query += "AND idCliente = ? ";
         if(dataFine != null)
-            query += "AND dataOrdine <= ?";
+            query += "AND dataOrdine <= ? ";
         if(dataInizio != null)
-            query += "AND dataOrdine >= ?";
+            query += "AND dataOrdine >= ? ";
 
 
 
