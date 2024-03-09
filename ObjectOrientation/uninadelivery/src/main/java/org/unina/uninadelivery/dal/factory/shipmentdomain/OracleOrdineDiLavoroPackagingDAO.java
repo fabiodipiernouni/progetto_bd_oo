@@ -360,6 +360,49 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
 
     }
 
+    @Override
+    public int getCountConclusiInAttesaTrasporto(FilialeDTO filiale) throws PersistenceException {
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("""
+            SELECT COUNT(*)
+            FROM OrdineDiLavoroPackaging
+            JOIN Pacco
+            ON OrdineDiLavoroPackaging.IdSpedizione = Pacco.IdSpedizione
+            WHERE NOT EXISTS(
+                SELECT 1
+                FROM OrdineDiLavoroSpedizionePacchi
+                WHERE OrdineDiLavoroSpedizionePacchi.IdPacco = Pacco.Id
+            )
+            AND idFiliale = """ + filiale.getId());
+            //TODO: controllare la correttezza della query
+
+
+            if(!resultSet.next())
+                throw new PersistenceException("Errore nel conteggio degli ordini di lavoro di packaging");
+
+            return resultSet.getInt(1);
+        }
+        catch(SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        }
+        finally {
+            //libero le risorse
+            try {
+                if (resultSet != null)
+                    resultSet.close();
+                if (statement != null)
+                    statement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio nulla
+            }
+        }
+
+    }
 
     public void update(OrdineDiLavoroPackagingDTO ordineDiLavoroPackaging) throws PersistenceException {
         PreparedStatement preparedStatement = null;

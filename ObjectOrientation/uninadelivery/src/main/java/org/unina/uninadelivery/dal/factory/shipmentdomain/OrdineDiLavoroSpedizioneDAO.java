@@ -21,5 +21,6 @@ public interface OrdineDiLavoroSpedizioneDAO {
     int getCount(FilialeDTO filiale, String stato) throws PersistenceException;
 
     void update(OrdineDiLavoroSpedizioneDTO ordineDiLavoroSpedizione) throws PersistenceException;
+    int getCountAperti(FilialeDTO filiale) throws PersistenceException;
 
 }

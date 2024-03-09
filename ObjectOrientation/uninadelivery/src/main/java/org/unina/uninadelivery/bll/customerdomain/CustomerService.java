@@ -15,7 +15,7 @@ public class CustomerService {
         return new Task<>() {
             @Override
             protected Integer call() throws ServiceException {
-                Integer ret;
+                int ret;
                 OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
                 try {
                     if (filiale != null)
