@@ -8,7 +8,7 @@
       <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
       <jdbc-url>jdbc:oracle:thin:@bpk3181nciydujmq_medium</jdbc-url>
       <jdbc-additional-properties>
-        <property name="TNSADMIN_DIR" value="$USER_HOME$/Downloads/Wallet_BPK3181NCIYDUJMQ" />
+        <property name="TNSADMIN_DIR" value="$PROJECT_DIR$/../../../Wallet_BPK3181NCIYDUJMQ" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
@@ -19,7 +19,7 @@
       <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
       <jdbc-url>jdbc:oracle:thin:@bpk3181nciydujmq_medium</jdbc-url>
       <jdbc-additional-properties>
-        <property name="TNSADMIN_DIR" value="$USER_HOME$/Downloads/Wallet_BPK3181NCIYDUJMQ" />
+        <property name="TNSADMIN_DIR" value="$PROJECT_DIR$/../../../Wallet_BPK3181NCIYDUJMQ" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
@@ -30,7 +30,7 @@
       <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
       <jdbc-url>jdbc:oracle:thin:@bpk3181nciydujmq_medium</jdbc-url>
       <jdbc-additional-properties>
-        <property name="TNSADMIN_DIR" value="$USER_HOME$/Downloads/Wallet_BPK3181NCIYDUJMQ" />
+        <property name="TNSADMIN_DIR" value="$PROJECT_DIR$/../../../Wallet_BPK3181NCIYDUJMQ" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
@@ -41,7 +41,7 @@
       <jdbc-driver>oracle.jdbc.OracleDriver</jdbc-driver>
       <jdbc-url>jdbc:oracle:thin:@bpk3181nciydujmq_medium</jdbc-url>
       <jdbc-additional-properties>
-        <property name="TNSADMIN_DIR" value="$USER_HOME$/Downloads/Wallet_BPK3181NCIYDUJMQ" />
+        <property name="TNSADMIN_DIR" value="$PROJECT_DIR$/../bdd_dao/Wallet_BPK3181NCIYDUJMQ" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>

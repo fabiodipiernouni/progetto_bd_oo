@@ -51,10 +51,6 @@ class OracleMagazzinoDAO implements MagazzinoDAO {
         Statement statement = null;
         ResultSet resultSet = null;
 
-        String nome;
-        Optional<IndirizzoDTO> indirizzo;
-        Optional<FilialeDTO> filiale;
-
         try {
 
             statement = connection.createStatement();

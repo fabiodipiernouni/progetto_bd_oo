@@ -15,6 +15,8 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 public class OrdineDiLavoroPackagingDTO extends OrdineDiLavoroDTO {
 
+    String noteAggiuntiveCliente;
+
     @NonNull
     private MagazzinoDTO magazzino;
 
@@ -22,9 +24,10 @@ public class OrdineDiLavoroPackagingDTO extends OrdineDiLavoroDTO {
     private IndirizzoDTO indirizzoSpedizione;
 
     public OrdineDiLavoroPackagingDTO(long id, @NonNull LocalDate dataCreazione, LocalDate dataInizioPianificazione, LocalDate dataInizioLavorazione, LocalDate dataFineLavorazione, GruppoCorriereDTO gruppoCorriere, OperatoreCorriereDTO operatoreCorriere, @NonNull FilialeDTO filiale, @NonNull SpedizioneDTO spedizione, @NonNull String stato, String noteAggiuntiveCliente, String noteAggiuntiveOperatore, @NonNull MagazzinoDTO magazzino, @NonNull IndirizzoDTO indirizzoSpedizione) {
-        super(id, dataCreazione, dataInizioPianificazione, dataInizioLavorazione, dataFineLavorazione, gruppoCorriere, operatoreCorriere, filiale, spedizione, stato, noteAggiuntiveCliente, noteAggiuntiveOperatore);
+        super(id, dataCreazione, dataInizioPianificazione, dataInizioLavorazione, dataFineLavorazione, gruppoCorriere, operatoreCorriere, filiale, spedizione, stato, noteAggiuntiveOperatore);
         this.magazzino = magazzino;
         this.indirizzoSpedizione = indirizzoSpedizione;
+        this.noteAggiuntiveCliente = noteAggiuntiveCliente;
     }
 
 }

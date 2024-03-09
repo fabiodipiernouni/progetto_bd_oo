@@ -14,12 +14,10 @@ import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
 import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
@@ -72,6 +70,42 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
             throw new ConsistencyException("Indirizzo di spedizione non trovato");
 
         return new OrdineDiLavoroPackagingDTO(id, dataCreazione, dataInizioPianificazione, dataInizioLavorazione, dataFineLavorazione, gruppoCorriere, operatoreCorriere, filiale, spedizione.get(), stato, noteAggiuntiveCliente, noteAggiuntiveOperatore, magazzino.get(), indirizzoSpedizione.get());
+    }
+
+    private OrdineDiLavoroPackagingDTO getByResultSet(ResultSet resultSet) throws PersistenceException, SQLException {
+
+        long idFiliale = resultSet.getLong("idFiliale");
+        Optional<FilialeDTO> filiale = FactoryOrgDomain.buildFilialeDAO().select(idFiliale);
+        if(filiale.isEmpty())
+            throw new ConsistencyException("Filiale non trovata");
+
+        GruppoCorriereDTO gruppoCorriere = null;
+        long idGruppoCorriere = resultSet.getLong("idGruppoCorriere");
+
+        if(!resultSet.wasNull()) {
+
+            Optional<GruppoCorriereDTO> gruppoCorriereOpt = FactoryOrgDomain.buildGruppoCorriereDAO().select(idGruppoCorriere);
+            if(gruppoCorriereOpt.isEmpty())
+                throw new ConsistencyException("Gruppo corriere non trovato");
+
+            gruppoCorriere = gruppoCorriereOpt.get();
+
+        }
+
+
+        OperatoreCorriereDTO operatoreCorriere = null;
+        long idOperatoreCorriere = resultSet.getLong("idOperatoreCorriere");
+
+        if(!resultSet.wasNull()) {
+
+            Optional<UtenteDTO> operatoreCorriereOpt = FactoryAppDomain.buildUtenteDAO().select(idOperatoreCorriere);
+            if(operatoreCorriereOpt.isEmpty())
+                throw new ConsistencyException("Operatore corriere non trovato");
+
+            operatoreCorriere = (OperatoreCorriereDTO) operatoreCorriereOpt.get();
+        }
+
+        return getByResultSet(resultSet, filiale.get(), gruppoCorriere, operatoreCorriere);
     }
 
     private OrdineDiLavoroPackagingDTO getByResultSet(ResultSet resultSet, FilialeDTO filiale) throws SQLException, PersistenceException {
@@ -191,7 +225,41 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
 
 
     public List<OrdineDiLavoroPackagingDTO> select(OperatoreFilialeDTO operatoreFiliale) throws PersistenceException {
-        return null; //TODO
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        List<OrdineDiLavoroPackagingDTO> listaOrdini = new LinkedList<>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("""
+            SELECT OrdineDiLavoroPackaging.* 
+            FROM OrdineDiLavoroPackaging 
+            JOIN Spedizione
+            ON OrdineDiLavoroPackaging.idSpedizione = Spedizione.id
+            WHERE Spedizione.idUtenteOrganizzatore = """ + operatoreFiliale.getId());
+
+            while(resultSet.next())
+                listaOrdini.add(getByResultSet(resultSet));
+
+            return listaOrdini;
+        }
+        catch(SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        }
+        finally {
+            //libero le risorse
+
+            try {
+                if(resultSet != null)
+                    resultSet.close();
+                if(statement != null)
+                    statement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio niente
+            }
+        }
     }
 
 
@@ -262,11 +330,90 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
 
 
     public int getCount(FilialeDTO filiale, String stato) throws PersistenceException {
-        return 0;//TODO
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT COUNT(*) FROM OrdineDiLavoroPackaging WHERE idFiliale = " + filiale.getId() + " AND stato = '" + stato + "'");
+
+            if(!resultSet.next())
+                throw new PersistenceException("Errore nel conteggio degli ordini di lavoro di packaging");
+
+            return resultSet.getInt(1);
+        }
+        catch(SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        }
+        finally {
+            //libero le risorse
+            try {
+                if (resultSet != null)
+                    resultSet.close();
+                if (statement != null)
+                    statement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio nulla
+            }
+        }
+
     }
 
 
     public void update(OrdineDiLavoroPackagingDTO ordineDiLavoroPackaging) throws PersistenceException {
-//TODO
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("""
+            UPDATE OrdineDiLavoroPackaging
+            SET dataCreazione = ?,
+                dataInizioPianificazione = ?,
+                dataInizioLavorazione = ?,
+                dataFineLavorazione = ?,
+                idGruppoCorriere = ?,
+                idOperatoreCorriere = ?,
+                idFiliale = ?,
+                idSpedizione = ?,
+                stato = ?,
+                noteAggiuntiveCliente = ?,
+                noteAggiuntiveOperatore = ?,
+                idMagazzino = ?,
+                idIndirizzoSpedizione = ?
+            WHERE id = ?""");
+
+            preparedStatement.setObject(1, ordineDiLavoroPackaging.getDataCreazione());
+            preparedStatement.setObject(2, ordineDiLavoroPackaging.getDataInizioPianificazione());
+            preparedStatement.setObject(3, ordineDiLavoroPackaging.getDataInizioLavorazione());
+            preparedStatement.setObject(4, ordineDiLavoroPackaging.getDataFineLavorazione());
+            preparedStatement.setLong(5, ordineDiLavoroPackaging.getGruppoCorriere().getId());
+            preparedStatement.setLong(6, ordineDiLavoroPackaging.getOperatoreCorriere().getId());
+            preparedStatement.setLong(7, ordineDiLavoroPackaging.getFiliale().getId());
+            preparedStatement.setLong(8, ordineDiLavoroPackaging.getSpedizione().getId());
+            preparedStatement.setString(9, ordineDiLavoroPackaging.getStato());
+            preparedStatement.setString(10, ordineDiLavoroPackaging.getNoteAggiuntiveCliente());
+            preparedStatement.setString(11, ordineDiLavoroPackaging.getNoteAggiuntiveOperatore());
+            preparedStatement.setLong(12, ordineDiLavoroPackaging.getMagazzino().getId());
+            preparedStatement.setLong(13, ordineDiLavoroPackaging.getIndirizzoSpedizione().getId());
+            preparedStatement.setLong(14, ordineDiLavoroPackaging.getId());
+
+            preparedStatement.executeUpdate();
+
+        }
+        catch (SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        }
+        finally {
+            //libero le risorse
+            try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio nulla
+            }
+        }
+
+
     }
 }
