@@ -189,3 +189,13 @@
 	-fx-border-color: #748CF1;
 	-fx-font-family: Verdana;
 }
+
+.innerForm .aboutPane {
+	-fx-background-color: white;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #748CF1;
+	-fx-font-family: Verdana;
+}
