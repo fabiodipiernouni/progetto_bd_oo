@@ -54,16 +54,6 @@ public class OrdiniController implements Initializable {
         this.clienteDTO = clienteDTO;
     }
 
-    /*
-    @FXML
-    public void onVisualizzaOrdine(ActionEvent actionEvent) {
-        CustomerOrchestrator orchestrator = new CustomerOrchestrator(dashboardStage);
-        /*Node source = (Node) actionEvent.getSource();
-        Window theStage = source.getScene().getWindow();/
-
-        orchestrator.visualizzaOrdineClicked(3);
-    }*/
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(clienteDTO.getRagioneSociale() != null) {

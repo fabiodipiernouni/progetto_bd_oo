@@ -156,7 +156,10 @@ public class DashboardController implements Initializable {
         session.setUserDto(prop);
 
         //imposto il comportamento dei pulsanti di chiusura applicazione, minimizza e sempre in primo piano
-        closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> Platform.exit());
+        closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            Platform.exit();
+            System.exit(0);
+        });
         minimizeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> ((Stage) rootPane.getScene().getWindow()).setIconified(true));
         alwaysOnTopIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             boolean newVal = !dashboardStage.isAlwaysOnTop();

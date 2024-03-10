@@ -7,8 +7,9 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.customerdomain.OrdiniController">
-
+<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.unina.uninadelivery.presentation.controller.customerdomain.OrdiniController">
     <Pane layoutX="59.0" layoutY="45.0" prefHeight="144.0" prefWidth="476.0" styleClass="pane_2">
         <children>
             <ImageView fitHeight="85.0" fitWidth="108.0" layoutX="27.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
@@ -42,10 +43,9 @@
         </children>
     </Pane>
 
-    <MFXDatePicker fx:id="dataInizioPicker" layoutX="546.0" layoutY="225.0" promptText="Data inizio..." />
-    <MFXDatePicker fx:id="dataFinePicker" layoutX="763.0" layoutY="225.0" promptText="Data fine..." />
+    <MFXDatePicker fx:id="dataInizioPicker" layoutX="59.0" layoutY="225.0" promptText="Data inizio..." />
+    <MFXDatePicker fx:id="dataFinePicker" layoutX="300.0" layoutY="225.0" promptText="Data fine..." />
 
-
-    <MFXPaginatedTableView fx:id="ordiniClienteGrid" layoutX="59.0" layoutY="279.0" prefHeight="242.0" prefWidth="904.0" />
+    <MFXPaginatedTableView fx:id="ordiniClienteGrid" layoutX="50.0" layoutY="279.0" prefHeight="242.0" prefWidth="800.0" />
 
 </AnchorPane>
