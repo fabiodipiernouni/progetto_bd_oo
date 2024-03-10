@@ -13,7 +13,7 @@
 
 <AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioneController">
     <children>
-        <Pane layoutX="86.0" layoutY="36.0" prefHeight="200.0" prefWidth="417.0" styleClass="pane_2">
+        <Pane layoutX="86.0" layoutY="19.0" prefHeight="200.0" prefWidth="417.0" styleClass="pane_2">
             <children>
                 <Label layoutX="23.0" layoutY="24.0" text="Spedizione Numero:">
                     <font>
@@ -61,31 +61,41 @@
                 </Label>
             </children>
         </Pane>
-        <Pane layoutX="86.0" layoutY="254.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_3">
+        <Pane layoutX="86.0" layoutY="239.0" prefHeight="325.0" prefWidth="200.0" styleClass="pane_3">
             <children>
-                <Label fx:id="lblCntOrdiniPackagingEmessi" layoutX="15.0" layoutY="71.0" text="-1" textFill="WHITE">
+                <Label fx:id="lblCntOrdiniPackagingEmessi" layoutY="71.0" prefHeight="30.0" prefWidth="43.0" text="-1" textFill="WHITE">
                     <font>
-                        <Font name="Verdana Bold" size="36.0" />
+                        <Font name="Verdana Bold" size="24.0" />
                     </font>
                 </Label>
-                <Label layoutX="15.0" layoutY="117.0" prefHeight="64.0" prefWidth="170.0" text="Ordini di packaging associati alla spedizione" textFill="WHITE" wrapText="true">
+                <Label layoutX="50.0" layoutY="71.0" prefHeight="78.0" prefWidth="136.0" text="Ordini di packaging associati alla spedizione relativi alla Filiale corrente" textFill="WHITE" wrapText="true">
                     <font>
                         <Font name="Verdana" size="14.0" />
                     </font>
                 </Label>
                 <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/icons8-work-order-64.png" />
+                        <Image url="@../../icons/icons8-logistics-64.png" />
                     </image>
                 </ImageView>
-                <MFXButton fx:id="btnGeneraOdlPackaging" buttonType="RAISED" layoutX="43.0" layoutY="235.0" minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0" styleClass="outline-button-pane_2" text="Genera" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                <MFXButton fx:id="btnGeneraOdlPackaging" buttonType="RAISED" layoutX="43.0" layoutY="271.0" minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0" styleClass="outline-button-pane_2" text="Genera" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+            <Label fx:id="lblCntOrdiniPackagingDaCompletare" layoutY="163.0" prefHeight="30.0" prefWidth="43.0" text="-1" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="50.0" layoutY="163.0" prefHeight="40.0" prefWidth="136.0" text="Ancora da completare" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Verdana" size="14.0" />
+               </font>
+            </Label>
             </children>
         </Pane>
-        <Pane layoutX="714.0" layoutY="254.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_4">
+        <Pane layoutX="714.0" layoutY="233.0" prefHeight="325.0" prefWidth="200.0" styleClass="pane_4">
             <children>
                 <Label fx:id="lblCntOrdiniTrasportoEmessi" layoutX="14.0" layoutY="78.0" text="-1" textFill="WHITE">
                     <font>
-                        <Font name="Verdana Bold" size="36.0" />
+                        <Font name="Verdana Bold" size="24.0" />
                     </font>
                 </Label>
                 <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -93,22 +103,32 @@
                         <Image url="@../../icons/icons8-shipping-64.png" />
                     </image>
                 </ImageView>
-            <Label layoutX="15.0" layoutY="120.0" prefHeight="64.0" prefWidth="170.0" text="Ordini di Trasporto creati" textFill="WHITE" wrapText="true">
+            <Label alignment="TOP_LEFT" layoutX="50.0" layoutY="78.0" prefHeight="78.0" prefWidth="136.0" text="Ordini di trasporto associati alla spedizione relativi alla Filiale corrente" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Verdana" size="14.0" />
                </font>
             </Label>
-            <MFXButton fx:id="btnGeneraOdlTrasporto" buttonType="RAISED" layoutX="53.0" layoutY="233.0" minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0" styleClass="outline-button-pane_2" text="Genera" />
+            <MFXButton fx:id="btnGeneraOdlTrasporto" buttonType="RAISED" layoutX="43.0" layoutY="271.0" minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0" styleClass="outline-button-pane_2" text="Genera" />
+            <Label fx:id="lblCntOrdiniTrasportoDaCompletare" layoutX="14.0" layoutY="163.0" text="-1" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_LEFT" layoutX="50.0" layoutY="163.0" prefHeight="78.0" prefWidth="136.0" text="Ancora da completare" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Verdana" size="14.0" />
+               </font>
+            </Label>
             </children>
             <padding>
                 <Insets right="30.0" />
             </padding>
         </Pane>
-        <Pane layoutX="398.0" layoutY="260.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_2">
+        <Pane layoutX="398.0" layoutY="239.0" prefHeight="325.0" prefWidth="200.0" styleClass="pane_2">
             <children>
-                <Label fx:id="lblCntPacchiGenerati" layoutX="15.0" layoutY="71.0" text="-1" textFill="#367ec0">
+                <Label fx:id="lblCntPacchiGenerati" layoutX="18.0" layoutY="71.0" prefHeight="30.0" prefWidth="44.0" text="-1" textFill="#367ec0">
                     <font>
-                        <Font name="Verdana Bold" size="36.0" />
+                        <Font name="Verdana Bold" size="24.0" />
                     </font>
                 </Label>
                 <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
@@ -116,12 +136,22 @@
                         <Image url="@../../icons/icons8-box.gif" />
                     </image>
                 </ImageView>
-            <Label layoutX="15.0" layoutY="117.0" prefHeight="28.0" prefWidth="119.0" text="Pacchi Generati" textFill="#367ec0" wrapText="true">
+            <Label layoutX="62.0" layoutY="72.0" prefHeight="28.0" prefWidth="119.0" text="Pacchi Generati" textFill="#367ec0" wrapText="true">
                <font>
                   <Font name="Verdana" size="14.0" />
                </font>
             </Label>
-            <MFXButton fx:id="btnGeneraPacchi" buttonType="RAISED" layoutX="43.0" layoutY="230.0" minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0" styleClass="outline-button-pane_3" text="Visualizza" />
+            <MFXButton fx:id="btnVisualizzaPacchi" buttonType="RAISED" layoutX="43.0" layoutY="271.0" minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0" styleClass="outline-button-pane_3" text="Visualizza" />
+            <Label fx:id="lblCntPacchiDaSpedire" layoutX="18.0" layoutY="116.0" prefHeight="30.0" prefWidth="44.0" text="-1" textFill="#367ec0">
+               <font>
+                  <Font name="Verdana Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="62.0" layoutY="117.0" prefHeight="46.0" prefWidth="119.0" text="Pacchi Da Spedire" textFill="#367ec0" wrapText="true">
+               <font>
+                  <Font name="Verdana" size="14.0" />
+               </font>
+            </Label>
             </children>
         </Pane>
         <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="313.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
@@ -134,7 +164,7 @@
                 <Image url="@../../icons/icons8-arrow-100.png" />
             </image>
         </ImageView>
-      <Pane layoutX="530.0" layoutY="36.0" prefHeight="200.0" prefWidth="381.0" styleClass="pane_2">
+      <Pane layoutX="530.0" layoutY="19.0" prefHeight="200.0" prefWidth="381.0" styleClass="pane_2">
          <children>
             <Label layoutX="15.0" layoutY="27.0" text="Data Creazione:">
                <font>
