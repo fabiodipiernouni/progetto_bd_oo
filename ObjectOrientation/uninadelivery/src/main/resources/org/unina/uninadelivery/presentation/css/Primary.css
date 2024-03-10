@@ -199,3 +199,24 @@
 	-fx-border-color: #748CF1;
 	-fx-font-family: Verdana;
 }
+
+.outline-button-pane_2 {
+	-fx-background-color: transparent;
+	-fx-border-color: #748CF1;
+	-fx-border-radius: 5;
+
+	-fx-text-fill: #367ec0;
+	-fx-font-family: Verdana;
+	-fx-font-size: 14;
+}
+
+.outline-button-pane_3 {
+	-fx-background-color: transparent;
+	-fx-border-color: white;
+	-fx-border-radius: 5;
+
+	-fx-text-fill: white;
+	-fx-font-family: Verdana;
+	-fx-font-size: 14;
+
+}
