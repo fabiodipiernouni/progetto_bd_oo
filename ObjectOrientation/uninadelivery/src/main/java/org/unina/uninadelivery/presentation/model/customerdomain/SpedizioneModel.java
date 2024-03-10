@@ -21,7 +21,9 @@ public class SpedizioneModel extends Model {
 
     private String trackingNumber;
     private int numeroOrdiniPackaging;
+    private int numeroOrdiniPackagingDaCompletare;
     private int numeroPacchiGenerati;
+    private int numeroPacchiDaSpedire;
     private int numeroOrdiniTrasporto;
-    private boolean tuttiOrdiniPackagingCompletati;
+    private int numeroOrdiniTrasportoDaCompletare;
 }

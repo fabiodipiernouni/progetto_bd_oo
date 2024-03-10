@@ -78,7 +78,7 @@ public class HomeOpFilialeController implements Initializable {
         });
 
         //Setup task per il conteggio degli ordini di trasporto non conclusi
-        Task<Integer> cntOrdiniTrasportoNonConclusiAsync = shipmentAsyncService.getCountOrdiniDiLavoroSpedizioneAperti(operatoreFilialeDTO.getFiliale());
+        Task<Integer> cntOrdiniTrasportoNonConclusiAsync = shipmentAsyncService.getCountOrdiniDiLavoroSpedizioneDaTerminare(operatoreFilialeDTO.getFiliale());
         cntOrdiniTrasportoNonConclusiAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblCntOrdiniTrasportoNonConclusi.setText(newValue.toString());
         });

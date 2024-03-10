@@ -12,6 +12,8 @@ import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 
 public class ShipmentAsyncService {
 
+    /**** SPEDIZIONI ****/
+
     public Task<Integer> getCountSpedizioniDaLavorare(OperatoreFilialeDTO operatoreFilialeDTO) {
         return new Task<>() {
             @Override
@@ -28,6 +30,24 @@ public class ShipmentAsyncService {
         };
     }
 
+    /**** ORDINI DI LAVORO PACKAGING ****/
+
+    public Task<Integer> getCountOrdiniDiLavoroPackagingDaPrendereInCarico(FilialeDTO filiale) {
+        return new Task<>() {
+            @Override
+            protected Integer call() throws ServiceException {
+                int ret;
+                OrdineDiLavoroPackagingDAO dao = FactoryShipmentDomain.buildOrdineDiLavoroPackagingDAO();
+                try {
+                    ret = dao.getCount(filiale, "DaAssegnare");
+                } catch (PersistenceException e) {
+                    throw new ServiceException("Errore nel reperire il numero di ordini di packaging da prendere in carico");
+                }
+                return ret;
+            }
+        };
+    }
+
     public Task<Integer> getCountOrdiniDiLavoroPackagingConclusiAttesaTrasporto(FilialeDTO filiale) {
         return new Task<>() {
             @Override
@@ -35,7 +55,7 @@ public class ShipmentAsyncService {
                 int ret;
                 OrdineDiLavoroPackagingDAO dao = FactoryShipmentDomain.buildOrdineDiLavoroPackagingDAO();
                 try {
-                    ret = dao.getCountConclusiInAttesaTrasporto(filiale);
+                    ret = dao.getCountLavoratiNonSpediti(filiale);
                 } catch (PersistenceException e) {
                     throw new ServiceException("Errore nel reperire il numero di ordini di trasporto conclusi in attesa di trasporto");
                 }
@@ -44,14 +64,32 @@ public class ShipmentAsyncService {
         };
     }
 
-    public Task<Integer> getCountOrdiniDiLavoroSpedizioneAperti(FilialeDTO filiale) {
+    /**** ORDINI DI LAVORO SPEDIZIONE ****/
+
+    public Task<Integer> getCountOrdiniDiLavoroTrasportoDaPrendereInCarico(FilialeDTO filiale) {
         return new Task<>() {
             @Override
             protected Integer call() throws ServiceException {
                 int ret;
                 OrdineDiLavoroSpedizioneDAO dao = FactoryShipmentDomain.buildOrdineDiLavoroSpedizioneDAO();
                 try {
-                    ret = dao.getCountAperti(filiale);
+                    ret = dao.getCount(filiale, "DaAssegnare");
+                } catch (PersistenceException e) {
+                    throw new ServiceException("Errore nel reperire il numero di ordini di trasporto da prendere in carico");
+                }
+                return ret;
+            }
+        };
+    }
+
+    public Task<Integer> getCountOrdiniDiLavoroSpedizioneDaTerminare(FilialeDTO filiale) {
+        return new Task<>() {
+            @Override
+            protected Integer call() throws ServiceException {
+                int ret;
+                OrdineDiLavoroSpedizioneDAO dao = FactoryShipmentDomain.buildOrdineDiLavoroSpedizioneDAO();
+                try {
+                    ret = dao.getCountNonConclusi(filiale);
 
                 } catch (PersistenceException e) {
                     throw new ServiceException("Errore nel reperire il numero di ordini di trasporto aperti");

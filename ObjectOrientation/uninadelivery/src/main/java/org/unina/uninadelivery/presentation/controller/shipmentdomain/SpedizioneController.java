@@ -14,7 +14,14 @@ public class SpedizioneController implements Initializable {
 
     private final SpedizioneModel spedizioneModel;
     @FXML
-    protected MFXButton btnGeneraPacchi;
+    public Label lblCntOrdiniTrasportoDaCompletare;
+
+    @FXML
+    protected Label lblCntOrdiniPackagingDaCompletare;
+    @FXML
+    protected Label lblCntPacchiDaSpedire;
+    @FXML
+    protected MFXButton btnVisualizzaPacchi;
     @FXML
     protected MFXButton btnGeneraOdlTrasporto;
     @FXML
@@ -68,19 +75,41 @@ public class SpedizioneController implements Initializable {
         }
 
         lblCntOrdiniPackagingEmessi.setText(String.valueOf(spedizioneModel.getNumeroOrdiniPackaging()));
-        lblCntOrdiniTrasportoEmessi.setText(String.valueOf(spedizioneModel.getNumeroOrdiniTrasporto()));
+        lblCntOrdiniPackagingDaCompletare.setText(String.valueOf(spedizioneModel.getNumeroOrdiniPackagingDaCompletare()));
         lblCntPacchiGenerati.setText(String.valueOf(spedizioneModel.getNumeroPacchiGenerati()));
+        lblCntPacchiDaSpedire.setText(String.valueOf(spedizioneModel.getNumeroPacchiDaSpedire()));
+        lblCntOrdiniTrasportoEmessi.setText(String.valueOf(spedizioneModel.getNumeroOrdiniTrasporto()));
+        lblCntOrdiniTrasportoDaCompletare.setText(String.valueOf(spedizioneModel.getNumeroOrdiniTrasportoDaCompletare()));
 
         imgCopyToTracking.setOnMouseClicked(e -> {
             javafx.scene.input.Clipboard clipboard = javafx.scene.input.Clipboard.getSystemClipboard();
-                });
+            javafx.scene.input.ClipboardContent content = new javafx.scene.input.ClipboardContent();
+            content.putString(spedizioneModel.getTrackingNumber());
+            clipboard.setContent(content);
+            //todo: dare feedback della copia all'utente
+        });
 
-        btnGeneraOdlPackaging.setVisible(spedizioneModel.getNumeroOrdiniPackaging() == 0);
-        btnGeneraPacchi.setVisible(spedizioneModel.getNumeroOrdiniPackaging() > 0 && spedizioneModel.getNumeroPacchiGenerati() == 0);
-        btnGeneraOdlTrasporto.setVisible(spedizioneModel.getNumeroPacchiGenerati() > 0);
-
-        if(spedizioneModel.getNumeroOrdiniPackaging() == 0) {
-
+        if(spedizioneModel.getStato().equals("DaLavorare")) {
+            btnGeneraOdlPackaging.setText("Genera");
+            btnGeneraOdlPackaging.setOnAction(e -> {
+                //todo chiamata all'orchestratore
+            });
+        } else {
+            btnGeneraOdlPackaging.setText("Visualizza");
+            btnGeneraOdlPackaging.setOnAction(e -> {
+                //todo chiamata all'orchestratore
+            });
         }
+
+        if(spedizioneModel.getStato().equals("LavorataPackaging")) {
+            btnGeneraOdlTrasporto.setText("Genera");
+        } else if(spedizioneModel.getStato().equals("InLavorazioneSpedizione") || spedizioneModel.getStato().equals("LavorataSpedizione")) {
+            btnGeneraOdlTrasporto.setText("Visualizza");
+        }
+        else {
+            btnGeneraOdlTrasporto.setVisible(false);
+        }
+
+        btnVisualizzaPacchi.setVisible(spedizioneModel.getNumeroPacchiGenerati() > 0);
     }
 }

@@ -11,6 +11,8 @@ public class Orchestrator {
     protected Map<String, Object> yamlValues;
     protected DashboardController dashboardController;
 
+    protected static Orchestrator orchestrator;
+
     // metti un commento opendoc al costruttore
 
     /**
@@ -23,5 +25,4 @@ public class Orchestrator {
         if(session.containsKey("application.yml"))
             yamlValues = (Map<String, Object>) session.getSessionData("application.yml");
     }
-
 }
