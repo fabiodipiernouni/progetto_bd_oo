@@ -406,13 +406,13 @@ class OracleOrdineDiLavoroSpedizioneDAO implements OrdineDiLavoroSpedizioneDAO {
     }
 
 
-    public int getCountAperti(FilialeDTO filiale) throws PersistenceException {
+    public int getCountNonConclusi(FilialeDTO filiale) throws PersistenceException {
         Statement statement = null;
         ResultSet resultSet = null;
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT COUNT(*) FROM OrdineDiLavoroSpedizione WHERE idFiliale = " + filiale.getId() + " AND dataFineLavorazione is null");
+            resultSet = statement.executeQuery("SELECT COUNT(*) FROM OrdineDiLavoroSpedizione WHERE idFiliale = " + filiale.getId() + " AND stato in ('Assegnato', 'InLavorazione') ");
 
             if(!resultSet.next())
                 throw new PersistenceException("Errore nel conteggio degli ordini di lavoro di spedizione");

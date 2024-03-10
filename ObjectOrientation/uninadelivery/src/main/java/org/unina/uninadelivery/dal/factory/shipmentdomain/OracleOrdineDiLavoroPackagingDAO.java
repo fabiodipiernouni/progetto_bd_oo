@@ -14,7 +14,6 @@ import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
 import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
-import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
 import java.sql.*;
@@ -360,8 +359,7 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
 
     }
 
-    @Override
-    public int getCountConclusiInAttesaTrasporto(FilialeDTO filiale) throws PersistenceException {
+    public int getCountLavoratiNonSpediti(FilialeDTO filiale) throws PersistenceException {
         Statement statement = null;
         ResultSet resultSet = null;
 
@@ -369,15 +367,17 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("""
             SELECT COUNT(*)
-            FROM OrdineDiLavoroPackaging
-            JOIN Pacco
-            ON OrdineDiLavoroPackaging.IdSpedizione = Pacco.IdSpedizione
-            WHERE NOT EXISTS(
-                SELECT 1
-                FROM OrdineDiLavoroSpedizionePacchi
-                WHERE OrdineDiLavoroSpedizionePacchi.IdPacco = Pacco.Id
-            )
-            AND idFiliale = """ + filiale.getId());
+            FROM OrdineDiLavoroPackaging odp
+            JOIN Pacco p
+            ON odp.IdSpedizione = p.IdSpedizione
+            WHERE 
+                odp.Stato = 'Lavorato' and 
+                not exists(
+                    SELECT distinct 1
+                    FROM OrdineDiLavoroSpedizionePacchi 
+                    WHERE OrdineDiLavoroSpedizionePacchi.IdPacco = p.Id
+                )
+                AND idFiliale = """ + filiale.getId());
             //TODO: controllare la correttezza della query
 
 

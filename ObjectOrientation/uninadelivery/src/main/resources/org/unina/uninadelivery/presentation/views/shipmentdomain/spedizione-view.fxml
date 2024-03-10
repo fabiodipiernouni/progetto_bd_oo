@@ -91,7 +91,7 @@
             </Label>
             </children>
         </Pane>
-        <Pane layoutX="714.0" layoutY="233.0" prefHeight="325.0" prefWidth="200.0" styleClass="pane_4">
+        <Pane layoutX="711.0" layoutY="239.0" prefHeight="325.0" prefWidth="200.0" styleClass="pane_4">
             <children>
                 <Label fx:id="lblCntOrdiniTrasportoEmessi" layoutX="14.0" layoutY="78.0" text="-1" textFill="WHITE">
                     <font>
