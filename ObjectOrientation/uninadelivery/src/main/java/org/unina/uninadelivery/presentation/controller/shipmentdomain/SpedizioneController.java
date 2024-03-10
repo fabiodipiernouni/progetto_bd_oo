@@ -103,8 +103,11 @@ public class SpedizioneController implements Initializable {
 
         if(spedizioneModel.getStato().equals("LavorataPackaging")) {
             btnGeneraOdlTrasporto.setText("Genera");
-        } else {
+        } else if(spedizioneModel.getStato().equals("InLavorazioneSpedizione") || spedizioneModel.getStato().equals("LavorataSpedizione")) {
             btnGeneraOdlTrasporto.setText("Visualizza");
+        }
+        else {
+            btnGeneraOdlTrasporto.setVisible(false);
         }
 
         btnVisualizzaPacchi.setVisible(spedizioneModel.getNumeroPacchiGenerati() > 0);
