@@ -10,9 +10,11 @@ import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.customerdomain.ClienteDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerService {
     public Task<Integer> getCountOrdiniDaLavorareTask(FilialeDTO filiale) {
@@ -76,6 +78,20 @@ public class CustomerService {
         catch (PersistenceException e) {
             //e.printStackTrace();
             throw new ServiceException("Errore nel creare la spedizione");
+        }
+    }
+
+    public SpedizioneDTO getSpedizione(OrdineClienteDTO ordineCliente) throws ServiceException {
+
+        try {
+            Optional<SpedizioneDTO> spedizione;
+            spedizione = FactoryShipmentDomain.buildSpedizioneDAO().select(ordineCliente);
+
+            return spedizione.orElse(null);
+        }
+        catch (PersistenceException e) {
+            e.printStackTrace();
+            throw new ServiceException("Errore nel selezionare la spedizione");
         }
     }
 }

@@ -160,6 +160,7 @@ public class OrdiniController implements Initializable {
     }
 
     public void setListaOrdiniCliente(List<OrdineClienteDTO> listaOrdiniCliente) {
+        ordiniClienteGrid.getItems().clear();
         ordiniClienteGrid.setItems(FXCollections.observableArrayList(listaOrdiniCliente));
     }
 }

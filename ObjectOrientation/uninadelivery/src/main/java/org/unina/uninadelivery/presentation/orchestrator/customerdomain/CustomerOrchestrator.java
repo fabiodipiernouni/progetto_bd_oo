@@ -12,11 +12,14 @@ import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.ClientiController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.OrdineController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.OrdiniController;
+import org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioneController;
 import org.unina.uninadelivery.presentation.helper.Session;
+import org.unina.uninadelivery.presentation.model.customerdomain.SpedizioneModel;
 import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
@@ -122,13 +125,39 @@ public class CustomerOrchestrator extends Orchestrator {
 
     public void visualizzaSpedizioneClicked(OrdineClienteDTO ordineCliente) {
         /*try{
-            //SpedizioneDTO spedizione = customerService.getSpedizione(ordineCliente);
+            SpedizioneDTO spedizione = customerService.getSpedizione(ordineCliente);
 
+            if(spedizione == null)
+                //TODO: notificare spedizione non trovata
+                System.out.println("Spedizione non trovata");
+            else {
+                SpedizioneController spedizioneController = new SpedizioneController(new SpedizioneModel(
+                        spedizione.getNumeroSpedizione(),
+                        spedizione.getRagioneSocialeCliente(),
+                        spedizione.getStato(),
+                        spedizione.getDataCreazione(),
+                        spedizione.getDataInizioLavorazione(),
+                        spedizione.getDataFineLavorazione(),
+                        spedizione.getOrganizzatore(),
+                        spedizione.getTrackingNumber(),
+                        spedizione.getNumeroOrdiniPackaging(),
+                        spedizione.getNumeroOrdiniPackagingDaCompletare(),
+                        spedizione.getNumeroPacchiGenerati(),
+                        spedizione.getNumeroPacchiDaSpedire(),
+                        spedizione.getNumeroOrdiniTrasporto(),
+                        spedizione.getNumeroOrdiniTrasportoDaCompletare()
+                ));
+                DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
+                dashboardController.changeView("ORDINE", "/views/customerdomain/spedizione-view.fxml", c-> spedizioneController);
+
+            }
 
         }
         catch (ServiceException e) {
             //TODO: gestire errore
-        }*/
+        }
+
+         */
 
     }
 }
