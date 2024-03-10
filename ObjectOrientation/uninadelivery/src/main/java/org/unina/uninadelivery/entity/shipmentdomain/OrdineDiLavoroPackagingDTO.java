@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 public class OrdineDiLavoroPackagingDTO extends OrdineDiLavoroDTO {
 
-    String noteAggiuntiveCliente;
+    private String noteAggiuntiveCliente;
 
     @NonNull
     private MagazzinoDTO magazzino;

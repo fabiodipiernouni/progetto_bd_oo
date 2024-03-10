@@ -8,7 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.bll.customerdomain.CustomerService;
 import org.unina.uninadelivery.bll.exception.ServiceException;
-import org.unina.uninadelivery.bll.shipmentdomain.ShipmentAsyncService;
+import org.unina.uninadelivery.bll.shipmentdomain.ShipmentService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.presentation.helper.Session;
 
@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 
 public class HomeOpFilialeController implements Initializable {
     final CustomerService customerAsyncService;
-    final ShipmentAsyncService shipmentAsyncService;
+    final ShipmentService shipmentService;
     final OperatoreFilialeDTO operatoreFilialeDTO;
 
     private final Stage dashboardStage;
@@ -42,7 +42,7 @@ public class HomeOpFilialeController implements Initializable {
     public HomeOpFilialeController(Stage dashboardStage) {
         this.dashboardStage = dashboardStage;
         customerAsyncService = new CustomerService();
-        shipmentAsyncService = new ShipmentAsyncService();
+        shipmentService = new ShipmentService();
 
         Session session = Session.getInstance();
         operatoreFilialeDTO = (OperatoreFilialeDTO) session.getUserDto().getValue();
@@ -66,19 +66,19 @@ public class HomeOpFilialeController implements Initializable {
         //TODO: aggiungere gestione errori OnFailed per tutti i task (vedi esempio sopra)
 
         //Setup task per il conteggio delle spedizioni da lavorare
-        Task<Integer> cntSpedizioniDaLavorareAsync = shipmentAsyncService.getCountSpedizioniDaLavorare(operatoreFilialeDTO);
+        Task<Integer> cntSpedizioniDaLavorareAsync = shipmentService.getCountSpedizioniDaLavorare(operatoreFilialeDTO);
         cntSpedizioniDaLavorareAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblSpedizioniDaLavorare.setText(newValue.toString());
         });
 
         //Setup task per il conteggio degli ordini di packaging conclusi in attesa di trasporto
-        Task<Integer> cntOrdiniPackagingDaTrasportareAsync = shipmentAsyncService.getCountOrdiniDiLavoroPackagingConclusiAttesaTrasporto(operatoreFilialeDTO.getFiliale());
+        Task<Integer> cntOrdiniPackagingDaTrasportareAsync = shipmentService.getCountOrdiniDiLavoroPackagingConclusiAttesaTrasporto(operatoreFilialeDTO.getFiliale());
         cntOrdiniPackagingDaTrasportareAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblOrdiniPackagingDaTrasportare.setText(newValue.toString());
         });
 
         //Setup task per il conteggio degli ordini di trasporto non conclusi
-        Task<Integer> cntOrdiniTrasportoNonConclusiAsync = shipmentAsyncService.getCountOrdiniDiLavoroSpedizioneDaTerminare(operatoreFilialeDTO.getFiliale());
+        Task<Integer> cntOrdiniTrasportoNonConclusiAsync = shipmentService.getCountOrdiniDiLavoroSpedizioneDaTerminare(operatoreFilialeDTO.getFiliale());
         cntOrdiniTrasportoNonConclusiAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblCntOrdiniTrasportoNonConclusi.setText(newValue.toString());
         });
