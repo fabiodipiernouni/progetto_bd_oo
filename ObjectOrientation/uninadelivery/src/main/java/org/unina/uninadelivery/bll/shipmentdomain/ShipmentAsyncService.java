@@ -52,7 +52,6 @@ public class ShipmentAsyncService {
                 OrdineDiLavoroSpedizioneDAO dao = FactoryShipmentDomain.buildOrdineDiLavoroSpedizioneDAO();
                 try {
                     ret = dao.getCountAperti(filiale);
-                    System.out.println("Ret: " + ret);
 
                 } catch (PersistenceException e) {
                     throw new ServiceException("Errore nel reperire il numero di ordini di trasporto aperti");

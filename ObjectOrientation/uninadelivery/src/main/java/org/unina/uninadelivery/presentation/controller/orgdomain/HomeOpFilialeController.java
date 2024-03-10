@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.bll.customerdomain.CustomerService;
+import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.bll.shipmentdomain.ShipmentAsyncService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.presentation.helper.Session;
@@ -50,10 +51,19 @@ public class HomeOpFilialeController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Setup task per il conteggio degli ordini da lavorare
+        //TODO: dovremmo passare per un orchestratore, una boundary non può chiamare direttamente il service
         Task<Integer> cntOrdiniDaLavorareTaskAsync = customerAsyncService.getCountOrdiniDaLavorareTask(operatoreFilialeDTO.getFiliale());
         cntOrdiniDaLavorareTaskAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblCntOrdiniClienteFiliale.setText(newValue.toString());
         });
+        cntOrdiniDaLavorareTaskAsync.setOnFailed(event -> {
+            System.out.println("Task failed...");
+            if (cntOrdiniDaLavorareTaskAsync.getException() instanceof ServiceException)
+                System.out.println("...with a ServiceException");
+            else
+                System.out.println("...with an unknown exception");
+        });
+        //TODO: aggiungere gestione errori OnFailed per tutti i task (vedi esempio sopra)
 
         //Setup task per il conteggio delle spedizioni da lavorare
         Task<Integer> cntSpedizioniDaLavorareAsync = shipmentAsyncService.getCountSpedizioniDaLavorare(operatoreFilialeDTO);
@@ -72,7 +82,6 @@ public class HomeOpFilialeController implements Initializable {
         cntOrdiniTrasportoNonConclusiAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblCntOrdiniTrasportoNonConclusi.setText(newValue.toString());
         });
-
 
         //Eseguo i task
         ExecutorService executorService = Executors.newFixedThreadPool(2);

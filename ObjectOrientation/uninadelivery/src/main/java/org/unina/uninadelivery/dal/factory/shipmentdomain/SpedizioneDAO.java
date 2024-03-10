@@ -12,6 +12,9 @@ import java.util.Optional;
 public interface SpedizioneDAO {
     Optional<SpedizioneDTO> select(long id) throws PersistenceException;
 
+    Optional<SpedizioneDTO> select(OrdineClienteDTO ordineCliente) throws PersistenceException;
+
+
     int getCount(String Stato, FilialeDTO filiale) throws PersistenceException;
 
     int getCount(String Stato, OperatoreFilialeDTO operatoreFiliale) throws PersistenceException;

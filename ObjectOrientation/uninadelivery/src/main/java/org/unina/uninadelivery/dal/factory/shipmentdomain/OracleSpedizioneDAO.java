@@ -41,7 +41,7 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
         if(resultSet.wasNull())
             dataFineLavorazione = null;
 
-        Optional<OrdineClienteDTO> ordineCliente = FactoryCustomerDomain.buildOrdineClienteDAO().select(resultSet.getLong("idOrdine"));
+        Optional<OrdineClienteDTO> ordineCliente = FactoryCustomerDomain.buildOrdineClienteDAO().select(resultSet.getLong("idOrdineCliente"));
         if(ordineCliente.isEmpty())
             throw new ConsistencyException("La spedizione non ha un ordine associato");
 
@@ -74,6 +74,46 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
 
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * From Spedizione WHERE id = " + id);
+
+            if(resultSet.next())
+                spedizione = Optional.of(getByResultSet(resultSet));
+
+
+            return spedizione;
+
+        }
+        catch(SQLException sqe) {
+            //sqe.printStackTrace();
+            throw new PersistenceException(sqe.getMessage());
+        }
+        finally {
+            //libero le risorse
+
+            try {
+                if(resultSet != null)
+                    resultSet.close();
+                if(statement != null)
+                    statement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio niente
+            }
+        }
+
+    }
+
+    @Override
+    public Optional<SpedizioneDTO> select(OrdineClienteDTO ordineCliente) throws PersistenceException {
+        Optional<SpedizioneDTO>  spedizione = Optional.empty();
+
+
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * From Spedizione WHERE idOrdineCliente = " + ordineCliente.getId());
 
             if(resultSet.next())
                 spedizione = Optional.of(getByResultSet(resultSet));

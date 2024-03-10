@@ -1,26 +1,132 @@
 package org.unina.uninadelivery.presentation.controller.customerdomain;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
+import io.github.palexdev.materialfx.controls.MFXTableColumn;
+import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
+import io.github.palexdev.materialfx.filter.DoubleFilter;
+import io.github.palexdev.materialfx.filter.FloatFilter;
+import io.github.palexdev.materialfx.filter.IntegerFilter;
+import io.github.palexdev.materialfx.filter.StringFilter;
+import io.github.palexdev.materialfx.utils.others.observables.When;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import org.unina.uninadelivery.entity.customerdomain.DettaglioOrdineDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
+import org.unina.uninadelivery.presentation.orchestrator.customerdomain.CustomerOrchestrator;
 
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class OrdineController implements Initializable {
+    private final Stage dashboardStage;
     private final OrdineClienteDTO ordineDTO;
+
+
     @FXML
-    public Label lblTempIdOrdine;
+    private Label clienteRagioneSocialeLabel;
 
-    public OrdineController(OrdineClienteDTO ordineDTO) {
+    @FXML
+    private Label clientePartitaIVACodiceFiscaleLabel;
 
+    @FXML
+    private Label clienteEmailLabel;
+
+    @FXML
+    private Label dataOrdineClienteLabel;
+
+    @FXML
+    private Label statoOrdineClienteLabel;
+
+    @FXML
+    private Label numeroOrdineClienteLabel;
+
+    @FXML
+    private ImageView imgCopyToNumeroOrdineCliente;
+
+    @FXML
+    private Label importoTotaleOrdineClienteLabel;
+
+    @FXML
+    private MFXPaginatedTableView<DettaglioOrdineDTO> dettaglioOrdineGrid;
+
+    private CustomerOrchestrator customerOrchestrator;
+
+    public OrdineController(Stage dashboardStage, CustomerOrchestrator customerOrchestrator, OrdineClienteDTO ordineDTO) {
+        this.dashboardStage = dashboardStage;
+        this.customerOrchestrator = customerOrchestrator;
         this.ordineDTO = ordineDTO;
 
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        lblTempIdOrdine.setText("Ricevuto ordine con id " + ordineDTO.getId() + ", in data " + ordineDTO.getDataOrdine() + ".");
+
+        if(ordineDTO.getCliente().getRagioneSociale() != null) {
+            clienteRagioneSocialeLabel.setText(ordineDTO.getCliente().getRagioneSociale());
+            clientePartitaIVACodiceFiscaleLabel.setText(ordineDTO.getCliente().getPartitaIVA());
+        }
+        else {
+            clienteRagioneSocialeLabel.setText(ordineDTO.getCliente().getNome() + " " + ordineDTO.getCliente().getCognome());
+            clientePartitaIVACodiceFiscaleLabel.setText(ordineDTO.getCliente().getCodiceFiscale());
+        }
+
+        clienteEmailLabel.setText(ordineDTO.getCliente().getEmail());
+
+        dataOrdineClienteLabel.setText(ordineDTO.getDataOrdine().toString());
+        statoOrdineClienteLabel.setText(ordineDTO.getStato());
+        numeroOrdineClienteLabel.setText(ordineDTO.getNumeroOrdine());
+        importoTotaleOrdineClienteLabel.setText(ordineDTO.getImportoTotale() + " €");
+
+
+        setup();
+
+        dettaglioOrdineGrid.autosizeColumnsOnInitialization();
+
+        When.onChanged(dettaglioOrdineGrid.currentPageProperty())
+                .then((oldValue, newValue) -> dettaglioOrdineGrid.autosizeColumns())
+                .listen();
+
+        //TODO: aggiungere copia numero ordine
+
+    }
+
+    private void setup() {
+
+        MFXTableColumn<DettaglioOrdineDTO> codiceEANColumn = new MFXTableColumn<>("Codice EAN", false, Comparator.comparing(dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getCodiceEAN()));
+        MFXTableColumn<DettaglioOrdineDTO> nomeColumn = new MFXTableColumn<>("Nome", false, Comparator.comparing(dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getNome()));
+        MFXTableColumn<DettaglioOrdineDTO> prezzoColumn = new MFXTableColumn<>("Prezzo", false, Comparator.comparing(dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getPrezzo()));
+        MFXTableColumn<DettaglioOrdineDTO> pesoColumn = new MFXTableColumn<>("Peso", false, Comparator.comparing(dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getPeso()));
+        MFXTableColumn<DettaglioOrdineDTO> pericolositaColumn = new MFXTableColumn<>("Pericolosità", false, Comparator.comparing(dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getPericolosita()));
+        MFXTableColumn<DettaglioOrdineDTO> quantitaColumn = new MFXTableColumn<>("Quantità", false, Comparator.comparing(DettaglioOrdineDTO::getQuantita));
+        MFXTableColumn<DettaglioOrdineDTO> importoTotaleColumn = new MFXTableColumn<>("Importo Totale", false, Comparator.comparing(dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getPrezzo() * dettaglioOrdineDTO.getQuantita()));
+
+
+        codiceEANColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(dettaglioOrdine -> dettaglioOrdine.getProdotto().getCodiceEAN()));
+        nomeColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(dettaglioOrdine -> dettaglioOrdine.getProdotto().getNome()));
+        prezzoColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(dettaglioOrdine -> dettaglioOrdine.getProdotto().getPrezzo() + " €"));
+        pesoColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(dettaglioOrdine -> dettaglioOrdine.getProdotto().getPeso() + " Kg"));
+        pericolositaColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(dettaglioOrdine -> dettaglioOrdine.getProdotto().getPericolosita()));
+        quantitaColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(DettaglioOrdineDTO::getQuantita));
+        importoTotaleColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(dettaglioOrdine -> dettaglioOrdine.getProdotto().getPrezzo() * dettaglioOrdine.getQuantita() + " €"));
+
+        dettaglioOrdineGrid.getTableColumns().addAll(codiceEANColumn, nomeColumn, prezzoColumn, pesoColumn, pericolositaColumn, quantitaColumn, importoTotaleColumn);
+
+        dettaglioOrdineGrid.getFilters().addAll(
+                new StringFilter<>("Codice EAN", dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getCodiceEAN()),
+                new StringFilter<>("Nome", dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getNome()),
+                new DoubleFilter<>("Prezzo", dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getPrezzo()),
+                new FloatFilter<>("Peso", dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getPeso()),
+                new StringFilter<>("Pericolosità", dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getPericolosita()),
+                new IntegerFilter<>("Quantità", DettaglioOrdineDTO::getQuantita),
+                new DoubleFilter<>("Importo Totale", dettaglioOrdineDTO -> dettaglioOrdineDTO.getProdotto().getPrezzo() * dettaglioOrdineDTO.getQuantita())
+        );
+
+        dettaglioOrdineGrid.getItems().addAll(ordineDTO.getDettaglio());
+
     }
 }

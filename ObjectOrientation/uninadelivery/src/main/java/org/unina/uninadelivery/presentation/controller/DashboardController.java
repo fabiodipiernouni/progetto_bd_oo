@@ -146,6 +146,7 @@ public class DashboardController implements Initializable {
         Property<UtenteDTO> prop = session.getUserDto();
         utente = new OperatoreFilialeDTO();// prop.getValue();
         //todo: fixare
+        utente.setId(1L);
         utente.setProfilo("Operatore");
         utente.setUsername("Fabio");
         utente.setFunzioni(Collections.emptyList());
