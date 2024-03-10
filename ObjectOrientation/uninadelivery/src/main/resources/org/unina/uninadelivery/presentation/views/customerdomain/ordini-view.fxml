@@ -43,8 +43,8 @@
         </children>
     </Pane>
 
-    <MFXDatePicker fx:id="dataInizioPicker" layoutX="59.0" layoutY="225.0" promptText="Data inizio..." />
-    <MFXDatePicker fx:id="dataFinePicker" layoutX="300.0" layoutY="225.0" promptText="Data fine..." />
+    <MFXDatePicker fx:id="dataInizioPicker" layoutX="50.0" layoutY="225.0" promptText="Data inizio..." />
+    <MFXDatePicker fx:id="dataFinePicker" layoutX="290.0" layoutY="225.0" promptText="Data fine..." />
 
     <MFXPaginatedTableView fx:id="ordiniClienteGrid" layoutX="50.0" layoutY="279.0" prefHeight="242.0" prefWidth="800.0" />
 
