@@ -157,11 +157,11 @@ public class DashboardController implements Initializable {
         ((OperatoreFilialeDTO)utente).setFiliale(new FilialeDTO(1, "Filiale Napoli", "Italia", "Unina Delivery ITA", "12345678901"));*/
 
         utente = new OperatoreCorriereDTO();
-        utente.setId(15L);
+        utente.setId(33L);
         utente.setProfilo("OperatoreCorriere");
-        utente.setUsername("Marco_corriere_1");
+        utente.setUsername("Salvatore_corriere_19");
         utente.setFunzioni(Collections.emptyList());
-        ((OperatoreCorriereDTO)utente).setGruppoCorriere(new GruppoCorriereDTO(1, "Corriere Roma 1", "ROM1", 10, new FilialeDTO(1, "Filiale Roma", "Italia", "Unina Delivery ITA", "12345678901")));
+        ((OperatoreCorriereDTO)utente).setGruppoCorriere(new GruppoCorriereDTO(19, "Corriere Bologna 1", "BOL1", 10, new FilialeDTO(7, "Filiale Bologna", "Italia", "Unina Delivery ITA", "12345678901")));
 
         prop.setValue(utente);
         session.setUserDto(prop);

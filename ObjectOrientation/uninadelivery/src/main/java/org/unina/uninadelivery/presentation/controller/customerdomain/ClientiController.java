@@ -100,6 +100,7 @@ public class ClientiController implements Initializable {
     }
 
     public void setListaClienti(List<ClienteDTO> clienti) {
+        clientiGrid.getItems().clear();
         clientiGrid.setItems(FXCollections.observableArrayList(clienti));
     }
 }

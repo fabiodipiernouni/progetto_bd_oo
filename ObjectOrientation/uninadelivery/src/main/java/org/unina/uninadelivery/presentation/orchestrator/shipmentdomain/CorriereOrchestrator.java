@@ -39,18 +39,79 @@ public class CorriereOrchestrator extends Orchestrator {
     }
 
 
-    public void pagineOrdiniPackagingPronta() {
+    public void paginaOrdiniPackagingPronta() {
         Session session = Session.getInstance();
 
         OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
 
         try {
-            List<OrdineDiLavoroPackagingDTO> listaOrdini = shipmentService.getListaClienti(operatoreCorriereDTO.getGruppoCorriere());
+            List<OrdineDiLavoroPackagingDTO> listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
             ordiniPackagingController.setListaOrdini(listaOrdini);
-            
         }
         catch (ServiceException e) {
             //TODO: gestire errore
+            e.printStackTrace();
+        }
+    }
+
+    public void filtroTuttiClicked() {
+        Session session = Session.getInstance();
+
+        OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
+
+        try {
+            List<OrdineDiLavoroPackagingDTO> listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
+            ordiniPackagingController.setListaOrdini(listaOrdini);
+
+
+        } catch (ServiceException e) {
+            //TODO: gestire errore
+            e.printStackTrace();
+        }
+    }
+
+    public void filtroGruppoCorriereClicked() {
+        Session session = Session.getInstance();
+
+        OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
+
+        try {
+            List<OrdineDiLavoroPackagingDTO> listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging(operatoreCorriereDTO.getGruppoCorriere());
+            ordiniPackagingController.setListaOrdini(listaOrdini);
+
+        } catch (ServiceException e) {
+            //TODO: gestire errore
+            e.printStackTrace();
+        }
+    }
+
+    public void filtroPresiInCaricoClicked() {
+        Session session = Session.getInstance();
+
+        OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
+
+        try {
+            List<OrdineDiLavoroPackagingDTO> listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging(operatoreCorriereDTO);
+            ordiniPackagingController.setListaOrdini(listaOrdini);
+
+        } catch (ServiceException e) {
+            //TODO: gestire errore
+            e.printStackTrace();
+        }
+    }
+
+    public void filtroDaPrendereInCaricoClicked() {
+        Session session = Session.getInstance();
+
+        OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
+
+        try {
+            List<OrdineDiLavoroPackagingDTO> listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging(operatoreCorriereDTO.getGruppoCorriere().getFiliale(), "DaAssegnare");
+            ordiniPackagingController.setListaOrdini(listaOrdini);
+
+        } catch (ServiceException e) {
+            //TODO: gestire errore
+            e.printStackTrace();
         }
     }
 }

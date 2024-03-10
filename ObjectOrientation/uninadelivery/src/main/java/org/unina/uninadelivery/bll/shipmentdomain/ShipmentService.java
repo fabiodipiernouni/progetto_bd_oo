@@ -7,8 +7,13 @@ import org.unina.uninadelivery.dal.factory.shipmentdomain.FactoryShipmentDomain;
 import org.unina.uninadelivery.dal.factory.shipmentdomain.OrdineDiLavoroPackagingDAO;
 import org.unina.uninadelivery.dal.factory.shipmentdomain.OrdineDiLavoroSpedizioneDAO;
 import org.unina.uninadelivery.dal.factory.shipmentdomain.SpedizioneDAO;
+import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
+import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
+
+import java.util.List;
 
 public class ShipmentService {
 
@@ -97,5 +102,49 @@ public class ShipmentService {
                 return ret;
             }
         };
+    }
+
+    public List<OrdineDiLavoroPackagingDTO> getListaOrdiniDiLavoroPackaging(FilialeDTO filiale) throws ServiceException {
+        try {
+            OrdineDiLavoroPackagingDAO dao = FactoryShipmentDomain.buildOrdineDiLavoroPackagingDAO();
+            return dao.select(filiale);
+        }
+        catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista di ordini di packacking");
+        }
+
+    }
+
+    public List<OrdineDiLavoroPackagingDTO> getListaOrdiniDiLavoroPackaging(GruppoCorriereDTO gruppoCorriere) throws ServiceException {
+        try {
+            OrdineDiLavoroPackagingDAO dao = FactoryShipmentDomain.buildOrdineDiLavoroPackagingDAO();
+            return dao.select(gruppoCorriere);
+        }
+        catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista di ordini di packacking");
+        }
+
+    }
+
+    public List<OrdineDiLavoroPackagingDTO> getListaOrdiniDiLavoroPackaging(OperatoreCorriereDTO operatoreCorriere) throws ServiceException {
+        try {
+            OrdineDiLavoroPackagingDAO dao = FactoryShipmentDomain.buildOrdineDiLavoroPackagingDAO();
+            return dao.select(operatoreCorriere);
+        }
+        catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista di ordini di packacking");
+        }
+
+    }
+
+    public List<OrdineDiLavoroPackagingDTO> getListaOrdiniDiLavoroPackaging(FilialeDTO filiale, String stato) throws ServiceException {
+        try {
+            OrdineDiLavoroPackagingDAO dao = FactoryShipmentDomain.buildOrdineDiLavoroPackagingDAO();
+            return dao.select(filiale, stato);
+        }
+        catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista di ordini di packacking in stato " + stato);
+        }
+
     }
 }

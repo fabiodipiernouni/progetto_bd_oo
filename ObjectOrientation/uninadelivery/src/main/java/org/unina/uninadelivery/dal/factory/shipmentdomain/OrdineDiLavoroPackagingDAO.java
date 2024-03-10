@@ -12,6 +12,8 @@ import java.util.List;
 public interface OrdineDiLavoroPackagingDAO {
     List<OrdineDiLavoroPackagingDTO> select(FilialeDTO filiale) throws PersistenceException;
 
+    List<OrdineDiLavoroPackagingDTO> select(FilialeDTO filiale, String stato) throws PersistenceException;
+
     List<OrdineDiLavoroPackagingDTO> select(OperatoreFilialeDTO operatoreFiliale) throws PersistenceException;
 
     List<OrdineDiLavoroPackagingDTO> select(GruppoCorriereDTO gruppoCorriere) throws PersistenceException;
@@ -23,7 +25,6 @@ public interface OrdineDiLavoroPackagingDAO {
     int getCountLavoratiNonSpediti(FilialeDTO filiale) throws PersistenceException;
 
     void update(OrdineDiLavoroPackagingDTO ordineDiLavoroPackaging) throws PersistenceException;
-    
-    
+
 
 }
