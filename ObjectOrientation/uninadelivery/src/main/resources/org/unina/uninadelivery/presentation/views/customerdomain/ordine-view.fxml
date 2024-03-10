@@ -8,13 +8,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.customerdomain.OrdineController">
+<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.unina.uninadelivery.presentation.controller.customerdomain.OrdineController">
 
-    <MFXPaginatedTableView fx:id="dettaglioOrdineGrid" layoutX="50.0" layoutY="300.0" prefHeight="242.0" prefWidth="800.0" rowsPerPage="5">
+    <MFXPaginatedTableView fx:id="dettaglioOrdineGrid" layoutX="50.0" layoutY="350.0" prefHeight="242.0" prefWidth="800.0" rowsPerPage="5">
 
     </MFXPaginatedTableView>
 
-    <Pane layoutX="23.0" layoutY="36.0" prefHeight="144.0" prefWidth="429.0" styleClass="pane_2">
+    <Pane layoutX="23.0" layoutY="86.0" prefHeight="144.0" prefWidth="429.0" styleClass="pane_2">
         <ImageView fitHeight="85.0" fitWidth="108.0" layoutX="27.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
             <Image url="@../../icons/icons8-customer-64.png" />
         </ImageView>
@@ -42,7 +43,7 @@
             </font>
         </Label>
     </Pane>
-    <Pane layoutX="480.0" layoutY="36.0" prefHeight="200.0" prefWidth="439.0" styleClass="pane_2" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <Pane layoutX="480.0" layoutY="86.0" prefHeight="200.0" prefWidth="439.0" styleClass="pane_2" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
         <Label layoutX="15.0" layoutY="27.0" text="Data Ordine:">
             <font>
                 <Font name="Verdana" size="14.0" />

@@ -64,6 +64,8 @@ public class DashboardController implements Initializable {
     public Label lblFiliale;
     @FXML
     public Label lblCorriereTitle;
+    @FXML
+    public Label lblStatusBar;
     private UtenteDTO utente;
     private final Stage dashboardStage;
     private final ToggleGroup toggleGroup;
@@ -251,10 +253,14 @@ public class DashboardController implements Initializable {
             List<ToggleButton> nodes = beans.stream()
                     .map(bean -> {
                         ToggleButton toggle = (ToggleButton) bean.getBeanToNodeMapper().get();
-                        toggle.setOnAction(event -> contentPane.getChildren().setAll(bean.getRoot()));
+                        toggle.setOnAction(event -> {
+                            contentPane.getChildren().setAll(bean.getRoot());
+                            lblStatusBar.setText("Visualizzazione corrente: " + bean.getViewName().toLowerCase());
+                        });
                         if (bean.isDefaultView()) {
                             contentPane.getChildren().setAll(bean.getRoot());
                             toggle.setSelected(true);
+                            lblStatusBar.setText("Visualizzazione corrente: " + bean.getViewName().toLowerCase());
                         }
                         return toggle;
                     })
@@ -285,5 +291,7 @@ public class DashboardController implements Initializable {
 
         loader.addView(bean);
         loader.start();
+
+        lblStatusBar.setText("Visualizzazione corrente: " + viewName.toLowerCase());
     }
 }

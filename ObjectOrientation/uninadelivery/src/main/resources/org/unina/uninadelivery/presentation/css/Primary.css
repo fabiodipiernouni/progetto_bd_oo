@@ -12,6 +12,20 @@
 }
 
 /**************************************************
+ * Footer
+**************************************************/
+.footer {
+	-fx-background-color: #e7e1e1;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #748CF1;
+	-fx-font-family: Verdana;
+	-fx-text-fill: #748CF1;
+}
+
+/**************************************************
  * Window Header
 **************************************************/
 .rootPane .close-icon {
@@ -189,6 +203,7 @@
 	-fx-border-color: #748CF1;
 	-fx-font-family: Verdana;
 }
+
 
 .innerForm .aboutPane {
 	-fx-background-color: white;

@@ -1,6 +1,5 @@
 package org.unina.uninadelivery.presentation.controller.customerdomain;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
@@ -13,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.entity.customerdomain.DettaglioOrdineDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
@@ -91,8 +91,12 @@ public class OrdineController implements Initializable {
                 .then((oldValue, newValue) -> dettaglioOrdineGrid.autosizeColumns())
                 .listen();
 
-        //TODO: aggiungere copia numero ordine
-
+        imgCopyToNumeroOrdineCliente.setOnMouseClicked(event -> {
+            javafx.scene.input.Clipboard clipboard = javafx.scene.input.Clipboard.getSystemClipboard();
+            ClipboardContent content = new ClipboardContent();
+            content.putString(ordineDTO.getNumeroOrdine());
+            clipboard.setContent(content);
+        });
     }
 
     private void setup() {

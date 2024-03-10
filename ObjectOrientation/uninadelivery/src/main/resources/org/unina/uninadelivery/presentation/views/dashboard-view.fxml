@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="rootPane" prefHeight="720.0" prefWidth="1280.0" styleClass="rootPane" stylesheets="@../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.DashboardController">
+<AnchorPane fx:id="rootPane" prefHeight="747.0" prefWidth="1280.0" styleClass="rootPane" stylesheets="@../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.DashboardController">
    <HBox fx:id="windowHeader" alignment="CENTER_RIGHT" layoutX="2.0" layoutY="2.0" prefHeight="30.0" prefWidth="1278.0" spacing="10.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
       <padding>
          <Insets right="10.0" />
@@ -70,5 +70,10 @@
       <Label fx:id="lblCorriere" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="384.0" styleClass="header-label" text="Napoli1" textFill="#081B39">
       </Label>
    </HBox>
-   <StackPane fx:id="contentPane" layoutX="243.0" layoutY="83.0" prefHeight="627.0" prefWidth="1031.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="242.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="82.0" />
+   <StackPane fx:id="contentPane" layoutX="247.0" layoutY="87.0" prefHeight="610.0" prefWidth="1022.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="86.0" />
+   <Pane layoutX="242.0" layoutY="706.0" prefHeight="30.0" prefWidth="1033.0" styleClass="footer" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="4.6666666666667425" AnchorPane.topAnchor="706.0">
+      <children>
+         <Label fx:id="lblStatusBar" layoutX="14.0" layoutY="7.0" text="Visualizzazione Clienti" />
+      </children>
+   </Pane>
 </AnchorPane>
