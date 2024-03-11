@@ -17,6 +17,7 @@ public class AuthService {
             return dao.select(username, password);
         }
         catch (ConsistencyException ce) {
+            ce.printStackTrace();
             throw new ServiceException("I dati in nostro possesso non sono validi, contattare un amministratore");
         }
         catch (PersistenceException pe) {
