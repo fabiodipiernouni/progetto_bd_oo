@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.bll.shipmentdomain.ShipmentService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
+import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
+import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.presentation.controller.shipmentdomain.OrdiniPackagingController;
 import org.unina.uninadelivery.presentation.helper.Session;
@@ -41,11 +43,24 @@ public class CorriereOrchestrator extends Orchestrator {
 
     public void paginaOrdiniPackagingPronta() {
         Session session = Session.getInstance();
+        UtenteDTO utenteDTO = session.getUserDto().getValue();
 
-        OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
+        List<OrdineDiLavoroPackagingDTO> listaOrdini;
 
         try {
-            List<OrdineDiLavoroPackagingDTO> listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
+            switch (utenteDTO.getProfilo()) {
+                case "OperatoreCorriere":
+                    listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging( ((OperatoreCorriereDTO) utenteDTO).getGruppoCorriere().getFiliale());
+
+                    break;
+                case "Operatore":
+                    listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging( ((OperatoreFilialeDTO) utenteDTO).getFiliale());
+
+                    break;
+                default:
+                    listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging();
+            }
+
             ordiniPackagingController.setListaOrdini(listaOrdini);
         }
         catch (ServiceException e) {
@@ -113,5 +128,11 @@ public class CorriereOrchestrator extends Orchestrator {
             //TODO: gestire errore
             e.printStackTrace();
         }
+    }
+
+    public void visualizzaOrdinePackagingClicked(OrdineDiLavoroPackagingDTO ordine) {
+    }
+
+    public void prendiInCaricoOrdineDiLavoroPackagingClicked(OrdineDiLavoroPackagingDTO ordine) {
     }
 }

@@ -10,6 +10,9 @@ import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import java.util.List;
 
 public interface OrdineDiLavoroPackagingDAO {
+
+    List<OrdineDiLavoroPackagingDTO> select() throws PersistenceException;
+
     List<OrdineDiLavoroPackagingDTO> select(FilialeDTO filiale) throws PersistenceException;
 
     List<OrdineDiLavoroPackagingDTO> select(FilialeDTO filiale, String stato) throws PersistenceException;
