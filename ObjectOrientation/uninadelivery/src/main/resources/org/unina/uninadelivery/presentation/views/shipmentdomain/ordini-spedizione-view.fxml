@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.OrdiniSpedizioneController"
-            prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css">
-
+<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.OrdiniSpedizioneController">
+    <children>
+        <MFXPaginatedTableView fx:id="ordiniDiLavoroSpedizioneGrid" layoutX="69.0" layoutY="300.0" prefHeight="266.0"
+                               prefWidth="883.0"/>
+        <MFXRadioButton fx:id="filtroTuttiRadioBox" layoutX="69.0" layoutY="265.0" selected="true" text="Tutti"
+                        visible="false"/>
+        <MFXRadioButton fx:id="filtroGruppoCorriereRadioBox" layoutX="136.0" layoutY="265.0"
+                        text="In carico al mio gruppo corriere" visible="false"/>
+        <MFXRadioButton fx:id="filtroPresiInCaricoRadioBox" layoutX="349.0" layoutY="265.0" text="Presi in carico da me"
+                        visible="false"/>
+        <MFXRadioButton fx:id="filtroDaPrendereInCaricoRadioBox" layoutX="500.0" layoutY="265.0"
+                        text="Non ancora presi in carico" visible="false"/>
+        <MFXRadioButton fx:id="filtroImmessiDaMeRadioBox" layoutX="688.0" layoutY="265.0" text="Immessi da me"
+                        visible="false"/>
+    </children>
 </AnchorPane>

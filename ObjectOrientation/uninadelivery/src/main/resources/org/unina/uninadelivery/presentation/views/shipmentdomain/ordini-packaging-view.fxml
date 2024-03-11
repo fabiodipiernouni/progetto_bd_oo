@@ -13,10 +13,12 @@
         <MFXRadioButton fx:id="filtroTuttiRadioBox" layoutX="69.0" layoutY="265.0" selected="true" text="Tutti"
                         visible="false"/>
         <MFXRadioButton fx:id="filtroGruppoCorriereRadioBox" layoutX="136.0" layoutY="265.0"
-                        text="In carico al mio gruppo corriere" visible="false" />
+                        text="In carico al mio gruppo corriere" visible="false"/>
         <MFXRadioButton fx:id="filtroPresiInCaricoRadioBox" layoutX="349.0" layoutY="265.0" text="Presi in carico da me"
                         visible="false"/>
         <MFXRadioButton fx:id="filtroDaPrendereInCaricoRadioBox" layoutX="500.0" layoutY="265.0"
                         text="Non ancora presi in carico" visible="false"/>
+        <MFXRadioButton fx:id="filtroImmessiDaMeRadioBox" layoutX="683.0" layoutY="265.0" text="Immessi da me"
+                        visible="false"/>
     </children>
 </AnchorPane>

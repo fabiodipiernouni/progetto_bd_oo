@@ -163,4 +163,10 @@ public class OrdiniController implements Initializable {
         ordiniClienteGrid.getItems().clear();
         ordiniClienteGrid.setItems(FXCollections.observableArrayList(listaOrdiniCliente));
     }
+
+    public void resettaFiltri() {
+        dataInizioPicker.setValue(null);
+        dataFinePicker.setValue(null);
+    }
+
 }

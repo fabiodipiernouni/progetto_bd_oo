@@ -435,7 +435,6 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
                 idOperatoreCorriere = ?,
                 idFiliale = ?,
                 idSpedizione = ?,
-                stato = ?,
                 noteAggiuntiveCliente = ?,
                 noteAggiuntiveOperatore = ?,
                 idMagazzino = ?,
@@ -450,12 +449,11 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
             preparedStatement.setLong(6, ordineDiLavoroPackaging.getOperatoreCorriere().getId());
             preparedStatement.setLong(7, ordineDiLavoroPackaging.getFiliale().getId());
             preparedStatement.setLong(8, ordineDiLavoroPackaging.getSpedizione().getId());
-            preparedStatement.setString(9, ordineDiLavoroPackaging.getStato());
-            preparedStatement.setString(10, ordineDiLavoroPackaging.getNoteAggiuntiveCliente());
-            preparedStatement.setString(11, ordineDiLavoroPackaging.getNoteAggiuntiveOperatore());
-            preparedStatement.setLong(12, ordineDiLavoroPackaging.getMagazzino().getId());
-            preparedStatement.setLong(13, ordineDiLavoroPackaging.getIndirizzoSpedizione().getId());
-            preparedStatement.setLong(14, ordineDiLavoroPackaging.getId());
+            preparedStatement.setString(9, ordineDiLavoroPackaging.getNoteAggiuntiveCliente());
+            preparedStatement.setString(10, ordineDiLavoroPackaging.getNoteAggiuntiveOperatore());
+            preparedStatement.setLong(11, ordineDiLavoroPackaging.getMagazzino().getId());
+            preparedStatement.setLong(12, ordineDiLavoroPackaging.getIndirizzoSpedizione().getId());
+            preparedStatement.setLong(13, ordineDiLavoroPackaging.getId());
 
             preparedStatement.executeUpdate();
 

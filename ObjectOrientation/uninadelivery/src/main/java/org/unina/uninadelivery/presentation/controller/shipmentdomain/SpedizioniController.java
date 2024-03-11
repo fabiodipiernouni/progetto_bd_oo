@@ -14,7 +14,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.presentation.exception.SpedizioniException;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.CorriereOrchestrator;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
 
 import java.net.URL;
 import java.util.Comparator;
@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 public class SpedizioniController implements Initializable {
 
     private final Stage dashboardStage;
-    private final CorriereOrchestrator corriereOrchestrator;
+    private final OdlOrchestrator odlOrchestrator;
     @FXML
     protected MFXPaginatedTableView spedizioniGrid;
 
@@ -36,8 +36,8 @@ public class SpedizioniController implements Initializable {
 
     public SpedizioniController(Stage dashboardStage) {
         this.dashboardStage = dashboardStage;
-        this.corriereOrchestrator = CorriereOrchestrator.getCorriereOrchestrator(dashboardStage);
-        this.corriereOrchestrator.setSpedizioniController(this);
+        this.odlOrchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
+        this.odlOrchestrator.setSpedizioniController(this);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class SpedizioniController implements Initializable {
 
         filtroTuttiRadioBox.setOnAction(event -> {
             try {
-                corriereOrchestrator.filtroTuttiSpedizioniClicked();
+                odlOrchestrator.filtroTuttiSpedizioniClicked();
             } catch (SpedizioniException e) {
                 //todo: gestire errore
             }
@@ -63,7 +63,7 @@ public class SpedizioniController implements Initializable {
 
         filtroEmesseDaMe.setOnAction(event -> {
             try {
-                corriereOrchestrator.filtroSpedizioniEmesseDaMeClicked();
+                odlOrchestrator.filtroSpedizioniEmesseDaMeClicked();
             } catch (SpedizioniException e) {
                 //todo: gestire errore
             }
@@ -89,7 +89,7 @@ public class SpedizioniController implements Initializable {
 
             button.setOnAction(event -> {
                 try {
-                    corriereOrchestrator.visualizzaSpedizioneClicked(spedizione);
+                    odlOrchestrator.visualizzaSpedizioneClicked(spedizione);
                 } catch (SpedizioniException e) {
                     //todo: gestire errore
                 }
@@ -108,7 +108,7 @@ public class SpedizioniController implements Initializable {
         );
 
         try {
-            corriereOrchestrator.paginaSpedizioniPronta();
+            odlOrchestrator.paginaSpedizioniPronta();
         } catch (SpedizioniException e) {
             //todo: gestire errore
         }

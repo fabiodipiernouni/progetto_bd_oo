@@ -11,16 +11,17 @@ import io.github.palexdev.materialfx.utils.others.observables.When;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
-import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.presentation.helper.Session;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.CorriereOrchestrator;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
 
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -42,13 +43,18 @@ public class OrdiniPackagingController implements Initializable {
     @FXML
     private MFXRadioButton filtroDaPrendereInCaricoRadioBox;
 
-    private CorriereOrchestrator corriereOrchestrator;
+    @FXML
+    private MFXRadioButton filtroImmessiDaMeRadioBox;
+
+    private OdlOrchestrator odlOrchestrator;
+
+    private ToggleGroup toggleGroup;
 
     public OrdiniPackagingController(Stage dashboardStage) {
 
         this.dashboardStage = dashboardStage;
-        this.corriereOrchestrator = CorriereOrchestrator.getCorriereOrchestrator(dashboardStage);
-        this.corriereOrchestrator.setOrdiniPackagingController(this);
+        this.odlOrchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
+        this.odlOrchestrator.setOrdiniPackagingController(this);
     }
 
     @Override
@@ -62,57 +68,37 @@ public class OrdiniPackagingController implements Initializable {
                 .listen();
 
 
+        toggleGroup = new ToggleGroup();
+        filtroTuttiRadioBox.setToggleGroup(toggleGroup);
+        filtroGruppoCorriereRadioBox.setToggleGroup(toggleGroup);
+        filtroPresiInCaricoRadioBox.setToggleGroup(toggleGroup);
+        filtroDaPrendereInCaricoRadioBox.setToggleGroup(toggleGroup);
+        filtroImmessiDaMeRadioBox.setToggleGroup(toggleGroup);
+
+
         filtroTuttiRadioBox.setOnAction(event -> {
-            corriereOrchestrator.filtroTuttiClicked();
-
-            //se sto cercando di disattivare
-            if(!filtroTuttiRadioBox.isSelected())
-                filtroTuttiRadioBox.setSelected(true);
-
-
-            //disattiva gli altri box
-            filtroGruppoCorriereRadioBox.setSelected(false);
-            filtroPresiInCaricoRadioBox.setSelected(false);
-            filtroDaPrendereInCaricoRadioBox.setSelected(false);
-
+            odlOrchestrator.filtroOrdiniPackagingTuttiClicked();
         });
 
 
         filtroGruppoCorriereRadioBox.setOnAction(event -> {
-            corriereOrchestrator.filtroGruppoCorriereClicked();
-
-            if(!filtroGruppoCorriereRadioBox.isSelected())
-                filtroGruppoCorriereRadioBox.setSelected(true);
-
-            filtroTuttiRadioBox.setSelected(false);
-            filtroPresiInCaricoRadioBox.setSelected(false);
-            filtroDaPrendereInCaricoRadioBox.setSelected(false);
+            odlOrchestrator.filtroOrdiniPackagingGruppoCorriereClicked();
         });
 
 
         filtroPresiInCaricoRadioBox.setOnAction(event -> {
-            corriereOrchestrator.filtroPresiInCaricoClicked();
-
-            if(!filtroPresiInCaricoRadioBox.isSelected())
-                filtroPresiInCaricoRadioBox.setSelected(true);
-
-            filtroTuttiRadioBox.setSelected(false);
-            filtroGruppoCorriereRadioBox.setSelected(false);
-            filtroDaPrendereInCaricoRadioBox.setSelected(false);
+            odlOrchestrator.filtroOrdiniPackagingPresiInCaricoClicked();
         });
 
 
         filtroDaPrendereInCaricoRadioBox.setOnAction(event -> {
-            corriereOrchestrator.filtroDaPrendereInCaricoClicked();
-
-            if(!filtroDaPrendereInCaricoRadioBox.isSelected())
-                filtroDaPrendereInCaricoRadioBox.setSelected(true);
-
-            filtroTuttiRadioBox.setSelected(false);
-            filtroGruppoCorriereRadioBox.setSelected(false);
-            filtroPresiInCaricoRadioBox.setSelected(false);
-
+            odlOrchestrator.filtroOrdiniPackagingDaPrendereInCaricoClicked();
         });
+
+        filtroImmessiDaMeRadioBox.setOnAction(event -> {
+            odlOrchestrator.filtroOrdiniPackagingImmessiDaMeClicked();
+        });
+
 
     }
 
@@ -172,7 +158,7 @@ public class OrdiniPackagingController implements Initializable {
             MFXButton button = new MFXButton("Visualizza");
 
             button.setOnAction(event -> {
-                corriereOrchestrator.visualizzaOrdinePackagingClicked(ordine);
+                odlOrchestrator.visualizzaOrdinePackagingClicked(ordine);
             });
 
             cell.setGraphic(button);
@@ -224,7 +210,7 @@ public class OrdiniPackagingController implements Initializable {
                     //crea un tasto
                     button = new MFXButton("Prendi in Carico");
                     button.setOnAction(event -> {
-                        corriereOrchestrator.prendiInCaricoOrdineDiLavoroPackagingClicked(ordine);
+                        odlOrchestrator.prendiInCaricoOrdinePackagingClicked(ordine);
                     });
 
                     //imposta il tasto come grafica della cella
@@ -245,12 +231,31 @@ public class OrdiniPackagingController implements Initializable {
             filtroDaPrendereInCaricoRadioBox.setVisible(true);
 
         }
+        else
+            if(utente.getProfilo().equals("Operatore")) {
+                filtroTuttiRadioBox.setVisible(true);
+                filtroImmessiDaMeRadioBox.setVisible(true);
 
-        corriereOrchestrator.paginaOrdiniPackagingPronta();
+                //avvicina i radio box
+                filtroImmessiDaMeRadioBox.setLayoutX(filtroGruppoCorriereRadioBox.getLayoutX());
+            }
+
+        odlOrchestrator.paginaOrdiniPackagingPronta();
     }
 
     public void setListaOrdini(List<OrdineDiLavoroPackagingDTO> listaOrdini) {
         ordiniDiLavoroPackagingGrid.getItems().clear();
         ordiniDiLavoroPackagingGrid.setItems(FXCollections.observableArrayList(listaOrdini));
     }
+
+    /*
+    public List<OrdineDiLavoroPackagingDTO> getListaOrdini()  {
+        return new LinkedList<>(ordiniDiLavoroPackagingGrid.getItems());
+    }
+    */
+
+    public void resettaFiltri() {
+        toggleGroup.selectToggle(filtroTuttiRadioBox);
+    }
+
 }

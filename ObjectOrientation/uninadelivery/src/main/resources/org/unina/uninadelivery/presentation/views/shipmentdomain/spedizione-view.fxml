@@ -11,211 +11,239 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioneController">
+<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css"
+            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioneController">
     <children>
         <Pane layoutX="86.0" layoutY="19.0" prefHeight="200.0" prefWidth="417.0" styleClass="pane_2">
             <children>
                 <Label layoutX="23.0" layoutY="24.0" text="Spedizione Numero:">
                     <font>
-                        <Font name="Verdana" size="14.0" />
+                        <Font name="Verdana" size="14.0"/>
                     </font>
                 </Label>
-                <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="48.0" startX="-100.0" />
+                <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="48.0" startX="-100.0"/>
                 <Label fx:id="lblNumeroSpedizione" layoutX="183.0" layoutY="24.0" text="&lt;numsped&gt;">
                     <font>
-                        <Font name="Verdana" size="14.0" />
+                        <Font name="Verdana" size="14.0"/>
                     </font>
                 </Label>
                 <Label layoutX="23.0" layoutY="60.0" text="Cliente:">
                     <font>
-                        <Font name="Verdana" size="14.0" />
+                        <Font name="Verdana" size="14.0"/>
                     </font>
                 </Label>
-                <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="84.0" startX="-100.0" />
+                <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="84.0" startX="-100.0"/>
                 <Label fx:id="lblRagSoc" layoutX="183.0" layoutY="60.0" text="&lt;cliente&gt;">
                     <font>
-                        <Font name="Verdana" size="14.0" />
+                        <Font name="Verdana" size="14.0"/>
                     </font>
                 </Label>
                 <Label layoutX="23.0" layoutY="100.0" text="Stato:">
                     <font>
-                        <Font name="Verdana" size="14.0" />
+                        <Font name="Verdana" size="14.0"/>
                     </font>
                 </Label>
-                <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="124.0" startX="-100.0" />
+                <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="124.0" startX="-100.0"/>
                 <Label fx:id="lblStato" layoutX="183.0" layoutY="100.0" text="&lt;stato&gt;">
                     <font>
-                        <Font name="Verdana" size="14.0" />
+                        <Font name="Verdana" size="14.0"/>
                     </font>
                 </Label>
                 <Label layoutX="23.0" layoutY="138.0" text="Organizzatore:">
                     <font>
-                        <Font name="Verdana" size="14.0" />
+                        <Font name="Verdana" size="14.0"/>
                     </font>
                 </Label>
-                <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="162.0" startX="-100.0" />
+                <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="162.0" startX="-100.0"/>
                 <Label fx:id="lblOrganizzatore" layoutX="183.0" layoutY="138.0" text="&lt;organizzatore&gt;">
                     <font>
-                        <Font name="Verdana" size="14.0" />
+                        <Font name="Verdana" size="14.0"/>
                     </font>
                 </Label>
             </children>
         </Pane>
         <Pane layoutX="86.0" layoutY="239.0" prefHeight="325.0" prefWidth="200.0" styleClass="pane_3">
             <children>
-                <Label fx:id="lblCntOrdiniPackagingEmessi" layoutY="71.0" prefHeight="30.0" prefWidth="43.0" text="-1" textFill="WHITE">
+                <Label fx:id="lblCntOrdiniPackagingEmessi" layoutY="71.0" prefHeight="30.0" prefWidth="43.0" text="-1"
+                       textFill="WHITE">
                     <font>
-                        <Font name="Verdana Bold" size="24.0" />
+                        <Font name="Verdana Bold" size="24.0"/>
                     </font>
                 </Label>
-                <Label layoutX="50.0" layoutY="71.0" prefHeight="78.0" prefWidth="136.0" text="Ordini di packaging associati alla spedizione relativi alla Filiale corrente" textFill="WHITE" wrapText="true">
+                <Label layoutX="50.0" layoutY="71.0" prefHeight="78.0" prefWidth="136.0"
+                       text="Ordini di packaging associati alla spedizione relativi alla Filiale corrente"
+                       textFill="WHITE" wrapText="true">
                     <font>
-                        <Font name="Verdana" size="14.0" />
+                        <Font name="Verdana" size="14.0"/>
                     </font>
                 </Label>
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="7.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/icons8-logistics-64.png" />
+                        <Image url="@../../icons/icons8-logistics-64.png"/>
                     </image>
                 </ImageView>
-                <MFXButton fx:id="btnGeneraOdlPackaging" buttonType="RAISED" layoutX="43.0" layoutY="271.0" minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0" styleClass="outline-button-pane_2" text="Genera" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-            <Label fx:id="lblCntOrdiniPackagingDaCompletare" layoutY="163.0" prefHeight="30.0" prefWidth="43.0" text="-1" textFill="WHITE">
-               <font>
-                  <Font name="Verdana Bold" size="24.0" />
-               </font>
-            </Label>
-            <Label layoutX="50.0" layoutY="163.0" prefHeight="40.0" prefWidth="136.0" text="Ancora da completare" textFill="WHITE" wrapText="true">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
+                <MFXButton fx:id="btnGeneraOdlPackaging" buttonType="RAISED" layoutX="43.0" layoutY="271.0"
+                           minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0"
+                           styleClass="outline-button-pane_2" text="Genera" GridPane.columnIndex="5"
+                           GridPane.rowIndex="1"/>
+                <Label fx:id="lblCntOrdiniPackagingDaCompletare" layoutY="163.0" prefHeight="30.0" prefWidth="43.0"
+                       text="-1" textFill="WHITE">
+                    <font>
+                        <Font name="Verdana Bold" size="24.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="50.0" layoutY="163.0" prefHeight="40.0" prefWidth="136.0" text="Ancora da completare"
+                       textFill="WHITE" wrapText="true">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
             </children>
         </Pane>
         <Pane layoutX="711.0" layoutY="239.0" prefHeight="325.0" prefWidth="200.0" styleClass="pane_4">
             <children>
                 <Label fx:id="lblCntOrdiniTrasportoEmessi" layoutX="14.0" layoutY="78.0" text="-1" textFill="WHITE">
                     <font>
-                        <Font name="Verdana Bold" size="24.0" />
+                        <Font name="Verdana Bold" size="24.0"/>
                     </font>
                 </Label>
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="14.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/icons8-shipping-64.png" />
+                        <Image url="@../../icons/icons8-shipping-64.png"/>
                     </image>
                 </ImageView>
-            <Label alignment="TOP_LEFT" layoutX="50.0" layoutY="78.0" prefHeight="78.0" prefWidth="136.0" text="Ordini di trasporto associati alla spedizione relativi alla Filiale corrente" textFill="WHITE" wrapText="true">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
-            <MFXButton fx:id="btnGeneraOdlTrasporto" buttonType="RAISED" layoutX="43.0" layoutY="271.0" minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0" styleClass="outline-button-pane_2" text="Genera" />
-            <Label fx:id="lblCntOrdiniTrasportoDaCompletare" layoutX="14.0" layoutY="163.0" text="-1" textFill="WHITE">
-               <font>
-                  <Font name="Verdana Bold" size="24.0" />
-               </font>
-            </Label>
-            <Label alignment="TOP_LEFT" layoutX="50.0" layoutY="163.0" prefHeight="78.0" prefWidth="136.0" text="Ancora da completare" textFill="WHITE" wrapText="true">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
+                <Label alignment="TOP_LEFT" layoutX="50.0" layoutY="78.0" prefHeight="78.0" prefWidth="136.0"
+                       text="Ordini di trasporto associati alla spedizione relativi alla Filiale corrente"
+                       textFill="WHITE" wrapText="true">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
+                <MFXButton fx:id="btnGeneraOdlTrasporto" buttonType="RAISED" layoutX="43.0" layoutY="271.0"
+                           minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0"
+                           styleClass="outline-button-pane_2" text="Genera"/>
+                <Label fx:id="lblCntOrdiniTrasportoDaCompletare" layoutX="14.0" layoutY="163.0" text="-1"
+                       textFill="WHITE">
+                    <font>
+                        <Font name="Verdana Bold" size="24.0"/>
+                    </font>
+                </Label>
+                <Label alignment="TOP_LEFT" layoutX="50.0" layoutY="163.0" prefHeight="78.0" prefWidth="136.0"
+                       text="Ancora da completare" textFill="WHITE" wrapText="true">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
             </children>
             <padding>
-                <Insets right="30.0" />
+                <Insets right="30.0"/>
             </padding>
         </Pane>
         <Pane layoutX="398.0" layoutY="239.0" prefHeight="325.0" prefWidth="200.0" styleClass="pane_2">
             <children>
-                <Label fx:id="lblCntPacchiGenerati" layoutX="18.0" layoutY="71.0" prefHeight="30.0" prefWidth="44.0" text="-1" textFill="#367ec0">
+                <Label fx:id="lblCntPacchiGenerati" layoutX="18.0" layoutY="71.0" prefHeight="30.0" prefWidth="44.0"
+                       text="-1" textFill="#367ec0">
                     <font>
-                        <Font name="Verdana Bold" size="24.0" />
+                        <Font name="Verdana Bold" size="24.0"/>
                     </font>
                 </Label>
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="7.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/icons8-box.gif" />
+                        <Image url="@../../icons/icons8-box.gif"/>
                     </image>
                 </ImageView>
-            <Label layoutX="62.0" layoutY="72.0" prefHeight="28.0" prefWidth="119.0" text="Pacchi Generati" textFill="#367ec0" wrapText="true">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
-            <MFXButton fx:id="btnVisualizzaPacchi" buttonType="RAISED" layoutX="43.0" layoutY="271.0" minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0" styleClass="outline-button-pane_3" text="Visualizza" />
-            <Label fx:id="lblCntPacchiDaSpedire" layoutX="18.0" layoutY="163.0" prefHeight="30.0" prefWidth="44.0" text="-1" textFill="#367ec0">
-               <font>
-                  <Font name="Verdana Bold" size="24.0" />
-               </font>
-            </Label>
-            <Label layoutX="62.0" layoutY="163.0" prefHeight="46.0" prefWidth="119.0" text="Pacchi Da Spedire" textFill="#367ec0" wrapText="true">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
+                <Label layoutX="62.0" layoutY="72.0" prefHeight="28.0" prefWidth="119.0" text="Pacchi Generati"
+                       textFill="#367ec0" wrapText="true">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
+                <MFXButton fx:id="btnVisualizzaPacchi" buttonType="RAISED" layoutX="43.0" layoutY="271.0"
+                           minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0"
+                           styleClass="outline-button-pane_3" text="Visualizza"/>
+                <Label fx:id="lblCntPacchiDaSpedire" layoutX="18.0" layoutY="163.0" prefHeight="30.0" prefWidth="44.0"
+                       text="-1" textFill="#367ec0">
+                    <font>
+                        <Font name="Verdana Bold" size="24.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="62.0" layoutY="163.0" prefHeight="46.0" prefWidth="119.0" text="Pacchi Da Spedire"
+                       textFill="#367ec0" wrapText="true">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
             </children>
         </Pane>
-        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="313.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="313.0" layoutY="380.0" pickOnBounds="true"
+                   preserveRatio="true">
             <image>
-                <Image url="@../../icons/icons8-arrow-100.png" />
+                <Image url="@../../icons/icons8-arrow-100.png"/>
             </image>
         </ImageView>
-        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="624.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="624.0" layoutY="380.0" pickOnBounds="true"
+                   preserveRatio="true">
             <image>
-                <Image url="@../../icons/icons8-arrow-100.png" />
+                <Image url="@../../icons/icons8-arrow-100.png"/>
             </image>
         </ImageView>
-      <Pane layoutX="530.0" layoutY="19.0" prefHeight="200.0" prefWidth="381.0" styleClass="pane_2">
-         <children>
-            <Label layoutX="15.0" layoutY="27.0" text="Data Creazione:">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
-            <Label layoutX="15.0" layoutY="61.0" text="Data Inizio Lavorazione:">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
-            <Line endX="254.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="85.0" startX="-100.0" />
-            <Label layoutX="15.0" layoutY="100.0" text="Data Fine Lavorazione:">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
-            <Line endX="254.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="124.0" startX="-100.0" />
-            <Label layoutX="15.0" layoutY="134.0" text="Tracking Number:">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
-            <Line endX="254.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="158.0" startX="-100.0" />
-            <Line endX="254.0" endY="-7.62939453125E-6" layoutX="113.0" layoutY="48.0" startX="-100.0" />
-            <Label fx:id="lblDataCreazione" layoutX="192.0" layoutY="27.0" text="&lt;numsped&gt;">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblDataInizioLav" layoutX="192.0" layoutY="61.0" text="&lt;dataini&gt;">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblDataFineLav" layoutX="192.0" layoutY="100.0" text="&lt;datafin&gt;">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblTrackingNum" layoutX="192.0" layoutY="134.0" text="&lt;tracking&gt;">
-               <font>
-                  <Font name="Verdana" size="14.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="imgCopyToTracking" fitHeight="24.0" fitWidth="24.0" layoutX="154.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../icons/icons8-copy-24.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
+        <Pane layoutX="530.0" layoutY="19.0" prefHeight="200.0" prefWidth="381.0" styleClass="pane_2">
+            <children>
+                <Label layoutX="15.0" layoutY="27.0" text="Data Creazione:">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="15.0" layoutY="61.0" text="Data Inizio Lavorazione:">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
+                <Line endX="254.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="85.0" startX="-100.0"/>
+                <Label layoutX="15.0" layoutY="100.0" text="Data Fine Lavorazione:">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
+                <Line endX="254.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="124.0" startX="-100.0"/>
+                <Label layoutX="15.0" layoutY="134.0" text="Tracking Number:">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
+                <Line endX="254.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="158.0" startX="-100.0"/>
+                <Line endX="254.0" endY="-7.62939453125E-6" layoutX="113.0" layoutY="48.0" startX="-100.0"/>
+                <Label fx:id="lblDataCreazione" layoutX="192.0" layoutY="27.0" text="&lt;numsped&gt;">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="lblDataInizioLav" layoutX="192.0" layoutY="61.0" text="&lt;dataini&gt;">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="lblDataFineLav" layoutX="192.0" layoutY="100.0" text="&lt;datafin&gt;">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="lblTrackingNum" layoutX="192.0" layoutY="134.0" text="&lt;tracking&gt;">
+                    <font>
+                        <Font name="Verdana" size="14.0"/>
+                    </font>
+                </Label>
+                <ImageView fx:id="imgCopyToTracking" fitHeight="24.0" fitWidth="24.0" layoutX="154.0" layoutY="131.0"
+                           pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../icons/icons8-copy-24.png"/>
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
     </children>
 </AnchorPane>
