@@ -282,14 +282,17 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("""
-                SELECT Spedizione.*
-                FROM Spedizione
-                JOIN StatoOrdineClienteFiliale
-                ON StatoOrdineClienteFIliale.idOrdineCliente = Spedizione.idOrdineCliente
+            String query = """
+                SELECT
+                    Spedizione.*
+                FROM
+                    Spedizione
+                    JOIN StatoOrdineClienteFiliale ON StatoOrdineClienteFIliale.idOrdineCliente = Spedizione.idOrdineCliente""";
 
-                WHERE idFiliale = """ + filiale.getId()
-            );
+            if(filiale != null)
+                query += " WHERE idFiliale = " + filiale.getId();
+
+            resultSet = statement.executeQuery(query);
 
             while(resultSet.next())
                 spedizioni.add(getByResultSet(resultSet));

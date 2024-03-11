@@ -12,6 +12,7 @@ import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
 import java.util.List;
 
@@ -158,5 +159,50 @@ public class ShipmentService {
             throw new ServiceException("Errore nel reperire la lista di ordini di packacking in stato " + stato);
         }
 
+    }
+
+    public List<SpedizioneDTO> getListaSpedizioni(FilialeDTO filiale) throws ServiceException {
+        try {
+            SpedizioneDAO dao = FactoryShipmentDomain.buildSpedizioneDAO();
+            return dao.select(filiale);
+        }
+        catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista di spedizioni");
+        }
+    }
+
+    public List<SpedizioneDTO> getListaSpedizioni() throws ServiceException {
+        try {
+            SpedizioneDAO dao = FactoryShipmentDomain.buildSpedizioneDAO();
+            FilialeDTO f = null;
+            return dao.select(f);
+        }
+        catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista di spedizioni");
+        }
+    }
+
+    public int getCountOrdiniDiLavoroPackagingBySpedizione(SpedizioneDTO spedizione) throws ServiceException {
+        return 0; //todo
+    }
+
+    public int getCountPacchiGeneratiBySpedizione(SpedizioneDTO spedizione) throws ServiceException {
+        return 0; //todo
+    }
+
+    public int getCountPacchiDaSpedireBySpedizione(SpedizioneDTO spedizione) throws ServiceException {
+        return 0; //todo
+    }
+
+    public int getCountOrdiniDiLavoroTrasportoBySpedizione(SpedizioneDTO spedizione) throws ServiceException {
+        return 0; //todo
+    }
+
+    public int getCountOrdiniDiLavoroTrasportoDaCompletareBySpedizione(SpedizioneDTO spedizione) throws ServiceException {
+        return 0; //todo
+    }
+
+    public int getCountOrdiniDiLavoroPackagingDaCompletareBySpedizione(SpedizioneDTO spedizione) throws ServiceException{
+        return 0; //todo
     }
 }

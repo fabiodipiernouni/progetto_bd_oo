@@ -142,12 +142,12 @@
                </font>
             </Label>
             <MFXButton fx:id="btnVisualizzaPacchi" buttonType="RAISED" layoutX="43.0" layoutY="271.0" minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0" styleClass="outline-button-pane_3" text="Visualizza" />
-            <Label fx:id="lblCntPacchiDaSpedire" layoutX="18.0" layoutY="116.0" prefHeight="30.0" prefWidth="44.0" text="-1" textFill="#367ec0">
+            <Label fx:id="lblCntPacchiDaSpedire" layoutX="18.0" layoutY="163.0" prefHeight="30.0" prefWidth="44.0" text="-1" textFill="#367ec0">
                <font>
                   <Font name="Verdana Bold" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="62.0" layoutY="117.0" prefHeight="46.0" prefWidth="119.0" text="Pacchi Da Spedire" textFill="#367ec0" wrapText="true">
+            <Label layoutX="62.0" layoutY="163.0" prefHeight="46.0" prefWidth="119.0" text="Pacchi Da Spedire" textFill="#367ec0" wrapText="true">
                <font>
                   <Font name="Verdana" size="14.0" />
                </font>
