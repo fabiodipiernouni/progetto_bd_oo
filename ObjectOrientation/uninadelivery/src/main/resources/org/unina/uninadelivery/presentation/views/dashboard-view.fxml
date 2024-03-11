@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="rootPane" prefHeight="747.0" prefWidth="1280.0" styleClass="rootPane" stylesheets="@../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.DashboardController">
+<AnchorPane fx:id="rootPane" prefHeight="747.0" prefWidth="1280.0" styleClass="rootPane" stylesheets="@../css/Primary.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.DashboardController">
    <HBox fx:id="windowHeader" alignment="CENTER_RIGHT" layoutX="2.0" layoutY="2.0" prefHeight="30.0" prefWidth="1278.0" spacing="10.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
       <padding>
          <Insets right="10.0" />
@@ -63,11 +63,11 @@
       <Label fx:id="lblFilialeTitle" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="82.0" styleClass="header-label-bold" text="Filiale: ">
 
       </Label>
-      <Label fx:id="lblFiliale" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="361.0" styleClass="header-label" text="Napoli" textFill="#081B39">
+      <Label fx:id="lblFiliale" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="361.0" styleClass="header-label" text="&lt;nome&gt;" textFill="#081B39">
       </Label>
       <Label fx:id="lblCorriereTitle" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="107.0" styleClass="header-label-bold" text="Corriere: ">
       </Label>
-      <Label fx:id="lblCorriere" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="384.0" styleClass="header-label" text="Napoli1" textFill="#081B39">
+      <Label fx:id="lblCorriere" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="384.0" styleClass="header-label" text="&lt;nome&gt;" textFill="#081B39">
       </Label>
    </HBox>
    <StackPane fx:id="contentPane" layoutX="247.0" layoutY="87.0" prefHeight="610.0" prefWidth="1022.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="86.0" />

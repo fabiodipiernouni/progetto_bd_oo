@@ -51,38 +51,38 @@ public class DashboardController implements Initializable {
 
     private final MfxToggleButtonsHelper mfxToggleButtonsHelper;
     @FXML
-    public VBox navBar;
+    private VBox navBar;
     @FXML
-    public HBox formHeader;
+    private HBox formHeader;
     @FXML
-    public Label lblCorriere;
+    private Label lblCorriere;
     @FXML
-    public Label lblFilialeTitle;
+    private Label lblFilialeTitle;
     @FXML
-    public Label lblFiliale;
+    private Label lblFiliale;
     @FXML
-    public Label lblCorriereTitle;
+    private Label lblCorriereTitle;
     @FXML
-    public Label lblStatusBar;
+    private Label lblStatusBar;
     private UtenteDTO utente;
     private final Stage dashboardStage;
     private final ToggleGroup toggleGroup;
     @FXML
-    public Label utenteLabel;
+    private Label utenteLabel;
     @FXML
-    public MFXScrollPane scrollPane;
+    private MFXScrollPane scrollPane;
     @FXML
-    public AnchorPane rootPane;
+    private AnchorPane rootPane;
     @FXML
-    public MFXFontIcon alwaysOnTopIcon;
+    private MFXFontIcon alwaysOnTopIcon;
     @FXML
-    public MFXFontIcon minimizeIcon;
+    private MFXFontIcon minimizeIcon;
     @FXML
-    public MFXFontIcon closeIcon;
+    private MFXFontIcon closeIcon;
     @FXML
-    public HBox windowHeader;
+    private HBox windowHeader;
     @FXML
-    public StackPane contentPane;
+    private StackPane contentPane;
     private double xOffset;
     private double yOffset;
 
@@ -104,20 +104,21 @@ public class DashboardController implements Initializable {
         lblCorriereTitle.setVisible(true);
         lblCorriere.setVisible(true);
 
-        if(utente.getProfilo().equals("Operatore") && utente instanceof OperatoreFilialeDTO operatoreFiliale) {
-            lblFiliale.setText(operatoreFiliale.getFiliale().getNome());
-        }
+        System.out.println(utente.getProfilo());
 
-        if(utente.getProfilo().equals("OperatoreCorriere") && utente instanceof OperatoreCorriereDTO operatoreCorriere) {
-            GruppoCorriereDTO corriereDTO = operatoreCorriere.getGruppoCorriere();
-            lblCorriere.setText(corriereDTO.getNome() + "(" + corriereDTO.getCodiceCorriere() + ")");
-        }
-
-        if(utente.getProfilo().equals("Manager")) {
-            lblFilialeTitle.setText("Org:");
-            lblFiliale.setText("Unina Delivery ITA");
-            lblCorriereTitle.setVisible(false);
-            lblCorriere.setVisible(false);
+        switch(utente.getProfilo()) {
+            case "Operatore":
+                lblFiliale.setText( ((OperatoreFilialeDTO) utente ).getFiliale().getNome());
+                break;
+            case "OperatoreCorriere":
+                GruppoCorriereDTO corriereDTO = ((OperatoreCorriereDTO) utente).getGruppoCorriere();
+                lblCorriere.setText(corriereDTO.getNome() + "(" + corriereDTO.getCodiceCorriere() + ")");
+                break;
+            case "Manager":
+                lblFilialeTitle.setText("Org:");
+                lblFiliale.setText("Unina Delivery ITA");
+                lblCorriereTitle.setVisible(false);
+                lblCorriere.setVisible(false);
         }
 
         try {
@@ -152,13 +153,21 @@ public class DashboardController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 /*        Session session = Session.getInstance();
         Property<UtenteDTO> prop = session.getUserDto();
-        utente = new OperatoreFilialeDTO();// prop.getValue();
+
+        /*utente = new OperatoreFilialeDTO();// prop.getValue();
         //todo: fixare
         utente.setId(1L);
         utente.setProfilo("Operatore");
         utente.setUsername("Fabio");
         utente.setFunzioni(Collections.emptyList());
-        ((OperatoreFilialeDTO)utente).setFiliale(new FilialeDTO(1, "Filiale Napoli", "Italia", "Unina Delivery ITA", "12345678901"));
+        ((OperatoreFilialeDTO)utente).setFiliale(new FilialeDTO(1, "Filiale Napoli", "Italia", "Unina Delivery ITA", "12345678901"));*/
+
+        utente = new OperatoreCorriereDTO();
+        utente.setId(33L);
+        utente.setProfilo("OperatoreCorriere");
+        utente.setUsername("Salvatore_corriere_19");
+        utente.setFunzioni(Collections.emptyList());
+        ((OperatoreCorriereDTO)utente).setGruppoCorriere(new GruppoCorriereDTO(19, "Corriere Bologna 1", "BOL1", 10, new FilialeDTO(7, "Filiale Bologna", "Italia", "Unina Delivery ITA", "12345678901")));
 
         prop.setValue(utente);
         session.setUserDto(prop);

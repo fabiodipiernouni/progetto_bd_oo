@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import org.unina.uninadelivery.bll.shipmentdomain.ShipmentAsyncService;
+import org.unina.uninadelivery.bll.shipmentdomain.ShipmentService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.presentation.helper.Session;
 
@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 public class HomeOpCorriereController implements Initializable {
     private final Stage dashboardStage;
     private final OperatoreCorriereDTO operatoreCorriereDTO;
-    private final ShipmentAsyncService shipmentAsyncService;
+    private final ShipmentService shipmentService;
 
 
     @FXML
@@ -33,28 +33,28 @@ public class HomeOpCorriereController implements Initializable {
         this.dashboardStage = dashboardStage;
         Session session = Session.getInstance();
         operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
-        shipmentAsyncService = new ShipmentAsyncService();
+        shipmentService = new ShipmentService();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        Task<Integer> cntPackagingDaPrendereInCaricoTask = shipmentAsyncService.getCountOrdiniDiLavoroPackagingDaPrendereInCarico(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
+        Task<Integer> cntPackagingDaPrendereInCaricoTask = shipmentService.getCountOrdiniDiLavoroPackagingDaPrendereInCarico(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
         cntPackagingDaPrendereInCaricoTask.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblCntOrdiniPackagingDaPrendereInCarico.setText(String.valueOf(newValue));
         });
 
-        Task<Integer> cntPackagingDaTerminareTask = shipmentAsyncService.getCountOrdiniDiLavoroPackagingDaPrendereInCarico(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
+        Task<Integer> cntPackagingDaTerminareTask = shipmentService.getCountOrdiniDiLavoroPackagingDaPrendereInCarico(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
         cntPackagingDaTerminareTask.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblOrdiniPackagingDaTerminare.setText(String.valueOf(newValue));
         });
 
-        Task<Integer> cntTrasportoDaPrendereInCaricoTask = shipmentAsyncService.getCountOrdiniDiLavoroTrasportoDaPrendereInCarico(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
+        Task<Integer> cntTrasportoDaPrendereInCaricoTask = shipmentService.getCountOrdiniDiLavoroTrasportoDaPrendereInCarico(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
         cntTrasportoDaPrendereInCaricoTask.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblOrdiniTrasportoDaPrendereInCarico.setText(String.valueOf(newValue));
         });
 
-        Task<Integer> cntTrasportoDaTerminareTask = shipmentAsyncService.getCountOrdiniDiLavoroSpedizioneDaTerminare(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
+        Task<Integer> cntTrasportoDaTerminareTask = shipmentService.getCountOrdiniDiLavoroSpedizioneDaTerminare(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
         cntTrasportoDaTerminareTask.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblCntOrdiniTrasportoDaTerminare.setText(String.valueOf(newValue));
         });

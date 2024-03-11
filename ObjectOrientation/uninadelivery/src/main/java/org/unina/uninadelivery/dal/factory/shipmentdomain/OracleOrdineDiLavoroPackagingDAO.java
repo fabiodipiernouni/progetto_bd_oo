@@ -190,7 +190,12 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
 
     }
 
-    public List<OrdineDiLavoroPackagingDTO> select(FilialeDTO filiale) throws PersistenceException {
+    public List<OrdineDiLavoroPackagingDTO> select(FilialeDTO filiale, String stato) throws PersistenceException {
+        String query = "SELECT * FROM OrdineDiLavoroPackaging WHERE idFiliale = " + filiale.getId();
+
+        if(stato != null)
+            query += " AND stato = '" + stato + "'";
+
         Statement statement = null;
         ResultSet resultSet = null;
 
@@ -198,7 +203,7 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM OrdineDiLavoroPackaging WHERE idFiliale = " + filiale.getId());
+            resultSet = statement.executeQuery(query);
 
             while (resultSet.next())
                 listaOrdini.add(getByResultSet(resultSet, filiale));
@@ -220,6 +225,10 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
                 //non faccio nulla
             }
         }
+    }
+
+    public List<OrdineDiLavoroPackagingDTO> select(FilialeDTO filiale) throws PersistenceException {
+        return select(filiale, null);
     }
 
 
