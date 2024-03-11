@@ -18,6 +18,7 @@ import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.controller.appdomain.LoginController;
 import org.unina.uninadelivery.presentation.css.themes.MFXThemeManager;
 import org.unina.uninadelivery.presentation.css.themes.Themes;
+import org.unina.uninadelivery.presentation.exception.LoginErrorException;
 import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
 import org.yaml.snakeyaml.Yaml;
@@ -47,12 +48,12 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
         super(dashboardStage);
     }
 
-    public void loginClicked(String username, String password) {
-        doLoginClicked(username, password, null);
+    public Boolean loginClicked(String username, String password) throws LoginErrorException {
+        return doLoginClicked(username, password, null);
     }
 
-    public void loginClicked(String username, String password, ChangeListener<UtenteDTO> utenteDtoChanged) {
-        doLoginClicked(username, password, utenteDtoChanged);
+    public Boolean loginClicked(String username, String password, ChangeListener<UtenteDTO> utenteDtoChanged) throws LoginErrorException {
+        return doLoginClicked(username, password, utenteDtoChanged);
     }
 
     private void LoadApplicationYaml() throws IOException {
@@ -171,7 +172,7 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
         }
     }
 
-    private void doLoginClicked(String username, String password, ChangeListener<UtenteDTO> utenteDtoChanged)  {
+    private Boolean doLoginClicked(String username, String password, ChangeListener<UtenteDTO> utenteDtoChanged) throws LoginErrorException {
         Session session = Session.getInstance();
 
         Property<UtenteDTO> utenteDtoProperty = session.getUserDto();
@@ -183,6 +184,7 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
         utenteDtoProperty.setValue(new UtenteDTO());
 
         AuthService authService = new AuthService();
+
         try {
             Optional<UtenteDTO> ut = authService.login(username, password);
             if(ut.isPresent()) {
@@ -191,11 +193,8 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
             else {
                 isValid = false;
             }
-        }
-        catch (ServiceException e) {
-            //todo: gestire
-            e.printStackTrace();
-            isValid = false;
+        } catch (ServiceException e) {
+            throw new LoginErrorException(e.getMessage());
         }
 
         if(utenteDtoChanged != null) {
@@ -205,17 +204,13 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
         if(isValid) {
             Session.getInstance().setUserDto(utenteDtoProperty);
             loginStage.close();
-            /*URL res = UninaApplication.class.getResource("/presentation/views/dashboard-view.fxml");
-            FXMLLoader fxmlLoader = new FXMLLoader(res);*/
-
-
-            /*UninaController mainController = (UninaController) dashboardStage.getScene().getRoot().getUserData();
-            mainController.setupUserData();*/
             dashboardController.setupUserData();
         }
         else {
             utenteDtoProperty.setValue(null);
             Session.getInstance().setUserDto(utenteDtoProperty);
         }
+
+        return isValid;
     }
 }

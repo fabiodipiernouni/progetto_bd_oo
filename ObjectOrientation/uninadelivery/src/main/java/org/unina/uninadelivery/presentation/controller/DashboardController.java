@@ -361,7 +361,7 @@ public class DashboardController implements Initializable {
 
     public void changeView(String viewName, String viewUrl, Callback<Class<?>, Object> controllerFactory){
         //Diciamo al loader cosa fare a load terminato (cioè cambiare la view)
-        MFXLoader loader = new MFXLoader(beans -> contentPane.getChildren().setAll(beans.get(0).getRoot()));
+        MFXLoader loader = new MFXLoader(beans -> contentPane.getChildren().setAll(beans.getFirst().getRoot()));
 
         //creo un bean dalla view caricata
         MFXLoaderBean bean = MFXLoaderBean.of(viewName, loadURL(viewUrl)).get();
