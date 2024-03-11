@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -47,7 +48,7 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    protected void onLoginButtonClick(ActionEvent event) throws IOException {
+    protected void onLoginButtonClick() {
 
         DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
 
@@ -82,6 +83,19 @@ public class LoginController implements Initializable {
         });
 
         MFXTooltip.of(closeIcon, "Chiudi").install();
+
+        txtUsername.setOnKeyPressed( event -> {
+            if( event.getCode() == KeyCode.ENTER )
+                onLoginButtonClick();
+
+        } );
+
+        txtPassword.setOnKeyPressed( event -> {
+            if( event.getCode() == KeyCode.ENTER )
+                onLoginButtonClick();
+
+        } );
+
     }
 
 

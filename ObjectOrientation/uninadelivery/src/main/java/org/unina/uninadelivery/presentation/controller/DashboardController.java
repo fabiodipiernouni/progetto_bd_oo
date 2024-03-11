@@ -191,6 +191,8 @@ public class DashboardController implements Initializable {
                 lblCorriere.setVisible(false);
         }
 
+        utenteLabel.setText(utente.getUsername());
+
         try {
             //Aggiungo un evento per gestire il momento del logout. Il logout non farà altro che invalidare l'utente corrente
             //a quel punto il sistema chiederà di fare il login

@@ -167,6 +167,7 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
 
         } catch (IOException e) {
             //todo: gestire meglio eventuali errori
+            e.printStackTrace();
         }
     }
 
@@ -193,6 +194,7 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
         }
         catch (ServiceException e) {
             //todo: gestire
+            e.printStackTrace();
             isValid = false;
         }
 
