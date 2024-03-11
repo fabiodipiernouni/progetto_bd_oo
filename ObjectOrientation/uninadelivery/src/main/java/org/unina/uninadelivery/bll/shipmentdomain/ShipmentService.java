@@ -247,6 +247,15 @@ public class ShipmentService {
         }
     }
 
+    public List<SpedizioneDTO> getListaSpedizioniPerOrganizzatore(OperatoreFilialeDTO operatoreFilialeDTO) throws ServiceException {
+        try {
+            SpedizioneDAO dao = FactoryShipmentDomain.buildSpedizioneDAO();
+            return dao.select(operatoreFilialeDTO);
+        } catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista di spedizioni");
+        }
+    }
+
     public int getCountOrdiniDiLavoroPackagingBySpedizione(SpedizioneDTO spedizione) throws ServiceException {
         return 0; //todo
     }

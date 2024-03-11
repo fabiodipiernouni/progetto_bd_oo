@@ -55,7 +55,7 @@ public class SpedizioniController implements Initializable {
 
         filtroTuttiRadioBox.setOnAction(event -> {
             try {
-                odlOrchestrator.filtroTuttiSpedizioniClicked();
+                odlOrchestrator.filtroTutteSpedizioniClicked();
             } catch (SpedizioniException e) {
                 //todo: gestire errore
             }
@@ -76,11 +76,14 @@ public class SpedizioniController implements Initializable {
         MFXTableColumn<SpedizioneDTO> numeroOrdineColumn = new MFXTableColumn<>("Numero Ordine", false, Comparator.comparing(spedizione -> spedizione.getOrdineCliente().getNumeroOrdine()));
         MFXTableColumn<SpedizioneDTO> trackingNumberColumn = new MFXTableColumn<>("Tracking Number", false, Comparator.comparing(SpedizioneDTO::getTrackingNumber));
         MFXTableColumn<SpedizioneDTO> statoColumn = new MFXTableColumn<>("Stato", false, Comparator.comparing(SpedizioneDTO::getStato));
+        MFXTableColumn<SpedizioneDTO> operatoreColumn = new MFXTableColumn<>("Organizzata Da", false, Comparator.comparing(spedizione -> spedizione.getOrganizzatore().getUsername()));
         MFXTableColumn<SpedizioneDTO> actionColumn = new MFXTableColumn<>("", false, null);
 
         numeroOrdineColumn.setRowCellFactory(cell -> new MFXTableRowCell<SpedizioneDTO, Object>(spedizione -> spedizione.getOrdineCliente().getNumeroOrdine()));
         trackingNumberColumn.setRowCellFactory(cell -> new MFXTableRowCell<SpedizioneDTO, Object>(SpedizioneDTO::getTrackingNumber));
         statoColumn.setRowCellFactory(cell -> new MFXTableRowCell<SpedizioneDTO, Object>(SpedizioneDTO::getStato));
+        operatoreColumn.setRowCellFactory(cell -> new MFXTableRowCell<SpedizioneDTO, Object>(spedizione -> spedizione.getOrganizzatore().getUsername()));
+
         actionColumn.setRowCellFactory(spedizione -> {
             //crea cella vuota
             MFXTableRowCell<SpedizioneDTO, Void> cell = new MFXTableRowCell<>(null);
@@ -100,11 +103,12 @@ public class SpedizioniController implements Initializable {
             return cell;
         });
 
-        spedizioniGrid.getTableColumns().addAll(numeroOrdineColumn, trackingNumberColumn, statoColumn, actionColumn);
+        spedizioniGrid.getTableColumns().addAll(numeroOrdineColumn, trackingNumberColumn, statoColumn, operatoreColumn, actionColumn);
         spedizioniGrid.getFilters().addAll(
                 new StringFilter<SpedizioneDTO>("Numero Ordine", spedizione -> spedizione.getOrdineCliente().getNumeroOrdine()),
                 new StringFilter<SpedizioneDTO>("Tracking Number", SpedizioneDTO::getTrackingNumber),
-                new StringFilter<SpedizioneDTO>("Stato", SpedizioneDTO::getStato)
+                new StringFilter<SpedizioneDTO>("Stato", SpedizioneDTO::getStato),
+                new StringFilter<SpedizioneDTO>("Organizzata Da", spedizione -> spedizione.getOrganizzatore().getUsername())
         );
 
         try {

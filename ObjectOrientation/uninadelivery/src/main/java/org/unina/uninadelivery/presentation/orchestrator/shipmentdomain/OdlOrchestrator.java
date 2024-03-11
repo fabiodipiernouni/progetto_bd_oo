@@ -404,11 +404,36 @@ public class OdlOrchestrator extends Orchestrator {
         this.spedizioniController = spedizioniController;
     }
 
-    public void filtroTuttiSpedizioniClicked() throws SpedizioniException {
-        //todo
+    public void filtroTutteSpedizioniClicked() throws SpedizioniException {
+        Session session = Session.getInstance();
+        UtenteDTO utente = session.getUserDto().getValue();
+
+        try {
+            List<SpedizioneDTO> spedizioni = Collections.emptyList();
+
+            if(utente.getProfilo().equals("OperatoreCorriere"))
+                spedizioni = shipmentService.getListaSpedizioni(((OperatoreCorriereDTO) utente).getGruppoCorriere().getFiliale());
+            else if(utente.getProfilo().equals("Operatore"))
+                spedizioni = shipmentService.getListaSpedizioni( ((OperatoreFilialeDTO) utente).getFiliale());
+            else
+                spedizioni = shipmentService.getListaSpedizioni(null);
+
+            spedizioniController.setListaSpedizioni(spedizioni);
+        } catch (ServiceException e) {
+            throw new SpedizioniException("Errore nel recupero delle spedizioni");
+        }
     }
 
     public void filtroSpedizioniEmesseDaMeClicked() throws SpedizioniException{
-        //todo
+        Session session = Session.getInstance();
+        UtenteDTO utente = session.getUserDto().getValue();
+
+        try {
+            List<SpedizioneDTO> spedizioni = shipmentService.getListaSpedizioniPerOrganizzatore((OperatoreFilialeDTO) utente);
+            spedizioniController.setListaSpedizioni(spedizioni);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero delle spedizioni");
+        }
     }
 }
