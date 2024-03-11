@@ -1,7 +1,12 @@
 package org.unina.uninadelivery.presentation.controller;
 
+import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import io.github.palexdev.materialfx.controls.MFXTooltip;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
+import io.github.palexdev.materialfx.dialogs.MFXStageDialog;
+import io.github.palexdev.materialfx.enums.ScrimPriority;
 import io.github.palexdev.materialfx.utils.ScrollUtils;
 import io.github.palexdev.materialfx.utils.ToggleButtonsUtil;
 import io.github.palexdev.materialfx.utils.others.loader.MFXLoader;
@@ -13,6 +18,7 @@ import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.stage.Modality;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -86,11 +92,75 @@ public class DashboardController implements Initializable {
     private double xOffset;
     private double yOffset;
 
+    private MFXGenericDialog dialogContent;
+    private MFXStageDialog dialog;
+
+
     public DashboardController(Stage dashboardStage) {
         this.toggleGroup = new ToggleGroup();
         this.dashboardStage = dashboardStage;
         ToggleButtonsUtil.addAlwaysOneSelectedSupport(toggleGroup);
         mfxToggleButtonsHelper = new MfxToggleButtonsHelper(toggleGroup);
+
+
+        //aggiungiamo i dialogs
+        Platform.runLater(() -> {
+            this.dialogContent = MFXGenericDialogBuilder.build()
+                    .makeScrollable(true)
+                    .get();
+
+            this.dialog = MFXGenericDialogBuilder.build(dialogContent)
+                    .toStageDialogBuilder()
+                    .initOwner(dashboardStage)
+                    .initModality(Modality.APPLICATION_MODAL)
+                    .setDraggable(true)
+                    .setOwnerNode(rootPane)
+                    .setScrimPriority(ScrimPriority.WINDOW)
+                    .setScrimOwner(true)
+                    .get();
+
+            dialogContent.addActions(
+                    Map.entry(new MFXButton("Ok"), event -> dialog.close())
+            );
+
+            dialogContent.setMaxSize(400, 200);
+        });
+
+    }
+
+    public void showDialog(String type, String headerText, String message) {
+
+        MFXFontIcon icon = null;
+        String styleClass = null;
+
+        dialogContent.setContentText(message);
+        dialogContent.setHeaderText(headerText);
+        dialogContent.getStyleClass().removeIf(
+                s -> s.equals("mfx-info-dialog") || s.equals("mfx-warn-dialog") || s.equals("mfx-error-dialog")
+        );
+
+
+        switch (type) {
+            case "info":
+                icon = new MFXFontIcon("fas-circle-exclamation", 18);
+                styleClass = "mfx-info-dialog";
+
+                break;
+            case "error":
+                icon = new MFXFontIcon("fas-circle-xmark", 18);
+                styleClass = "mfx-error-dialog";
+                break;
+            case "warn":
+                icon = new MFXFontIcon("fas-circle-exclamation", 18);
+                styleClass = "mfx-warn-dialog";
+
+                break;
+        }
+
+        dialogContent.setHeaderIcon(icon);
+        dialogContent.getStyleClass().add(styleClass);
+
+        dialog.showDialog();
     }
 
     public void setupUserData() {
@@ -160,7 +230,7 @@ public class DashboardController implements Initializable {
         utente.setProfilo("Operatore");
         utente.setUsername("Fabio");
         utente.setFunzioni(Collections.emptyList());
-        ((OperatoreFilialeDTO)utente).setFiliale(new FilialeDTO(1, "Filiale Napoli", "Italia", "Unina Delivery ITA", "12345678901"));*/
+        ((OperatoreFilialeDTO)utente).setFiliale(new FilialeDTO(1, "Filiale Napoli", "Italia", "Unina Delivery ITA", "12345678901"));/
 
         utente = new OperatoreCorriereDTO();
         utente.setId(33L);

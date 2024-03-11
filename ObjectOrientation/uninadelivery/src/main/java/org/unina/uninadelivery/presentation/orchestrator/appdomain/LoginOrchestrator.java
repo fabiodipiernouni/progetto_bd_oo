@@ -15,6 +15,7 @@ import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.presentation.app.UninaApplication;
 import org.unina.uninadelivery.presentation.controller.DashboardController;
+import org.unina.uninadelivery.presentation.controller.appdomain.LoginController;
 import org.unina.uninadelivery.presentation.css.themes.MFXThemeManager;
 import org.unina.uninadelivery.presentation.css.themes.Themes;
 import org.unina.uninadelivery.presentation.helper.Session;
@@ -152,11 +153,18 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
             FXMLLoader loader = new FXMLLoader(UninaApplication.class.getResource("/org/unina/uninadelivery/presentation/views/appdomain/login-view.fxml"));
             Scene loginScene = new Scene(loader.load());
 
+            LoginController loginController = (LoginController) loader.getController();
+            loginController.setDashboardStage(dashboardStage);
+
             MFXThemeManager.addOn(loginScene, Themes.DEFAULT, Themes.LEGACY);
 
             loginScene.setFill(Color.TRANSPARENT);
             loginStage.setScene(loginScene);
             loginStage.showAndWait();
+
+
+
+
         } catch (IOException e) {
             //todo: gestire meglio eventuali errori
         }
