@@ -160,7 +160,7 @@ public class DashboardController implements Initializable {
         utente.setProfilo("Operatore");
         utente.setUsername("Fabio");
         utente.setFunzioni(Collections.emptyList());
-        ((OperatoreFilialeDTO)utente).setFiliale(new FilialeDTO(1, "Filiale Napoli", "Italia", "Unina Delivery ITA", "12345678901"));*/
+        ((OperatoreFilialeDTO)utente).setFiliale(new FilialeDTO(1, "Filiale Napoli", "Italia", "Unina Delivery ITA", "12345678901"));
 
         utente = new OperatoreCorriereDTO();
         utente.setId(33L);
