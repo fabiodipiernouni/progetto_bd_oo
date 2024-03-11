@@ -254,7 +254,7 @@
 }
 
 #validatedField {
-	-mfx-hide-character: '?';
+	/*-mfx-hide-character: '?';*/
 }
 
 #validatedField:invalid {

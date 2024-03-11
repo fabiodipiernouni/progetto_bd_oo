@@ -237,7 +237,7 @@ class OracleUtenteDAO implements UtenteDAO {
     @Override
     public void closeConnection() {
         try {
-            connection.close();
+            if(!connection.isClosed()) connection.close();
         }
         catch(Exception ex) {
             //non faccio nulla

@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="rootPane" prefHeight="747.0" prefWidth="1280.0" styleClass="rootPane" stylesheets="@../css/Primary.css" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.DashboardController">
+<AnchorPane fx:id="rootPane" prefHeight="747.0" prefWidth="1280.0" styleClass="rootPane" stylesheets="@../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.DashboardController">
    <HBox fx:id="windowHeader" alignment="CENTER_RIGHT" layoutX="2.0" layoutY="2.0" prefHeight="30.0" prefWidth="1278.0" spacing="10.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
       <padding>
          <Insets right="10.0" />
@@ -38,6 +38,14 @@
          </effect>
       </ImageView>
       <Label fx:id="utenteLabel" layoutX="11.0" layoutY="304.0" text="username" textFill="#dabb40">
+         <padding>
+            <Insets bottom="10.0" top="5.0" />
+         </padding>
+         <font>
+            <Font name="Serif Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="profiloLabel" layoutX="87.0" layoutY="321.0" text="&lt;profilo&gt;" textFill="#dabb40">
          <padding>
             <Insets bottom="10.0" top="5.0" />
          </padding>

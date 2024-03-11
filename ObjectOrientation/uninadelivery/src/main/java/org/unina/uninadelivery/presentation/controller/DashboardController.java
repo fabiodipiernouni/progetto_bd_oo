@@ -57,6 +57,8 @@ public class DashboardController implements Initializable {
 
     private final MfxToggleButtonsHelper mfxToggleButtonsHelper;
     @FXML
+    public Label profiloLabel;
+    @FXML
     private VBox navBar;
     @FXML
     private HBox formHeader;
@@ -169,29 +171,42 @@ public class DashboardController implements Initializable {
         utente = prop.getValue();
         Scene scene = utenteLabel.getScene();
 
-        lblFilialeTitle.setText("Filiale:");
-        lblFiliale.setText("");
-        lblCorriereTitle.setVisible(true);
-        lblCorriere.setVisible(true);
-
         System.out.println(utente.getProfilo());
 
         switch(utente.getProfilo()) {
             case "Operatore":
+                lblFilialeTitle.setText("Filiale:");
                 lblFiliale.setText( ((OperatoreFilialeDTO) utente ).getFiliale().getNome());
+
+                lblFiliale.setVisible(true);
+                lblFilialeTitle.setVisible(true);
+                lblCorriere.setVisible(false);
+                lblCorriereTitle.setVisible(false);
                 break;
             case "OperatoreCorriere":
                 GruppoCorriereDTO corriereDTO = ((OperatoreCorriereDTO) utente).getGruppoCorriere();
+                lblCorriereTitle.setText("Corriere:");
                 lblCorriere.setText(corriereDTO.getNome() + "(" + corriereDTO.getCodiceCorriere() + ")");
+                lblFilialeTitle.setText("Filiale:");
+                lblFiliale.setText(corriereDTO.getFiliale().getNome());
+
+                lblCorriere.setVisible(true);
+                lblFiliale.setVisible(true);
+                lblFilialeTitle.setVisible(true);
+                lblCorriereTitle.setVisible(true);
                 break;
             case "Manager":
                 lblFilialeTitle.setText("Org:");
                 lblFiliale.setText("Unina Delivery ITA");
+
+                lblFiliale.setVisible(true);
+                lblFilialeTitle.setVisible(true);
                 lblCorriereTitle.setVisible(false);
                 lblCorriere.setVisible(false);
         }
 
         utenteLabel.setText(utente.getUsername());
+        profiloLabel.setText(utente.getProfilo());
 
         try {
             //Aggiungo un evento per gestire il momento del logout. Il logout non farà altro che invalidare l'utente corrente
