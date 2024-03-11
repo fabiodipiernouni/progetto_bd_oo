@@ -89,9 +89,12 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
             applicationConfig = null;
         }
 
-        if(applicationConfig == null) Platform.exit(); //todo: gestire meglio, magari con un messaggio di errore
+        if(applicationConfig == null) {
+            Platform.exit(); //todo: gestire meglio, magari con un messaggio di errore
+            System.exit(1);
+        }
 
-        if(applicationConfig.get("loginEnabled").equals("true"))
+        if(applicationConfig.get("loginEnabled").equals(true))
             showLoginPopup(scene);
     }
 
@@ -131,9 +134,10 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
 
             loginStage = new Stage();
 
-            loginStage.setTitle("UninaDelivery - Login");
-            loginStage.setResizable(false);
+            //loginStage.setTitle("UninaDelivery - Login");
+            //loginStage.setResizable(false);
             loginStage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            loginStage.initStyle(StageStyle.TRANSPARENT);
 
             loginStage.setOnShown(windowEvent -> {
                 window.getScene().getRoot().setEffect(blur);
@@ -145,9 +149,12 @@ public class LoginOrchestrator extends Orchestrator implements LoginOrchestratio
 
             //stage.setAlwaysOnTop(true);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/presentation/views/appdomain/login-view.fxml"));
-            Scene loginScene = new Scene(loader.load(), 600, 400);
+            FXMLLoader loader = new FXMLLoader(UninaApplication.class.getResource("/org/unina/uninadelivery/presentation/views/appdomain/login-view.fxml"));
+            Scene loginScene = new Scene(loader.load());
 
+            MFXThemeManager.addOn(loginScene, Themes.DEFAULT, Themes.LEGACY);
+
+            loginScene.setFill(Color.TRANSPARENT);
             loginStage.setScene(loginScene);
             loginStage.showAndWait();
         } catch (IOException e) {

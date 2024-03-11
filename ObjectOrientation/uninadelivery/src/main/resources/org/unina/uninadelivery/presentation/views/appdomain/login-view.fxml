@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.mfxresources.fonts.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #171717;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.appdomain.LoginController">
+<BorderPane fx:id="loginBp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="980.0" styleClass="loginForm" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.appdomain.LoginController">
+   <top>
+      <AnchorPane prefHeight="24.0" prefWidth="980.0" BorderPane.alignment="CENTER">
+         <MFXFontIcon fx:id="closeIcon" description="fas-circle" layoutX="954.0" layoutY="18.0" size="15.0" styleClass="close-icon" />
+      </AnchorPane>
+   </top>
    <left>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="578.0" prefWidth="280.0" BorderPane.alignment="CENTER" />
    </left>
    <right>
-      <AnchorPane prefHeight="400.0" prefWidth="405.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fitHeight="77.0" fitWidth="85.0" layoutX="162.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../icons/lock_891399.png" />
-               </image>
-            </ImageView>
-            <TextField fx:id="txtUsername" layoutX="95.0" layoutY="200.0" prefHeight="25.0" prefWidth="215.0" />
-            <Button fx:id="loginButton" layoutX="175.0" layoutY="309.0" mnemonicParsing="false" onAction="#onLoginButtonClick" text="Login" />
-            <PasswordField fx:id="txtPassword" layoutX="95.0" layoutY="243.0" prefHeight="25.0" prefWidth="215.0" />
-            <Label fx:id="lblError" layoutX="62.0" layoutY="168.0" prefHeight="17.0" prefWidth="273.0" text="Username o Password errata" textFill="RED" visible="false" />
-         </children>
-      </AnchorPane>
+      <AnchorPane prefHeight="578.0" prefWidth="280.0" BorderPane.alignment="CENTER" />
    </right>
+   <center>
+      <AnchorPane prefHeight="578.0" prefWidth="370.0" BorderPane.alignment="CENTER">
+         <MFXTextField fx:id="txtUsername" layoutX="100.0" layoutY="123.0" prefHeight="40.0" prefWidth="200.0" promptText="Username" />
+         <MFXPasswordField fx:id="txtPassword" layoutX="100.0" layoutY="184.0" prefHeight="40.0" prefWidth="200.0" promptText="Password" />
+         <MFXButton fx:id="loginButton" layoutX="100.0" layoutY="262.0" onAction="#onLoginButtonClick" prefHeight="40.0" prefWidth="200.0" text="Login" />
+         <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="168.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../icons/icons8-lock-64.png" />
+            </image>
+         </ImageView>
+      </AnchorPane>
+   </center>
 </BorderPane>

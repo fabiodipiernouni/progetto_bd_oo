@@ -1,6 +1,7 @@
 @import '../fonts/Fonts.css';
 @import 'MFXColors.css';
 
+
 /**************************************************
  * Root
 **************************************************/
@@ -235,3 +236,20 @@
 	-fx-font-size: 14;
 
 }
+
+.loginForm {
+	-fx-opacity: 0.9;
+	-fx-background-image: url('../images/bgLogin4.jpg');
+	-fx-background-repeat: stretch;
+	-fx-background-size: cover;
+	-fx-background-position: center center;
+	-fx-background-radius: 10;
+	-fx-border-color: #ebebeb;
+	-fx-border-radius: 10;
+}
+
+.loginForm .close-icon {
+	-mfx-color: -mfx-red;
+	-fx-opacity: 0.5;
+}
+
