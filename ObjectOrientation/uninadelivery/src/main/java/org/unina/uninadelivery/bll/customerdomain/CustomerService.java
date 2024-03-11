@@ -71,9 +71,9 @@ public class CustomerService {
         }
     }
 
-    public void creaSpedizione(OrdineClienteDTO ordineCliente, OperatoreFilialeDTO operatoreFiliale) throws ServiceException {
+    public SpedizioneDTO creaSpedizione(OrdineClienteDTO ordineCliente, OperatoreFilialeDTO operatoreFiliale) throws ServiceException {
         try {
-            FactoryShipmentDomain.buildSpedizioneDAO().insert(ordineCliente, operatoreFiliale);
+            return FactoryShipmentDomain.buildSpedizioneDAO().insert(ordineCliente, operatoreFiliale);
         }
         catch (PersistenceException e) {
             //e.printStackTrace();

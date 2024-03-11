@@ -183,7 +183,24 @@ class OracleOrdineDiLavoroSpedizioneDAO implements OrdineDiLavoroSpedizioneDAO {
 
     }
 
+
+    public List<OrdineDiLavoroSpedizioneDTO> select() throws PersistenceException {
+        return select(null, null);
+    }
+
     public List<OrdineDiLavoroSpedizioneDTO> select(FilialeDTO filiale) throws PersistenceException {
+        return select(filiale, null);
+    }
+
+
+    public List<OrdineDiLavoroSpedizioneDTO> select(FilialeDTO filiale, String stato) throws PersistenceException {
+        String query = "SELECT * FROM OrdineDiLavoroSpedizione WHERE 1=1";
+        if(filiale != null)
+            query += " AND idFiliale = " + filiale.getId();
+        if(stato != null)
+            query += " AND stato = '" + stato + "'";
+
+
         Statement statement = null;
         ResultSet resultSet = null;
 
@@ -191,7 +208,7 @@ class OracleOrdineDiLavoroSpedizioneDAO implements OrdineDiLavoroSpedizioneDAO {
 
         try {
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM OrdineDiLavoroSpedizione WHERE idFiliale = " + filiale.getId());
+            resultSet = statement.executeQuery(query);
 
             while (resultSet.next())
                 listaOrdini.add(getByResultSet(resultSet, filiale));
@@ -367,7 +384,6 @@ class OracleOrdineDiLavoroSpedizioneDAO implements OrdineDiLavoroSpedizioneDAO {
                 idOperatoreCorriere = ?,
                 idFiliale = ?,
                 idSpedizione = ?,
-                stato = ?,
                 noteAggiuntiveOperatore = ?,
                 idMezzoDiTrasporto = ?
             WHERE id = ?""");
@@ -380,10 +396,9 @@ class OracleOrdineDiLavoroSpedizioneDAO implements OrdineDiLavoroSpedizioneDAO {
             preparedStatement.setLong(6, ordineDiLavoroSpedizione.getOperatoreCorriere().getId());
             preparedStatement.setLong(7, ordineDiLavoroSpedizione.getFiliale().getId());
             preparedStatement.setLong(8, ordineDiLavoroSpedizione.getSpedizione().getId());
-            preparedStatement.setString(9, ordineDiLavoroSpedizione.getStato());
-            preparedStatement.setString(10, ordineDiLavoroSpedizione.getNoteAggiuntiveOperatore());
-            preparedStatement.setLong(11, ordineDiLavoroSpedizione.getMezzoDiTrasporto().getId());
-            preparedStatement.setLong(12, ordineDiLavoroSpedizione.getId());
+            preparedStatement.setString(9, ordineDiLavoroSpedizione.getNoteAggiuntiveOperatore());
+            preparedStatement.setLong(10, ordineDiLavoroSpedizione.getMezzoDiTrasporto().getId());
+            preparedStatement.setLong(11, ordineDiLavoroSpedizione.getId());
 
             preparedStatement.executeUpdate();
 

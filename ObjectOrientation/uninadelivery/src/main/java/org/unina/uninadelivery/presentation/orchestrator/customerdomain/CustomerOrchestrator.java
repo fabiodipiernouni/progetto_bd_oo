@@ -114,6 +114,7 @@ public class CustomerOrchestrator extends Orchestrator {
             //ricarico la lista degli ordini
             List<OrdineClienteDTO> listaOrdiniCliente = customerService.getOrdiniCliente(operatoreFilialeDTO.getFiliale(), ordineCliente.getCliente());
             ordiniController.setListaOrdiniCliente(listaOrdiniCliente);
+            ordiniController.resettaFiltri();
 
         }
         catch (ServiceException e) {
