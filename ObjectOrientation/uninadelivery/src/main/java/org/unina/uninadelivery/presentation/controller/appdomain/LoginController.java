@@ -9,18 +9,29 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import lombok.Setter;
+import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
+import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.helper.ResourceLoader;
 import org.unina.uninadelivery.presentation.orchestrator.appdomain.LoginOrchestration;
 import org.unina.uninadelivery.presentation.orchestrator.appdomain.LoginOrchestrator;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
+
+    @Setter
+    public Stage dashboardStage;
+
     @FXML
     public MFXTextField txtUsername;
     @FXML
@@ -30,24 +41,36 @@ public class LoginController implements Initializable {
     public MFXFontIcon closeIcon;
     @FXML
     public BorderPane loginBp;
-    @FXML
-    private Label lblError;
+    /*@FXML
+    private Label lblError;*/
 
     public LoginController() {
     }
 
     @FXML
-    protected void onLoginButtonClick(ActionEvent event) throws IOException {
-        /*Node source = (Node) event.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();*/
+    protected void onLoginButtonClick() {
+
+        DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
+
+        if(txtUsername.getText().equals("")) {
+            dashboardController.showDialog("error", "Errore di login", "Inserire username");
+            //SetLabelError("Inserire username");
+            return;
+        }
+
+        if(txtPassword.getText().equals("")) {
+            dashboardController.showDialog("error", "Errore di login", "Inserire password");
+            //SetLabelError("Inserire password");
+            return;
+        }
 
         LoginOrchestration orchestrator = LoginOrchestrator.getLoginOrchestrator();
         orchestrator.loginClicked(txtUsername.getText(), txtPassword.getText());
     }
 
-    public void SetLabelError(String error) {
+    /*public void SetLabelError(String error) {
         lblError.setText(error);
-    }
+    }*/
 
 
     @Override
@@ -60,6 +83,19 @@ public class LoginController implements Initializable {
         });
 
         MFXTooltip.of(closeIcon, "Chiudi").install();
+
+        txtUsername.setOnKeyPressed( event -> {
+            if( event.getCode() == KeyCode.ENTER )
+                onLoginButtonClick();
+
+        } );
+
+        txtPassword.setOnKeyPressed( event -> {
+            if( event.getCode() == KeyCode.ENTER )
+                onLoginButtonClick();
+
+        } );
+
     }
 
 
