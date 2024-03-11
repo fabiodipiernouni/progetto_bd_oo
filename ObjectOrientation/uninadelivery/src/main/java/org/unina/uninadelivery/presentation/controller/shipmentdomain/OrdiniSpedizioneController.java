@@ -43,7 +43,7 @@ public class OrdiniSpedizioneController implements Initializable {
     private MFXRadioButton filtroDaPrendereInCaricoRadioBox;
 
     @FXML
-    private MFXRadioButton filtroImmessiDaMeRadioBox;
+    private MFXRadioButton filtroEmessiDaMeRadioBox;
 
     private OdlOrchestrator odlOrchestrator;
 
@@ -71,7 +71,7 @@ public class OrdiniSpedizioneController implements Initializable {
         filtroGruppoCorriereRadioBox.setToggleGroup(toggleGroup);
         filtroPresiInCaricoRadioBox.setToggleGroup(toggleGroup);
         filtroDaPrendereInCaricoRadioBox.setToggleGroup(toggleGroup);
-        filtroImmessiDaMeRadioBox.setToggleGroup(toggleGroup);
+        filtroEmessiDaMeRadioBox.setToggleGroup(toggleGroup);
 
 
         filtroTuttiRadioBox.setOnAction(event -> {
@@ -93,8 +93,8 @@ public class OrdiniSpedizioneController implements Initializable {
             odlOrchestrator.filtroOrdiniSpedizioneDaPrendereInCaricoClicked();
         });
 
-        filtroImmessiDaMeRadioBox.setOnAction(event -> {
-            odlOrchestrator.filtroOrdiniSpedizioneImmessiDaMeClicked();
+        filtroEmessiDaMeRadioBox.setOnAction(event -> {
+            odlOrchestrator.filtroOrdiniSpedizioneEmessiDaMeClicked();
         });
 
     }
@@ -184,10 +184,10 @@ public class OrdiniSpedizioneController implements Initializable {
         else
             if(utente.getProfilo().equals("Operatore")) {
                 filtroTuttiRadioBox.setVisible(true);
-                filtroImmessiDaMeRadioBox.setVisible(true);
+                filtroEmessiDaMeRadioBox.setVisible(true);
 
                 //avvicina i radio box
-                filtroImmessiDaMeRadioBox.setLayoutX(filtroGruppoCorriereRadioBox.getLayoutX());
+                filtroEmessiDaMeRadioBox.setLayoutX(filtroGruppoCorriereRadioBox.getLayoutX());
 
             }
 

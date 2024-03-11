@@ -21,7 +21,6 @@ import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrche
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -44,7 +43,7 @@ public class OrdiniPackagingController implements Initializable {
     private MFXRadioButton filtroDaPrendereInCaricoRadioBox;
 
     @FXML
-    private MFXRadioButton filtroImmessiDaMeRadioBox;
+    private MFXRadioButton filtroEmessiDaMeRadioBox;
 
     private OdlOrchestrator odlOrchestrator;
 
@@ -73,7 +72,7 @@ public class OrdiniPackagingController implements Initializable {
         filtroGruppoCorriereRadioBox.setToggleGroup(toggleGroup);
         filtroPresiInCaricoRadioBox.setToggleGroup(toggleGroup);
         filtroDaPrendereInCaricoRadioBox.setToggleGroup(toggleGroup);
-        filtroImmessiDaMeRadioBox.setToggleGroup(toggleGroup);
+        filtroEmessiDaMeRadioBox.setToggleGroup(toggleGroup);
 
 
         filtroTuttiRadioBox.setOnAction(event -> {
@@ -95,8 +94,8 @@ public class OrdiniPackagingController implements Initializable {
             odlOrchestrator.filtroOrdiniPackagingDaPrendereInCaricoClicked();
         });
 
-        filtroImmessiDaMeRadioBox.setOnAction(event -> {
-            odlOrchestrator.filtroOrdiniPackagingImmessiDaMeClicked();
+        filtroEmessiDaMeRadioBox.setOnAction(event -> {
+            odlOrchestrator.filtroOrdiniPackagingEmessiDaMeClicked();
         });
 
 
@@ -234,10 +233,10 @@ public class OrdiniPackagingController implements Initializable {
         else
             if(utente.getProfilo().equals("Operatore")) {
                 filtroTuttiRadioBox.setVisible(true);
-                filtroImmessiDaMeRadioBox.setVisible(true);
+                filtroEmessiDaMeRadioBox.setVisible(true);
 
                 //avvicina i radio box
-                filtroImmessiDaMeRadioBox.setLayoutX(filtroGruppoCorriereRadioBox.getLayoutX());
+                filtroEmessiDaMeRadioBox.setLayoutX(filtroGruppoCorriereRadioBox.getLayoutX());
             }
 
         odlOrchestrator.paginaOrdiniPackagingPronta();

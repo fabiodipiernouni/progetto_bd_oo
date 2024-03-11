@@ -154,7 +154,7 @@ public class OdlOrchestrator extends Orchestrator {
         }
     }
 
-    public void filtroOrdiniPackagingImmessiDaMeClicked() {
+    public void filtroOrdiniPackagingEmessiDaMeClicked() {
         Session session = Session.getInstance();
 
         OperatoreFilialeDTO operatoreFilialeDTO = (OperatoreFilialeDTO) session.getUserDto().getValue();
@@ -296,7 +296,7 @@ public class OdlOrchestrator extends Orchestrator {
         }
     }
 
-    public void filtroOrdiniSpedizioneImmessiDaMeClicked() {
+    public void filtroOrdiniSpedizioneEmessiDaMeClicked() {
         Session session = Session.getInstance();
 
         OperatoreFilialeDTO operatoreFilialeDTO = (OperatoreFilialeDTO) session.getUserDto().getValue();
