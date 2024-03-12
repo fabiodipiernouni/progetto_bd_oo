@@ -1,17 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.unina.uninadelivery.presentation.controller.orgdomain.HomeManagerController"
-            prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css">
-
-
-    <Label layoutX="14.0" layoutY="14.0" text="Benvenuto, Manager" />
+<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.orgdomain.HomeManagerController">
+   <children>
+      <MFXDatePicker fx:id="filtroDataInizio" allowEdit="false" layoutX="121.0" layoutY="79.0" promptText="Data inizio..." />
+      <MFXDatePicker fx:id="filtroDataFine" allowEdit="false" layoutX="368.0" layoutY="78.0" promptText="Data fine..." />
+      <Pane layoutX="67.0" layoutY="158.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_1">
+         <children>
+            <Label fx:id="lblCntNumeroTotaleOrdini" layoutX="14.0" layoutY="140.0" text="-1" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="174.0" prefHeight="113.0" prefWidth="170.0" text="Numero totale di ordini" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Verdana" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/icons8-carrello-della-spesa-64.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="290.0" layoutY="158.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_2">
+         <children>
+            <Label fx:id="lblCntNumeroMedioOrdini" layoutX="14.0" layoutY="140.0" text="-1">
+               <font>
+                  <Font name="Verdana Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="174.0" prefHeight="103.0" prefWidth="170.0" text="Numero medio di ordini giornaliero" wrapText="true">
+               <font>
+                  <Font name="Verdana" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/icons8-grafico-64.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="523.0" layoutY="158.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_3">
+         <children>
+            <Label fx:id="lblCntNumeroSpedizioniCreate" layoutX="14.0" layoutY="140.0" text="-1" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="174.0" prefHeight="103.0" prefWidth="170.0" text="Numero di spedizioni create" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Verdana" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/icons8-work-order-64.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="753.0" layoutY="158.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_4">
+         <children>
+            <Label fx:id="lblCntNumeroSpedizioniCompletate" layoutX="14.0" layoutY="140.0" text="-1" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="174.0" prefHeight="89.0" prefWidth="170.0" text="Numero di spedizioni completate" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Verdana" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../icons/icons8-shipping-64.png" />
+               </image>
+            </ImageView>
+         </children>
+         <padding>
+            <Insets right="30.0" />
+         </padding>
+      </Pane>
+      <Label layoutX="229.0" layoutY="510.0" text="Ordine con maggior numero di prodotti:" />
+      <Label fx:id="lblNumeroOrdineMaggiorNumeroProdotti" layoutX="457.0" layoutY="510.0" prefHeight="18.0" prefWidth="178.0" text="&lt;numero&gt;" />
+      <MFXButton fx:id="btnOrdineMaggiorNumeroProdotti" layoutX="636.0" layoutY="506.0" text="Visualizza" />
+      <Label layoutX="229.0" layoutY="536.0" text="Ordine con minor numero di prodotti:" />
+      <Label fx:id="lblNumeroOrdineMinorNumeroProdotti" layoutX="457.0" layoutY="536.0" prefHeight="18.0" prefWidth="178.0" text="&lt;numero&gt;" />
+      <MFXButton fx:id="btnOrdineMinorNumeroProdotti" layoutX="636.0" layoutY="532.0" text="Visualizza" />
+      <Label layoutX="77.0" layoutY="89.0" text="Dal" />
+      <Label layoutX="339.0" layoutY="90.0" text="al" />
+   </children>
 
 </AnchorPane>

@@ -3,6 +3,8 @@ package org.unina.uninadelivery.bll.shipmentdomain;
 import javafx.concurrent.Task;
 import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.dal.exception.PersistenceException;
+import org.unina.uninadelivery.dal.factory.customerdomain.FactoryCustomerDomain;
+import org.unina.uninadelivery.dal.factory.customerdomain.OrdineClienteDAO;
 import org.unina.uninadelivery.dal.factory.shipmentdomain.FactoryShipmentDomain;
 import org.unina.uninadelivery.dal.factory.shipmentdomain.OrdineDiLavoroPackagingDAO;
 import org.unina.uninadelivery.dal.factory.shipmentdomain.OrdineDiLavoroSpedizioneDAO;
@@ -17,6 +19,7 @@ import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +39,41 @@ public class ShipmentService {
                     throw new ServiceException("Errore nel reperire il numero di spedizioni da lavorare");
                 }
                 return ret;
+            }
+        };
+    }
+
+    public Task<Integer> getNumeroSpedizioniCreate(LocalDate dataInizio, LocalDate dataFine) {
+        return new Task<>() {
+            @Override
+            protected Integer call() throws ServiceException {
+                SpedizioneDAO dao = FactoryShipmentDomain.buildSpedizioneDAO();
+
+                try {
+                    return dao.getCountSpedizioniCreate(dataInizio, dataFine);
+                }
+                catch (PersistenceException e) {
+                    e.printStackTrace();
+                    throw new ServiceException("Errore nel reperire il numero totale di spedizioni create");
+                }
+            }
+        };
+    }
+
+
+    public Task<Integer> getNumeroSpedizioniCompletate(LocalDate dataInizio, LocalDate dataFine) {
+        return new Task<>() {
+            @Override
+            protected Integer call() throws ServiceException {
+                SpedizioneDAO dao = FactoryShipmentDomain.buildSpedizioneDAO();
+
+                try {
+                    return dao.getCountSpedizioniConcluse(dataInizio, dataFine);
+                }
+                catch (PersistenceException e) {
+                    e.printStackTrace();
+                    throw new ServiceException("Errore nel reperire il numero totale di spedizioni concluse");
+                }
             }
         };
     }
@@ -301,6 +339,7 @@ public class ShipmentService {
             throw new ServiceException("Errore nel reperire la lista di ordini di trasporto");
         }
     }
+
 
     public OrdineDiLavoroPackagingDTO getOrdineDiLavoroPackaging(MagazzinoDTO magazzinoDTO, SpedizioneDTO spedizioneDTO) throws ServiceException {
         try {

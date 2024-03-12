@@ -14,6 +14,7 @@ import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public class CustomerService {
     public Task<Integer> getCountOrdiniDaLavorareTask(FilialeDTO filiale) {
@@ -95,5 +96,84 @@ public class CustomerService {
             //e.printStackTrace();
             throw new ServiceException("Errore nel creare la spedizione");
         }
+    }
+
+    public SpedizioneDTO getSpedizione(OrdineClienteDTO ordineCliente) throws ServiceException {
+
+        try {
+            Optional<SpedizioneDTO> spedizione;
+            spedizione = FactoryShipmentDomain.buildSpedizioneDAO().select(ordineCliente);
+
+            return spedizione.orElse(null);
+        }
+        catch (PersistenceException e) {
+            e.printStackTrace();
+            throw new ServiceException("Errore nel selezionare la spedizione");
+        }
+    }
+
+    public Task<Integer> getNumeroTotaleOrdini(LocalDate dataInizio, LocalDate dataFine) {
+        return new Task<>() {
+            @Override
+            protected Integer call() throws ServiceException {
+                OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
+
+                try {
+                    return dao.getCount(dataInizio, dataFine);
+                }
+                catch (PersistenceException e) {
+                    e.printStackTrace();
+                    throw new ServiceException("Errore nel reperire il numero totale di ordini");
+                }
+            }
+        };
+    }
+
+    public Task<Optional<OrdineClienteDTO> > getOrdineMaggiorNumeroProdotti(LocalDate dataInizio, LocalDate dataFine) {
+        return new Task<Optional<OrdineClienteDTO>>() {
+            @Override
+            protected Optional<OrdineClienteDTO> call() throws ServiceException {
+                OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
+                try {
+                    return dao.getOrdineMaggiorNumeroDiProdotti(dataInizio, dataFine);
+                }
+                catch (PersistenceException e) {
+                    e.printStackTrace();
+                    throw new ServiceException("Errore nel reperire ordine con maggior numero di prodotti");
+                }
+            }
+        };
+    }
+
+    public Task<Optional<OrdineClienteDTO> > getOrdineMinorNumeroProdotti(LocalDate dataInizio, LocalDate dataFine) {
+        return new Task<Optional<OrdineClienteDTO> >() {
+            @Override
+            protected Optional<OrdineClienteDTO>  call() throws ServiceException {
+                OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
+                try {
+                    return dao.getOrdineMinorNumeroDiProdotti(dataInizio, dataFine);
+                }
+                catch (PersistenceException e) {
+                    e.printStackTrace();
+                    throw new ServiceException("Errore nel reperire ordine con minor numero di prodotti");
+                }
+            }
+        };
+    }
+
+    public Task<Float> getNumeroMedioOrdini(LocalDate dataInizio, LocalDate dataFine) {
+        return new Task<>() {
+            @Override
+            protected Float call() throws ServiceException {
+                OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
+                try {
+                    return dao.getMediaOrdiniGiornaliera(dataInizio, dataFine);
+                }
+                catch (PersistenceException e) {
+                    e.printStackTrace();
+                    throw new ServiceException("Errore nel reperire il numero medio di ordini giornaliero");
+                }
+            }
+        };
     }
 }

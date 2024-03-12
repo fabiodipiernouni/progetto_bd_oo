@@ -19,6 +19,8 @@ public interface OrdineClienteDAO {
 
     int getCount(FilialeDTO filiale) throws PersistenceException;
 
+    int getCount(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException;
+
     List<OrdineClienteDTO> select(FilialeDTO filiale) throws PersistenceException;
 
     List<OrdineClienteDTO> select(FilialeDTO filiale, String stato) throws PersistenceException;
