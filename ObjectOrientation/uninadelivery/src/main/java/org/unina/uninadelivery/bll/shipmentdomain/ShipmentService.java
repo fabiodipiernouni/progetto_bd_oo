@@ -9,6 +9,7 @@ import org.unina.uninadelivery.dal.factory.shipmentdomain.OrdineDiLavoroSpedizio
 import org.unina.uninadelivery.dal.factory.shipmentdomain.SpedizioneDAO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
+import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
 import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
@@ -17,6 +18,7 @@ import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ShipmentService {
 
@@ -306,6 +308,20 @@ public class ShipmentService {
             return dao.select(magazzinoDTO, spedizioneDTO);
         } catch (PersistenceException e) {
             throw new ServiceException("Errore nel reperire l'ordine di lavoro");
+        }
+    }
+
+    public SpedizioneDTO getSpedizione(OrdineClienteDTO ordineCliente) throws ServiceException {
+
+        try {
+            Optional<SpedizioneDTO> spedizione;
+            spedizione = FactoryShipmentDomain.buildSpedizioneDAO().select(ordineCliente);
+
+            return spedizione.orElse(null);
+        }
+        catch (PersistenceException e) {
+            e.printStackTrace();
+            throw new ServiceException("Errore nel selezionare la spedizione");
         }
     }
 }

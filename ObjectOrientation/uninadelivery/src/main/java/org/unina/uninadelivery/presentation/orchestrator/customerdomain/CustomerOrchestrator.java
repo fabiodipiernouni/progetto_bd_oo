@@ -1,17 +1,22 @@
 package org.unina.uninadelivery.presentation.orchestrator.customerdomain;
 
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.bll.customerdomain.CustomerService;
 import org.unina.uninadelivery.bll.exception.ServiceException;
+import org.unina.uninadelivery.bll.shipmentdomain.ShipmentService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.entity.customerdomain.ClienteDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.ClientiController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.OrdineController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.OrdiniController;
+import org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioneController;
 import org.unina.uninadelivery.presentation.helper.Session;
+import org.unina.uninadelivery.presentation.model.customerdomain.SpedizioneModel;
 import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
 
 import java.time.LocalDate;
@@ -20,7 +25,8 @@ import java.util.List;
 
 public class CustomerOrchestrator extends Orchestrator {
 
-    private final CustomerService customerService = new CustomerService();
+    private final CustomerService customerService;
+    private final ShipmentService shipmentService;
     private final ClientiController clientiController;
     private OrdiniController ordiniController;
 
@@ -28,6 +34,8 @@ public class CustomerOrchestrator extends Orchestrator {
         super(dashboardStage);
         this.clientiController = clientiController;
 
+        customerService = new CustomerService();
+        shipmentService = new ShipmentService();
     }
 
 
@@ -38,16 +46,14 @@ public class CustomerOrchestrator extends Orchestrator {
 
         try {
             List<ClienteDTO> listaCLienti = Collections.emptyList();
-            if(utenteDTO.getProfilo().equals("Operatore"))
-                listaCLienti = customerService.getListaClienti( ((OperatoreFilialeDTO) utenteDTO).getFiliale());
-            else
-                if(utenteDTO.getProfilo().equals("Manager"))
-                    listaCLienti = customerService.getListaClienti();
+            if (utenteDTO.getProfilo().equals("Operatore"))
+                listaCLienti = customerService.getListaClienti(((OperatoreFilialeDTO) utenteDTO).getFiliale());
+            else if (utenteDTO.getProfilo().equals("Manager"))
+                listaCLienti = customerService.getListaClienti();
 
             clientiController.setListaClienti(listaCLienti);
 
-        }
-        catch (ServiceException e) {
+        } catch (ServiceException e) {
             //TODO: gestire errore
             e.printStackTrace();
         }
@@ -62,20 +68,18 @@ public class CustomerOrchestrator extends Orchestrator {
 
             List<OrdineClienteDTO> listaOrdiniCliente = Collections.emptyList();
 
-            if(utenteDTO.getProfilo().equals("Operatore"))
-                listaOrdiniCliente = customerService.getOrdiniCliente( ((OperatoreFilialeDTO) utenteDTO).getFiliale(), cliente);
-            else
-                if(utenteDTO.getProfilo().equals("Manager"))
-                    listaOrdiniCliente = customerService.getOrdiniCliente(cliente);
+            if (utenteDTO.getProfilo().equals("Operatore"))
+                listaOrdiniCliente = customerService.getOrdiniCliente(((OperatoreFilialeDTO) utenteDTO).getFiliale(), cliente);
+            else if (utenteDTO.getProfilo().equals("Manager"))
+                listaOrdiniCliente = customerService.getOrdiniCliente(cliente);
 
             DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
 
             ordiniController = new OrdiniController(dashboardStage, this, cliente);
-            dashboardController.changeView("ORDINI", "/views/customerdomain/ordini-view.fxml", c-> ordiniController);
+            dashboardController.changeView("ORDINI", "/views/customerdomain/ordini-view.fxml", c -> ordiniController);
             ordiniController.setListaOrdiniCliente(listaOrdiniCliente);
 
-        }
-        catch (ServiceException e) {
+        } catch (ServiceException e) {
             //TODO: gestire errore
         }
 
@@ -86,7 +90,7 @@ public class CustomerOrchestrator extends Orchestrator {
 
         OrdineController ordineController = new OrdineController(dashboardStage, this, ordine);
         DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
-        dashboardController.changeView("ORDINE", "/views/customerdomain/ordine-view.fxml", c-> ordineController);
+        dashboardController.changeView("ORDINE", "/views/customerdomain/ordine-view.fxml", c -> ordineController);
 
 
     }
@@ -103,8 +107,7 @@ public class CustomerOrchestrator extends Orchestrator {
 
             ordiniController.setListaOrdiniCliente(listaOrdiniCliente);
 
-        }
-        catch (ServiceException e) {
+        } catch (ServiceException e) {
             //TODO: gestire errore
         }
     }
@@ -117,15 +120,15 @@ public class CustomerOrchestrator extends Orchestrator {
         try {
             customerService.creaSpedizione(ordineCliente, operatoreFilialeDTO);
 
-            //TODO: notificare successo
-
             //ricarico la lista degli ordini
             List<OrdineClienteDTO> listaOrdiniCliente = customerService.getOrdiniCliente(operatoreFilialeDTO.getFiliale(), ordineCliente.getCliente());
             ordiniController.setListaOrdiniCliente(listaOrdiniCliente);
             ordiniController.resettaFiltri();
 
-        }
-        catch (ServiceException e) {
+            Platform.runLater(() ->
+                    dashboardController.showDialog("Info", "Creazione Spedizione", "Spedizione creata con successo")
+            );
+        } catch (ServiceException e) {
             //TODO: gestire errore
             System.out.println(e.getMessage());
         }
@@ -133,39 +136,37 @@ public class CustomerOrchestrator extends Orchestrator {
     }
 
     public void visualizzaSpedizioneClicked(OrdineClienteDTO ordineCliente) {
-        /*try{
-            SpedizioneDTO spedizione = customerService.getSpedizione(ordineCliente);
+        try{
+            SpedizioneDTO spedizione = shipmentService.getSpedizione(ordineCliente);
 
             if(spedizione == null)
-                //TODO: notificare spedizione non trovata
-                System.out.println("Spedizione non trovata");
+                dashboardController.showDialog("Errore", "Visualizzazione Spedizione", "Spedizione non trovata");
             else {
+                String cliente = spedizione.getOrdineCliente().getCliente().getRagioneSociale() != null ? spedizione.getOrdineCliente().getCliente().getRagioneSociale():spedizione.getOrdineCliente().getCliente().getNome() + " " + spedizione.getOrdineCliente().getCliente().getCognome();
                 SpedizioneController spedizioneController = new SpedizioneController(new SpedizioneModel(
-                        spedizione.getNumeroSpedizione(),
-                        spedizione.getRagioneSocialeCliente(),
+                        String.valueOf(spedizione.getId()),
+                        cliente,
                         spedizione.getStato(),
                         spedizione.getDataCreazione(),
                         spedizione.getDataInizioLavorazione(),
                         spedizione.getDataFineLavorazione(),
-                        spedizione.getOrganizzatore(),
+                        spedizione.getOrganizzatore().getUsername(),
                         spedizione.getTrackingNumber(),
-                        spedizione.getNumeroOrdiniPackaging(),
-                        spedizione.getNumeroOrdiniPackagingDaCompletare(),
-                        spedizione.getNumeroPacchiGenerati(),
-                        spedizione.getNumeroPacchiDaSpedire(),
-                        spedizione.getNumeroOrdiniTrasporto(),
-                        spedizione.getNumeroOrdiniTrasportoDaCompletare()
+                        shipmentService.getCountOrdiniDiLavoroPackagingBySpedizione(spedizione),
+                        shipmentService.getCountOrdiniDiLavoroPackagingDaCompletareBySpedizione(spedizione),
+                        shipmentService.getCountPacchiGeneratiBySpedizione(spedizione),
+                        shipmentService.getCountPacchiDaSpedireBySpedizione(spedizione),
+                        shipmentService.getCountOrdiniDiLavoroTrasportoBySpedizione(spedizione),
+                        shipmentService.getCountOrdiniDiLavoroTrasportoDaCompletareBySpedizione(spedizione)
                 ));
                 DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
-                dashboardController.changeView("ORDINE", "/views/customerdomain/spedizione-view.fxml", c-> spedizioneController);
-
+                dashboardController.changeView("SPEDIZIONE", "/views/shipmentdomain/spedizione-view.fxml",
+                        c-> spedizioneController);
             }
-
         }
         catch (ServiceException e) {
-            //TODO: gestire errore
-        }*/
-
+            dashboardController.showDialog("errore", "Visualizzazione Spedizione", "Errore nel reperire la spedizione");
+        }
 
 
     }

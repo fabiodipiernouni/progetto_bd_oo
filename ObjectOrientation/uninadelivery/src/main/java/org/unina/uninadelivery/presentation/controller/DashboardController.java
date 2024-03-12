@@ -142,7 +142,7 @@ public class DashboardController implements Initializable {
         );
 
 
-        switch (type) {
+        switch (type.toLowerCase()) {
             case "info":
                 icon = new MFXFontIcon("fas-circle-exclamation", 18);
                 styleClass = "mfx-info-dialog";

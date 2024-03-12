@@ -69,9 +69,15 @@ public class SpedizioneController implements Initializable {
         if(spedizioneModel.getDataInizioLavorazione() != null) {
             lblDataInizioLav.setText(spedizioneModel.getDataInizioLavorazione().toString());
         }
+        else {
+            lblDataInizioLav.setText("N/A");
+        }
 
         if(spedizioneModel.getDataFineLavorazione() != null) {
             lblDataFineLav.setText(spedizioneModel.getDataFineLavorazione().toString());
+        }
+        else {
+            lblDataFineLav.setText("N/A");
         }
 
         lblCntOrdiniPackagingEmessi.setText(String.valueOf(spedizioneModel.getNumeroOrdiniPackaging()));

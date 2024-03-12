@@ -12,13 +12,12 @@ import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.presentation.controller.DashboardController;
-import org.unina.uninadelivery.presentation.controller.shipmentdomain.OrdiniPackagingController;
-import org.unina.uninadelivery.presentation.controller.shipmentdomain.OrdiniSpedizioneController;
-import org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioneController;
-import org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioniController;
+import org.unina.uninadelivery.presentation.controller.shipmentdomain.*;
 import org.unina.uninadelivery.presentation.exception.SpedizioniException;
 import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.model.customerdomain.SpedizioneModel;
+import org.unina.uninadelivery.presentation.model.shipmentdomain.OrdinePackagingModel;
+import org.unina.uninadelivery.presentation.model.shipmentdomain.OrdineSpedizioneModel;
 import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
 
 import java.time.LocalDate;
@@ -34,7 +33,7 @@ public class OdlOrchestrator extends Orchestrator {
     @Setter
     private OrdiniPackagingController ordiniPackagingController;
     @Setter
-	private SpedizioniController spedizioniController;
+    private SpedizioniController spedizioniController;
 
     @Setter
     private OrdiniSpedizioneController ordiniSpedizioneController;
@@ -50,7 +49,7 @@ public class OdlOrchestrator extends Orchestrator {
     }
 
     public static OdlOrchestrator getOdlOrchestrator(Stage dashboardStage) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new OdlOrchestrator(dashboardStage);
         }
         return instance;
@@ -68,11 +67,11 @@ public class OdlOrchestrator extends Orchestrator {
         try {
             switch (utenteDTO.getProfilo()) {
                 case "OperatoreCorriere":
-                    listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging( ((OperatoreCorriereDTO) utenteDTO).getGruppoCorriere().getFiliale());
+                    listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging(((OperatoreCorriereDTO) utenteDTO).getGruppoCorriere().getFiliale());
 
                     break;
                 case "Operatore":
-                    listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging( ((OperatoreFilialeDTO) utenteDTO).getFiliale());
+                    listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging(((OperatoreFilialeDTO) utenteDTO).getFiliale());
 
                     break;
                 case "Manager":
@@ -80,8 +79,7 @@ public class OdlOrchestrator extends Orchestrator {
             }
 
             ordiniPackagingController.setListaOrdini(listaOrdini);
-        }
-        catch (ServiceException e) {
+        } catch (ServiceException e) {
             //TODO: gestire errore
             e.printStackTrace();
         }
@@ -94,11 +92,10 @@ public class OdlOrchestrator extends Orchestrator {
         try {
             List<OrdineDiLavoroPackagingDTO> listaOrdini = Collections.emptyList();
 
-            if(utente.getProfilo().equals("OperatoreCorriere"))
-                listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging( ((OperatoreCorriereDTO) utente).getGruppoCorriere().getFiliale());
-            else
-            if(utente.getProfilo().equals("Operatore"))
-                listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging( ((OperatoreFilialeDTO) utente).getFiliale());
+            if (utente.getProfilo().equals("OperatoreCorriere"))
+                listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging(((OperatoreCorriereDTO) utente).getGruppoCorriere().getFiliale());
+            else if (utente.getProfilo().equals("Operatore"))
+                listaOrdini = shipmentService.getListaOrdiniDiLavoroPackaging(((OperatoreFilialeDTO) utente).getFiliale());
 
 
             ordiniPackagingController.setListaOrdini(listaOrdini);
@@ -172,7 +169,50 @@ public class OdlOrchestrator extends Orchestrator {
     }
 
     public void visualizzaOrdinePackagingClicked(OrdineDiLavoroPackagingDTO ordine) {
-        //TODO
+        OrdinePackagingModel model = new OrdinePackagingModel(
+                ordine.getId(),
+                ordine.getDataCreazione(),
+                ordine.getSpedizione().getOrdineCliente().getCliente().getRagioneSociale(),
+                ordine.getDataInizioLavorazione(),
+                ordine.getDataFineLavorazione(),
+                ordine.getGruppoCorriere().getNome(),
+                ordine.getGruppoCorriere().getFiliale().getNome(),
+                ordine.getSpedizione().getOrdineCliente().getIndirizzoSpedizione().getIndirizzo_1(),
+                ordine.getSpedizione().getOrdineCliente().getIndirizzoSpedizione().getIndirizzo_2(),
+                ordine.getStato(),
+                ordine.getNoteAggiuntiveCliente(),
+                ordine.getNoteAggiuntiveOperatore(),
+                ordine.getMagazzino(),
+                ordine.getSpedizione()
+        );
+
+        OrdinePackagingController ordinePackagingController = new OrdinePackagingController(model);
+        DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
+        dashboardController.changeView("ORDINE PACKAGING", "/views/shipmentdomain/ordine-packaging-view.fxml",
+                c -> ordinePackagingController);
+    }
+
+    public void visualizzaOrdineSpedizioneClicked(OrdineDiLavoroSpedizioneDTO ordine) {
+        OrdineSpedizioneModel model = new OrdineSpedizioneModel(
+                ordine.getId(),
+                ordine.getDataCreazione(),
+                ordine.getSpedizione().getOrdineCliente().getCliente().getRagioneSociale(),
+                ordine.getDataInizioLavorazione(),
+                ordine.getDataFineLavorazione(),
+                ordine.getGruppoCorriere().getNome(),
+                ordine.getGruppoCorriere().getFiliale().getNome(),
+                ordine.getSpedizione().getOrdineCliente().getIndirizzoSpedizione().getIndirizzo_1(),
+                ordine.getSpedizione().getOrdineCliente().getIndirizzoSpedizione().getIndirizzo_2(),
+                ordine.getStato(),
+                "",
+                ordine.getNoteAggiuntiveOperatore(),
+                ordine.getSpedizione()
+        );
+
+        OrdineSpedizioneController ordineSpedizioneController = new OrdineSpedizioneController(model);
+        DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
+        dashboardController.changeView("ORDINE SPEDIZIONE", "/views/shipmentdomain/ordine-spedizione-view.fxml",
+                c -> ordineSpedizioneController);
     }
 
     public void prendiInCaricoOrdinePackagingClicked(OrdineDiLavoroPackagingDTO ordine) {
@@ -211,11 +251,11 @@ public class OdlOrchestrator extends Orchestrator {
         try {
             switch (utenteDTO.getProfilo()) {
                 case "OperatoreCorriere":
-                    listaOrdini = shipmentService.getListaOrdiniDiLavoroSpedizione( ((OperatoreCorriereDTO) utenteDTO).getGruppoCorriere().getFiliale());
+                    listaOrdini = shipmentService.getListaOrdiniDiLavoroSpedizione(((OperatoreCorriereDTO) utenteDTO).getGruppoCorriere().getFiliale());
 
                     break;
                 case "Operatore":
-                    listaOrdini = shipmentService.getListaOrdiniDiLavoroSpedizione( ((OperatoreFilialeDTO) utenteDTO).getFiliale());
+                    listaOrdini = shipmentService.getListaOrdiniDiLavoroSpedizione(((OperatoreFilialeDTO) utenteDTO).getFiliale());
 
                     break;
                 case "Manager":
@@ -223,8 +263,7 @@ public class OdlOrchestrator extends Orchestrator {
             }
 
             ordiniSpedizioneController.setListaOrdini(listaOrdini);
-        }
-        catch (ServiceException e) {
+        } catch (ServiceException e) {
             //TODO: gestire errore
             e.printStackTrace();
         }
@@ -237,11 +276,10 @@ public class OdlOrchestrator extends Orchestrator {
         try {
             List<OrdineDiLavoroSpedizioneDTO> listaOrdini = Collections.emptyList();
 
-            if(utente.getProfilo().equals("OperatoreCorriere"))
-                listaOrdini = shipmentService.getListaOrdiniDiLavoroSpedizione( ((OperatoreCorriereDTO) utente).getGruppoCorriere().getFiliale());
-            else
-            if(utente.getProfilo().equals("Operatore"))
-                listaOrdini = shipmentService.getListaOrdiniDiLavoroSpedizione( ((OperatoreFilialeDTO) utente).getFiliale());
+            if (utente.getProfilo().equals("OperatoreCorriere"))
+                listaOrdini = shipmentService.getListaOrdiniDiLavoroSpedizione(((OperatoreCorriereDTO) utente).getGruppoCorriere().getFiliale());
+            else if (utente.getProfilo().equals("Operatore"))
+                listaOrdini = shipmentService.getListaOrdiniDiLavoroSpedizione(((OperatoreFilialeDTO) utente).getFiliale());
 
 
             ordiniSpedizioneController.setListaOrdini(listaOrdini);
@@ -313,10 +351,6 @@ public class OdlOrchestrator extends Orchestrator {
         }
     }
 
-    public void visualizzaOrdineSpedizioneClicked(OrdineDiLavoroSpedizioneDTO ordine) {
-        //TODO
-    }
-
     public void prendiInCaricoOrdineSpedizioneClicked(OrdineDiLavoroSpedizioneDTO ordine) {
         Session session = Session.getInstance();
         OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
@@ -369,7 +403,7 @@ public class OdlOrchestrator extends Orchestrator {
 
             SpedizioneController spedizioneController = new SpedizioneController(spedizioneModel);
             DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
-            dashboardController.changeView("ORDINE", "/views/shipmentdomain/spedizione-view.fxml", c-> spedizioneController);
+            dashboardController.changeView("ORDINE", "/views/shipmentdomain/spedizione-view.fxml", c -> spedizioneController);
         } catch (Exception e) {
             throw new SpedizioniException("Errore nel recupero della spedizione");
         }
@@ -413,10 +447,10 @@ public class OdlOrchestrator extends Orchestrator {
         try {
             List<SpedizioneDTO> spedizioni = Collections.emptyList();
 
-            if(utente.getProfilo().equals("OperatoreCorriere"))
+            if (utente.getProfilo().equals("OperatoreCorriere"))
                 spedizioni = shipmentService.getListaSpedizioni(((OperatoreCorriereDTO) utente).getGruppoCorriere().getFiliale());
-            else if(utente.getProfilo().equals("Operatore"))
-                spedizioni = shipmentService.getListaSpedizioni( ((OperatoreFilialeDTO) utente).getFiliale());
+            else if (utente.getProfilo().equals("Operatore"))
+                spedizioni = shipmentService.getListaSpedizioni(((OperatoreFilialeDTO) utente).getFiliale());
             else
                 spedizioni = shipmentService.getListaSpedizioni(null);
 
@@ -426,7 +460,7 @@ public class OdlOrchestrator extends Orchestrator {
         }
     }
 
-    public void filtroSpedizioniEmesseDaMeClicked() throws SpedizioniException{
+    public void filtroSpedizioniEmesseDaMeClicked() throws SpedizioniException {
         Session session = Session.getInstance();
         UtenteDTO utente = session.getUserDto().getValue();
 
@@ -445,8 +479,7 @@ public class OdlOrchestrator extends Orchestrator {
             ordineDiLavoroPackagingDTO.setGruppoCorriere(utente.getGruppoCorriere());
             ordineDiLavoroPackagingDTO.setOperatoreCorriere(utente);
             shipmentService.updateOrdinePackaging(ordineDiLavoroPackagingDTO);
-        }
-        catch (ServiceException e) {
+        } catch (ServiceException e) {
             throw new SpedizioniException("Errore nell'assegnazione dell'ordine di lavoro di packaging");
         }
     }
@@ -456,21 +489,18 @@ public class OdlOrchestrator extends Orchestrator {
             OrdineDiLavoroPackagingDTO ordineDiLavoroPackagingDTO = shipmentService.getOrdineDiLavoroPackaging(magazzinoDTO, spedizioneDTO);
             ordineDiLavoroPackagingDTO.setDataInizioLavorazione(LocalDate.now());
             shipmentService.updateOrdinePackaging(ordineDiLavoroPackagingDTO);
-        }
-        catch (ServiceException e) {
+        } catch (ServiceException e) {
             throw new SpedizioniException("Errore nell'assegnazione dell'ordine di lavoro di packaging");
         }
     }
 
-    public void concludiLavorazioneOdlPackagingClicked(MagazzinoDTO magazzinoDTO, SpedizioneDTO spedizioneDTO, String noteCorriere) throws SpedizioniException
-    {
+    public void concludiLavorazioneOdlPackagingClicked(MagazzinoDTO magazzinoDTO, SpedizioneDTO spedizioneDTO, String noteCorriere) throws SpedizioniException {
         try {
             OrdineDiLavoroPackagingDTO ordineDiLavoroPackagingDTO = shipmentService.getOrdineDiLavoroPackaging(magazzinoDTO, spedizioneDTO);
             ordineDiLavoroPackagingDTO.setDataFineLavorazione(LocalDate.now());
             ordineDiLavoroPackagingDTO.setNoteAggiuntiveOperatore(noteCorriere);
             shipmentService.updateOrdinePackaging(ordineDiLavoroPackagingDTO);
-        }
-        catch (ServiceException e) {
+        } catch (ServiceException e) {
             throw new SpedizioniException("Errore nella conclusione dell'ordine di lavoro di packaging");
         }
     }
