@@ -7,6 +7,7 @@ import org.unina.uninadelivery.bll.shipmentdomain.ShipmentService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
+import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
@@ -20,6 +21,7 @@ import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.model.customerdomain.SpedizioneModel;
 import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -434,6 +436,42 @@ public class OdlOrchestrator extends Orchestrator {
         } catch (ServiceException e) {
             e.printStackTrace();
             throw new SpedizioniException("Errore nel recupero delle spedizioni");
+        }
+    }
+
+    public void assegnaOdlPackagingClicked(MagazzinoDTO magazzinoDTO, SpedizioneDTO spedizioneDTO, OperatoreCorriereDTO utente) throws SpedizioniException {
+        try {
+            OrdineDiLavoroPackagingDTO ordineDiLavoroPackagingDTO = shipmentService.getOrdineDiLavoroPackaging(magazzinoDTO, spedizioneDTO);
+            ordineDiLavoroPackagingDTO.setGruppoCorriere(utente.getGruppoCorriere());
+            ordineDiLavoroPackagingDTO.setOperatoreCorriere(utente);
+            shipmentService.updateOrdinePackaging(ordineDiLavoroPackagingDTO);
+        }
+        catch (ServiceException e) {
+            throw new SpedizioniException("Errore nell'assegnazione dell'ordine di lavoro di packaging");
+        }
+    }
+
+    public void iniziaLavorazioneOdlPackagingClicked(MagazzinoDTO magazzinoDTO, SpedizioneDTO spedizioneDTO) throws SpedizioniException {
+        try {
+            OrdineDiLavoroPackagingDTO ordineDiLavoroPackagingDTO = shipmentService.getOrdineDiLavoroPackaging(magazzinoDTO, spedizioneDTO);
+            ordineDiLavoroPackagingDTO.setDataInizioLavorazione(LocalDate.now());
+            shipmentService.updateOrdinePackaging(ordineDiLavoroPackagingDTO);
+        }
+        catch (ServiceException e) {
+            throw new SpedizioniException("Errore nell'assegnazione dell'ordine di lavoro di packaging");
+        }
+    }
+
+    public void concludiLavorazioneOdlPackagingClicked(MagazzinoDTO magazzinoDTO, SpedizioneDTO spedizioneDTO, String noteCorriere) throws SpedizioniException
+    {
+        try {
+            OrdineDiLavoroPackagingDTO ordineDiLavoroPackagingDTO = shipmentService.getOrdineDiLavoroPackaging(magazzinoDTO, spedizioneDTO);
+            ordineDiLavoroPackagingDTO.setDataFineLavorazione(LocalDate.now());
+            ordineDiLavoroPackagingDTO.setNoteAggiuntiveOperatore(noteCorriere);
+            shipmentService.updateOrdinePackaging(ordineDiLavoroPackagingDTO);
+        }
+        catch (ServiceException e) {
+            throw new SpedizioniException("Errore nella conclusione dell'ordine di lavoro di packaging");
         }
     }
 }

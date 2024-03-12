@@ -238,28 +238,6 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-/*        Session session = Session.getInstance();
-        Property<UtenteDTO> prop = session.getUserDto();
-
-        /*utente = new OperatoreFilialeDTO();// prop.getValue();
-        //todo: fixare
-        utente.setId(1L);
-        utente.setProfilo("Operatore");
-        utente.setUsername("Fabio");
-        utente.setFunzioni(Collections.emptyList());
-
-        ((OperatoreFilialeDTO)utente).setFiliale(new FilialeDTO(1, "Filiale Napoli", "Italia", "Unina Delivery ITA", "12345678901"));
-
-        utente = new OperatoreCorriereDTO();
-        utente.setId(33L);
-        utente.setProfilo("OperatoreCorriere");
-        utente.setUsername("Salvatore_corriere_19");
-        utente.setFunzioni(Collections.emptyList());
-        ((OperatoreCorriereDTO)utente).setGruppoCorriere(new GruppoCorriereDTO(19, "Corriere Bologna 1", "BOL1", 10, new FilialeDTO(7, "Filiale Bologna", "Italia", "Unina Delivery ITA", "12345678901")));
-
-        prop.setValue(utente);
-        session.setUserDto(prop);
-*/
         //imposto il comportamento dei pulsanti di chiusura applicazione, minimizza e sempre in primo piano
         closeIcon.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             Platform.exit();

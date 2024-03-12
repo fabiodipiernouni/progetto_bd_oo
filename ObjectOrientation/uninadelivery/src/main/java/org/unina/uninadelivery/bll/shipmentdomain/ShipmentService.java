@@ -13,6 +13,7 @@ import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
+import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
@@ -335,7 +336,17 @@ public class ShipmentService {
         } catch (PersistenceException e) {
             throw new ServiceException("Errore nel reperire la lista di ordini di trasporto");
         }
-
     }
+
+
+    public OrdineDiLavoroPackagingDTO getOrdineDiLavoroPackaging(MagazzinoDTO magazzinoDTO, SpedizioneDTO spedizioneDTO) throws ServiceException {
+        try {
+            OrdineDiLavoroPackagingDAO dao = FactoryShipmentDomain.buildOrdineDiLavoroPackagingDAO();
+            return dao.select(magazzinoDTO, spedizioneDTO);
+        } catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire l'ordine di lavoro");
+        }
+    }
+
 }
 
