@@ -305,7 +305,7 @@ public class DashboardController implements Initializable {
             loader.addView(MFXLoaderBean.of("HOME", loadURL("/views/orgdomain/home-opcorriere-view.fxml"))
                     .setBeanToNodeMapper(() ->  mfxToggleButtonsHelper.createToggle("fas-house-user", "HOME")).setDefaultRoot(true).setControllerFactory(c -> new HomeOpCorriereController(dashboardStage)).get());
         } else if (utente.getProfilo().equals("Manager")) {
-            loader.addView(MFXLoaderBean.of("HOME", loadURL("/views/orgdomain/home-amministratore-view.fxml"))
+            loader.addView(MFXLoaderBean.of("HOME", loadURL("/views/orgdomain/home-manager-view.fxml"))
                     .setBeanToNodeMapper(() -> mfxToggleButtonsHelper.createToggle("fas-house-user", "HOME")).setDefaultRoot(true).setControllerFactory(c -> new HomeManagerController(dashboardStage)).get());
         }
         else {

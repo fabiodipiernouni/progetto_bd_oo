@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface ClienteDAO {
     Optional<ClienteDTO> select(long idCliente) throws PersistenceException;
 
+    List<ClienteDTO> select() throws PersistenceException;
+
     List<ClienteDTO> select(FilialeDTO filiale) throws PersistenceException;
 }

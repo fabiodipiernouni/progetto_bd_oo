@@ -12,8 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.presentation.exception.SpedizioniException;
+import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
 
 import java.net.URL;
@@ -26,7 +28,7 @@ public class SpedizioniController implements Initializable {
     private final Stage dashboardStage;
     private final OdlOrchestrator odlOrchestrator;
     @FXML
-    protected MFXPaginatedTableView spedizioniGrid;
+    protected MFXPaginatedTableView<SpedizioneDTO> spedizioniGrid;
 
     @FXML
     protected MFXRadioButton filtroTuttiRadioBox;
@@ -111,11 +113,23 @@ public class SpedizioniController implements Initializable {
                 new StringFilter<SpedizioneDTO>("Organizzata Da", spedizione -> spedizione.getOrganizzatore().getUsername())
         );
 
+
+        Session session = Session.getInstance();
+        UtenteDTO utente = session.getUserDto().getValue();
+        if(utente.getProfilo().equals("Operatore")) {
+            filtroTuttiRadioBox.setVisible(true);
+            filtroEmesseDaMe.setVisible(true);
+        }
+
+
+
         try {
             odlOrchestrator.paginaSpedizioniPronta();
         } catch (SpedizioniException e) {
             //todo: gestire errore
         }
+
+
     }
 
     public void setListaSpedizioni(List<SpedizioneDTO> listaSpedizioni) {

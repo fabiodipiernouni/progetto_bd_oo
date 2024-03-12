@@ -96,6 +96,11 @@ class OracleClienteDAO implements ClienteDAO {
         }
     }
 
+    @Override
+    public List<ClienteDTO> select() throws PersistenceException {
+        return select(null);
+    }
+
 
     /**
      * Restituisce la lista dei clienti per i quali almeno un ordine sta venendo gestito da una certa filiale
@@ -104,6 +109,18 @@ class OracleClienteDAO implements ClienteDAO {
      *   @throws PersistenceException se si verifica un errore nel reperire i dati
      */
     public List<ClienteDTO> select(FilialeDTO filiale) throws PersistenceException {
+        String query = """
+                SELECT DISTINCT Cliente.*
+                FROM Cliente
+                JOIN OrdineCliente
+                ON Cliente.id = OrdineCliente.idCliente
+                JOIN statoOrdineClienteFiliale
+                ON OrdineCliente.id = statoOrdineClienteFiliale.idOrdineCliente""";
+
+        if(filiale != null)
+                query += " WHERE idFiliale = " + filiale.getId();
+
+
         Statement statement = null;
         ResultSet resultSet = null;
 
@@ -112,14 +129,7 @@ class OracleClienteDAO implements ClienteDAO {
         try {
 
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("""
-                SELECT DISTINCT Cliente.*
-                FROM Cliente
-                JOIN OrdineCliente
-                ON Cliente.id = OrdineCliente.idCliente
-                JOIN statoOrdineClienteFiliale
-                ON OrdineCliente.id = statoOrdineClienteFiliale.idOrdineCliente
-                WHERE idFiliale = """ + filiale.getId());
+            resultSet = statement.executeQuery(query);
 
             while (resultSet.next())
                 listaClienti.add(getByResultSet(resultSet));
