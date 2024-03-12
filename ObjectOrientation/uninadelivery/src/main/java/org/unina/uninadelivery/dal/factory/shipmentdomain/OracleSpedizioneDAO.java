@@ -193,6 +193,54 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
         }
     }
 
+    private int getCountSpedizioni(LocalDate dataInizio, LocalDate dataFine, String colonna) throws PersistenceException {
+        if(!colonna.equals("dataCreazione") && !colonna.equals("dataFineLavorazione"))
+            throw new IllegalArgumentException("La colonna deve essere dataCreazione o dataFineLavorazione");
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("SELECT COUNT(*) FROM Spedizione WHERE " + colonna + " BETWEEN ? AND ?");
+            preparedStatement.setObject(1, dataInizio);
+            preparedStatement.setObject(2, dataFine);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.next())
+                throw new PersistenceException("Errore nel reperire il numero di spedizioni");
+
+            return resultSet.getInt(1);
+
+        }
+        catch(SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        }
+        finally {
+            //libero le risorse
+
+            try {
+                if(resultSet != null)
+                    resultSet.close();
+                if(preparedStatement != null)
+                    preparedStatement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio niente
+            }
+        }
+
+    }
+
+    public int getCountSpedizioniCreate(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException {
+        return getCountSpedizioni( dataInizio, dataFine, "dataCreazione");
+    }
+
+
+    public int getCountSpedizioniConcluse(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException {
+        return getCountSpedizioni( dataInizio, dataFine, "dataFineLavorazione");
+    }
+
     public int getCount(String stato, FilialeDTO filiale) throws PersistenceException {
         String query = """
             SELECT COUNT(*)

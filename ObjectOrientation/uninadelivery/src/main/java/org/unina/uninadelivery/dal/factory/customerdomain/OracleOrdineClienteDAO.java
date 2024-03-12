@@ -172,6 +172,46 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
         return getCount(filiale, null);
     }
 
+    public int getCount(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException {
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+
+        try {
+            preparedStatement = connection.prepareStatement("""
+            SELECT COUNT(*)
+            FROM OrdineCliente
+            WHERE dataOrdine BETWEEN ? AND ?""");
+            preparedStatement.setObject(1, dataInizio);
+            preparedStatement.setObject(2, dataFine);
+
+            resultSet = preparedStatement.executeQuery();
+
+
+            if(!resultSet.next())
+                throw new PersistenceException("Errore nel reperire il numero di ordini");
+
+            return resultSet.getInt(1);
+
+        }
+        catch(SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        }
+        finally {
+            //libero le risorse
+
+            try {
+                if(resultSet != null)
+                    resultSet.close();
+                if(preparedStatement != null)
+                    preparedStatement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio niente
+            }
+        }
+    }
 
     //in Java non esistono i valori di default per i parametri, quindi uso l'overloading dei metodi
     public List<OrdineClienteDTO> select(FilialeDTO filiale) throws PersistenceException {
@@ -346,10 +386,34 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
         try {
             preparedStatement = connection.prepareStatement("""
-                SELECT AVG(COUNT(*))
-                FROM ordineCliente
-                WHERE dataOrdine >= ? AND dataOrdine <= ?
-                GROUP BY EXTRACT(DAY FROM dataOrdine), EXTRACT(MONTH FROM dataOrdine), EXTRACT(YEAR FROM dataOrdine)""");
+                WITH date_range(dt) AS (
+                    SELECT ? FROM dual
+                    UNION ALL
+                    SELECT dt + INTERVAL '1' DAY FROM date_range
+                    WHERE dt < ?
+                )
+                SELECT AVG(COUNT(ordineCliente.id))
+                FROM date_range
+                LEFT JOIN ordineCliente ON date_range.dt = ordineCliente.dataOrdine
+                GROUP BY date_range.dt""");
+            /*
+            * WITH date_range(dt) AS:
+            This is a Common Table Expression (CTE) that generates a series of dates between dataInizio and dataFine.
+            The CTE is named date_range and it has one column dt.
+            * (SELECT ? FROM dual UNION ALL SELECT dt + INTERVAL '1' DAY FROM date_range WHERE dt < ?):
+            This is the recursive part of the CTE.
+            It starts with the dataInizio date and then adds one day at a time until it reaches the dataFine date.
+            * SELECT AVG(COUNT(ordineCliente.id)):
+            This is the main query that calculates the average number of orders per day.
+            It does this by first counting the number of orders (ordineCliente.id) for each date in the date_range and
+            then taking the average of these counts.
+            * FROM date_range LEFT JOIN ordineCliente ON date_range.dt = ordineCliente.dataOrdine:
+            This joins the date_range CTE with the ordineCliente table on the dataOrdine field.
+            The LEFT JOIN ensures that all dates in the date_range are included in the result, even if there are no
+            orders for a particular date.
+            * GROUP BY date_range.dt: This groups the result by date, which allows the COUNT function to count the
+            number of orders for each date.
+            */
 
             preparedStatement.setObject(1, dataInizio);
             preparedStatement.setObject(2, dataFine);

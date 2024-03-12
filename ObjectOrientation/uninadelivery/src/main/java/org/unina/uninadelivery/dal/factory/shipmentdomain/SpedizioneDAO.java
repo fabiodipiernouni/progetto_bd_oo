@@ -6,7 +6,9 @@ import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public interface SpedizioneDAO {
@@ -19,6 +21,9 @@ public interface SpedizioneDAO {
 
     int getCount(String Stato, OperatoreFilialeDTO operatoreFiliale) throws PersistenceException;
 
+    int getCountSpedizioniCreate(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException;
+
+    int getCountSpedizioniConcluse(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException;
 
     int getCount(OperatoreFilialeDTO operatoreFiliale) throws PersistenceException;
 

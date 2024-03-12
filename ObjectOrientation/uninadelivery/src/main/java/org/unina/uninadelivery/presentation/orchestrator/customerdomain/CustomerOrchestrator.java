@@ -93,7 +93,7 @@ public class CustomerOrchestrator extends Orchestrator {
 
     public void visualizzaOrdineClicked(OrdineClienteDTO ordine) {
 
-        OrdineController ordineController = new OrdineController(dashboardStage, this, ordine);
+        OrdineController ordineController = new OrdineController(dashboardStage, ordine);
         DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
         dashboardController.changeView("ORDINE", "/views/customerdomain/ordine-view.fxml", c-> ordineController);
 

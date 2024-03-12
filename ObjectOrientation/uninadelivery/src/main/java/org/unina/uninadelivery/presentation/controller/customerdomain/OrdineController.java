@@ -54,11 +54,9 @@ public class OrdineController implements Initializable {
     @FXML
     private MFXPaginatedTableView<DettaglioOrdineDTO> dettaglioOrdineGrid;
 
-    private CustomerOrchestrator customerOrchestrator;
-
-    public OrdineController(Stage dashboardStage, CustomerOrchestrator customerOrchestrator, OrdineClienteDTO ordineDTO) {
+    public OrdineController(Stage dashboardStage, OrdineClienteDTO ordineDTO) {
         this.dashboardStage = dashboardStage;
-        this.customerOrchestrator = customerOrchestrator;
+
         this.ordineDTO = ordineDTO;
 
     }
