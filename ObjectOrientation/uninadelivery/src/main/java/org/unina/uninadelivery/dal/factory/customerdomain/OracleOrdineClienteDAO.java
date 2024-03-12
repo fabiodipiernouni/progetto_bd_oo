@@ -190,6 +190,10 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
         return select(filiale, statoOrdine, null, dataInizio, dataFine);
     }
 
+    public List<OrdineClienteDTO> select(ClienteDTO cliente) throws PersistenceException {
+        return select(null, null, cliente, null, null);
+    }
+
     public List<OrdineClienteDTO> select(FilialeDTO filiale, ClienteDTO cliente) throws PersistenceException {
         return select(filiale, null, cliente, null, null);
     }

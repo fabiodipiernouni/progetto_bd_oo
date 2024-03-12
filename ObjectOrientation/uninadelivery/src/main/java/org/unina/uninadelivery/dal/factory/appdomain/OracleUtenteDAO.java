@@ -86,7 +86,7 @@ class OracleUtenteDAO implements UtenteDAO {
                 );
                 break;
 
-            case "Manger":
+            case "Manager":
                 utente = new UtenteDTO(
                         id,
                         username,

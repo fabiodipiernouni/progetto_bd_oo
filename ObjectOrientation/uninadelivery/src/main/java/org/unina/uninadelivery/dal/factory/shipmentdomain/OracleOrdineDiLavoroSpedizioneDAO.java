@@ -210,8 +210,12 @@ class OracleOrdineDiLavoroSpedizioneDAO implements OrdineDiLavoroSpedizioneDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
 
-            while (resultSet.next())
-                listaOrdini.add(getByResultSet(resultSet, filiale));
+            if(filiale != null)
+                while (resultSet.next())
+                    listaOrdini.add(getByResultSet(resultSet, filiale));
+            else
+                while (resultSet.next())
+                    listaOrdini.add(getByResultSet(resultSet));
 
             return listaOrdini;
         }

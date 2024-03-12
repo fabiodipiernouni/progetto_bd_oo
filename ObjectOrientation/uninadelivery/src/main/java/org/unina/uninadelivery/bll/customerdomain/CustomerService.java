@@ -55,9 +55,26 @@ public class CustomerService {
 
     }
 
+    public List<ClienteDTO> getListaClienti() throws ServiceException {
+        try {
+            return FactoryCustomerDomain.buildClienteDAO().select();
+        } catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista dei clienti");
+        }
+
+    }
+
     public List<OrdineClienteDTO> getOrdiniCliente(FilialeDTO filiale, ClienteDTO cliente) throws ServiceException{
         try {
             return FactoryCustomerDomain.buildOrdineClienteDAO().select(filiale, cliente);
+        } catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista degli ordini del cliente");
+        }
+    }
+
+    public List<OrdineClienteDTO> getOrdiniCliente(ClienteDTO cliente) throws ServiceException{
+        try {
+            return FactoryCustomerDomain.buildOrdineClienteDAO().select(cliente);
         } catch (PersistenceException e) {
             throw new ServiceException("Errore nel reperire la lista degli ordini del cliente");
         }

@@ -12,8 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.entity.customerdomain.ClienteDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
+import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.orchestrator.customerdomain.CustomerOrchestrator;
 
 import java.net.URL;
@@ -107,33 +109,65 @@ public class OrdiniController implements Initializable {
 
             return cell;
         });
-        action2Column.setRowCellFactory(ordineCliente -> {
-            //crea cella vuota
-            MFXTableRowCell<OrdineClienteDTO, Void> cell = new MFXTableRowCell<>(null);
 
-            MFXButton button;
+        Session session = Session.getInstance();
+        UtenteDTO utente = session.getUserDto().getValue();
 
-            if(ordineCliente.getStato().equals("Completato")) {
-                //crea un tasto
-                button = new MFXButton("Crea Spedizione");
-                button.setOnAction(event -> {
-                    customerOrchestrator.creaSpedizioneClicked(ordineCliente);
+        if(utente.getProfilo().equals("Operatore")) {
+            action2Column.setRowCellFactory(ordineCliente -> {
+                //crea cella vuota
+                MFXTableRowCell<OrdineClienteDTO, Void> cell = new MFXTableRowCell<>(null);
+
+                MFXButton button;
+
+                if(ordineCliente.getStato().equals("Completato")) {
+                    //crea un tasto
+                    button = new MFXButton("Crea Spedizione");
+                    button.setOnAction(event -> {
+                        customerOrchestrator.creaSpedizioneClicked(ordineCliente);
+                    });
+
+                }
+                else {
+                    //crea un tasto
+                    button = new MFXButton("Visualizza Spedizione");
+                    button.setOnAction(event -> {
+                        customerOrchestrator.visualizzaSpedizioneClicked(ordineCliente);
+                    });
+                }
+
+                //imposta il tasto come grafica della cella
+                cell.setGraphic(button);
+
+                return cell;
+            });
+
+        }
+        else
+            if(utente.getProfilo().equals("Manager")) {
+                action2Column.setRowCellFactory(ordineCliente -> {
+                    //crea cella vuota
+                    MFXTableRowCell<OrdineClienteDTO, Void> cell = new MFXTableRowCell<>(null);
+
+                    MFXButton button;
+
+                    if(!ordineCliente.getStato().equals("Completato")) {
+                        //crea un tasto
+                        button = new MFXButton("Visualizza Spedizione");
+                        button.setOnAction(event -> {
+                            customerOrchestrator.visualizzaSpedizioneClicked(ordineCliente);
+                        });
+
+                        //imposta il tasto come grafica della cella
+                        cell.setGraphic(button);
+                    }
+
+                    return cell;
                 });
-
-            }
-            else {
-                //crea un tasto
-                button = new MFXButton("Visualizza Spedizione");
-                button.setOnAction(event -> {
-                    customerOrchestrator.visualizzaSpedizioneClicked(ordineCliente);
-                });
             }
 
-            //imposta il tasto come grafica della cella
-            cell.setGraphic(button);
 
-            return cell;
-        });
+
 
 
         ordiniClienteGrid.getTableColumns().addAll(dataOrdineColumn, statoColumn, numeroOrdineColumn, importoTotaleColumn, actionColumn, action2Column);

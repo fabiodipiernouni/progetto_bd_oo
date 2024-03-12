@@ -4,6 +4,7 @@ import javafx.stage.Stage;
 import org.unina.uninadelivery.bll.customerdomain.CustomerService;
 import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
+import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.entity.customerdomain.ClienteDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import org.unina.uninadelivery.presentation.controller.DashboardController;
@@ -14,6 +15,7 @@ import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 public class CustomerOrchestrator extends Orchestrator {
@@ -32,25 +34,40 @@ public class CustomerOrchestrator extends Orchestrator {
     public void paginaClientiPronta() {
         Session session = Session.getInstance();
 
-        OperatoreFilialeDTO operatoreFilialeDTO = (OperatoreFilialeDTO) session.getUserDto().getValue();
+        UtenteDTO utenteDTO = session.getUserDto().getValue();
 
         try {
-            List<ClienteDTO> listaCLienti = customerService.getListaClienti(operatoreFilialeDTO.getFiliale());
+            List<ClienteDTO> listaCLienti = Collections.emptyList();
+            if(utenteDTO.getProfilo().equals("Operatore"))
+                listaCLienti = customerService.getListaClienti( ((OperatoreFilialeDTO) utenteDTO).getFiliale());
+            else
+                if(utenteDTO.getProfilo().equals("Manager"))
+                    listaCLienti = customerService.getListaClienti();
+
             clientiController.setListaClienti(listaCLienti);
+
         }
         catch (ServiceException e) {
             //TODO: gestire errore
+            e.printStackTrace();
         }
     }
 
     public void visualizzaOrdiniClicked(ClienteDTO cliente) {
         Session session = Session.getInstance();
 
-        OperatoreFilialeDTO operatoreFilialeDTO = (OperatoreFilialeDTO) session.getUserDto().getValue();
+        UtenteDTO utenteDTO = session.getUserDto().getValue();
 
         try {
 
-            List<OrdineClienteDTO> listaOrdiniCliente = customerService.getOrdiniCliente(operatoreFilialeDTO.getFiliale(), cliente);
+            List<OrdineClienteDTO> listaOrdiniCliente = Collections.emptyList();
+
+            if(utenteDTO.getProfilo().equals("Operatore"))
+                listaOrdiniCliente = customerService.getOrdiniCliente( ((OperatoreFilialeDTO) utenteDTO).getFiliale(), cliente);
+            else
+                if(utenteDTO.getProfilo().equals("Manager"))
+                    listaOrdiniCliente = customerService.getOrdiniCliente(cliente);
+
             DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
 
             ordiniController = new OrdiniController(dashboardStage, this, cliente);
