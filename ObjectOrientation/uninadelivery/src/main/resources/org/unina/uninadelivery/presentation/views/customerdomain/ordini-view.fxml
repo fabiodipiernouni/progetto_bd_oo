@@ -46,6 +46,6 @@
     <MFXDatePicker fx:id="dataInizioPicker" allowEdit="false" layoutX="50.0" layoutY="225.0" promptText="Data inizio..." />
     <MFXDatePicker fx:id="dataFinePicker" allowEdit="false" layoutX="290.0" layoutY="225.0" promptText="Data fine..." />
 
-    <MFXPaginatedTableView fx:id="ordiniClienteGrid" layoutX="50.0" layoutY="279.0" prefHeight="242.0" prefWidth="800.0" />
+    <MFXPaginatedTableView fx:id="ordiniClienteGrid" layoutX="58.0" layoutY="300.0" prefHeight="242.0" prefWidth="800.0" />
 
 </AnchorPane>

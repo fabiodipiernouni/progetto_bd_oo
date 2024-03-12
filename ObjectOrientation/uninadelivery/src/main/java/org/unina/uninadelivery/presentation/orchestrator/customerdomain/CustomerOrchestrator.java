@@ -157,7 +157,8 @@ public class CustomerOrchestrator extends Orchestrator {
                         shipmentService.getCountPacchiGeneratiBySpedizione(spedizione),
                         shipmentService.getCountPacchiDaSpedireBySpedizione(spedizione),
                         shipmentService.getCountOrdiniDiLavoroTrasportoBySpedizione(spedizione),
-                        shipmentService.getCountOrdiniDiLavoroTrasportoDaCompletareBySpedizione(spedizione)
+                        shipmentService.getCountOrdiniDiLavoroTrasportoDaCompletareBySpedizione(spedizione),
+                        spedizione.getOrdineCliente()
                 ));
                 DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
                 dashboardController.changeView("SPEDIZIONE", "/views/shipmentdomain/spedizione-view.fxml",

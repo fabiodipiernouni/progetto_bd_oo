@@ -2,6 +2,7 @@ package org.unina.uninadelivery.presentation.model.customerdomain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import org.unina.uninadelivery.presentation.model.Model;
 
 import java.time.LocalDate;
@@ -26,4 +27,5 @@ public class SpedizioneModel extends Model {
     private int numeroPacchiDaSpedire;
     private int numeroOrdiniTrasporto;
     private int numeroOrdiniTrasportoDaCompletare;
+    private OrdineClienteDTO ordineCliente;
 }

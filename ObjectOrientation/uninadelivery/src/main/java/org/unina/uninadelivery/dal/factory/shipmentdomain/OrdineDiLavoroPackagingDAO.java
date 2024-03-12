@@ -3,6 +3,7 @@ package org.unina.uninadelivery.dal.factory.shipmentdomain;
 import org.unina.uninadelivery.dal.exception.PersistenceException;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
+import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
 import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
@@ -34,4 +35,5 @@ public interface OrdineDiLavoroPackagingDAO {
     void update(OrdineDiLavoroPackagingDTO ordineDiLavoroPackaging) throws PersistenceException;
 
 
+    void genera(OrdineClienteDTO ordineCliente, FilialeDTO filiale) throws PersistenceException;
 }

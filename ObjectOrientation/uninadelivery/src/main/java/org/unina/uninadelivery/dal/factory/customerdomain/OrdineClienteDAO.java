@@ -45,6 +45,8 @@ public interface OrdineClienteDAO {
 
     float getMediaOrdiniGiornaliera(LocalDate dataInizio, LocalDate dataFine)  throws PersistenceException;
 
+    List<FilialeDTO> getFilialiCoinvolte(OrdineClienteDTO ordineCliente) throws PersistenceException;
+
     //List<OrdineClienteDTO> selectOrdiniCliente(FilialeDTO filiale, String statoOrdine, ClienteDTO cliente, LocalDate dataInizio, LocalDate dataFine, Integer pageSize, Integer pageNumber, String sortCriteria) throws PersistenceException;
 
 }

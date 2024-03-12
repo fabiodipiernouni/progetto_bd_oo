@@ -6,7 +6,6 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -84,10 +83,9 @@
                         <Image url="@../../icons/icons8-logistics-64.png"/>
                     </image>
                 </ImageView>
-                <MFXButton fx:id="btnGeneraOdlPackaging" buttonType="RAISED" layoutX="43.0" layoutY="271.0"
+                <MFXButton fx:id="odlPackagingButton" buttonType="RAISED" layoutX="43.0" layoutY="271.0"
                            minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0"
-                           styleClass="outline-button-pane_2" text="Genera" GridPane.columnIndex="5"
-                           GridPane.rowIndex="1"/>
+                           styleClass="outline-button-pane_3" text="Genera" />
                 <Label fx:id="lblCntOrdiniPackagingDaCompletare" layoutY="163.0" prefHeight="30.0" prefWidth="43.0"
                        text="-1" textFill="WHITE">
                     <font>
@@ -122,9 +120,9 @@
                         <Font name="Verdana" size="14.0"/>
                     </font>
                 </Label>
-                <MFXButton fx:id="btnGeneraOdlTrasporto" buttonType="RAISED" layoutX="43.0" layoutY="271.0"
+                <MFXButton fx:id="odlTrasportoButton" buttonType="RAISED" layoutX="43.0" layoutY="271.0"
                            minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0"
-                           styleClass="outline-button-pane_2" text="Genera"/>
+                           styleClass="outline-button-pane_4" text="Genera"/>
                 <Label fx:id="lblCntOrdiniTrasportoDaCompletare" layoutX="14.0" layoutY="163.0" text="-1"
                        textFill="WHITE">
                     <font>
@@ -162,9 +160,9 @@
                         <Font name="Verdana" size="14.0"/>
                     </font>
                 </Label>
-                <MFXButton fx:id="btnVisualizzaPacchi" buttonType="RAISED" layoutX="43.0" layoutY="271.0"
+                <MFXButton fx:id="pacchiButton" buttonType="RAISED" layoutX="43.0" layoutY="271.0"
                            minHeight="27.0" minWidth="70.0" prefHeight="40.0" prefWidth="114.0"
-                           styleClass="outline-button-pane_3" text="Visualizza"/>
+                           styleClass="outline-button-pane_2" text="Visualizza"/>
                 <Label fx:id="lblCntPacchiDaSpedire" layoutX="18.0" layoutY="163.0" prefHeight="30.0" prefWidth="44.0"
                        text="-1" textFill="#367ec0">
                     <font>

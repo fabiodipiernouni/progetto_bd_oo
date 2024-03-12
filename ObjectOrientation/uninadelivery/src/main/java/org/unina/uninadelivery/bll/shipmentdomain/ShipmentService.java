@@ -363,5 +363,32 @@ public class ShipmentService {
             throw new ServiceException("Errore nel selezionare la spedizione");
         }
     }
+
+    public Task<Void> creaOdlPackaging(SpedizioneDTO spedizione) throws ServiceException {
+        Task<Void> ret = new Task<>() {
+
+            @Override
+            protected Void call() throws ServiceException {
+                try {
+                    OrdineClienteDAO daoOrdineCliente = FactoryCustomerDomain.buildOrdineClienteDAO();
+                    List<FilialeDTO> filiali = daoOrdineCliente.getFilialiCoinvolte(spedizione.getOrdineCliente());
+                    OrdineDiLavoroPackagingDAO ordineDiLavoroPackagingDAO = FactoryShipmentDomain.buildOrdineDiLavoroPackagingDAO();
+
+                    for(FilialeDTO filiale : filiali) {
+                        //genero gli ordini di lavoro di packaging per la filiale
+                        ordineDiLavoroPackagingDAO.genera(spedizione.getOrdineCliente(), filiale);
+                    }
+
+
+                } catch (PersistenceException e) {
+                    throw new ServiceException("Errore nella creazione dell'ordine di lavoro di packaging");
+                }
+
+                return null;
+            }
+        };
+
+        return  ret;
+    }
 }
 

@@ -18,12 +18,13 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+
 class OracleSpedizioneDAO implements SpedizioneDAO {
     private final Connection connection = DatabaseSingleton.getInstance().connect();
 
     private SpedizioneDTO getByResultSet(ResultSet resultSet) throws SQLException, PersistenceException {
         Optional<UtenteDTO> organizzatore = FactoryAppDomain.buildUtenteDAO().select(resultSet.getLong("idUtenteOrganizzatore"));
-        if(organizzatore.isEmpty())
+        if (organizzatore.isEmpty())
             throw new ConsistencyException("La spedizione non ha un organizzatore associato");
 
         return getByResultSet(resultSet, (OperatoreFilialeDTO) organizzatore.get());
@@ -34,15 +35,15 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
 
         LocalDate dataCreazione = resultSet.getObject("dataCreazione", LocalDate.class);
         LocalDate dataInizioLavorazione = resultSet.getObject("dataInizioLavorazione", LocalDate.class);
-        if(resultSet.wasNull())
+        if (resultSet.wasNull())
             dataInizioLavorazione = null;
 
         LocalDate dataFineLavorazione = resultSet.getObject("dataFineLavorazione", LocalDate.class);
-        if(resultSet.wasNull())
+        if (resultSet.wasNull())
             dataFineLavorazione = null;
 
         Optional<OrdineClienteDTO> ordineCliente = FactoryCustomerDomain.buildOrdineClienteDAO().select(resultSet.getLong("idOrdineCliente"));
-        if(ordineCliente.isEmpty())
+        if (ordineCliente.isEmpty())
             throw new ConsistencyException("La spedizione non ha un ordine associato");
 
         String stato = resultSet.getString("stato");
@@ -64,7 +65,7 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
 
 
     public Optional<SpedizioneDTO> select(long id) throws PersistenceException {
-        Optional<SpedizioneDTO>  spedizione = Optional.empty();
+        Optional<SpedizioneDTO> spedizione = Optional.empty();
 
 
         Statement statement = null;
@@ -75,27 +76,24 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * From Spedizione WHERE id = " + id);
 
-            if(resultSet.next())
+            if (resultSet.next())
                 spedizione = Optional.of(getByResultSet(resultSet));
 
 
             return spedizione;
 
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
             //sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(statement != null)
+                if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio niente
             }
         }
@@ -104,7 +102,7 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
 
     @Override
     public Optional<SpedizioneDTO> select(OrdineClienteDTO ordineCliente) throws PersistenceException {
-        Optional<SpedizioneDTO>  spedizione = Optional.empty();
+        Optional<SpedizioneDTO> spedizione = Optional.empty();
 
 
         Statement statement = null;
@@ -115,26 +113,23 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * From Spedizione WHERE idOrdineCliente = " + ordineCliente.getId());
 
-            if(resultSet.next())
+            if (resultSet.next())
                 spedizione = Optional.of(getByResultSet(resultSet));
 
 
             return spedizione;
 
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(statement != null)
+                if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio niente
             }
         }
@@ -154,11 +149,11 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
     public int getCount(String stato, OperatoreFilialeDTO operatoreFiliale) throws PersistenceException {
 
         String query = """
-            SELECT COUNT(*)
-            FROM Spedizione
-            WHERE idUtenteOrganizzatore = """ + operatoreFiliale.getId();
+                SELECT COUNT(*)
+                FROM Spedizione
+                WHERE idUtenteOrganizzatore = """ + operatoreFiliale.getId();
 
-        if(stato != null)
+        if (stato != null)
             query += " AND stato = '" + stato + "'";
 
 
@@ -169,32 +164,29 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
 
-            if(!resultSet.next())
+            if (!resultSet.next())
                 throw new PersistenceException("Errore nel reperire il numero di spedizioni");
 
             return resultSet.getInt(1);
 
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(statement != null)
+                if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio niente
             }
         }
     }
 
     private int getCountSpedizioni(LocalDate dataInizio, LocalDate dataFine, String colonna) throws PersistenceException {
-        if(!colonna.equals("dataCreazione") && !colonna.equals("dataFineLavorazione"))
+        if (!colonna.equals("dataCreazione") && !colonna.equals("dataFineLavorazione"))
             throw new IllegalArgumentException("La colonna deve essere dataCreazione o dataFineLavorazione");
 
         PreparedStatement preparedStatement = null;
@@ -207,25 +199,22 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
 
             resultSet = preparedStatement.executeQuery();
 
-            if(!resultSet.next())
+            if (!resultSet.next())
                 throw new PersistenceException("Errore nel reperire il numero di spedizioni");
 
             return resultSet.getInt(1);
 
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(preparedStatement != null)
+                if (preparedStatement != null)
                     preparedStatement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio niente
             }
         }
@@ -233,22 +222,22 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
     }
 
     public int getCountSpedizioniCreate(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException {
-        return getCountSpedizioni( dataInizio, dataFine, "dataCreazione");
+        return getCountSpedizioni(dataInizio, dataFine, "dataCreazione");
     }
 
 
     public int getCountSpedizioniConcluse(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException {
-        return getCountSpedizioni( dataInizio, dataFine, "dataFineLavorazione");
+        return getCountSpedizioni(dataInizio, dataFine, "dataFineLavorazione");
     }
 
     public int getCount(String stato, FilialeDTO filiale) throws PersistenceException {
         String query = """
-            SELECT COUNT(*)
-            FROM Spedizione
-            JOIN StatoOrdineClienteFIliale
-            ON Spedizione.idOrdineCliente = StatoOrdineClienteFiliale.idOrdineCliente
-            WHERE idFiliale = """ + filiale.getId();
-        if(stato != null)
+                SELECT COUNT(*)
+                FROM Spedizione
+                JOIN StatoOrdineClienteFIliale
+                ON Spedizione.idOrdineCliente = StatoOrdineClienteFiliale.idOrdineCliente
+                WHERE idFiliale = """ + filiale.getId();
+        if (stato != null)
             query += " AND stato = '" + stato + "'";
 
 
@@ -259,31 +248,28 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
 
-            if(!resultSet.next())
+            if (!resultSet.next())
                 throw new PersistenceException("Errore nel reperire il numero di spedizioni");
 
             return resultSet.getInt(1);
 
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(statement != null)
+                if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio niente
             }
         }
     }
 
-    public SpedizioneDTO insert(OrdineClienteDTO ordineCliente, OperatoreFilialeDTO organizzatore) throws PersistenceException{
+    public SpedizioneDTO insert(OrdineClienteDTO ordineCliente, OperatoreFilialeDTO organizzatore) throws PersistenceException {
         long id;
         CallableStatement statement = null;
 
@@ -296,29 +282,25 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
             statement.execute();
 
             id = statement.getLong(3);
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(statement != null)
+                if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio niente
             }
         }
 
         Optional<SpedizioneDTO> spedizione = select(id);
 
-        if(spedizione.isEmpty())
+        if (spedizione.isEmpty())
             throw new ConsistencyException("Spedizione appena creata non trovata");
 
         return spedizione.get();
-
     }
 
 
@@ -331,35 +313,32 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
         try {
             statement = connection.createStatement();
             String query = """
-                SELECT
-                    Spedizione.*
-                FROM
-                    Spedizione
-                    JOIN StatoOrdineClienteFiliale ON StatoOrdineClienteFIliale.idOrdineCliente = Spedizione.idOrdineCliente""";
+                    SELECT
+                        Spedizione.*
+                    FROM
+                        Spedizione
+                        JOIN StatoOrdineClienteFiliale ON StatoOrdineClienteFIliale.idOrdineCliente = Spedizione.idOrdineCliente""";
 
-            if(filiale != null)
+            if (filiale != null)
                 query += " WHERE idFiliale = " + filiale.getId();
 
             resultSet = statement.executeQuery(query);
 
-            while(resultSet.next())
+            while (resultSet.next())
                 spedizioni.add(getByResultSet(resultSet));
 
             return spedizioni;
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(statement != null)
+                if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio niente
             }
         }
@@ -376,24 +355,21 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM Spedizione WHERE idUtenteOrganizzatore = " + operatoreFiliale.getId());
 
-            while(resultSet.next())
+            while (resultSet.next())
                 spedizioni.add(getByResultSet(resultSet, operatoreFiliale));
 
             return spedizioni;
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(statement != null)
+                if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio niente
             }
         }

@@ -185,6 +185,22 @@
 	-fx-font-family: Verdana;
 }
 
+.outline-button-pane_2 {
+	-fx-background-color: transparent;
+	-fx-border-color: #748CF1;
+	-fx-border-radius: 5;
+
+	-fx-text-fill: #367ec0;
+	-fx-font-weight: normal;
+	-fx-font-family: Verdana;
+	-fx-font-size: 14;
+}
+
+.outline-button-pane_2:hover {
+	-fx-background-color: #b1dcee;
+	-fx-text-fill: black;
+}
+
 .innerForm .pane_3 {
 	-fx-background-color: #e84c83;
 	-fx-background-radius: 50px;
@@ -195,7 +211,22 @@
 	-fx-font-family: Verdana;
 }
 
-.innerForm .pane_4 {
+.outline-button-pane_3 {
+	-fx-background-color: transparent;
+	-fx-border-color: white;
+	-fx-border-radius: 5;
+	-fx-font-weight: normal;
+	-fx-text-fill: white;
+	-fx-font-family: Verdana;
+	-fx-font-size: 14;
+}
+
+.outline-button-pane_3:hover {
+	-fx-background-color: white;
+	-fx-text-fill: #e84c83;
+}
+
+.innerForm .pane_1 {
 	-fx-background-color: #748CF1;
 	-fx-background-radius: 50px;
 	-fx-border-radius: 50px;
@@ -205,6 +236,36 @@
 	-fx-font-family: Verdana;
 }
 
+.innerForm .pane_4 {
+	-fx-background-color: #347338;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #043d0b;
+	-fx-font-family: Verdana;
+	-fx-text-fill: white;
+}
+
+.outline-button-pane_4 {
+	-fx-background-color: white;
+	-fx-border-color: #043d0b;
+	-fx-border-radius: 5;
+
+	-fx-text-fill: black;
+	-fx-font-weight: normal;
+	-fx-font-family: Verdana;
+	-fx-font-size: 14;
+}
+
+.outline-button-pane_4:hover {
+	-fx-background-color: #c0c0c0;
+}
+
+.outline-button-pane_4:active,
+.outline-button-pane_4:pressed {
+	-fx-background-color: #a9a9a9;
+}
 
 .innerForm .aboutPane {
 	-fx-background-color: white;
@@ -214,27 +275,6 @@
 	-fx-border-width: 2px;
 	-fx-border-color: #748CF1;
 	-fx-font-family: Verdana;
-}
-
-.outline-button-pane_2 {
-	-fx-background-color: transparent;
-	-fx-border-color: #748CF1;
-	-fx-border-radius: 5;
-
-	-fx-text-fill: #367ec0;
-	-fx-font-family: Verdana;
-	-fx-font-size: 14;
-}
-
-.outline-button-pane_3 {
-	-fx-background-color: transparent;
-	-fx-border-color: white;
-	-fx-border-radius: 5;
-
-	-fx-text-fill: white;
-	-fx-font-family: Verdana;
-	-fx-font-size: 14;
-
 }
 
 .loginForm {

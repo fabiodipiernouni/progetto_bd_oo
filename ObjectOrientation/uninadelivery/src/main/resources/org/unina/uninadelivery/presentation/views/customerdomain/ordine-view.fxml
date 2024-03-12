@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.customerdomain.OrdineController">
 
-    <MFXPaginatedTableView fx:id="dettaglioOrdineGrid" layoutX="50.0" layoutY="240.0" prefHeight="242.0" prefWidth="800.0" rowsPerPage="5">
+    <MFXPaginatedTableView fx:id="dettaglioOrdineGrid" layoutX="58.0" layoutY="300.0" prefHeight="242.0" prefWidth="800.0" rowsPerPage="5">
 
     </MFXPaginatedTableView>
 

@@ -9,6 +9,7 @@ import org.unina.uninadelivery.dal.factory.orgdomain.FactoryOrgDomain;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
+import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import org.unina.uninadelivery.entity.geodomain.IndirizzoDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
@@ -506,5 +507,33 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
         }
 
 
+    }
+
+
+    @Override
+    public void genera(OrdineClienteDTO ordineCliente, FilialeDTO filiale) throws PersistenceException{
+        CallableStatement statement = null;
+
+        try {
+            statement = connection.prepareCall("{ call CREAORDINIPACKAGINGBYIDORDINE( ?, ? ) }");
+            statement.setLong(1, ordineCliente.getId());
+            statement.setLong(2, filiale.getId());
+
+            statement.execute();
+        }
+        catch(SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        }
+        finally {
+            //libero le risorse
+
+            try {
+                if(statement != null)
+                    statement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio niente
+            }
+        }
     }
 }

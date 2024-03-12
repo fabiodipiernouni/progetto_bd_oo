@@ -1,5 +1,6 @@
 package org.unina.uninadelivery.presentation.orchestrator.shipmentdomain;
 
+import javafx.concurrent.Task;
 import javafx.stage.Stage;
 import lombok.Setter;
 import org.unina.uninadelivery.bll.exception.ServiceException;
@@ -7,6 +8,7 @@ import org.unina.uninadelivery.bll.shipmentdomain.ShipmentService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
+import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
@@ -502,6 +504,19 @@ public class OdlOrchestrator extends Orchestrator {
             shipmentService.updateOrdinePackaging(ordineDiLavoroPackagingDTO);
         } catch (ServiceException e) {
             throw new SpedizioniException("Errore nella conclusione dell'ordine di lavoro di packaging");
+        }
+    }
+
+    public Task<Void> generaOdlPackagingClicked(OrdineClienteDTO ordineCliente, String numeroSpedizione) throws SpedizioniException {
+        try {
+            SpedizioneDTO spedizione = shipmentService.getSpedizione(ordineCliente);
+            Task<Void> task = shipmentService.creaOdlPackaging(spedizione);
+// todo continuare
+            OrdiniPackagingController ordiniPackagingController = new OrdiniPackagingController(dashboardStage);
+
+
+        } catch (ServiceException e) {
+            throw new SpedizioniException("Errore nella generazione degli ordine di lavoro di packaging.");
         }
     }
 }

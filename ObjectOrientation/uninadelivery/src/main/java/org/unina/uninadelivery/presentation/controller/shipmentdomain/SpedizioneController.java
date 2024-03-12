@@ -5,7 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
+import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.model.customerdomain.SpedizioneModel;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,11 +25,11 @@ public class SpedizioneController implements Initializable {
     @FXML
     protected Label lblCntPacchiDaSpedire;
     @FXML
-    protected MFXButton btnVisualizzaPacchi;
+    protected MFXButton pacchiButton;
     @FXML
-    protected MFXButton btnGeneraOdlTrasporto;
+    protected MFXButton odlTrasportoButton;
     @FXML
-    protected MFXButton btnGeneraOdlPackaging;
+    protected MFXButton odlPackagingButton;
     @FXML
     protected ImageView imgCopyToTracking;
     @FXML
@@ -57,6 +61,11 @@ public class SpedizioneController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Session session = Session.getInstance();
+        UtenteDTO utente = session.getUserDto().getValue();
+
+        Stage dashboardStage = (Stage)session.getSessionData("dashboardStage");
+        OdlOrchestrator orchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
 
         //Init delle label
         lblNumeroSpedizione.setText(spedizioneModel.getNumeroSpedizione());
@@ -66,17 +75,15 @@ public class SpedizioneController implements Initializable {
         lblTrackingNum.setText(spedizioneModel.getTrackingNumber());
         lblDataCreazione.setText(spedizioneModel.getDataCreazione().toString());
 
-        if(spedizioneModel.getDataInizioLavorazione() != null) {
+        if (spedizioneModel.getDataInizioLavorazione() != null) {
             lblDataInizioLav.setText(spedizioneModel.getDataInizioLavorazione().toString());
-        }
-        else {
+        } else {
             lblDataInizioLav.setText("N/A");
         }
 
-        if(spedizioneModel.getDataFineLavorazione() != null) {
+        if (spedizioneModel.getDataFineLavorazione() != null) {
             lblDataFineLav.setText(spedizioneModel.getDataFineLavorazione().toString());
-        }
-        else {
+        } else {
             lblDataFineLav.setText("N/A");
         }
 
@@ -95,27 +102,33 @@ public class SpedizioneController implements Initializable {
             //todo: dare feedback della copia all'utente
         });
 
-        if(spedizioneModel.getStato().equals("DaLavorare")) {
-            btnGeneraOdlPackaging.setText("Genera");
-            btnGeneraOdlPackaging.setOnAction(e -> {
-                //todo chiamata all'orchestratore
-            });
+        if (spedizioneModel.getStato().equals("DaLavorare")) {
+            if (utente.getProfilo().equals("OperatoreCorriere")) {
+                odlPackagingButton.setText("Genera");
+                odlPackagingButton.setOnAction(e -> {
+                    //todo chiamata all'orchestratore
+                    orchestrator.generaOdlPackagingClicked(spedizioneModel.getNumeroSpedizione());
+                });
+            } else {
+                odlPackagingButton.setVisible(false);
+            }
+            pacchiButton.setVisible(false);
+            odlTrasportoButton.setVisible(false);
         } else {
-            btnGeneraOdlPackaging.setText("Visualizza");
-            btnGeneraOdlPackaging.setOnAction(e -> {
+            odlPackagingButton.setText("Visualizza");
+            odlPackagingButton.setOnAction(e -> {
                 //todo chiamata all'orchestratore
             });
         }
 
-        if(spedizioneModel.getStato().equals("LavorataPackaging")) {
-            btnGeneraOdlTrasporto.setText("Genera");
-        } else if(spedizioneModel.getStato().equals("InLavorazioneSpedizione") || spedizioneModel.getStato().equals("LavorataSpedizione")) {
-            btnGeneraOdlTrasporto.setText("Visualizza");
-        }
-        else {
-            btnGeneraOdlTrasporto.setVisible(false);
+        if (spedizioneModel.getStato().equals("LavorataPackaging")) {
+            odlTrasportoButton.setText("Genera");
+        } else if (spedizioneModel.getStato().equals("InLavorazioneSpedizione") || spedizioneModel.getStato().equals("LavorataSpedizione")) {
+            odlTrasportoButton.setText("Visualizza");
+        } else {
+            odlTrasportoButton.setVisible(false);
         }
 
-        btnVisualizzaPacchi.setVisible(spedizioneModel.getNumeroPacchiGenerati() > 0);
+        pacchiButton.setVisible(spedizioneModel.getNumeroPacchiGenerati() > 0);
     }
 }

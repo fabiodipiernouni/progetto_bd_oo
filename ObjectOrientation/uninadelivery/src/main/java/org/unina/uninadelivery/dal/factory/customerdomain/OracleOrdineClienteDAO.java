@@ -447,6 +447,55 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
     }
 
+    @Override
+    public List<FilialeDTO> getFilialiCoinvolte(OrdineClienteDTO ordineCliente) throws PersistenceException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("""
+                
+                    SELECT filiale.id, nome, indirizzo, telefono, email
+                FROM filiale
+                JOIN statoOrdineClienteFiliale
+                ON filiale.id = statoOrdineClienteFiliale.idFiliale
+                WHERE idOrdineCliente = ?""");
+
+            preparedStatement.setLong(1, ordineCliente.getId());
+
+            resultSet = preparedStatement.executeQuery();
+
+            List<FilialeDTO> filiali = new LinkedList<>();
+
+            while(resultSet.next()) {
+                long id = resultSet.getLong("id");
+                String nome = resultSet.getString("nome");
+                String indirizzo = resultSet.getString("indirizzo");
+                String telefono = resultSet.getString("telefono");
+                String email = resultSet.getString("email");
+
+                filiali.add(new FilialeDTO(id, nome, indirizzo, telefono, email));
+            }
+
+            return filiali;
+        } catch (SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        } finally {
+            //libero le risorse
+
+            try {
+                if(resultSet != null)
+                    resultSet.close();
+                if(preparedStatement != null)
+                    preparedStatement.close();
+
+            }
+            catch(SQLException sqe) {
+                //non faccio nulla
+            }
+        }
+    }
+
 
     /*public List<OrdineClienteDTO> selectOrdiniCliente(FilialeDTO filiale, String statoOrdine, ClienteDTO cliente, LocalDate dataInizio, LocalDate dataFine, Integer pageSize, Integer pageNumber, String sortCriteria) throws PersistenceException {
 
