@@ -5,11 +5,15 @@ import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
+import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
 import java.util.List;
 
 public interface OrdineDiLavoroPackagingDAO {
+
+    OrdineDiLavoroPackagingDTO select(MagazzinoDTO magazzinoDTO, SpedizioneDTO spedizioneDTO) throws PersistenceException;
 
     List<OrdineDiLavoroPackagingDTO> select() throws PersistenceException;
 

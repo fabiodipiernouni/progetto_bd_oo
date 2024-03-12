@@ -1,29 +1,20 @@
 package org.unina.uninadelivery.presentation.orchestrator.customerdomain;
 
-import javafx.concurrent.Task;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.bll.customerdomain.CustomerService;
 import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.customerdomain.ClienteDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
-import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.ClientiController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.OrdineController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.OrdiniController;
-import org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioneController;
 import org.unina.uninadelivery.presentation.helper.Session;
-import org.unina.uninadelivery.presentation.model.customerdomain.SpedizioneModel;
 import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
 
-import java.net.URL;
 import java.time.LocalDate;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class CustomerOrchestrator extends Orchestrator {
 
@@ -156,9 +147,9 @@ public class CustomerOrchestrator extends Orchestrator {
         }
         catch (ServiceException e) {
             //TODO: gestire errore
-        }
+        }*/
 
-         */
+
 
     }
 }

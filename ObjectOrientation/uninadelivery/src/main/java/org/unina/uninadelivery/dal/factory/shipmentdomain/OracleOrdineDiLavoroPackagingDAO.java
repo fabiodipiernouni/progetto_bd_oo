@@ -230,6 +230,35 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
         }
     }
 
+    public OrdineDiLavoroPackagingDTO select(MagazzinoDTO magazzinoDTO, SpedizioneDTO spedizioneDTO) throws PersistenceException {
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM OrdineDiLavoroPackaging WHERE idMagazzino = " + magazzinoDTO.getId() + " AND idSpedizione = " + spedizioneDTO.getId());
+
+            if(!resultSet.next())
+                return null;
+
+            return getByResultSet(resultSet);
+        }
+        catch(SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        }
+        finally {
+            //libero le risorse
+            try {
+                if (resultSet != null)
+                    resultSet.close();
+                if (statement != null)
+                    statement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio nulla
+            }
+        }
+    }
 
     public List<OrdineDiLavoroPackagingDTO> select() throws PersistenceException {
         return select(null, null);
