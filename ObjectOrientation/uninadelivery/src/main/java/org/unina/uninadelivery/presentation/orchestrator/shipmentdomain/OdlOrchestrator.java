@@ -2,6 +2,7 @@ package org.unina.uninadelivery.presentation.orchestrator.shipmentdomain;
 
 import javafx.concurrent.Task;
 import javafx.stage.Stage;
+import lombok.Getter;
 import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.bll.shipmentdomain.ShipmentService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
@@ -29,9 +30,13 @@ class OdlOrchestrator extends Orchestrator implements IGenericOdlOrchestrator, I
 
     private final ShipmentService shipmentService;
 
+    @Getter
     private OrdiniPackagingController ordiniPackagingController;
+    @Getter
     private SpedizioniController spedizioniController;
+    @Getter
     private OrdiniSpedizioneController ordiniSpedizioneController;
+
 
     /**
      * Costruttore della classe Orchestrator, è protetta rendendo la classe non instanziabile ma derivabile

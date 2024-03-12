@@ -54,14 +54,13 @@ public class OrdiniSpedizioneController implements Initializable {
     private ToggleGroup toggleGroup;
 
     public OrdiniSpedizioneController(Stage dashboardStage) {
-
         this.dashboardStage = dashboardStage;
-        this.dashboardController = (DashboardController)dashboardStage.getUserData();
-        this.odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, this);
+        this.dashboardController = (DashboardController)dashboardStage.getScene().getUserData();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, this);
         setup();
 
         ordiniDiLavoroSpedizioneGrid.autosizeColumnsOnInitialization();

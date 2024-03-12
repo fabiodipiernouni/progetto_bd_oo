@@ -56,12 +56,12 @@ public class OrdiniPackagingController implements Initializable {
     public OrdiniPackagingController(Stage dashboardStage) {
 
         this.dashboardStage = dashboardStage;
-        this.odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, this);
-        this.dashboardController = (DashboardController)dashboardStage.getUserData();
+        this.dashboardController = (DashboardController)dashboardStage.getScene().getUserData();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        this.odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, this);
         setup();
 
         ordiniDiLavoroPackagingGrid.autosizeColumnsOnInitialization();

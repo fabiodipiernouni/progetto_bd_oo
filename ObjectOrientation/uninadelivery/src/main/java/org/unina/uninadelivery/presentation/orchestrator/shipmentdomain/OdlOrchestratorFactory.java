@@ -16,21 +16,21 @@ public class OdlOrchestratorFactory {
     }
 
     public static IOdlOrchestratorOrdiniPackaging getOdlOrchestrator(Stage dashboardStage, OrdiniPackagingController ordiniPackagingController) {
-        if (instance == null) {
+        if (instance == null || instance.getOrdiniPackagingController() == null) {
             instance = new OdlOrchestrator(dashboardStage, ordiniPackagingController);
         }
         return instance;
     }
 
     public static IOdlOrchestratorSpedizioni getOdlOrchestrator(Stage dashboardStage, SpedizioniController spedizioniController) {
-        if (instance == null) {
+        if (instance == null || instance.getSpedizioniController() == null) {
             instance = new OdlOrchestrator(dashboardStage, spedizioniController);
         }
         return instance;
     }
 
     public static IOdlOrchestratrOrdiniSpedizione getOdlOrchestrator(Stage dashboardStage, OrdiniSpedizioneController ordiniSpedizioneController) {
-        if (instance == null) {
+        if (instance == null || instance.getOrdiniSpedizioneController() == null) {
             instance = new OdlOrchestrator(dashboardStage, ordiniSpedizioneController);
         }
         return instance;

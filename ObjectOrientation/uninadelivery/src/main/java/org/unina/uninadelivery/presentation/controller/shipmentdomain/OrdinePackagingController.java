@@ -72,7 +72,7 @@ public class OrdinePackagingController implements Initializable {
         Session session = Session.getInstance();
         UtenteDTO utente = session.getUserDto().getValue();
         Stage dashboardStage = (Stage) session.getSessionData("dashboardStage");
-        DashboardController dashboardController = (DashboardController) dashboardStage.getUserData();
+        DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
 
         //Prepariamoci a gestire il feedback da dare all'utente in caso di esito positivo o negativo
         ChangeListener<? super Boolean> giveFeedback = (observable, oldValue, newValue) -> {

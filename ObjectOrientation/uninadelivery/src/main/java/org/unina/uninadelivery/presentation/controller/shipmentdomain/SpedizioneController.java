@@ -71,7 +71,7 @@ public class SpedizioneController implements Initializable {
         UtenteDTO utente = session.getUserDto().getValue();
 
         Stage dashboardStage = (Stage)session.getSessionData("dashboardStage");
-        DashboardController dashboardController = (DashboardController)dashboardStage.getUserData();
+        DashboardController dashboardController = (DashboardController)dashboardStage.getScene().getUserData();
         OrdiniPackagingController ordiniPackagingController = new OrdiniPackagingController(dashboardStage);
         IOdlOrchestratorOrdiniPackaging dashboardOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, ordiniPackagingController);
 

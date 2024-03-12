@@ -28,7 +28,7 @@ import java.util.ResourceBundle;
 public class SpedizioniController implements Initializable {
 
     private final Stage dashboardStage;
-    private final IOdlOrchestratorSpedizioni odlOrchestrator;
+    private IOdlOrchestratorSpedizioni odlOrchestrator;
     private final DashboardController dashboardController;
     @FXML
     protected MFXPaginatedTableView<SpedizioneDTO> spedizioniGrid;
@@ -41,12 +41,12 @@ public class SpedizioniController implements Initializable {
 
     public SpedizioniController(Stage dashboardStage) {
         this.dashboardStage = dashboardStage;
-        this.dashboardController = (DashboardController) dashboardStage.getUserData();
-        this.odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, this);
+        this.dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        this.odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, this);
         spedizioniGrid.autosizeColumnsOnInitialization();
 
         When.onChanged(spedizioniGrid.currentPageProperty())
