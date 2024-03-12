@@ -390,5 +390,19 @@ public class ShipmentService {
 
         return  ret;
     }
+
+    public List<OrdineDiLavoroPackagingDTO> getListaOrdiniDiLavoroPackaging(OrdineClienteDTO ordineCliente) throws ServiceException {
+        try {
+            OrdineDiLavoroPackagingDAO ordineDiLavoroPackagingDAO = FactoryShipmentDomain.buildOrdineDiLavoroPackagingDAO();
+            SpedizioneDAO spedizioneDAO = FactoryShipmentDomain.buildSpedizioneDAO();
+            SpedizioneDTO spedizione = spedizioneDAO.select(ordineCliente).orElse(null);
+            if(spedizione == null) {
+                return null;
+            }
+            return ordineDiLavoroPackagingDAO.select(spedizione);
+        } catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista di ordini di packaging");
+        }
+    }
 }
 

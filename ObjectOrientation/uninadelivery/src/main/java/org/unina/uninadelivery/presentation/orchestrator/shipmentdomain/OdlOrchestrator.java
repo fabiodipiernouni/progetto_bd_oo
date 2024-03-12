@@ -2,7 +2,6 @@ package org.unina.uninadelivery.presentation.orchestrator.shipmentdomain;
 
 import javafx.concurrent.Task;
 import javafx.stage.Stage;
-import lombok.Setter;
 import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.bll.shipmentdomain.ShipmentService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
@@ -26,18 +25,12 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-public class OdlOrchestrator extends Orchestrator {
-
-    private static OdlOrchestrator instance;
+class OdlOrchestrator extends Orchestrator implements IGenericOdlOrchestrator, IOdlOrchestratorOrdiniPackaging, IOdlOrchestratorSpedizioni, IOdlOrchestratrOrdiniSpedizione {
 
     private final ShipmentService shipmentService;
 
-    @Setter
     private OrdiniPackagingController ordiniPackagingController;
-    @Setter
     private SpedizioniController spedizioniController;
-
-    @Setter
     private OrdiniSpedizioneController ordiniSpedizioneController;
 
     /**
@@ -50,17 +43,27 @@ public class OdlOrchestrator extends Orchestrator {
         shipmentService = new ShipmentService();
     }
 
-    public static OdlOrchestrator getOdlOrchestrator(Stage dashboardStage) {
-        if (instance == null) {
-            instance = new OdlOrchestrator(dashboardStage);
-        }
-        return instance;
+    protected OdlOrchestrator(Stage dashboardStage, OrdiniPackagingController ordiniPackagingController) {
+        super(dashboardStage);
+        shipmentService = new ShipmentService();
+        this.ordiniPackagingController = ordiniPackagingController;
     }
 
+    protected OdlOrchestrator(Stage dashboardStage, SpedizioniController spedizioniController) {
+        super(dashboardStage);
+        shipmentService = new ShipmentService();
+        this.spedizioniController = spedizioniController;
+    }
+
+    public OdlOrchestrator(Stage dashboardStage, OrdiniSpedizioneController ordiniSpedizioneController) {
+        super(dashboardStage);
+        shipmentService = new ShipmentService();
+        this.ordiniSpedizioneController = ordiniSpedizioneController;
+    }
 
     /**** ORDINI DI LAVORO PACKAGING ****/
 
-    public void paginaOrdiniPackagingPronta() {
+    public void paginaOrdiniPackagingPronta() throws SpedizioniException {
         Session session = Session.getInstance();
         UtenteDTO utenteDTO = session.getUserDto().getValue();
 
@@ -82,12 +85,11 @@ public class OdlOrchestrator extends Orchestrator {
 
             ordiniPackagingController.setListaOrdini(listaOrdini);
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di packaging");
         }
     }
 
-    public void filtroOrdiniPackagingTuttiClicked() {
+    public void filtroOrdiniPackagingTuttiClicked() throws SpedizioniException {
         Session session = Session.getInstance();
         UtenteDTO utente = session.getUserDto().getValue();
 
@@ -104,12 +106,11 @@ public class OdlOrchestrator extends Orchestrator {
 
 
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di packaging");
         }
     }
 
-    public void filtroOrdiniPackagingGruppoCorriereClicked() {
+    public void filtroOrdiniPackagingGruppoCorriereClicked() throws SpedizioniException {
         Session session = Session.getInstance();
 
         OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
@@ -119,13 +120,12 @@ public class OdlOrchestrator extends Orchestrator {
             ordiniPackagingController.setListaOrdini(listaOrdini);
 
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di packaging");
         }
     }
 
 
-    public void filtroOrdiniPackagingPresiInCaricoClicked() {
+    public void filtroOrdiniPackagingPresiInCaricoClicked() throws SpedizioniException {
         Session session = Session.getInstance();
 
         OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
@@ -135,12 +135,11 @@ public class OdlOrchestrator extends Orchestrator {
             ordiniPackagingController.setListaOrdini(listaOrdini);
 
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di packaging");
         }
     }
 
-    public void filtroOrdiniPackagingDaPrendereInCaricoClicked() {
+    public void filtroOrdiniPackagingDaPrendereInCaricoClicked() throws SpedizioniException {
         Session session = Session.getInstance();
 
         OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
@@ -150,12 +149,11 @@ public class OdlOrchestrator extends Orchestrator {
             ordiniPackagingController.setListaOrdini(listaOrdini);
 
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di packaging");
         }
     }
 
-    public void filtroOrdiniPackagingEmessiDaMeClicked() {
+    public void filtroOrdiniPackagingEmessiDaMeClicked() throws SpedizioniException {
         Session session = Session.getInstance();
 
         OperatoreFilialeDTO operatoreFilialeDTO = (OperatoreFilialeDTO) session.getUserDto().getValue();
@@ -165,8 +163,7 @@ public class OdlOrchestrator extends Orchestrator {
             ordiniPackagingController.setListaOrdini(listaOrdini);
 
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di packaging");
         }
     }
 
@@ -217,7 +214,7 @@ public class OdlOrchestrator extends Orchestrator {
                 c -> ordineSpedizioneController);
     }
 
-    public void prendiInCaricoOrdinePackagingClicked(OrdineDiLavoroPackagingDTO ordine) {
+    public void prendiInCaricoOrdinePackagingClicked(OrdineDiLavoroPackagingDTO ordine) throws SpedizioniException {
 
         Session session = Session.getInstance();
         OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
@@ -236,15 +233,13 @@ public class OdlOrchestrator extends Orchestrator {
             ordiniPackagingController.resettaFiltri();
 
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
-
+            throw new SpedizioniException("Errore nel prendere in carico l'ordine di lavoro di packaging");
         }
     }
 
     /**** ORDINI DI LAVORO SPEDIZIONE ****/
 
-    public void paginaOrdiniSpedizionePronta() {
+    public void paginaOrdiniSpedizionePronta() throws SpedizioniException {
         Session session = Session.getInstance();
         UtenteDTO utenteDTO = session.getUserDto().getValue();
 
@@ -266,12 +261,11 @@ public class OdlOrchestrator extends Orchestrator {
 
             ordiniSpedizioneController.setListaOrdini(listaOrdini);
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di spedizione");
         }
     }
 
-    public void filtroOrdiniSpedizioneTuttiClicked() {
+    public void filtroOrdiniSpedizioneTuttiClicked() throws SpedizioniException {
         Session session = Session.getInstance();
         UtenteDTO utente = session.getUserDto().getValue();
 
@@ -283,17 +277,13 @@ public class OdlOrchestrator extends Orchestrator {
             else if (utente.getProfilo().equals("Operatore"))
                 listaOrdini = shipmentService.getListaOrdiniDiLavoroSpedizione(((OperatoreFilialeDTO) utente).getFiliale());
 
-
             ordiniSpedizioneController.setListaOrdini(listaOrdini);
-
-
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di spedizione");
         }
     }
 
-    public void filtroOrdiniSpedizioneGruppoCorriereClicked() {
+    public void filtroOrdiniSpedizioneGruppoCorriereClicked() throws SpedizioniException{
         Session session = Session.getInstance();
 
         OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
@@ -303,12 +293,11 @@ public class OdlOrchestrator extends Orchestrator {
             ordiniSpedizioneController.setListaOrdini(listaOrdini);
 
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di spedizione");
         }
     }
 
-    public void filtroOrdiniSpedizionePresiInCaricoClicked() {
+    public void filtroOrdiniSpedizionePresiInCaricoClicked() throws SpedizioniException{
         Session session = Session.getInstance();
 
         OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
@@ -318,12 +307,11 @@ public class OdlOrchestrator extends Orchestrator {
             ordiniSpedizioneController.setListaOrdini(listaOrdini);
 
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di spedizione");
         }
     }
 
-    public void filtroOrdiniSpedizioneDaPrendereInCaricoClicked() {
+    public void filtroOrdiniSpedizioneDaPrendereInCaricoClicked() throws SpedizioniException{
         Session session = Session.getInstance();
 
         OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
@@ -333,12 +321,11 @@ public class OdlOrchestrator extends Orchestrator {
             ordiniSpedizioneController.setListaOrdini(listaOrdini);
 
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di spedizione");
         }
     }
 
-    public void filtroOrdiniSpedizioneEmessiDaMeClicked() {
+    public void filtroOrdiniSpedizioneEmessiDaMeClicked() throws SpedizioniException{
         Session session = Session.getInstance();
 
         OperatoreFilialeDTO operatoreFilialeDTO = (OperatoreFilialeDTO) session.getUserDto().getValue();
@@ -348,12 +335,11 @@ public class OdlOrchestrator extends Orchestrator {
             ordiniSpedizioneController.setListaOrdini(listaOrdini);
 
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di spedizione");
         }
     }
 
-    public void prendiInCaricoOrdineSpedizioneClicked(OrdineDiLavoroSpedizioneDTO ordine) {
+    public void prendiInCaricoOrdineSpedizioneClicked(OrdineDiLavoroSpedizioneDTO ordine) throws SpedizioniException{
         Session session = Session.getInstance();
         OperatoreCorriereDTO operatoreCorriereDTO = (OperatoreCorriereDTO) session.getUserDto().getValue();
 
@@ -369,11 +355,8 @@ public class OdlOrchestrator extends Orchestrator {
             List<OrdineDiLavoroSpedizioneDTO> listaOrdini = shipmentService.getListaOrdiniDiLavoroSpedizione(operatoreCorriereDTO.getGruppoCorriere().getFiliale());
             ordiniSpedizioneController.setListaOrdini(listaOrdini);
             ordiniSpedizioneController.resettaFiltri();
-
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            e.printStackTrace();
-
+            throw new SpedizioniException("Errore nel prendere in carico l'ordine di lavoro di spedizione");
         }
     }
 
@@ -400,7 +383,8 @@ public class OdlOrchestrator extends Orchestrator {
                     numeroPacchiGenerati,
                     numeroPacchiDaSpedire,
                     numeroOrdiniTrasporto,
-                    numeroOrdiniTrasportoDaCompletare
+                    numeroOrdiniTrasportoDaCompletare,
+                    spedizione.getOrdineCliente()
             );
 
             SpedizioneController spedizioneController = new SpedizioneController(spedizioneModel);
@@ -436,10 +420,6 @@ public class OdlOrchestrator extends Orchestrator {
         } catch (ServiceException e) {
             throw new SpedizioniException("Errore nel recupero delle spedizioni");
         }
-    }
-
-    public void setSpedizioniController(SpedizioniController spedizioniController) {
-        this.spedizioniController = spedizioniController;
     }
 
     public void filtroTutteSpedizioniClicked() throws SpedizioniException {
@@ -507,16 +487,23 @@ public class OdlOrchestrator extends Orchestrator {
         }
     }
 
-    public Task<Void> generaOdlPackagingClicked(OrdineClienteDTO ordineCliente, String numeroSpedizione) throws SpedizioniException {
+    public Task<Void> generaOdlPackagingClicked(OrdineClienteDTO ordineCliente) throws SpedizioniException {
         try {
             SpedizioneDTO spedizione = shipmentService.getSpedizione(ordineCliente);
             Task<Void> task = shipmentService.creaOdlPackaging(spedizione);
-// todo continuare
-            OrdiniPackagingController ordiniPackagingController = new OrdiniPackagingController(dashboardStage);
-
-
+            return task;
         } catch (ServiceException e) {
             throw new SpedizioniException("Errore nella generazione degli ordine di lavoro di packaging.");
+        }
+    }
+
+    public void visualizzaOrdiniPackagingClicked(OrdineClienteDTO ordineCliente) throws SpedizioniException {
+        try {
+            List<OrdineDiLavoroPackagingDTO> ordini = shipmentService.getListaOrdiniDiLavoroPackaging(ordineCliente);
+            ordiniPackagingController.setListaOrdini(ordini);
+            dashboardController.changeView("ORDINI PACKAGING", "/views/shipmentdomain/ordini-packaging-view.fxml", c -> ordiniPackagingController);
+        } catch (ServiceException e) {
+            throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di packaging");
         }
     }
 }

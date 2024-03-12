@@ -1,18 +1,24 @@
 package org.unina.uninadelivery.presentation.controller.shipmentdomain;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
+import org.unina.uninadelivery.presentation.controller.DashboardController;
+import org.unina.uninadelivery.presentation.exception.SpedizioniException;
 import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.model.customerdomain.SpedizioneModel;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.IOdlOrchestratorOrdiniPackaging;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestratorFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class SpedizioneController implements Initializable {
 
@@ -65,7 +71,9 @@ public class SpedizioneController implements Initializable {
         UtenteDTO utente = session.getUserDto().getValue();
 
         Stage dashboardStage = (Stage)session.getSessionData("dashboardStage");
-        OdlOrchestrator orchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
+        DashboardController dashboardController = (DashboardController)dashboardStage.getUserData();
+        OrdiniPackagingController ordiniPackagingController = new OrdiniPackagingController(dashboardStage);
+        IOdlOrchestratorOrdiniPackaging dashboardOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, ordiniPackagingController);
 
         //Init delle label
         lblNumeroSpedizione.setText(spedizioneModel.getNumeroSpedizione());
@@ -99,6 +107,7 @@ public class SpedizioneController implements Initializable {
             javafx.scene.input.ClipboardContent content = new javafx.scene.input.ClipboardContent();
             content.putString(spedizioneModel.getTrackingNumber());
             clipboard.setContent(content);
+            dashboardController.showDialog("info", "Tracking Number", "Tracking Number copiato negli appunti");
             //todo: dare feedback della copia all'utente
         });
 
@@ -106,8 +115,20 @@ public class SpedizioneController implements Initializable {
             if (utente.getProfilo().equals("OperatoreCorriere")) {
                 odlPackagingButton.setText("Genera");
                 odlPackagingButton.setOnAction(e -> {
-                    //todo chiamata all'orchestratore
-                    orchestrator.generaOdlPackagingClicked(spedizioneModel.getNumeroSpedizione());
+                    try {
+                        Task<Void> task = dashboardOrchestrator.generaOdlPackagingClicked(spedizioneModel.getOrdineCliente());
+                        task.setOnSucceeded(event -> {
+                            dashboardController.showDialog("info", "Generazione Ordini Packaging", "Ordini di Packaging generati con successo!");
+                        });
+                        task.setOnFailed(event -> {
+                            dashboardController.showDialog("error", "Generazione Ordini Packaging", "Errore nella generazione degli ordini di packaging");
+                        });
+
+                        ExecutorService executorService = Executors.newSingleThreadExecutor();
+                        executorService.submit(task);
+                    } catch (SpedizioniException ex) {
+                        dashboardController.showDialog("error", "Generazione Ordini Packaging", ex.getMessage());
+                    }
                 });
             } else {
                 odlPackagingButton.setVisible(false);
@@ -117,7 +138,12 @@ public class SpedizioneController implements Initializable {
         } else {
             odlPackagingButton.setText("Visualizza");
             odlPackagingButton.setOnAction(e -> {
-                //todo chiamata all'orchestratore
+                try {
+                    IOdlOrchestratorOrdiniPackaging odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, new OrdiniPackagingController(dashboardStage));
+                    odlOrchestrator.visualizzaOrdiniPackagingClicked(spedizioneModel.getOrdineCliente());
+                } catch (SpedizioniException ex) {
+                    dashboardController.showDialog("error", "Visualizzazione Ordini Packaging", ex.getMessage());
+                }
             });
         }
 

@@ -36,4 +36,6 @@ public interface OrdineDiLavoroPackagingDAO {
 
 
     void genera(OrdineClienteDTO ordineCliente, FilialeDTO filiale) throws PersistenceException;
+
+    List<OrdineDiLavoroPackagingDTO> select(SpedizioneDTO spedizione) throws PersistenceException;
 }

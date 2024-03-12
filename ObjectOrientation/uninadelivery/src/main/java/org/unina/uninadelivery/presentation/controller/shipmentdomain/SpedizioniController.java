@@ -14,9 +14,11 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
+import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.exception.SpedizioniException;
 import org.unina.uninadelivery.presentation.helper.Session;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.IOdlOrchestratorSpedizioni;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestratorFactory;
 
 import java.net.URL;
 import java.util.Comparator;
@@ -26,7 +28,8 @@ import java.util.ResourceBundle;
 public class SpedizioniController implements Initializable {
 
     private final Stage dashboardStage;
-    private final OdlOrchestrator odlOrchestrator;
+    private final IOdlOrchestratorSpedizioni odlOrchestrator;
+    private final DashboardController dashboardController;
     @FXML
     protected MFXPaginatedTableView<SpedizioneDTO> spedizioniGrid;
 
@@ -38,8 +41,8 @@ public class SpedizioniController implements Initializable {
 
     public SpedizioniController(Stage dashboardStage) {
         this.dashboardStage = dashboardStage;
-        this.odlOrchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
-        this.odlOrchestrator.setSpedizioniController(this);
+        this.dashboardController = (DashboardController) dashboardStage.getUserData();
+        this.odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, this);
     }
 
     @Override
@@ -59,7 +62,7 @@ public class SpedizioniController implements Initializable {
             try {
                 odlOrchestrator.filtroTutteSpedizioniClicked();
             } catch (SpedizioniException e) {
-                //todo: gestire errore
+                dashboardController.showDialog("errore", "Errore", e.getMessage());
             }
         });
 
@@ -67,7 +70,7 @@ public class SpedizioniController implements Initializable {
             try {
                 odlOrchestrator.filtroSpedizioniEmesseDaMeClicked();
             } catch (SpedizioniException e) {
-                //todo: gestire errore
+                dashboardController.showDialog("errore", "Errore", e.getMessage());
             }
         });
 
@@ -96,7 +99,7 @@ public class SpedizioniController implements Initializable {
                 try {
                     odlOrchestrator.visualizzaSpedizioneClicked(spedizione);
                 } catch (SpedizioniException e) {
-                    //todo: gestire errore
+                    dashboardController.showDialog("errore", "Errore", e.getMessage());
                 }
             });
 
@@ -107,29 +110,24 @@ public class SpedizioniController implements Initializable {
 
         spedizioniGrid.getTableColumns().addAll(numeroOrdineColumn, trackingNumberColumn, statoColumn, operatoreColumn, actionColumn);
         spedizioniGrid.getFilters().addAll(
-                new StringFilter<SpedizioneDTO>("Numero Ordine", spedizione -> spedizione.getOrdineCliente().getNumeroOrdine()),
-                new StringFilter<SpedizioneDTO>("Tracking Number", SpedizioneDTO::getTrackingNumber),
-                new StringFilter<SpedizioneDTO>("Stato", SpedizioneDTO::getStato),
-                new StringFilter<SpedizioneDTO>("Organizzata Da", spedizione -> spedizione.getOrganizzatore().getUsername())
+                new StringFilter<>("Numero Ordine", spedizione -> spedizione.getOrdineCliente().getNumeroOrdine()),
+                new StringFilter<>("Tracking Number", SpedizioneDTO::getTrackingNumber),
+                new StringFilter<>("Stato", SpedizioneDTO::getStato),
+                new StringFilter<>("Organizzata Da", spedizione -> spedizione.getOrganizzatore().getUsername())
         );
-
 
         Session session = Session.getInstance();
         UtenteDTO utente = session.getUserDto().getValue();
-        if(utente.getProfilo().equals("Operatore")) {
+        if (utente.getProfilo().equals("Operatore")) {
             filtroTuttiRadioBox.setVisible(true);
             filtroEmesseDaMe.setVisible(true);
         }
 
-
-
         try {
             odlOrchestrator.paginaSpedizioniPronta();
         } catch (SpedizioniException e) {
-            //todo: gestire errore
+            dashboardController.showDialog("errore", "Errore", e.getMessage());
         }
-
-
     }
 
     public void setListaSpedizioni(List<SpedizioneDTO> listaSpedizioni) {

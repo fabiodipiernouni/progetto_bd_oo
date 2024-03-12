@@ -274,6 +274,12 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
     }
 
 
+    /**
+     * Metodo che restituisce la lista degli ordini di lavoro di packaging relativi ad una filiale
+     * @param operatoreFiliale l'operatore di filiale
+     * @return la lista degli ordini di lavoro di packaging relativi ad una filiale
+     * @throws PersistenceException se si verifica una eccezione a livello di persistenza
+     */
     public List<OrdineDiLavoroPackagingDTO> select(OperatoreFilialeDTO operatoreFiliale) throws PersistenceException {
         Statement statement = null;
         ResultSet resultSet = null;
@@ -311,7 +317,6 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
             }
         }
     }
-
 
     public List<OrdineDiLavoroPackagingDTO> select(GruppoCorriereDTO gruppoCorriere) throws PersistenceException {
         Statement statement = null;
@@ -533,6 +538,39 @@ class OracleOrdineDiLavoroPackagingDAO implements OrdineDiLavoroPackagingDAO {
             }
             catch(SQLException sqe) {
                 //non faccio niente
+            }
+        }
+    }
+
+    @Override
+    public List<OrdineDiLavoroPackagingDTO> select(SpedizioneDTO spedizione) throws PersistenceException {
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        List<OrdineDiLavoroPackagingDTO> listaOrdini = new LinkedList<>();
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM OrdineDiLavoroPackaging WHERE idSpedizione = " + spedizione.getId());
+
+            while (resultSet.next())
+                listaOrdini.add(getByResultSet(resultSet));
+
+            return listaOrdini;
+        }
+        catch(SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        }
+        finally {
+            //libero le risorse
+            try {
+                if (resultSet != null)
+                    resultSet.close();
+                if (statement != null)
+                    statement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio nulla
             }
         }
     }

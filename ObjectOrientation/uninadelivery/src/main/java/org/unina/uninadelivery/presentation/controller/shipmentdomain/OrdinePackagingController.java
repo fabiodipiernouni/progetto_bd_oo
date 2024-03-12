@@ -24,7 +24,8 @@ import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.exception.SpedizioniException;
 import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.model.shipmentdomain.OrdinePackagingModel;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.IGenericOdlOrchestrator;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestratorFactory;
 
 import java.net.URL;
 import java.util.Map;
@@ -95,7 +96,7 @@ public class OrdinePackagingController implements Initializable {
                     actionLabel.setText("L'ordine non è assegnato a nessun corriere");
                     actionButton.setText("Assegna a me");
                     actionButton.setOnAction(event -> {
-                        OdlOrchestrator orchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
+                        IGenericOdlOrchestrator orchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage);
                         Task<Boolean> res = new Task<Boolean>() {
                             @Override
                             protected Boolean call() throws Exception {
@@ -120,7 +121,7 @@ public class OrdinePackagingController implements Initializable {
                     actionLabel.setText("L'ordine è assegnato, iniziare la lavorazione?");
                     actionButton.setText("Inizia lavorazione");
                     actionButton.setOnAction(event -> {
-                        OdlOrchestrator orchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
+                        IGenericOdlOrchestrator orchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage);
                         Task<Boolean> res = new Task<Boolean>() {
                             @Override
                             protected Boolean call() throws Exception {
@@ -151,7 +152,7 @@ public class OrdinePackagingController implements Initializable {
                                     MFXButton procede = (MFXButton) event1.getSource();
                                     MFXTextField noteTextField = (MFXTextField) procede.getScene().lookup("#noteTextField");
 
-                                    OdlOrchestrator orchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
+                                    IGenericOdlOrchestrator orchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage);
                                     Task<Boolean> res = new Task<>() {
                                         @Override
                                         protected Boolean call() throws Exception {

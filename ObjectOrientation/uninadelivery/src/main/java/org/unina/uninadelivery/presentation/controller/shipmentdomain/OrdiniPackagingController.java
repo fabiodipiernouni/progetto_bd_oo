@@ -15,8 +15,11 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
+import org.unina.uninadelivery.presentation.controller.DashboardController;
+import org.unina.uninadelivery.presentation.exception.SpedizioniException;
 import org.unina.uninadelivery.presentation.helper.Session;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.IOdlOrchestratorOrdiniPackaging;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestratorFactory;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -26,6 +29,7 @@ import java.util.ResourceBundle;
 
 public class OrdiniPackagingController implements Initializable {
     private final Stage dashboardStage;
+    private final DashboardController dashboardController;
 
     @FXML
     private MFXPaginatedTableView<OrdineDiLavoroPackagingDTO> ordiniDiLavoroPackagingGrid;
@@ -45,15 +49,15 @@ public class OrdiniPackagingController implements Initializable {
     @FXML
     private MFXRadioButton filtroEmessiDaMeRadioBox;
 
-    private OdlOrchestrator odlOrchestrator;
+    private IOdlOrchestratorOrdiniPackaging odlOrchestrator;
 
     private ToggleGroup toggleGroup;
 
     public OrdiniPackagingController(Stage dashboardStage) {
 
         this.dashboardStage = dashboardStage;
-        this.odlOrchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
-        this.odlOrchestrator.setOrdiniPackagingController(this);
+        this.odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, this);
+        this.dashboardController = (DashboardController)dashboardStage.getUserData();
     }
 
     @Override
@@ -76,26 +80,46 @@ public class OrdiniPackagingController implements Initializable {
 
 
         filtroTuttiRadioBox.setOnAction(event -> {
-            odlOrchestrator.filtroOrdiniPackagingTuttiClicked();
+            try {
+                odlOrchestrator.filtroOrdiniPackagingTuttiClicked();
+            } catch (SpedizioniException e) {
+                dashboardController.showDialog("error", "Errore nel caricamento", e.getMessage());
+            }
         });
 
 
         filtroGruppoCorriereRadioBox.setOnAction(event -> {
-            odlOrchestrator.filtroOrdiniPackagingGruppoCorriereClicked();
+            try {
+                odlOrchestrator.filtroOrdiniPackagingGruppoCorriereClicked();
+            } catch (SpedizioniException e) {
+                dashboardController.showDialog("error", "Errore nel caricamento", e.getMessage());
+            }
         });
 
 
         filtroPresiInCaricoRadioBox.setOnAction(event -> {
-            odlOrchestrator.filtroOrdiniPackagingPresiInCaricoClicked();
+            try {
+                odlOrchestrator.filtroOrdiniPackagingPresiInCaricoClicked();
+            } catch (SpedizioniException e) {
+                dashboardController.showDialog("error", "Errore nel caricamento", e.getMessage());
+            }
         });
 
 
         filtroDaPrendereInCaricoRadioBox.setOnAction(event -> {
-            odlOrchestrator.filtroOrdiniPackagingDaPrendereInCaricoClicked();
+            try {
+                odlOrchestrator.filtroOrdiniPackagingDaPrendereInCaricoClicked();
+            } catch (SpedizioniException e) {
+                dashboardController.showDialog("error", "Errore nel caricamento", e.getMessage());
+            }
         });
 
         filtroEmessiDaMeRadioBox.setOnAction(event -> {
-            odlOrchestrator.filtroOrdiniPackagingEmessiDaMeClicked();
+            try {
+                odlOrchestrator.filtroOrdiniPackagingEmessiDaMeClicked();
+            } catch (SpedizioniException e) {
+                dashboardController.showDialog("error", "Errore nel caricamento", e.getMessage());
+            }
         });
 
 
@@ -209,7 +233,11 @@ public class OrdiniPackagingController implements Initializable {
                     //crea un tasto
                     button = new MFXButton("Prendi in Carico");
                     button.setOnAction(event -> {
-                        odlOrchestrator.prendiInCaricoOrdinePackagingClicked(ordine);
+                        try {
+                            odlOrchestrator.prendiInCaricoOrdinePackagingClicked(ordine);
+                        } catch (SpedizioniException e) {
+                            dashboardController.showDialog("error", "Errore nel prendere in carico", e.getMessage());
+                        }
                     });
 
                     //imposta il tasto come grafica della cella
@@ -239,7 +267,11 @@ public class OrdiniPackagingController implements Initializable {
                 filtroEmessiDaMeRadioBox.setLayoutX(filtroGruppoCorriereRadioBox.getLayoutX());
             }
 
-        odlOrchestrator.paginaOrdiniPackagingPronta();
+        try {
+            odlOrchestrator.paginaOrdiniPackagingPronta();
+        } catch (SpedizioniException e) {
+            dashboardController.showDialog("error", "Errore nel caricamento", e.getMessage());
+        }
     }
 
     public void setListaOrdini(List<OrdineDiLavoroPackagingDTO> listaOrdini) {
@@ -247,11 +279,6 @@ public class OrdiniPackagingController implements Initializable {
         ordiniDiLavoroPackagingGrid.setItems(FXCollections.observableArrayList(listaOrdini));
     }
 
-    /*
-    public List<OrdineDiLavoroPackagingDTO> getListaOrdini()  {
-        return new LinkedList<>(ordiniDiLavoroPackagingGrid.getItems());
-    }
-    */
 
     public void resettaFiltri() {
         toggleGroup.selectToggle(filtroTuttiRadioBox);
