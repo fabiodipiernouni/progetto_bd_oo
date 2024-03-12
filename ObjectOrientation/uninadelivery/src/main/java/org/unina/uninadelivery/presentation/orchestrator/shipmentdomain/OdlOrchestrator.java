@@ -12,6 +12,7 @@ import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.PaccoDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.controller.shipmentdomain.*;
@@ -509,6 +510,27 @@ class OdlOrchestrator extends Orchestrator implements IGenericOdlOrchestrator, I
             dashboardController.changeView("ORDINI PACKAGING", "/views/shipmentdomain/ordini-packaging-view.fxml", c -> ordiniPackagingController);
         } catch (ServiceException e) {
             throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di packaging");
+        }
+    }
+
+    @Override
+    public void visualizzaPacchiClicked(OrdineClienteDTO ordineCliente) throws SpedizioniException {
+        try {
+            List<PaccoDTO> pacchi = shipmentService.getListaPacchi(ordineCliente);
+            dashboardController.changeView("SPEDIZIONI", "/views/shipmentdomain/pacchi-view.fxml", c -> new PacchiController(dashboardStage, pacchi));
+        } catch (ServiceException e) {
+            throw new SpedizioniException("Errore nel recupero delle spedizioni");
+        }
+    }
+
+    @Override
+    public Task<Void> generaOdlTrasportoClicked(OrdineClienteDTO ordineCliente) throws SpedizioniException {
+        try {
+            SpedizioneDTO spedizione = shipmentService.getSpedizione(ordineCliente);
+            Task<Void> task = shipmentService.creaOdlTrasporto(spedizione);
+            return task;
+        } catch (ServiceException e) {
+            throw new SpedizioniException("Errore nella generazione degli ordine di lavoro di trasporto.");
         }
     }
 }

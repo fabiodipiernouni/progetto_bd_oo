@@ -8,7 +8,6 @@ import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 public interface SpedizioneDAO {
@@ -34,5 +33,4 @@ public interface SpedizioneDAO {
     List<SpedizioneDTO> select(FilialeDTO filiale) throws PersistenceException;
 
     List<SpedizioneDTO> select(OperatoreFilialeDTO operatoreFiliale) throws PersistenceException;
-
 }

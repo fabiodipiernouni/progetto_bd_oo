@@ -112,7 +112,7 @@ public class SpedizioneController implements Initializable {
         });
 
         if (spedizioneModel.getStato().equals("DaLavorare")) {
-            if (utente.getProfilo().equals("OperatoreCorriere")) {
+            if (utente.getProfilo().equals("Operatore")) { //il manager non può generare ordini di lavoro
                 odlPackagingButton.setText("Genera");
                 odlPackagingButton.setOnAction(e -> {
                     try {
@@ -135,8 +135,10 @@ public class SpedizioneController implements Initializable {
             }
             pacchiButton.setVisible(false);
             odlTrasportoButton.setVisible(false);
-        } else {
+        } else if (spedizioneModel.getStato().equals("LavorataPackaging")) {
+            //ordini di lavoro packaging possono essere solo visualizzati
             odlPackagingButton.setText("Visualizza");
+            odlPackagingButton.setVisible(true);
             odlPackagingButton.setOnAction(e -> {
                 try {
                     IOdlOrchestratorOrdiniPackaging odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, new OrdiniPackagingController(dashboardStage));
@@ -145,16 +147,47 @@ public class SpedizioneController implements Initializable {
                     dashboardController.showDialog("error", "Visualizzazione Ordini Packaging", ex.getMessage());
                 }
             });
+
+            odlTrasportoButton.setVisible(false);
         }
 
         if (spedizioneModel.getStato().equals("LavorataPackaging")) {
             odlTrasportoButton.setText("Genera");
+            odlTrasportoButton.setOnAction(e -> {
+                try {
+                    Task<Void> task = dashboardOrchestrator.generaOdlTrasportoClicked(spedizioneModel.getOrdineCliente());
+                    task.setOnSucceeded(event -> {
+                        dashboardController.showDialog("info", "Generazione Ordini Trasporto", "Ordini di Trasporto generati con successo!");
+                    });
+                    task.setOnFailed(event -> {
+                        dashboardController.showDialog("error", "Generazione Ordini Trasporto", "Errore nella generazione degli ordini di trasporto");
+                    });
+
+                    ExecutorService executorService = Executors.newSingleThreadExecutor();
+                    executorService.submit(task);
+                } catch (SpedizioniException ex) {
+                    dashboardController.showDialog("error", "Generazione Ordini Trasporto", ex.getMessage());
+                }
+            });
         } else if (spedizioneModel.getStato().equals("InLavorazioneSpedizione") || spedizioneModel.getStato().equals("LavorataSpedizione")) {
             odlTrasportoButton.setText("Visualizza");
         } else {
             odlTrasportoButton.setVisible(false);
         }
 
-        pacchiButton.setVisible(spedizioneModel.getNumeroPacchiGenerati() > 0);
+        if(spedizioneModel.getNumeroPacchiGenerati() > 0) {
+            pacchiButton.setVisible(true);
+            pacchiButton.setText("Visualizza");
+            pacchiButton.setOnAction(e -> {
+                try {
+                    IOdlOrchestratorOrdiniPackaging odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, new OrdiniPackagingController(dashboardStage));
+                    odlOrchestrator.visualizzaPacchiClicked(spedizioneModel.getOrdineCliente());
+                } catch (SpedizioniException ex) {
+                    dashboardController.showDialog("error", "Visualizzazione Pacchi", ex.getMessage());
+                }
+            });
+        } else {
+            pacchiButton.setVisible(false);
+        }
     }
 }

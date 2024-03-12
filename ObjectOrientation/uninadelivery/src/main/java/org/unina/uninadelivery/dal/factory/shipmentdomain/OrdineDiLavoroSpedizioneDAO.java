@@ -6,6 +6,7 @@ import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
 import java.util.List;
 
@@ -28,4 +29,5 @@ public interface OrdineDiLavoroSpedizioneDAO {
     void update(OrdineDiLavoroSpedizioneDTO ordineDiLavoroSpedizione) throws PersistenceException;
     int getCountNonConclusi(FilialeDTO filiale) throws PersistenceException;
 
+    void genera(SpedizioneDTO spedizione) throws PersistenceException;
 }

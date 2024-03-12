@@ -11,6 +11,7 @@ import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OrdineDiLavoroPackagingDAO {
 
@@ -38,4 +39,6 @@ public interface OrdineDiLavoroPackagingDAO {
     void genera(OrdineClienteDTO ordineCliente, FilialeDTO filiale) throws PersistenceException;
 
     List<OrdineDiLavoroPackagingDTO> select(SpedizioneDTO spedizione) throws PersistenceException;
+
+    Optional<OrdineDiLavoroPackagingDTO> select(long idOrdineLavoroOrigine) throws PersistenceException;
 }

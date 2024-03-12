@@ -16,4 +16,8 @@ public interface IOdlOrchestratorOrdiniPackaging {
     void visualizzaOrdinePackagingClicked(OrdineDiLavoroPackagingDTO ordine);
     Task<Void> generaOdlPackagingClicked(OrdineClienteDTO ordineCliente) throws SpedizioniException;
     void visualizzaOrdiniPackagingClicked(OrdineClienteDTO ordineCliente) throws SpedizioniException;
+
+    void visualizzaPacchiClicked(OrdineClienteDTO ordineCliente) throws SpedizioniException;
+
+    Task<Void> generaOdlTrasportoClicked(OrdineClienteDTO ordineCliente) throws SpedizioniException;
 }

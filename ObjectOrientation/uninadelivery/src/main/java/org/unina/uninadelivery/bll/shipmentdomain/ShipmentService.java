@@ -5,10 +5,7 @@ import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.dal.exception.PersistenceException;
 import org.unina.uninadelivery.dal.factory.customerdomain.FactoryCustomerDomain;
 import org.unina.uninadelivery.dal.factory.customerdomain.OrdineClienteDAO;
-import org.unina.uninadelivery.dal.factory.shipmentdomain.FactoryShipmentDomain;
-import org.unina.uninadelivery.dal.factory.shipmentdomain.OrdineDiLavoroPackagingDAO;
-import org.unina.uninadelivery.dal.factory.shipmentdomain.OrdineDiLavoroSpedizioneDAO;
-import org.unina.uninadelivery.dal.factory.shipmentdomain.SpedizioneDAO;
+import org.unina.uninadelivery.dal.factory.shipmentdomain.*;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
@@ -16,8 +13,9 @@ import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
 import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
-import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.PaccoDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -402,6 +400,38 @@ public class ShipmentService {
             return ordineDiLavoroPackagingDAO.select(spedizione);
         } catch (PersistenceException e) {
             throw new ServiceException("Errore nel reperire la lista di ordini di packaging");
+        }
+    }
+
+    public Task<Void> creaOdlTrasporto(SpedizioneDTO spedizione) {
+        return new Task<>() {
+            @Override
+            protected Void call() throws ServiceException {
+                try {
+                    OrdineClienteDAO daoOrdineCliente = FactoryCustomerDomain.buildOrdineClienteDAO();
+                    OrdineDiLavoroSpedizioneDAO ordineDiLavoroSpedizioneDAO = FactoryShipmentDomain.buildOrdineDiLavoroSpedizioneDAO();
+
+                    ordineDiLavoroSpedizioneDAO.genera(spedizione);
+                } catch (PersistenceException e) {
+                    throw new ServiceException("Errore nella creazione dell'ordine di lavoro di trasporto");
+                }
+
+                return null;
+            }
+        };
+    }
+
+    public List<PaccoDTO> getListaPacchi(OrdineClienteDTO ordineCliente) throws ServiceException {
+        try {
+            PaccoDAO paccoDAO = FactoryShipmentDomain.buildPaccoDAO();
+            SpedizioneDAO spedizioneDAO = FactoryShipmentDomain.buildSpedizioneDAO();
+            SpedizioneDTO spedizione = spedizioneDAO.select(ordineCliente).orElse(null);
+            if(spedizione == null) {
+                return null;
+            }
+            return paccoDAO.select(spedizione);
+        } catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista di pacchi");
         }
     }
 }

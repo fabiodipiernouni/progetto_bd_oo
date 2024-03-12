@@ -12,6 +12,8 @@ import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
 @EqualsAndHashCode
 public class PaccoDTO {
 
+    long id;
+
     @NonNull
     private String codicePacco;
 
@@ -25,5 +27,7 @@ public class PaccoDTO {
 
     @NonNull
     private SpedizioneDTO spedizione;
+
+    private OrdineDiLavoroPackagingDTO ordineDiLavoroPackaging;
 
 }

@@ -7,7 +7,6 @@ import org.unina.uninadelivery.dal.factory.geodomain.FactoryGeoDomain;
 import org.unina.uninadelivery.dal.factory.orgdomain.FactoryOrgDomain;
 import org.unina.uninadelivery.entity.geodomain.IndirizzoDTO;
 import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
-import org.unina.uninadelivery.entity.orgdomain.MezzoDiTrasportoDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.PaccoDTO;
@@ -25,23 +24,39 @@ class OraclePaccoDAO implements PaccoDAO {
 
     private final Connection connection = DatabaseSingleton.getInstance().connect();
 
-    private PaccoDTO getByResultSet(ResultSet resultSet, SpedizioneDTO spedizione) throws SQLException, PersistenceException {
+    private PaccoDTO getByResultSet(ResultSet resultSet, SpedizioneDTO spedizione) throws SQLException, PersistenceException, ConsistencyException {
+        long id = resultSet.getLong("id");
         String codicePacco = resultSet.getString("codicePacco");
         float peso = resultSet.getFloat("peso");
-
         long idMagazzino = resultSet.getLong("idMagazzino");
-        Optional<MagazzinoDTO> magazzino = FactoryOrgDomain.buildMagazzinoDAO().select(idMagazzino);
-        if(magazzino.isEmpty())
-            throw new ConsistencyException("Magazzino non trovato");
-
         long idIndirizzoDestinazione = resultSet.getLong("idIndirizzoDestinazione");
-        Optional<IndirizzoDTO> indirizzoDestinazione = FactoryGeoDomain.buildIndirizzoDAO().select(idIndirizzoDestinazione);
-        if(indirizzoDestinazione.isEmpty())
-            throw new ConsistencyException("Indirizzo di destinazione non trovato");
+        long idOrdineLavoroOrigine = resultSet.getLong("idOrdineLavoroOrigine");
 
+        Optional<MagazzinoDTO> magazzino = FactoryOrgDomain.buildMagazzinoDAO().select(idMagazzino);
+        if (magazzino.isEmpty())
+            throw new ConsistencyException("Magazzino con id " + idMagazzino + " non trovato");
 
+        Optional<IndirizzoDTO> indirizzo = FactoryGeoDomain.buildIndirizzoDAO().select(idIndirizzoDestinazione);
 
-        return new PaccoDTO(codicePacco, peso, magazzino.get(), indirizzoDestinazione.get(), spedizione);
+        if (indirizzo.isEmpty())
+            throw new ConsistencyException("Indirizzo con id " + idIndirizzoDestinazione + " non trovato");
+
+        Optional<OrdineDiLavoroPackagingDTO> ordineDiLavoroPackaging = FactoryShipmentDomain.buildOrdineDiLavoroPackagingDAO().select(idOrdineLavoroOrigine);
+
+        if (ordineDiLavoroPackaging.isEmpty())
+            throw new ConsistencyException("Ordine di lavoro con id " + idOrdineLavoroOrigine + " non trovato");
+
+        PaccoDTO ret = new PaccoDTO(
+                id,
+                codicePacco,
+                peso,
+                magazzino.get(),
+                indirizzo.get(),
+                spedizione,
+                ordineDiLavoroPackaging.get()
+        );
+
+        return ret;
     }
 
     private PaccoDTO getByResultSet(ResultSet resultSet) throws PersistenceException, SQLException {

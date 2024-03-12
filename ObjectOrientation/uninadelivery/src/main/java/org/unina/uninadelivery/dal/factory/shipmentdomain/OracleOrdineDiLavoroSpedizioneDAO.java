@@ -455,4 +455,30 @@ class OracleOrdineDiLavoroSpedizioneDAO implements OrdineDiLavoroSpedizioneDAO {
         }
 
     }
+
+    @Override
+    public void genera(SpedizioneDTO spedizione) throws PersistenceException{
+        CallableStatement statement = null;
+
+        try {
+            statement = connection.prepareCall("{ call CreaOrdineDiSpedizione( ? ) }");
+            statement.setLong(1, spedizione.getId());
+
+            statement.execute();
+        }
+        catch(SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        }
+        finally {
+            //libero le risorse
+
+            try {
+                if(statement != null)
+                    statement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio niente
+            }
+        }
+    }
 }

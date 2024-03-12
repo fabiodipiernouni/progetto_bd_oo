@@ -9,7 +9,6 @@ import org.unina.uninadelivery.dal.factory.customerdomain.FactoryCustomerDomain;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
-
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
@@ -62,7 +61,6 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
                 trackingStatus
         );
     }
-
 
     public Optional<SpedizioneDTO> select(long id) throws PersistenceException {
         Optional<SpedizioneDTO> spedizione = Optional.empty();
@@ -344,7 +342,6 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
         }
     }
 
-
     public List<SpedizioneDTO> select(OperatoreFilialeDTO operatoreFiliale) throws PersistenceException {
         Statement statement = null;
         ResultSet resultSet = null;
@@ -374,5 +371,4 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
             }
         }
     }
-
 }
