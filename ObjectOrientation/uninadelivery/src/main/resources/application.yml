@@ -1,0 +1,18 @@
+database:
+    wallet: Wallet_BPK3181NCIYDUJMQ
+    driver: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@bpk3181nciydujmq_medium
+    user: uninaDelivery
+    password: UnidevProd4010$
+    schema: uninaDelivery
+
+application:
+    version: 1.0.0
+    loginEnabled: true
+    menuViews:
+        magazzini: false
+        ordini-packaging: true
+        ordini-spedizione: true
+
+
+

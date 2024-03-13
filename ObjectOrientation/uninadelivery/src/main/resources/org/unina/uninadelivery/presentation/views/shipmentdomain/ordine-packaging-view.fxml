@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.OrdinePackagingController">
+    <Pane layoutX="58.0" layoutY="19.0" prefHeight="200.0" prefWidth="417.0" styleClass="pane_2">
+        <children>
+            <Label layoutX="23.0" layoutY="24.0" text="Spedizione Numero:">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="48.0" startX="-100.0" />
+            <Label fx:id="lblNumeroSpedizione" layoutX="183.0" layoutY="24.0" text="&lt;numsped&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Label layoutX="23.0" layoutY="60.0" text="Cliente:">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="84.0" startX="-100.0" />
+            <Label fx:id="lblRagSoc" layoutX="183.0" layoutY="60.0" text="&lt;cliente&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Label layoutX="23.0" layoutY="100.0" text="Stato:">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="124.0" startX="-100.0" />
+            <Label fx:id="lblStato" layoutX="183.0" layoutY="100.0" text="&lt;stato&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Label layoutX="23.0" layoutY="138.0" text="Organizzatore:">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Line endX="280.0" endY="-7.62939453125E-6" layoutX="123.0" layoutY="162.0" startX="-100.0" />
+            <Label fx:id="lblOrganizzatore" layoutX="183.0" layoutY="138.0" text="&lt;organizzatore&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+        </children>
+    </Pane>
+    <Pane layoutX="530.0" layoutY="19.0" prefHeight="200.0" prefWidth="381.0" styleClass="pane_2">
+        <children>
+            <Label layoutX="15.0" layoutY="27.0" text="Data Creazione:">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Label layoutX="15.0" layoutY="61.0" text="Data Inizio Lavorazione:">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Line endX="254.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="85.0" startX="-100.0" />
+            <Label layoutX="15.0" layoutY="100.0" text="Data Fine Lavorazione:">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Line endX="254.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="124.0" startX="-100.0" />
+            <Label layoutX="15.0" layoutY="134.0" text="Tracking Number:">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Line endX="254.0" endY="-7.62939453125E-6" layoutX="115.0" layoutY="158.0" startX="-100.0" />
+            <Line endX="254.0" endY="-7.62939453125E-6" layoutX="113.0" layoutY="48.0" startX="-100.0" />
+            <Label fx:id="lblDataCreazione" layoutX="192.0" layoutY="27.0" text="&lt;numsped&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Label fx:id="lblDataInizioLav" layoutX="192.0" layoutY="61.0" text="&lt;dataini&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Label fx:id="lblDataFineLav" layoutX="192.0" layoutY="100.0" text="&lt;datafin&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Label fx:id="lblTrackingNum" layoutX="192.0" layoutY="134.0" text="&lt;tracking&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <ImageView fx:id="imgCopyToTracking" fitHeight="24.0" fitWidth="24.0" layoutX="154.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../../icons/icons8-copy-24.png" />
+                </image>
+            </ImageView>
+        </children>
+    </Pane>
+    <MFXPaginatedTableView fx:id="dettGrid" layoutX="58.0" layoutY="300.0" prefWidth="850.0">
+
+    </MFXPaginatedTableView>
+   <Label layoutX="58.0" layoutY="267.0" text="Informazioni Aggiuntive">
+      <font>
+         <Font name="Verdana" size="14.0" />
+      </font>
+   </Label>
+   <Pane layoutX="58.0" layoutY="488.0" prefHeight="52.0" prefWidth="850.0" styleClass="pane_2">
+      <children>
+         <MFXButton fx:id="actionButton" layoutX="731.0" layoutY="9.0" prefHeight="35.0" prefWidth="105.0" />
+         <Label fx:id="actionLabel" layoutX="22.0" layoutY="17.0" text="Informazioni Aggiuntive">
+            <font>
+               <Font name="Verdana" size="14.0" />
+            </font>
+         </Label>
+      </children>
+   </Pane>
+</AnchorPane>

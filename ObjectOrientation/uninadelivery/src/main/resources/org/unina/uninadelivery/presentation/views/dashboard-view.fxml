@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.mfxresources.fonts.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane fx:id="rootPane" prefHeight="747.0" prefWidth="1280.0" styleClass="rootPane" stylesheets="@../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.DashboardController">
+    <HBox fx:id="windowHeader" alignment="CENTER_RIGHT" layoutX="2.0" layoutY="2.0" prefHeight="30.0" prefWidth="1278.0" spacing="10.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="1.0">
+        <padding>
+            <Insets right="10.0" />
+        </padding>
+        <MFXFontIcon fx:id="alwaysOnTopIcon" description="fas-circle" size="15.0" styleClass="always-on-top-icon" />
+        <MFXFontIcon fx:id="minimizeIcon" description="fas-circle" size="15.0" styleClass="minimize-icon" />
+        <MFXFontIcon fx:id="closeIcon" description="fas-circle" size="15.0" styleClass="close-icon" />
+    </HBox>
+    <VBox alignment="TOP_CENTER" layoutX="2.0" layoutY="2.0" prefHeight="718.0" prefWidth="229.0" spacing="2.0" styleClass="sidebar" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.topAnchor="1.0">
+        <padding>
+            <Insets bottom="5.0" top="10.0" />
+        </padding>
+        <ImageView fitHeight="213.0" fitWidth="210.0" layoutX="11.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/logo2.png" />
+            </image>
+        </ImageView>
+        <Pane prefHeight="21.0" prefWidth="212.0" />
+        <ImageView fitHeight="67.0" fitWidth="71.0" layoutX="14.0" layoutY="222.0" pickOnBounds="true">
+            <image>
+                <Image url="@../images/blank-profile-picture-973460_640.png" />
+            </image>
+            <effect>
+                <InnerShadow />
+            </effect>
+        </ImageView>
+        <Label fx:id="utenteLabel" layoutX="11.0" layoutY="304.0" text="username" textFill="#dabb40">
+            <padding>
+                <Insets bottom="10.0" top="5.0" />
+            </padding>
+            <font>
+                <Font name="Serif Bold" size="18.0" />
+            </font>
+        </Label>
+        <Label fx:id="profiloLabel" layoutX="87.0" layoutY="321.0" text="&lt;profilo&gt;" textFill="#dabb40">
+            <padding>
+                <Insets bottom="10.0" top="5.0" />
+            </padding>
+            <font>
+                <Font name="Serif Bold" size="18.0" />
+            </font>
+        </Label>
+        <Line endX="110.33331298828125" endY="-0.6214017271995544" layoutX="101.0" layoutY="350.0" startX="-100.0" stroke="#dabb40" AnchorPane.bottomAnchor="452.0" AnchorPane.topAnchor="349.5" />
+        <MFXScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" VBox.vgrow="ALWAYS">
+            <VBox.margin>
+                <Insets bottom="10.0" left="5.0" top="15.0" />
+            </VBox.margin>
+            <padding>
+                <Insets right="10.0" />
+            </padding>
+            <VBox fx:id="navBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" styleClass="navbar" />
+        </MFXScrollPane>
+    </VBox>
+    <HBox fx:id="formHeader" alignment="CENTER_LEFT" layoutX="242.0" layoutY="34.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="44.0" prefWidth="1034.0" spacing="5.0" styleClass="form-header" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="4.0">
+        <padding>
+            <Insets left="10.0" right="10.0" />
+        </padding>
+        <Label fx:id="lblFilialeTitle" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="82.0" styleClass="header-label-bold" text="Filiale: ">
+        </Label>
+        <Label fx:id="lblFiliale" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="361.0" styleClass="header-label" text="&lt;nome&gt;" textFill="#081B39">
+        </Label>
+        <Label fx:id="lblCorriereTitle" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="107.0" styleClass="header-label-bold" text="Corriere: ">
+        </Label>
+        <Label fx:id="lblCorriere" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="384.0" styleClass="header-label" text="&lt;nome&gt;" textFill="#081B39">
+        </Label>
+    </HBox>
+    <StackPane fx:id="contentPane" layoutX="242.0" layoutY="90.0" prefHeight="604.0" prefWidth="1032.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="89.0" />
+    <Pane layoutX="242.0" layoutY="706.0" prefHeight="30.0" prefWidth="1033.0" styleClass="footer" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="4.6666666666667425" AnchorPane.topAnchor="706.0">
+        <children>
+            <Label fx:id="lblStatusBar" layoutX="14.0" layoutY="7.0" text="Visualizzazione Clienti" />
+        </children>
+    </Pane>
+</AnchorPane>

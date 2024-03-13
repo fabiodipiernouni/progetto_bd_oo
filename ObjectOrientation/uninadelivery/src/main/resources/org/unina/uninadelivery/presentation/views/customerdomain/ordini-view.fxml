@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.unina.uninadelivery.presentation.controller.customerdomain.OrdiniController">
+    <Pane layoutX="59.0" layoutY="45.0" prefHeight="144.0" prefWidth="476.0" styleClass="pane_2">
+        <children>
+            <ImageView fitHeight="85.0" fitWidth="108.0" layoutX="27.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../../icons/icons8-customer-64.png" />
+                </image>
+            </ImageView>
+            <Label fx:id="clienteRagioneSocialeLabel" layoutX="134.0" layoutY="22.0" prefHeight="18.0" prefWidth="320.0" text="ragsoc_nome">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Line endX="225.66665649414062" endY="-3.814697265625E-6" layoutX="232.0" layoutY="48.0" startX="-100.0" />
+            <Line endX="225.66665649414062" endY="-3.814697265625E-6" layoutX="232.0" layoutY="78.0" startX="-100.0" />
+            <Line endX="225.66665649414062" endY="-3.814697265625E-6" layoutX="232.0" layoutY="110.0" startX="-100.0" />
+            <Label fx:id="clientePartitaIVACodiceFiscaleLabel" layoutX="134.0" layoutY="58.0" prefHeight="18.0" prefWidth="320.0" text="piva_cf">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Label fx:id="clienteEmailLabel" layoutX="134.0" layoutY="85.0" prefHeight="18.0" prefWidth="320.0" text="email">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+            <Label layoutX="44.0" layoutY="111.0" prefHeight="15.0" prefWidth="50.0" text="Cliente">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+        </children>
+    </Pane>
+
+    <MFXDatePicker fx:id="dataInizioPicker" allowEdit="false" layoutX="50.0" layoutY="225.0" promptText="Data inizio..." />
+    <MFXDatePicker fx:id="dataFinePicker" allowEdit="false" layoutX="290.0" layoutY="225.0" promptText="Data fine..." />
+
+    <MFXPaginatedTableView fx:id="ordiniClienteGrid" layoutX="58.0" layoutY="300.0" prefHeight="242.0" prefWidth="800.0" />
+
+</AnchorPane>

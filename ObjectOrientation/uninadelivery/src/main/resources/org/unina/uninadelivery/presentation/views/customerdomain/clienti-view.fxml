@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="Infinity" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.unina.uninadelivery.presentation.controller.customerdomain.ClientiController">
+    <MFXPaginatedTableView fx:id="clientiGrid" layoutX="58.0" layoutY="300.0" prefWidth="850.0">
+
+    </MFXPaginatedTableView>
+</AnchorPane>

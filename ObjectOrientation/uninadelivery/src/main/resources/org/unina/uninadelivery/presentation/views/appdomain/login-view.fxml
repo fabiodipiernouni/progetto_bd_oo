@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.mfxresources.fonts.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="loginBp" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" prefHeight="602.0" prefWidth="980.0"
+            styleClass="loginForm" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.appdomain.LoginController">
+   <top>
+      <AnchorPane prefHeight="24.0" prefWidth="980.0" BorderPane.alignment="CENTER">
+         <MFXFontIcon fx:id="closeIcon" description="fas-circle" layoutX="954.0" layoutY="18.0" size="15.0" styleClass="close-icon" />
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="578.0" prefWidth="280.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <AnchorPane prefHeight="578.0" prefWidth="280.0" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <AnchorPane prefHeight="578.0" prefWidth="370.0" BorderPane.alignment="CENTER">
+         <MFXTextField id="validatedUsername" fx:id="txtUsername" floatingText="Username" layoutX="110.0" layoutY="161.0" prefHeight="40.0" prefWidth="200.0" />
+         <MFXPasswordField id="validatedField" fx:id="txtPassword" floatingText="Password" layoutX="110.0" layoutY="230.0" prefHeight="40.0" prefWidth="200.0" />
+         <MFXButton fx:id="loginButton" layoutX="109.0" layoutY="318.0" onAction="#onLoginButtonClick" prefHeight="40.0" prefWidth="200.0" text="Login" />
+         <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="178.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../../icons/icons8-lock-64.png" />
+            </image>
+         </ImageView>
+         <Label id="validationLabel" fx:id="validationLabel" alignment="CENTER" layoutY="110.0" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="29.0" prefWidth="418.0" textFill="#ef6e6b" visible="false" wrapText="true" />
+
+      </AnchorPane>
+   </center>
+</BorderPane>

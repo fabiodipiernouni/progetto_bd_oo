@@ -1,0 +1,336 @@
+@import '../fonts/Fonts.css';
+@import 'MFXColors.css';
+
+
+/**************************************************
+ * Root
+**************************************************/
+.rootPane {
+	-fx-background-color: #EAEEF4;
+	-fx-background-radius: 10;
+	-fx-border-color: #ebebeb;
+	-fx-border-radius: 10;
+}
+
+/**************************************************
+ * Footer
+**************************************************/
+.footer {
+	-fx-background-color: #e7e1e1;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #748CF1;
+	-fx-font-family: Verdana;
+	-fx-text-fill: #748CF1;
+}
+
+/**************************************************
+ * Window Header
+**************************************************/
+.rootPane .close-icon {
+	-mfx-color: -mfx-red;
+	-fx-opacity: 0.5;
+}
+
+.rootPane .close-icon:hover {
+	-fx-opacity: 1.0;
+}
+
+.rootPane .minimize-icon {
+	-mfx-color: #ffbf37;
+	-fx-opacity: 0.5;
+}
+
+.rootPane .minimize-icon:hover {
+	-fx-opacity: 1.0;
+}
+
+.rootPane .always-on-top-icon {
+	-mfx-color: -mfx-purple;
+	-fx-opacity: 0.5;
+}
+
+.rootPane .always-on-top-icon:hover {
+	-fx-opacity: 1.0;
+}
+
+.rootPane .always-on-top-icon:always-on-top {
+	-fx-opacity: 1.0;
+}
+
+/**************************************************
+ * Sidebar
+**************************************************/
+.rootPane .sidebar {
+	-fx-background-color: #353A56;
+	-fx-background-insets: -1 -5 -1 -1;
+	-fx-background-radius: 0 20 20 0;
+}
+
+.rootPane .sidebar .header {
+	-fx-font-family: 'Visby Round CF Heavy';
+	-fx-font-size: 24;
+	-fx-text-fill: white;
+}
+
+.rootPane .sidebar .header .mfx-font-icon {
+	-mfx-color: white;
+}
+
+.rootPane .sidebar .mfx-scroll-pane {
+	-fx-background-color: transparent;
+
+	-track-color: rgba(255, 255, 255, 0.3);
+	-thumb-color: white;
+	-thumb-hover-color: white;
+}
+
+.rootPane .sidebar .menu-label {
+	-fx-font-family: 'Visby Round CF Bold';
+	-fx-font-size: 14;
+	-fx-text-fill: white;
+}
+
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node {
+	-fx-background-color: transparent;
+	-fx-background-radius: 0;
+	-fx-border-color: transparent;
+	-fx-border-radius: 0;
+	-fx-pref-height: 40;
+
+	-fx-font-family: 'Visby Round CF Demi Bold';
+	-fx-font-size: 13;
+	-fx-text-fill: white;
+}
+
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node .mfx-ripple-generator {
+	-mfx-paused: true;
+}
+
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node .mfx-icon-wrapper .mfx-font-icon {
+	-mfx-color: white;
+}
+
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected {
+	-fx-background-color: white;
+	-fx-background-radius: 5;
+	-fx-text-fill: #353A56;
+}
+
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected .selection-rectangle {
+	-fx-stroke: transparent;
+	-fx-fill: #353A56;
+}
+
+.rootPane .sidebar .navbar .mfx-rectangle-toggle-node:selected .mfx-icon-wrapper .mfx-font-icon {
+	-mfx-color: #353A56;
+}
+
+/**************************************************
+ * FormHeader
+**************************************************/
+.rootPane .form-header {
+	-fx-border-style: solid;
+	-fx-border-radius: 10 10 10 10;
+	-fx-border-color: #353A56;
+	-fx-background-color: transparent;
+	-fx-background-radius: 10 10 0 0;
+}
+
+.rootPane .form-header .header-label-bold {
+	-fx-font-family: 'Verdana';
+	-fx-font-size: 18;
+	-fx-font-weight: bold;
+	-fx-text-fill: #353A56;
+}
+
+.rootPane .form-header .header-label {
+	-fx-font-family: 'Verdana';
+	-fx-font-size: 18;
+	-fx-text-fill: #353A56;
+}
+
+/**************************************************
+ * Form
+**************************************************/
+
+.innerForm {
+	-fx-background-color: transparent;
+	-fx-background-radius: 20;
+	-fx-border-color: #748CF1;
+	-fx-border-width: 2px;
+	-fx-border-style: solid;
+	-fx-border-radius: 20;
+}
+
+.innerForm .pane_1 {
+	-fx-background-color: #748CF1;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #748CF1;
+	-fx-font-family: Verdana;
+}
+
+.innerForm .pane_2 {
+	-fx-background-color: white;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #748CF1;
+	-fx-font-family: Verdana;
+}
+
+.outline-button-pane_2 {
+	-fx-background-color: transparent;
+	-fx-border-color: #748CF1;
+	-fx-border-radius: 5;
+
+	-fx-text-fill: #367ec0;
+	-fx-font-weight: normal;
+	-fx-font-family: Verdana;
+	-fx-font-size: 14;
+}
+
+.outline-button-pane_2:hover {
+	-fx-background-color: #b1dcee;
+	-fx-text-fill: black;
+}
+
+.innerForm .pane_3 {
+	-fx-background-color: #e84c83;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #ce1919;
+	-fx-font-family: Verdana;
+}
+
+.outline-button-pane_3 {
+	-fx-background-color: transparent;
+	-fx-border-color: white;
+	-fx-border-radius: 5;
+	-fx-font-weight: normal;
+	-fx-text-fill: white;
+	-fx-font-family: Verdana;
+	-fx-font-size: 14;
+}
+
+.outline-button-pane_3:hover {
+	-fx-background-color: white;
+	-fx-text-fill: #e84c83;
+}
+
+.innerForm .pane_1 {
+	-fx-background-color: #748CF1;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #748CF1;
+	-fx-font-family: Verdana;
+}
+
+.innerForm .pane_4 {
+	-fx-background-color: #347338;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #043d0b;
+	-fx-font-family: Verdana;
+	-fx-text-fill: white;
+}
+
+.outline-button-pane_4 {
+	-fx-background-color: white;
+	-fx-border-color: #043d0b;
+	-fx-border-radius: 5;
+
+	-fx-text-fill: black;
+	-fx-font-weight: normal;
+	-fx-font-family: Verdana;
+	-fx-font-size: 14;
+}
+
+.outline-button-pane_4:hover {
+	-fx-background-color: #c0c0c0;
+}
+
+.outline-button-pane_4:active,
+.outline-button-pane_4:pressed {
+	-fx-background-color: #a9a9a9;
+}
+
+.innerForm .aboutPane {
+	-fx-background-color: white;
+	-fx-background-radius: 50px;
+	-fx-border-radius: 50px;
+	-fx-border-style: solid;
+	-fx-border-width: 2px;
+	-fx-border-color: #748CF1;
+	-fx-font-family: Verdana;
+}
+
+.loginForm {
+	-fx-opacity: 0.9;
+	-fx-background-image: url('../images/bgLogin4.jpg');
+	-fx-background-repeat: stretch;
+	-fx-background-size: cover;
+	-fx-background-position: center center;
+	-fx-background-radius: 10;
+	-fx-border-color: #ebebeb;
+	-fx-border-radius: 10;
+}
+
+.loginForm .close-icon {
+	-mfx-color: -mfx-red;
+	-fx-opacity: 0.5;
+}
+
+#validatedField {
+	/*-mfx-hide-character: '?';*/
+}
+
+#validatedField:invalid {
+	-fx-border-color: -mfx-red;
+}
+
+#validatedField:invalid .floating-text {
+	-fx-text-fill: -mfx-red;
+}
+
+#validatedField:invalid .mfx-font-icon {
+	-mfx-color: -mfx-red;
+}
+
+#validationLabel {
+	-fx-font-family: 'Visby Round CF Demi Bold';
+	-fx-font-size: 11;
+}
+
+#validatedUsername {
+	/*-mfx-hide-character: '?';*/
+}
+
+#validatedUsername:invalid {
+	-fx-border-color: -mfx-red;
+}
+
+#validatedUsername:invalid .floating-text {
+	-fx-text-fill: -mfx-red;
+}
+
+#validatedUsername:invalid .mfx-font-icon {
+	-mfx-color: -mfx-red;
+}
+
+#validatedUsername {
+	-fx-font-family: 'Visby Round CF Demi Bold';
+	-fx-font-size: 11;
+}

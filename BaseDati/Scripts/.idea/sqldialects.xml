@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/SetupFolder/01.Setup/01.CreateUser.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/02.AppDomain/01.CreateAppDomain.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/04.OrgDomain/01.CreateOrgDomain.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/04.OrgDomain/02.Proc.FillMerceStoccata.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/04.OrgDomain/03.FillOrg.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/04.OrgDomain/04.Trigger.CkImpegnoMezzoDateRange.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/05.CustomerDomain/01.CreateCustomerDomain.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/05.CustomerDomain/38.FillCustomerDomain.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/06.ShipmentDomain/01.CreateShipmentDomain.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/06.ShipmentDomain/10.Trigger.CkWfNuovoOrdinePackaging.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/06.ShipmentDomain/11.Trigger.WfStartOrdinePackaging.sql" dialect="Oracle" />
+    <file url="file://$PROJECT_DIR$/SetupFolder/07.Tests/02.TEST.Fino a creazione pacchi.Ordine_10.sql" dialect="GenericSQL" />
+    <file url="PROJECT" dialect="Oracle" />
+  </component>
+</project>
