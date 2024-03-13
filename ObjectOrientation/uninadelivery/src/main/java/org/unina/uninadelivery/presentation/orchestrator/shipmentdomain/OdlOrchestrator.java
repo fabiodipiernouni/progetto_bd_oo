@@ -173,6 +173,7 @@ public class OdlOrchestrator extends Orchestrator {
                 ordine.getDataInizioLavorazione(),
                 ordine.getDataFineLavorazione(),
                 ordine.getGruppoCorriere() != null ?ordine.getGruppoCorriere().getNome():"",
+                ordine.getSpedizione().getOrganizzatore().getUsername(),
                 ordine.getFiliale().getNome(),
                 ordine.getSpedizione().getOrdineCliente().getIndirizzoSpedizione().getIndirizzo_1(),
                 ordine.getSpedizione().getOrdineCliente().getIndirizzoSpedizione().getIndirizzo_2(),
