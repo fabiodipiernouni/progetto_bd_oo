@@ -18,6 +18,7 @@ public class OrdinePackagingModel extends Model {
     private LocalDate dataInizioLavorazione;
     private LocalDate dataFineLavorazione;
     private String gruppoCorriere;
+    private String organizzatore;
     private String nomeFiliale;
     private String indirizzoSpedizioneRiga1;
     private String indirizzoSpedizioneRiga2;

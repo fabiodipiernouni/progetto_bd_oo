@@ -2,7 +2,7 @@ package org.unina.uninadelivery.presentation.orchestrator.shipmentdomain;
 
 import javafx.concurrent.Task;
 import javafx.stage.Stage;
-import lombok.Getter;
+import lombok.Setter;
 import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.bll.shipmentdomain.ShipmentService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
@@ -27,17 +27,19 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-class OdlOrchestrator extends Orchestrator implements IGenericOdlOrchestrator, IOdlOrchestratorOrdiniPackaging, IOdlOrchestratorSpedizioni, IOdlOrchestratrOrdiniSpedizione {
+public class OdlOrchestrator extends Orchestrator {
+
+    private static OdlOrchestrator instance;
 
     private final ShipmentService shipmentService;
 
-    @Getter
+    @Setter
     private OrdiniPackagingController ordiniPackagingController;
-    @Getter
+    @Setter
     private SpedizioniController spedizioniController;
-    @Getter
-    private OrdiniSpedizioneController ordiniSpedizioneController;
 
+    @Setter
+    private OrdiniSpedizioneController ordiniSpedizioneController;
 
     /**
      * Costruttore della classe Orchestrator, è protetta rendendo la classe non instanziabile ma derivabile
@@ -49,23 +51,13 @@ class OdlOrchestrator extends Orchestrator implements IGenericOdlOrchestrator, I
         shipmentService = new ShipmentService();
     }
 
-    protected OdlOrchestrator(Stage dashboardStage, OrdiniPackagingController ordiniPackagingController) {
-        super(dashboardStage);
-        shipmentService = new ShipmentService();
-        this.ordiniPackagingController = ordiniPackagingController;
+    public static OdlOrchestrator getOdlOrchestrator(Stage dashboardStage) {
+        if (instance == null) {
+            instance = new OdlOrchestrator(dashboardStage);
+        }
+        return instance;
     }
 
-    protected OdlOrchestrator(Stage dashboardStage, SpedizioniController spedizioniController) {
-        super(dashboardStage);
-        shipmentService = new ShipmentService();
-        this.spedizioniController = spedizioniController;
-    }
-
-    public OdlOrchestrator(Stage dashboardStage, OrdiniSpedizioneController ordiniSpedizioneController) {
-        super(dashboardStage);
-        shipmentService = new ShipmentService();
-        this.ordiniSpedizioneController = ordiniSpedizioneController;
-    }
 
     /**** ORDINI DI LAVORO PACKAGING ****/
 
@@ -180,8 +172,8 @@ class OdlOrchestrator extends Orchestrator implements IGenericOdlOrchestrator, I
                 ordine.getSpedizione().getOrdineCliente().getCliente().getRagioneSociale(),
                 ordine.getDataInizioLavorazione(),
                 ordine.getDataFineLavorazione(),
-                ordine.getGruppoCorriere().getNome(),
-                ordine.getGruppoCorriere().getFiliale().getNome(),
+                ordine.getGruppoCorriere() != null ?ordine.getGruppoCorriere().getNome():"",
+                ordine.getFiliale().getNome(),
                 ordine.getSpedizione().getOrdineCliente().getIndirizzoSpedizione().getIndirizzo_1(),
                 ordine.getSpedizione().getOrdineCliente().getIndirizzoSpedizione().getIndirizzo_2(),
                 ordine.getStato(),
@@ -428,6 +420,10 @@ class OdlOrchestrator extends Orchestrator implements IGenericOdlOrchestrator, I
         }
     }
 
+    public void setSpedizioniController(SpedizioniController spedizioniController) {
+        this.spedizioniController = spedizioniController;
+    }
+
     public void filtroTutteSpedizioniClicked() throws SpedizioniException {
         Session session = Session.getInstance();
         UtenteDTO utente = session.getUserDto().getValue();
@@ -506,14 +502,15 @@ class OdlOrchestrator extends Orchestrator implements IGenericOdlOrchestrator, I
     public void visualizzaOrdiniPackagingClicked(OrdineClienteDTO ordineCliente) throws SpedizioniException {
         try {
             List<OrdineDiLavoroPackagingDTO> ordini = shipmentService.getListaOrdiniDiLavoroPackaging(ordineCliente);
-            ordiniPackagingController.setListaOrdini(ordini);
-            dashboardController.changeView("ORDINI PACKAGING", "/views/shipmentdomain/ordini-packaging-view.fxml", c -> ordiniPackagingController);
+            dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
+            OrdiniPackagingController odlpack = new OrdiniPackagingController(dashboardStage);
+            dashboardController.changeView("ORDINI PACKAGING", "/views/shipmentdomain/ordini-packaging-view.fxml", c -> odlpack);
+            odlpack.setListaOrdini(ordini);
         } catch (ServiceException e) {
             throw new SpedizioniException("Errore nel recupero degli ordini di lavoro di packaging");
         }
     }
 
-    @Override
     public void visualizzaPacchiClicked(OrdineClienteDTO ordineCliente) throws SpedizioniException {
         try {
             List<PaccoDTO> pacchi = shipmentService.getListaPacchi(ordineCliente);
@@ -523,7 +520,6 @@ class OdlOrchestrator extends Orchestrator implements IGenericOdlOrchestrator, I
         }
     }
 
-    @Override
     public Task<Void> generaOdlTrasportoClicked(OrdineClienteDTO ordineCliente) throws SpedizioniException {
         try {
             SpedizioneDTO spedizione = shipmentService.getSpedizione(ordineCliente);

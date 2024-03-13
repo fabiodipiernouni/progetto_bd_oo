@@ -17,8 +17,7 @@ import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.exception.SpedizioniException;
 import org.unina.uninadelivery.presentation.helper.Session;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.IOdlOrchestratorSpedizioni;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestratorFactory;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
 
 import java.net.URL;
 import java.util.Comparator;
@@ -28,7 +27,7 @@ import java.util.ResourceBundle;
 public class SpedizioniController implements Initializable {
 
     private final Stage dashboardStage;
-    private IOdlOrchestratorSpedizioni odlOrchestrator;
+    private OdlOrchestrator odlOrchestrator;
     private final DashboardController dashboardController;
     @FXML
     protected MFXPaginatedTableView<SpedizioneDTO> spedizioniGrid;
@@ -46,7 +45,8 @@ public class SpedizioniController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, this);
+        this.odlOrchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
+        this.odlOrchestrator.setSpedizioniController(this);
         spedizioniGrid.autosizeColumnsOnInitialization();
 
         When.onChanged(spedizioniGrid.currentPageProperty())

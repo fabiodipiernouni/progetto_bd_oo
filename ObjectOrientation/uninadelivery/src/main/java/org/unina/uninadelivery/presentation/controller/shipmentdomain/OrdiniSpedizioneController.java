@@ -18,8 +18,7 @@ import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroSpedizioneDTO
 import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.exception.SpedizioniException;
 import org.unina.uninadelivery.presentation.helper.Session;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.IOdlOrchestratrOrdiniSpedizione;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestratorFactory;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -49,7 +48,7 @@ public class OrdiniSpedizioneController implements Initializable {
     @FXML
     private MFXRadioButton filtroEmessiDaMeRadioBox;
 
-    private IOdlOrchestratrOrdiniSpedizione odlOrchestrator;
+    private OdlOrchestrator odlOrchestrator;
 
     private ToggleGroup toggleGroup;
 
@@ -60,7 +59,8 @@ public class OrdiniSpedizioneController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, this);
+        this.odlOrchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
+        this.odlOrchestrator.setOrdiniSpedizioneController(this);
         setup();
 
         ordiniDiLavoroSpedizioneGrid.autosizeColumnsOnInitialization();

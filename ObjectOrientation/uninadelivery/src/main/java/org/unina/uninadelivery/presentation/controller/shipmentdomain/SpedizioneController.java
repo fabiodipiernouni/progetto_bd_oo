@@ -12,8 +12,7 @@ import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.exception.SpedizioniException;
 import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.model.customerdomain.SpedizioneModel;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.IOdlOrchestratorOrdiniPackaging;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestratorFactory;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -73,7 +72,7 @@ public class SpedizioneController implements Initializable {
         Stage dashboardStage = (Stage)session.getSessionData("dashboardStage");
         DashboardController dashboardController = (DashboardController)dashboardStage.getScene().getUserData();
         OrdiniPackagingController ordiniPackagingController = new OrdiniPackagingController(dashboardStage);
-        IOdlOrchestratorOrdiniPackaging dashboardOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, ordiniPackagingController);
+        OdlOrchestrator dashboardOrchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
 
         //Init delle label
         lblNumeroSpedizione.setText(spedizioneModel.getNumeroSpedizione());
@@ -135,13 +134,13 @@ public class SpedizioneController implements Initializable {
             }
             pacchiButton.setVisible(false);
             odlTrasportoButton.setVisible(false);
-        } else if (spedizioneModel.getStato().equals("LavorataPackaging")) {
+        } else  {
             //ordini di lavoro packaging possono essere solo visualizzati
             odlPackagingButton.setText("Visualizza");
             odlPackagingButton.setVisible(true);
             odlPackagingButton.setOnAction(e -> {
                 try {
-                    IOdlOrchestratorOrdiniPackaging odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, new OrdiniPackagingController(dashboardStage));
+                    OdlOrchestrator odlOrchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
                     odlOrchestrator.visualizzaOrdiniPackagingClicked(spedizioneModel.getOrdineCliente());
                 } catch (SpedizioniException ex) {
                     dashboardController.showDialog("error", "Visualizzazione Ordini Packaging", ex.getMessage());
@@ -180,7 +179,7 @@ public class SpedizioneController implements Initializable {
             pacchiButton.setText("Visualizza");
             pacchiButton.setOnAction(e -> {
                 try {
-                    IOdlOrchestratorOrdiniPackaging odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, new OrdiniPackagingController(dashboardStage));
+                    OdlOrchestrator odlOrchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
                     odlOrchestrator.visualizzaPacchiClicked(spedizioneModel.getOrdineCliente());
                 } catch (SpedizioniException ex) {
                     dashboardController.showDialog("error", "Visualizzazione Pacchi", ex.getMessage());

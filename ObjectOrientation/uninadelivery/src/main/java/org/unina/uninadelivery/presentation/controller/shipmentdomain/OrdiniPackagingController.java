@@ -18,8 +18,7 @@ import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.exception.SpedizioniException;
 import org.unina.uninadelivery.presentation.helper.Session;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.IOdlOrchestratorOrdiniPackaging;
-import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestratorFactory;
+import org.unina.uninadelivery.presentation.orchestrator.shipmentdomain.OdlOrchestrator;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -49,7 +48,7 @@ public class OrdiniPackagingController implements Initializable {
     @FXML
     private MFXRadioButton filtroEmessiDaMeRadioBox;
 
-    private IOdlOrchestratorOrdiniPackaging odlOrchestrator;
+    private OdlOrchestrator odlOrchestrator;
 
     private ToggleGroup toggleGroup;
 
@@ -61,7 +60,8 @@ public class OrdiniPackagingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.odlOrchestrator = OdlOrchestratorFactory.getOdlOrchestrator(dashboardStage, this);
+        this.odlOrchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
+        this.odlOrchestrator.setOrdiniPackagingController(this);
         setup();
 
         ordiniDiLavoroPackagingGrid.autosizeColumnsOnInitialization();
@@ -275,8 +275,8 @@ public class OrdiniPackagingController implements Initializable {
     }
 
     public void setListaOrdini(List<OrdineDiLavoroPackagingDTO> listaOrdini) {
-        ordiniDiLavoroPackagingGrid.getItems().clear();
-        ordiniDiLavoroPackagingGrid.setItems(FXCollections.observableArrayList(listaOrdini));
+        this.ordiniDiLavoroPackagingGrid.getItems().clear();
+        this.ordiniDiLavoroPackagingGrid.setItems(FXCollections.observableArrayList(listaOrdini));
     }
 
 

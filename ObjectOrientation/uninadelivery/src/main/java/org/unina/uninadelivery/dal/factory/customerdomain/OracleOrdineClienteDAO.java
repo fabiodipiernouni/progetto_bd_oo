@@ -455,11 +455,11 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
         try {
             preparedStatement = connection.prepareStatement("""
                 
-                    SELECT filiale.id, nome, indirizzo, telefono, email
-                FROM filiale
-                JOIN statoOrdineClienteFiliale
-                ON filiale.id = statoOrdineClienteFiliale.idFiliale
-                WHERE idOrdineCliente = ?""");
+                SELECT f.id, f.nome, o.paese, o.ragioneSociale, o.partitaIva
+                FROM filiale f
+                join statoOrdineClienteFiliale s on f.id = s.idFiliale
+                JOIN org o on f.idOrg = o.id
+                WHERE s.IdOrdineCliente = ?""");
 
             preparedStatement.setLong(1, ordineCliente.getId());
 
@@ -470,11 +470,12 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
             while(resultSet.next()) {
                 long id = resultSet.getLong("id");
                 String nome = resultSet.getString("nome");
-                String indirizzo = resultSet.getString("indirizzo");
-                String telefono = resultSet.getString("telefono");
-                String email = resultSet.getString("email");
+                String paese = resultSet.getString("paese");
+                String ragioneSociale = resultSet.getString("ragioneSociale");
+                String partitaIva = resultSet.getString("partitaIva");
 
-                filiali.add(new FilialeDTO(id, nome, indirizzo, telefono, email));
+
+                filiali.add(new FilialeDTO(id, nome, paese, ragioneSociale, partitaIva));
             }
 
             return filiali;
@@ -482,7 +483,6 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
             throw new PersistenceException(sqe.getMessage());
         } finally {
             //libero le risorse
-
             try {
                 if(resultSet != null)
                     resultSet.close();
