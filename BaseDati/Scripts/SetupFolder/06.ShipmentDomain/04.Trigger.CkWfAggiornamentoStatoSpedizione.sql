@@ -12,10 +12,11 @@ create or replace trigger CkWfAggiornamentoStatoSpedizione
   for each row
 when (new.STATO = 'LavorataSpedizione')
 declare
-    vNumNonLavorato, vNumLavorato number;
+    vNumNonLavorato number;
+    vNumLavorato number;
 begin
     select sum(case when stato = 'Lavorato' then 0 else 1 end) as numNonLavorato,
-           sum(case when stato = 'Lavorato' then 1 else 0 end) as numLavorato,
+           sum(case when stato = 'Lavorato' then 1 else 0 end) as numLavorato
            into vNumNonLavorato, vNumLavorato
     from ORDINEDILAVOROSPEDIZIONE ols
     where ols.IDSPEDIZIONE = :new.ID and ols.STATO <> 'Lavorato';
