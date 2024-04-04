@@ -6,7 +6,6 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class MezzoDiTrasportoDTO {
 
     private long id;
@@ -16,6 +15,8 @@ public class MezzoDiTrasportoDTO {
 
     @NonNull
     private String tipo;
+
+    private float PesoTrasportabile;
 
     @NonNull
     private GruppoCorriereDTO gruppoCorriere;

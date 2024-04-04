@@ -10,7 +10,6 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class IndirizzoDTO {
 
     private long id;

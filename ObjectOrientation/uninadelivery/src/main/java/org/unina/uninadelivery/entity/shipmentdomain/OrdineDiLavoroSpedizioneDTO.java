@@ -13,13 +13,9 @@ import java.util.List;
 @ToString(callSuper=true)
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
 public class OrdineDiLavoroSpedizioneDTO extends OrdineDiLavoroDTO {
 
     private MezzoDiTrasportoDTO mezzoDiTrasporto;
-
-    @NonNull
-    private List<PaccoDTO> pacchi;
 
     public OrdineDiLavoroSpedizioneDTO(long id, @NonNull LocalDate dataCreazione, LocalDate dataInizioPianificazione, LocalDate dataInizioLavorazione, LocalDate dataFineLavorazione, GruppoCorriereDTO gruppoCorriere, OperatoreCorriereDTO operatoreCorriere, @NonNull FilialeDTO filiale, @NonNull SpedizioneDTO spedizione, @NonNull String stato, String noteAggiuntiveOperatore, MezzoDiTrasportoDTO mezzoDiTrasporto) {
         super(id, dataCreazione, dataInizioPianificazione, dataInizioLavorazione, dataFineLavorazione, gruppoCorriere, operatoreCorriere, filiale, spedizione, stato, noteAggiuntiveOperatore);

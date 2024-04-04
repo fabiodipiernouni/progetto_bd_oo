@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import io.github.palexdev.materialfx.controls.MFXTableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.PacchiController"
-            prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css">
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<AnchorPane prefHeight="Infinity" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.PacchiController">
+    <Pane layoutX="58.0" layoutY="19.0" prefHeight="200.0" prefWidth="744.0" styleClass="pane_2">
+        <children>
+            <Label layoutX="23.0" layoutY="24.0" text="Ordine Packaging N.:">
+                <font>
+                    <Font name="Verdana" size="14.0"/>
+                </font>
+            </Label>
+            <Line endX="593.5" endY="-7.62939453125E-6" layoutX="123.0" layoutY="48.0" startX="-100.0"/>
+            <Label fx:id="ordineDiLavoroPackagingLabel" layoutX="183.0" layoutY="24.0" text="&lt;ordineDiLavoroPackaging&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0"/>
+                </font>
+            </Label>
+            <Label layoutX="23.0" layoutY="60.0" text="Destinazione:">
+                <font>
+                    <Font name="Verdana" size="14.0"/>
+                </font>
+            </Label>
+            <Line endX="593.5" endY="-7.62939453125E-6" layoutX="123.0" layoutY="84.0" startX="-100.0"/>
+            <Label fx:id="indirizzoDiDestinazioneLabel" layoutX="183.0" layoutY="60.0" text="&lt;indirizzoDiDestinazione&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0"/>
+                </font>
+            </Label>
+            <Label layoutX="23.0" layoutY="100.0" text="Spedizione:">
+                <font>
+                    <Font name="Verdana" size="14.0"/>
+                </font>
+            </Label>
+            <Line endX="593.5" endY="-7.62939453125E-6" layoutX="123.0" layoutY="124.0" startX="-100.0"/>
+            <Label fx:id="spedizioneLabel" layoutX="183.0" layoutY="100.0" text="&lt;spedizione&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0"/>
+                </font>
+            </Label>
+            <Label layoutX="23.0" layoutY="138.0" text="Magazzino:">
+                <font>
+                    <Font name="Verdana" size="14.0"/>
+                </font>
+            </Label>
+            <Line endX="593.5" endY="-7.62939453125E-6" layoutX="123.0" layoutY="162.0" startX="-100.0"/>
+            <MFXButton styleClass="link-button" fx:id="magazzinoButton" layoutX="175.0" layoutY="135.0" text="&lt;magazzino&gt;">
+                <font>
+                    <Font name="Verdana" size="14.0"/>
+                </font>
+            </MFXButton>
+        </children>
+    </Pane>
 
+    <MFXTableView fx:id="pacchiGrid" layoutX="58.0" layoutY="300.0" prefWidth="850.0">
+
+    </MFXTableView>
 </AnchorPane>

@@ -9,10 +9,9 @@ import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class PaccoDTO {
 
-    long id;
+    private long id;
 
     @NonNull
     private String codicePacco;

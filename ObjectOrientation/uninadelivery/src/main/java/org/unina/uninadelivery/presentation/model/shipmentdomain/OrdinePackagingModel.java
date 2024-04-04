@@ -1,8 +1,11 @@
 package org.unina.uninadelivery.presentation.model.shipmentdomain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 import org.unina.uninadelivery.presentation.model.Model;
 
@@ -10,7 +13,12 @@ import java.time.LocalDate;
 
 @AllArgsConstructor
 @Getter
+@Builder(toBuilder = true)
 public class OrdinePackagingModel extends Model {
+
+    @Getter
+    @Setter
+    private OrdineDiLavoroPackagingDTO ordine;
 
     private long codiceOrdine;
     private LocalDate dataCreazione;

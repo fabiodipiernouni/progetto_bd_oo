@@ -12,11 +12,16 @@ import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 
 class OracleOrdineClienteDAO implements OrdineClienteDAO {
-    private final Connection connection = DatabaseSingleton.getInstance().connect();
+    private final Connection connection;
 
+    OracleOrdineClienteDAO() throws PersistenceException {
+        this.connection = DatabaseSingleton.getInstance().connect();
+    }
 
     private OrdineClienteDTO getByResultSet(ResultSet resultSet) throws SQLException, PersistenceException {
 
@@ -26,34 +31,34 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
         double importoTotale = resultSet.getDouble("importoTotale");
 
         LocalDate dataInizioLavorazione = resultSet.getObject("dataInizioLavorazione", LocalDate.class);
-        if(resultSet.wasNull())
+        if (resultSet.wasNull())
             dataInizioLavorazione = null;
 
         LocalDate dataFineLavorazione = resultSet.getObject("dataFineLavorazione", LocalDate.class);
-        if(resultSet.wasNull())
+        if (resultSet.wasNull())
             dataFineLavorazione = null;
 
         String stato = resultSet.getString("Stato");
 
         long idCliente = resultSet.getLong("idCliente");
         Optional<ClienteDTO> cliente = FactoryCustomerDomain.buildClienteDAO().select(idCliente);
-        if(cliente.isEmpty())
+        if (cliente.isEmpty())
             throw new ConsistencyException("Cliente non trovato");
 
         long idIndirizzoFatturazione = resultSet.getLong("idIndirizzoFatturazione");
         Optional<IndirizzoDTO> indirizzoFatturazione = FactoryGeoDomain.buildIndirizzoDAO().select(idIndirizzoFatturazione);
-        if(indirizzoFatturazione.isEmpty())
+        if (indirizzoFatturazione.isEmpty())
             throw new ConsistencyException("Indirizzo fatturazione non trovato");
 
 
         Long idIndirizzoSpedizione = resultSet.getLong("idIndirizzoSpedizione"); //uso Long e non long perché voglio poter assegnare null
-        if(resultSet.wasNull())
+        if (resultSet.wasNull())
             idIndirizzoSpedizione = null;
 
         Optional<IndirizzoDTO> indirizzoSpedizione = Optional.empty();
-        if(idIndirizzoSpedizione != null) {
+        if (idIndirizzoSpedizione != null) {
             indirizzoSpedizione = FactoryGeoDomain.buildIndirizzoDAO().select(idIndirizzoSpedizione);
-            if(indirizzoSpedizione.isEmpty())
+            if (indirizzoSpedizione.isEmpty())
                 throw new ConsistencyException("Indirizzo spedizione non trovato");
         }
 
@@ -61,7 +66,7 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
         List<DettaglioOrdineDTO> dettaglio = FactoryCustomerDomain.buildDettaglioOrdineDAO().select(id);
 
-        if(dettaglio.isEmpty())
+        if (dettaglio.isEmpty())
             throw new ConsistencyException("Deve esserci almeno un dettaglio oridine");
 
         return new OrdineClienteDTO(
@@ -77,8 +82,6 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
                 numeroOrdine,
                 dettaglio
         );
-
-
     }
 
     public Optional<OrdineClienteDTO> select(long id) throws PersistenceException {
@@ -91,26 +94,24 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM OrdineCliente WHERE id = " + id);
 
-            if(resultSet.next())
+            if (resultSet.next())
                 ordineCliente = Optional.of(getByResultSet(resultSet));
 
 
             return ordineCliente;
 
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(statement != null)
+                if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio niente
             }
         }
@@ -119,14 +120,14 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
     public int getCount(FilialeDTO filiale, String statoOrdine) throws PersistenceException {
 
         String query = """
-            SELECT COUNT(*)
-            FROM OrdineCliente
-            LEFT JOIN StatoOrdineClienteFIliale
-            ON OrdineCliente.id = StatoOrdineClienteFiliale.idOrdineCliente 
-            WHERE 1=1 """;
-        if(filiale != null)
+                SELECT COUNT(*)
+                FROM OrdineCliente
+                LEFT JOIN StatoOrdineClienteFIliale
+                ON OrdineCliente.id = StatoOrdineClienteFiliale.idOrdineCliente 
+                WHERE 1=1 """;
+        if (filiale != null)
             query += "AND idFiliale = " + filiale.getId();
-        if(statoOrdine != null)
+        if (statoOrdine != null)
             query += " AND OrdineCliente.Stato = '" + statoOrdine + "'";
 
 
@@ -138,25 +139,23 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
 
-            if(!resultSet.next())
+            if (!resultSet.next())
                 throw new PersistenceException("Errore nel reperire il numero di ordini");
 
             return resultSet.getInt(1);
 
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(statement != null)
+                if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio niente
             }
         }
@@ -180,34 +179,32 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
         try {
             preparedStatement = connection.prepareStatement("""
-            SELECT COUNT(*)
-            FROM OrdineCliente
-            WHERE dataOrdine BETWEEN ? AND ?""");
+                    SELECT COUNT(*)
+                    FROM OrdineCliente
+                    WHERE dataOrdine BETWEEN ? AND ?""");
             preparedStatement.setObject(1, dataInizio);
             preparedStatement.setObject(2, dataFine);
 
             resultSet = preparedStatement.executeQuery();
 
 
-            if(!resultSet.next())
+            if (!resultSet.next())
                 throw new PersistenceException("Errore nel reperire il numero di ordini");
 
             return resultSet.getInt(1);
 
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(preparedStatement != null)
+                if (preparedStatement != null)
                     preparedStatement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio niente
             }
         }
@@ -246,26 +243,32 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
         return select(filiale, null, cliente, dataInizio, dataFine);
     }
 
+    public List<OrdineClienteDTO> select(ClienteDTO cliente, LocalDate dataInizio, LocalDate dataFine) throws PersistenceException {
+        return select(null, cliente, dataInizio, dataFine);
+    }
+
+    public List<OrdineClienteDTO> select(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException {
+        return select((FilialeDTO) null, (String) null, dataInizio, dataFine);
+    }
 
     public List<OrdineClienteDTO> select(FilialeDTO filiale, String statoOrdine, ClienteDTO cliente, LocalDate dataInizio, LocalDate dataFine) throws PersistenceException {
         String query = """
-            SELECT *
-            FROM OrdineCliente
-            LEFT JOIN StatoOrdineClienteFIliale
-            ON OrdineCliente.id = StatoOrdineClienteFiliale.idOrdineCliente
-            WHERE 1=1 """;
+                SELECT *
+                FROM OrdineCliente
+                LEFT JOIN StatoOrdineClienteFIliale
+                ON OrdineCliente.id = StatoOrdineClienteFiliale.idOrdineCliente
+                WHERE 1=1 """;
 
-        if(filiale != null)
+        if (filiale != null)
             query += "AND idFiliale = ? ";
-        if(statoOrdine != null)
+        if (statoOrdine != null)
             query += "AND OrdineCliente.Stato = ? ";
-        if(cliente != null)
+        if (cliente != null)
             query += "AND idCliente = ? ";
-        if(dataFine != null)
+        if (dataFine != null)
             query += "AND dataOrdine <= ? ";
-        if(dataInizio != null)
+        if (dataInizio != null)
             query += "AND dataOrdine >= ? ";
-
 
 
         PreparedStatement preparedStatement = null;
@@ -278,38 +281,35 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
             int index = 1;
 
-            if(filiale != null)
+            if (filiale != null)
                 preparedStatement.setLong(index++, filiale.getId());
-            if(statoOrdine != null)
+            if (statoOrdine != null)
                 preparedStatement.setString(index++, statoOrdine);
-            if(cliente != null)
+            if (cliente != null)
                 preparedStatement.setLong(index++, cliente.getId());
-            if(dataFine != null)
+            if (dataFine != null)
                 preparedStatement.setObject(index++, dataFine);
-            if(dataInizio != null)
+            if (dataInizio != null)
                 preparedStatement.setObject(index++, dataInizio);
 
 
             resultSet = preparedStatement.executeQuery();
 
-            while(resultSet.next())
+            while (resultSet.next())
                 ordiniCliente.add(getByResultSet(resultSet));
-
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(preparedStatement != null)
+                if (preparedStatement != null)
                     preparedStatement.close();
 
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio nulla
             }
         }
@@ -319,7 +319,7 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
 
     private Optional<OrdineClienteDTO> getOrdineNumeroDiProdotti(LocalDate dataInizio, LocalDate dataFine, String sortCriteria) throws PersistenceException {
-        if( !(sortCriteria.equals("ASC") || sortCriteria.equals("DESC") ) )
+        if (!(sortCriteria.equals("ASC") || sortCriteria.equals("DESC")))
             throw new PersistenceException("ordinamento non valido");
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -344,25 +344,23 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
             resultSet = preparedStatement.executeQuery();
 
-            if(resultSet.next())
+            if (resultSet.next())
                 ordineCliente = Optional.of(getByResultSet(resultSet));
 
             return ordineCliente;
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(preparedStatement != null)
+                if (preparedStatement != null)
                     preparedStatement.close();
 
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio nulla
             }
         }
@@ -380,22 +378,22 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
     }
 
 
-    public float getMediaOrdiniGiornaliera(LocalDate dataInizio, LocalDate dataFine)  throws PersistenceException {
+    public float getMediaOrdiniGiornaliera(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         try {
             preparedStatement = connection.prepareStatement("""
-                WITH date_range(dt) AS (
-                    SELECT ? FROM dual
-                    UNION ALL
-                    SELECT dt + INTERVAL '1' DAY FROM date_range
-                    WHERE dt < ?
-                )
-                SELECT AVG(COUNT(ordineCliente.id))
-                FROM date_range
-                LEFT JOIN ordineCliente ON date_range.dt = ordineCliente.dataOrdine
-                GROUP BY date_range.dt""");
+                    WITH date_range(dt) AS (
+                        SELECT ? FROM dual
+                        UNION ALL
+                        SELECT dt + 1 FROM date_range
+                        WHERE dt < ?
+                    )
+                    SELECT AVG(COUNT(ordineCliente.id))
+                    FROM date_range
+                    LEFT JOIN ordineCliente ON date_range.dt = ordineCliente.dataOrdine
+                    GROUP BY date_range.dt""");
             /*
             * WITH date_range(dt) AS:
             This is a Common Table Expression (CTE) that generates a series of dates between dataInizio and dataFine.
@@ -421,26 +419,24 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
             resultSet = preparedStatement.executeQuery();
 
-            if(!resultSet.next())
+            if (!resultSet.next())
                 throw new PersistenceException("non ho ottenuto il risultato");
 
             return resultSet.getFloat(1);
 
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(preparedStatement != null)
+                if (preparedStatement != null)
                     preparedStatement.close();
 
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio nulla
             }
         }
@@ -454,12 +450,12 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
         try {
             preparedStatement = connection.prepareStatement("""
-                
-                SELECT f.id, f.nome, o.paese, o.ragioneSociale, o.partitaIva
-                FROM filiale f
-                join statoOrdineClienteFiliale s on f.id = s.idFiliale
-                JOIN org o on f.idOrg = o.id
-                WHERE s.IdOrdineCliente = ?""");
+                                    
+                    SELECT f.id, f.nome, o.paese, o.ragioneSociale, o.partitaIva
+                    FROM filiale f
+                    join statoOrdineClienteFiliale s on f.id = s.idFiliale
+                    JOIN org o on f.idOrg = o.id
+                    WHERE s.IdOrdineCliente = ?""");
 
             preparedStatement.setLong(1, ordineCliente.getId());
 
@@ -467,7 +463,7 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
             List<FilialeDTO> filiali = new LinkedList<>();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 long id = resultSet.getLong("id");
                 String nome = resultSet.getString("nome");
                 String paese = resultSet.getString("paese");
@@ -480,17 +476,17 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
             return filiali;
         } catch (SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
         } finally {
             //libero le risorse
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(preparedStatement != null)
+                if (preparedStatement != null)
                     preparedStatement.close();
 
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio nulla
             }
         }
@@ -501,7 +497,6 @@ class OracleOrdineClienteDAO implements OrdineClienteDAO {
 
         return new LinkedList<>();
     }*/
-
 
 
 }

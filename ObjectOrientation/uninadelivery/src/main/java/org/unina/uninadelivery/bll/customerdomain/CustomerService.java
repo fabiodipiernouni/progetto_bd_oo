@@ -17,13 +17,13 @@ import java.util.List;
 import java.util.Optional;
 
 public class CustomerService {
-    public Task<Integer> getCountOrdiniDaLavorareTask(FilialeDTO filiale) {
+    public Task<Integer> getCountOrdiniDaLavorareTask(FilialeDTO filiale) throws ServiceException {
         return new Task<>() {
             @Override
             protected Integer call() throws ServiceException {
                 int ret;
-                OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
                 try {
+                    OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
                     if (filiale != null)
                         ret = dao.getCount(filiale, "Completato");
                     else
@@ -47,11 +47,11 @@ public class CustomerService {
     }*/
 
     public List<ClienteDTO> getListaClienti(FilialeDTO filiale) throws ServiceException {
-            try {
-                return FactoryCustomerDomain.buildClienteDAO().select(filiale);
-            } catch (PersistenceException e) {
-                throw new ServiceException("Errore nel reperire la lista dei clienti");
-            }
+        try {
+            return FactoryCustomerDomain.buildClienteDAO().select(filiale);
+        } catch (PersistenceException e) {
+            throw new ServiceException("Errore nel reperire la lista dei clienti");
+        }
 
     }
 
@@ -64,51 +64,102 @@ public class CustomerService {
 
     }
 
-    public List<OrdineClienteDTO> getOrdiniCliente(FilialeDTO filiale, ClienteDTO cliente) throws ServiceException{
-        try {
-            return FactoryCustomerDomain.buildOrdineClienteDAO().select(filiale, cliente);
-        } catch (PersistenceException e) {
-            throw new ServiceException("Errore nel reperire la lista degli ordini del cliente");
-        }
+    public Task<List<OrdineClienteDTO>> getOrdiniCliente(LocalDate dataInizio, LocalDate dataFine, FilialeDTO filiale) throws ServiceException {
+        Task<List<OrdineClienteDTO>> task = new Task<>() {
+            @Override
+            protected List<OrdineClienteDTO> call() throws ServiceException {
+                try {
+                    return FactoryCustomerDomain.buildOrdineClienteDAO().select(filiale, dataInizio, dataFine);
+                } catch (PersistenceException e) {
+                    throw new ServiceException("Errore nel reperire la lista degli ordini del cliente");
+                }
+            }
+        };
+
+        return task;
     }
 
-    public List<OrdineClienteDTO> getOrdiniCliente(ClienteDTO cliente) throws ServiceException{
-        try {
-            return FactoryCustomerDomain.buildOrdineClienteDAO().select(cliente);
-        } catch (PersistenceException e) {
-            throw new ServiceException("Errore nel reperire la lista degli ordini del cliente");
-        }
+    public Task<List<OrdineClienteDTO>> getOrdiniCliente(FilialeDTO filiale, ClienteDTO cliente) throws ServiceException {
+        Task<List<OrdineClienteDTO>> task = new Task<>() {
+            @Override
+            protected List<OrdineClienteDTO> call() throws ServiceException {
+                try {
+                    return FactoryCustomerDomain.buildOrdineClienteDAO().select(filiale, cliente);
+                } catch (PersistenceException e) {
+                    throw new ServiceException("Errore nel reperire la lista degli ordini del cliente");
+                }
+            }
+        };
+
+        return task;
     }
 
-    public List<OrdineClienteDTO> getOrdiniCliente(FilialeDTO filiale, ClienteDTO cliente, LocalDate dataInizio, LocalDate dataFine) throws ServiceException{
-        try {
-            return FactoryCustomerDomain.buildOrdineClienteDAO().select(filiale, cliente, dataInizio, dataFine);
-        } catch (PersistenceException e) {
-            throw new ServiceException("Errore nel reperire la lista degli ordini del cliente");
-        }
+    public Task<List<OrdineClienteDTO>> getOrdiniCliente(ClienteDTO cliente) throws ServiceException {
+        Task<List<OrdineClienteDTO>> task = new Task<>() {
+            @Override
+            protected List<OrdineClienteDTO> call() throws ServiceException {
+                try {
+                    return FactoryCustomerDomain.buildOrdineClienteDAO().select(cliente);
+                } catch (PersistenceException e) {
+                    throw new ServiceException("Errore nel reperire la lista degli ordini del cliente");
+                }
+            }
+        };
+
+        return task;
+    }
+
+    public Task<List<OrdineClienteDTO>> getOrdiniCliente(FilialeDTO filiale, ClienteDTO cliente, LocalDate dataInizio, LocalDate dataFine) throws ServiceException {
+        Task<List<OrdineClienteDTO>> task = new Task<>() {
+            @Override
+            protected List<OrdineClienteDTO> call() throws ServiceException {
+                try {
+                    return FactoryCustomerDomain.buildOrdineClienteDAO().select(filiale, cliente, dataInizio, dataFine);
+                } catch (PersistenceException e) {
+                    throw new ServiceException("Errore nel reperire la lista degli ordini del cliente");
+                }
+            }
+        };
+
+        return task;
+    }
+
+    public Task<List<OrdineClienteDTO>> getOrdiniCliente(ClienteDTO cliente, LocalDate dataInizio, LocalDate dataFine) throws ServiceException {
+        Task<List<OrdineClienteDTO>> task = new Task<>() {
+            @Override
+            protected List<OrdineClienteDTO> call() throws ServiceException {
+                try {
+                    return FactoryCustomerDomain.buildOrdineClienteDAO().select(cliente, dataInizio, dataFine);
+                } catch (PersistenceException e) {
+                    throw new ServiceException("Errore nel reperire la lista degli ordini del cliente");
+                }
+            }
+        };
+
+        return task;
+    }
+
+    public Task<List<OrdineClienteDTO>> getOrdiniCliente(LocalDate dataInizio, LocalDate dataFine) throws ServiceException {
+        Task<List<OrdineClienteDTO>> task = new Task<>() {
+            @Override
+            protected List<OrdineClienteDTO> call() throws ServiceException {
+                try {
+                    return FactoryCustomerDomain.buildOrdineClienteDAO().select(dataInizio, dataFine);
+                } catch (PersistenceException e) {
+                    throw new ServiceException("Errore nel reperire la lista degli ordini del cliente");
+                }
+            }
+        };
+
+        return task;
     }
 
     public SpedizioneDTO creaSpedizione(OrdineClienteDTO ordineCliente, OperatoreFilialeDTO operatoreFiliale) throws ServiceException {
         try {
             return FactoryShipmentDomain.buildSpedizioneDAO().insert(ordineCliente, operatoreFiliale);
-        }
-        catch (PersistenceException e) {
+        } catch (PersistenceException e) {
             //e.printStackTrace();
             throw new ServiceException("Errore nel creare la spedizione");
-        }
-    }
-
-    public SpedizioneDTO getSpedizione(OrdineClienteDTO ordineCliente) throws ServiceException {
-
-        try {
-            Optional<SpedizioneDTO> spedizione;
-            spedizione = FactoryShipmentDomain.buildSpedizioneDAO().select(ordineCliente);
-
-            return spedizione.orElse(null);
-        }
-        catch (PersistenceException e) {
-            e.printStackTrace();
-            throw new ServiceException("Errore nel selezionare la spedizione");
         }
     }
 
@@ -116,12 +167,10 @@ public class CustomerService {
         return new Task<>() {
             @Override
             protected Integer call() throws ServiceException {
-                OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
-
                 try {
+                    OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
                     return dao.getCount(dataInizio, dataFine);
-                }
-                catch (PersistenceException e) {
+                } catch (PersistenceException e) {
                     e.printStackTrace();
                     throw new ServiceException("Errore nel reperire il numero totale di ordini");
                 }
@@ -129,15 +178,14 @@ public class CustomerService {
         };
     }
 
-    public Task<Optional<OrdineClienteDTO> > getOrdineMaggiorNumeroProdotti(LocalDate dataInizio, LocalDate dataFine) {
+    public Task<Optional<OrdineClienteDTO>> getOrdineMaggiorNumeroProdotti(LocalDate dataInizio, LocalDate dataFine) {
         return new Task<Optional<OrdineClienteDTO>>() {
             @Override
             protected Optional<OrdineClienteDTO> call() throws ServiceException {
-                OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
                 try {
+                    OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
                     return dao.getOrdineMaggiorNumeroDiProdotti(dataInizio, dataFine);
-                }
-                catch (PersistenceException e) {
+                } catch (PersistenceException e) {
                     e.printStackTrace();
                     throw new ServiceException("Errore nel reperire ordine con maggior numero di prodotti");
                 }
@@ -145,15 +193,14 @@ public class CustomerService {
         };
     }
 
-    public Task<Optional<OrdineClienteDTO> > getOrdineMinorNumeroProdotti(LocalDate dataInizio, LocalDate dataFine) {
-        return new Task<Optional<OrdineClienteDTO> >() {
+    public Task<Optional<OrdineClienteDTO>> getOrdineMinorNumeroProdotti(LocalDate dataInizio, LocalDate dataFine) {
+        return new Task<Optional<OrdineClienteDTO>>() {
             @Override
-            protected Optional<OrdineClienteDTO>  call() throws ServiceException {
-                OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
+            protected Optional<OrdineClienteDTO> call() throws ServiceException {
                 try {
+                    OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
                     return dao.getOrdineMinorNumeroDiProdotti(dataInizio, dataFine);
-                }
-                catch (PersistenceException e) {
+                } catch (PersistenceException e) {
                     e.printStackTrace();
                     throw new ServiceException("Errore nel reperire ordine con minor numero di prodotti");
                 }
@@ -165,11 +212,10 @@ public class CustomerService {
         return new Task<>() {
             @Override
             protected Float call() throws ServiceException {
-                OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
                 try {
+                    OrdineClienteDAO dao = FactoryCustomerDomain.buildOrdineClienteDAO();
                     return dao.getMediaOrdiniGiornaliera(dataInizio, dataFine);
-                }
-                catch (PersistenceException e) {
+                } catch (PersistenceException e) {
                     e.printStackTrace();
                     throw new ServiceException("Errore nel reperire il numero medio di ordini giornaliero");
                 }

@@ -94,4 +94,5 @@ begin
 exception
     when others then
         dbms_output.put_line('Errore in GeneraPacchiByIdOrdinePackaging: ' || sqlerrm);
+        raise;
 end;

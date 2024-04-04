@@ -1,19 +1,22 @@
 package org.unina.uninadelivery.presentation.orchestrator.customerdomain;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.bll.customerdomain.CustomerService;
 import org.unina.uninadelivery.bll.exception.ServiceException;
 import org.unina.uninadelivery.bll.shipmentdomain.ShipmentService;
+import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.entity.customerdomain.ClienteDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
+import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
-import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.ClientiController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.OrdineController;
 import org.unina.uninadelivery.presentation.controller.customerdomain.OrdiniController;
+import org.unina.uninadelivery.presentation.controller.customerdomain.OrdiniMainViewController;
 import org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioneController;
 import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.model.customerdomain.SpedizioneModel;
@@ -22,26 +25,28 @@ import org.unina.uninadelivery.presentation.orchestrator.Orchestrator;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CustomerOrchestrator extends Orchestrator {
 
     private final CustomerService customerService;
     private final ShipmentService shipmentService;
     private final ClientiController clientiController;
+    private final OrdiniMainViewController ordiniMainViewController;
     private OrdiniController ordiniController;
 
-    public CustomerOrchestrator(Stage dashboardStage, ClientiController clientiController) {
+    public CustomerOrchestrator(Stage dashboardStage, ClientiController clientiController, OrdiniMainViewController ordiniMainViewController) {
         super(dashboardStage);
         this.clientiController = clientiController;
+        this.ordiniMainViewController = ordiniMainViewController;
 
         customerService = new CustomerService();
         shipmentService = new ShipmentService();
     }
 
-
     public void paginaClientiPronta() {
         Session session = Session.getInstance();
-
         UtenteDTO utenteDTO = session.getUserDto().getValue();
 
         try {
@@ -51,11 +56,58 @@ public class CustomerOrchestrator extends Orchestrator {
             else if (utenteDTO.getProfilo().equals("Manager"))
                 listaCLienti = customerService.getListaClienti();
 
+            if(listaCLienti == null)
+                listaCLienti = Collections.emptyList();
+
             clientiController.setListaClienti(listaCLienti);
 
         } catch (ServiceException e) {
-            //TODO: gestire errore
             e.printStackTrace();
+            dashboardController.showDialog("error", "Visualizzazione Clienti", e.getMessage());
+        }
+    }
+
+    public void paginaOrdiniMainPronta(LocalDate dataInizio, LocalDate dataFine) {
+        Session session = Session.getInstance();
+        UtenteDTO utenteDTO = session.getUserDto().getValue();
+        Task<List<OrdineClienteDTO>> ordiniTask = null;
+
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        try {
+            if(utenteDTO.getProfilo().equals("Operatore")) {
+                ordiniTask = customerService.getOrdiniCliente(dataInizio, dataFine, ((OperatoreFilialeDTO) utenteDTO).getFiliale());
+            }
+            else if(utenteDTO.getProfilo().equals("Manager")) {
+                ordiniTask = customerService.getOrdiniCliente(dataInizio, dataFine);
+            }
+            else {
+                return;
+            }
+
+            ordiniTask.setOnRunning(e -> Platform.runLater(() -> taskRunning()));
+
+            ordiniTask.setOnSucceeded(e -> Platform.runLater(() -> {
+                try {
+                    ordiniMainViewController.setListaOrdiniCliente(((Task<List<OrdineClienteDTO>>) e.getSource()).getValue());
+                }
+                catch (Exception ex) {
+                    dashboardController.showDialog("error", "Visualizzazione Ordini", "Errore nella visualizzazione degli ordini");
+                }
+
+                taskCompleted();
+            }));
+            ordiniTask.setOnFailed(e -> Platform.runLater(() -> {
+                dashboardController.showDialog("error", "Visualizzazione Ordini", "Errore nel reperire gli ordini");
+                taskCompleted();
+            }));
+
+            executorService.submit(ordiniTask);
+        }catch (ServiceException e) {
+            e.printStackTrace();
+            dashboardController.showDialog("error", "Visualizzazione Clienti", e.getMessage());
+        }
+        finally {
+            executorService.shutdown();
         }
     }
 
@@ -63,52 +115,105 @@ public class CustomerOrchestrator extends Orchestrator {
         Session session = Session.getInstance();
 
         UtenteDTO utenteDTO = session.getUserDto().getValue();
+        Task<List<OrdineClienteDTO>> ordiniTask = null;
 
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
+            if (utenteDTO.getProfilo().equals("Operatore")) {
+                ordiniTask = customerService.getOrdiniCliente(((OperatoreFilialeDTO) utenteDTO).getFiliale(), cliente);
+            }
+            else if (utenteDTO.getProfilo().equals("Manager")) {
+                ordiniTask = customerService.getOrdiniCliente(cliente);
+            }
 
-            List<OrdineClienteDTO> listaOrdiniCliente = Collections.emptyList();
+            ordiniTask.setOnRunning(e -> Platform.runLater(() -> taskRunning()));
 
-            if (utenteDTO.getProfilo().equals("Operatore"))
-                listaOrdiniCliente = customerService.getOrdiniCliente(((OperatoreFilialeDTO) utenteDTO).getFiliale(), cliente);
-            else if (utenteDTO.getProfilo().equals("Manager"))
-                listaOrdiniCliente = customerService.getOrdiniCliente(cliente);
+            ordiniTask.setOnSucceeded(e -> Platform.runLater(() -> {
+                try {
+                    List<OrdineClienteDTO> listaOrdiniCliente = ((Task<List<OrdineClienteDTO>>) e.getSource()).getValue();
+                    ordiniController = new OrdiniController(dashboardStage, this, cliente);
+                    dashboardController.changeView("ORDINI", "/views/customerdomain/ordini-view.fxml", c -> ordiniController);
+                    ordiniController.setListaOrdiniCliente(listaOrdiniCliente);
+                }
+                catch (Exception ex) {
+                    taskCompleted();
+                    dashboardController.showDialog("error", "Visualizzazione Ordini", "Errore nella visualizzazione degli ordini");
+                    return;
+                }
 
-            DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
+                taskCompleted();
+            }));
 
-            ordiniController = new OrdiniController(dashboardStage, this, cliente);
-            dashboardController.changeView("ORDINI", "/views/customerdomain/ordini-view.fxml", c -> ordiniController);
-            ordiniController.setListaOrdiniCliente(listaOrdiniCliente);
+            ordiniTask.setOnFailed(e -> Platform.runLater(() -> {
+                taskCompleted();
+                dashboardController.showDialog("error", "Visualizzazione Ordini", "Errore nel reperire gli ordini");
+            }));
 
+            executorService.submit(ordiniTask);
         } catch (ServiceException e) {
-            //TODO: gestire errore
+            dashboardController.showDialog("error", "Visualizzazione Ordini", e.getMessage());
         }
-
+        finally {
+            executorService.shutdown();
+        }
     }
-
 
     public void visualizzaOrdineClicked(OrdineClienteDTO ordine) {
 
         OrdineController ordineController = new OrdineController(dashboardStage, ordine);
-        DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
+        //DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
         dashboardController.changeView("ORDINE", "/views/customerdomain/ordine-view.fxml", c -> ordineController);
-
-
     }
-
 
     public void visualizzaOrdiniDataClicked(ClienteDTO clienteDTO, LocalDate dataInizio, LocalDate dataFine) {
         Session session = Session.getInstance();
 
-        OperatoreFilialeDTO operatoreFilialeDTO = (OperatoreFilialeDTO) session.getUserDto().getValue();
+        UtenteDTO utenteDTO = session.getUserDto().getValue();
 
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
+            Task<List<OrdineClienteDTO>> ordiniTask = null;
 
-            List<OrdineClienteDTO> listaOrdiniCliente = customerService.getOrdiniCliente(operatoreFilialeDTO.getFiliale(), clienteDTO, dataInizio, dataFine);
+            if(utenteDTO.getProfilo().equals("Operatore"))
+                ordiniTask = customerService.getOrdiniCliente( ((OperatoreFilialeDTO) utenteDTO).getFiliale(), clienteDTO, dataInizio, dataFine);
+            else
+                if(utenteDTO.getProfilo().equals("Manager"))
+                    ordiniTask = customerService.getOrdiniCliente(clienteDTO, dataInizio, dataFine);
 
-            ordiniController.setListaOrdiniCliente(listaOrdiniCliente);
 
+            ordiniTask.setOnRunning(e -> Platform.runLater(() -> taskRunning()));
+
+            ordiniTask.setOnSucceeded(e -> Platform.runLater(() -> {
+                try {
+                    List<OrdineClienteDTO> listaOrdiniCliente = ((Task<List<OrdineClienteDTO>>) e.getSource()).getValue();
+                    if(ordiniController != null) {
+                        ordiniController.setListaOrdiniCliente(listaOrdiniCliente);
+                    }
+                    else {
+                        ordiniMainViewController.setListaOrdiniCliente(listaOrdiniCliente);
+                    }
+                }
+                catch (Exception ex) {
+                    taskCompleted();
+                    dashboardController.showDialog("error", "Visualizzazione Ordini", "Errore nella visualizzazione degli ordini");
+                    return;
+                }
+
+                taskCompleted();
+            }));
+
+            ordiniTask.setOnFailed(e -> Platform.runLater(() -> {
+                taskCompleted();
+                dashboardController.showDialog("error", "Visualizzazione Ordini", "Errore nel reperire gli ordini");
+            }));
+
+            executorService.submit(ordiniTask);
         } catch (ServiceException e) {
-            //TODO: gestire errore
+            e.printStackTrace();
+            dashboardController.showDialog("errore", "Visualizzazione ordini", e.getMessage());
+        }
+        finally {
+            executorService.shutdown();
         }
     }
 
@@ -116,33 +221,67 @@ public class CustomerOrchestrator extends Orchestrator {
         Session session = Session.getInstance();
 
         OperatoreFilialeDTO operatoreFilialeDTO = (OperatoreFilialeDTO) session.getUserDto().getValue();
+        Task<List<OrdineClienteDTO>> ordiniTask = null;
 
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
             customerService.creaSpedizione(ordineCliente, operatoreFilialeDTO);
 
             //ricarico la lista degli ordini
-            List<OrdineClienteDTO> listaOrdiniCliente = customerService.getOrdiniCliente(operatoreFilialeDTO.getFiliale(), ordineCliente.getCliente());
-            ordiniController.setListaOrdiniCliente(listaOrdiniCliente);
-            ordiniController.resettaFiltri();
+            ordiniTask = customerService.getOrdiniCliente(operatoreFilialeDTO.getFiliale(), ordineCliente.getCliente());
 
-            Platform.runLater(() ->
-                    dashboardController.showDialog("Info", "Creazione Spedizione", "Spedizione creata con successo")
-            );
+            ordiniTask.setOnRunning(e -> Platform.runLater(() -> taskRunning()));
+
+            ordiniTask.setOnSucceeded(e -> Platform.runLater(() -> {
+                try {
+                    List<OrdineClienteDTO> listaOrdiniCliente = ((Task<List<OrdineClienteDTO>>) e.getSource()).getValue();
+
+                    if (ordiniController != null) {
+                        ordiniController.setListaOrdiniCliente(listaOrdiniCliente);
+                        ordiniController.resettaFiltri();
+                    } else {
+                        ordiniMainViewController.setListaOrdiniCliente(listaOrdiniCliente);
+                        ordiniMainViewController.resettaFiltri();
+                    }
+
+                    dashboardController.showDialog("Info", "Creazione Spedizione", "Spedizione creata con successo");
+                }
+                catch (Exception ex) {
+                    taskCompleted();
+                    dashboardController.showDialog("error", "Visualizzazione Ordini", "Errore nella visualizzazione degli ordini");
+                    return;
+                }
+
+                taskCompleted();
+            }));
+
+            ordiniTask.setOnFailed(e -> Platform.runLater(() -> {
+                taskCompleted();
+                dashboardController.showDialog("error", "Visualizzazione Ordini", "Errore nel reperire gli ordini");
+            }));
+
+            executorService.submit(ordiniTask);
         } catch (ServiceException e) {
-            //TODO: gestire errore
-            System.out.println(e.getMessage());
+            e.printStackTrace();
+            dashboardController.showDialog("errore", "Crea Spedizione", e.getMessage());
         }
-
+        finally {
+            executorService.shutdown();
+        }
     }
 
     public void visualizzaSpedizioneClicked(OrdineClienteDTO ordineCliente) {
-        try{
+        try {
             SpedizioneDTO spedizione = shipmentService.getSpedizione(ordineCliente);
+            Session session = Session.getInstance();
+            UtenteDTO utente = session.getUserDto().getValue();
 
-            if(spedizione == null)
-                dashboardController.showDialog("Errore", "Visualizzazione Spedizione", "Spedizione non trovata");
+            if (spedizione == null)
+                dashboardController.showDialog("Error", "Visualizzazione Spedizione", "Spedizione non trovata");
             else {
-                String cliente = spedizione.getOrdineCliente().getCliente().getRagioneSociale() != null ? spedizione.getOrdineCliente().getCliente().getRagioneSociale():spedizione.getOrdineCliente().getCliente().getNome() + " " + spedizione.getOrdineCliente().getCliente().getCognome();
+                String cliente = spedizione.getOrdineCliente().getCliente().getIntestazione();
+                FilialeDTO filiale = utente.getProfilo().equals("Manager") ? null: (utente.getProfilo().equals("Operatore") ? ((OperatoreFilialeDTO) utente).getFiliale(): ((OperatoreCorriereDTO) utente).getGruppoCorriere().getFiliale());
+
                 SpedizioneController spedizioneController = new SpedizioneController(new SpedizioneModel(
                         String.valueOf(spedizione.getId()),
                         cliente,
@@ -152,23 +291,23 @@ public class CustomerOrchestrator extends Orchestrator {
                         spedizione.getDataFineLavorazione(),
                         spedizione.getOrganizzatore().getUsername(),
                         spedizione.getTrackingNumber(),
-                        shipmentService.getCountOrdiniDiLavoroPackagingBySpedizione(spedizione),
-                        shipmentService.getCountOrdiniDiLavoroPackagingDaCompletareBySpedizione(spedizione),
-                        shipmentService.getCountPacchiGeneratiBySpedizione(spedizione),
-                        shipmentService.getCountPacchiDaSpedireBySpedizione(spedizione),
-                        shipmentService.getCountOrdiniDiLavoroTrasportoBySpedizione(spedizione),
-                        shipmentService.getCountOrdiniDiLavoroTrasportoDaCompletareBySpedizione(spedizione),
-                        spedizione.getOrdineCliente()
+                        shipmentService.getCountOrdiniDiLavoroPackagingBySpedizione(filiale, spedizione),
+                        shipmentService.getCountOrdiniDiLavoroPackagingDaCompletareBySpedizione(filiale, spedizione),
+                        shipmentService.getCountPacchiGeneratiBySpedizione(filiale, spedizione),
+                        shipmentService.getCountPacchiDaSpedireBySpedizione(filiale, spedizione),
+                        shipmentService.getCountOrdiniDiLavoroTrasportoBySpedizione(filiale, spedizione),
+                        shipmentService.getCountOrdiniDiLavoroTrasportoDaCompletareBySpedizione(filiale, spedizione),
+                        spedizione.getOrdineCliente(),
+                        spedizione,
+                        filiale
                 ));
-                DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
+
                 dashboardController.changeView("SPEDIZIONE", "/views/shipmentdomain/spedizione-view.fxml",
-                        c-> spedizioneController);
+                        c -> spedizioneController);
             }
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            dashboardController.showDialog("error", "Visualizzazione Spedizione", e.getMessage());
         }
-        catch (ServiceException e) {
-            dashboardController.showDialog("errore", "Visualizzazione Spedizione", "Errore nel reperire la spedizione");
-        }
-
-
     }
 }

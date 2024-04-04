@@ -2,9 +2,9 @@ database:
     wallet: Wallet_BPK3181NCIYDUJMQ
     driver: oracle.jdbc.driver.OracleDriver
     url: jdbc:oracle:thin:@bpk3181nciydujmq_medium
-    user: uninaDelivery
-    password: UnidevProd4010$
-    schema: uninaDelivery
+    user: uninadev
+    password: Unidevtest4010$
+    schema: uninadev
 
 application:
     version: 1.0.0

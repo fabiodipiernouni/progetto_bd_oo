@@ -14,7 +14,11 @@ import java.sql.Statement;
 import java.util.Optional;
 
 class OracleGruppoCorriereDAO implements GruppoCorriereDAO {
-    private final Connection connection = DatabaseSingleton.getInstance().connect();
+    private final Connection connection;
+
+    OracleGruppoCorriereDAO() throws PersistenceException {
+        connection = DatabaseSingleton.getInstance().connect();
+    }
 
     @Override
     public Optional<GruppoCorriereDTO> select(long id) throws PersistenceException {
@@ -53,6 +57,7 @@ class OracleGruppoCorriereDAO implements GruppoCorriereDAO {
             return gruppoCorriere;
         }
         catch(SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
         }
         finally {

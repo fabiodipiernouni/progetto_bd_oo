@@ -6,7 +6,6 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class ProdottoDTO {
 
     private long id;

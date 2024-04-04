@@ -77,10 +77,24 @@
         <Label fx:id="lblCorriere" alignment="CENTER_LEFT" contentDisplay="LEFT" prefHeight="40.0" prefWidth="384.0" styleClass="header-label" text="&lt;nome&gt;" textFill="#081B39">
         </Label>
     </HBox>
-    <StackPane fx:id="contentPane" layoutX="242.0" layoutY="90.0" prefHeight="604.0" prefWidth="1032.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="89.0" />
-    <Pane layoutX="242.0" layoutY="706.0" prefHeight="30.0" prefWidth="1033.0" styleClass="footer" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="4.6666666666667425" AnchorPane.topAnchor="706.0">
-        <children>
-            <Label fx:id="lblStatusBar" layoutX="14.0" layoutY="7.0" text="Visualizzazione Clienti" />
-        </children>
-    </Pane>
+    <StackPane fx:id="contentPane" layoutX="242.0" layoutY="90.0" maxWidth="1032.0" prefHeight="604.0" prefWidth="1032.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="89.0" />
+    <AnchorPane layoutX="242.0" layoutY="706.0" prefHeight="30.0" prefWidth="1033.0" styleClass="footer" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="241.0" AnchorPane.rightAnchor="4.6666666666667425" AnchorPane.topAnchor="706.0">
+        <BorderPane layoutX="18.0" layoutY="4.0" prefHeight="24.0" prefWidth="960.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="56.0" AnchorPane.topAnchor="2.0">
+            <left>
+                <Label fx:id="lblStatusBar" layoutX="14.0" layoutY="7.0" prefHeight="17.0" prefWidth="876.0" text="Visualizzazione Clienti">
+               <padding>
+                  <Insets top="2.0" />
+               </padding></Label>
+            </left>
+            <right>
+                <MFXProgressSpinner id="customSpinner1" fx:id="genericSpinner" prefHeight="21.0" prefWidth="28.0" radius="24.0" visible="false" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets right="44.0" />
+               </BorderPane.margin></MFXProgressSpinner>
+            </right>
+         <padding>
+            <Insets top="2.0" />
+         </padding>
+        </BorderPane>
+    </AnchorPane>
 </AnchorPane>

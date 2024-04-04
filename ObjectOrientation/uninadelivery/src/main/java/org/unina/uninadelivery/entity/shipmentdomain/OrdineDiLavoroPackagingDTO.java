@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @ToString(callSuper=true)
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
 public class OrdineDiLavoroPackagingDTO extends OrdineDiLavoroDTO {
 
     private String noteAggiuntiveCliente;

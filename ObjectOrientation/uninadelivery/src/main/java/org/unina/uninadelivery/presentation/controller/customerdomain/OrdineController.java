@@ -1,13 +1,12 @@
 package org.unina.uninadelivery.presentation.controller.customerdomain;
 
-import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
+import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.DoubleFilter;
 import io.github.palexdev.materialfx.filter.FloatFilter;
 import io.github.palexdev.materialfx.filter.IntegerFilter;
 import io.github.palexdev.materialfx.filter.StringFilter;
-import io.github.palexdev.materialfx.utils.others.observables.When;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -16,7 +15,6 @@ import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import org.unina.uninadelivery.entity.customerdomain.DettaglioOrdineDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
-import org.unina.uninadelivery.presentation.orchestrator.customerdomain.CustomerOrchestrator;
 
 import java.net.URL;
 import java.util.Comparator;
@@ -52,7 +50,7 @@ public class OrdineController implements Initializable {
     private Label importoTotaleOrdineClienteLabel;
 
     @FXML
-    private MFXPaginatedTableView<DettaglioOrdineDTO> dettaglioOrdineGrid;
+    private MFXTableView<DettaglioOrdineDTO> dettaglioOrdineGrid;
 
     public OrdineController(Stage dashboardStage, OrdineClienteDTO ordineDTO) {
         this.dashboardStage = dashboardStage;
@@ -64,12 +62,11 @@ public class OrdineController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        clienteRagioneSocialeLabel.setText(ordineDTO.getCliente().getIntestazione());
         if(ordineDTO.getCliente().getRagioneSociale() != null) {
-            clienteRagioneSocialeLabel.setText(ordineDTO.getCliente().getRagioneSociale());
             clientePartitaIVACodiceFiscaleLabel.setText(ordineDTO.getCliente().getPartitaIVA());
         }
         else {
-            clienteRagioneSocialeLabel.setText(ordineDTO.getCliente().getNome() + " " + ordineDTO.getCliente().getCognome());
             clientePartitaIVACodiceFiscaleLabel.setText(ordineDTO.getCliente().getCodiceFiscale());
         }
 
@@ -84,10 +81,6 @@ public class OrdineController implements Initializable {
         setup();
 
         dettaglioOrdineGrid.autosizeColumnsOnInitialization();
-
-        When.onChanged(dettaglioOrdineGrid.currentPageProperty())
-                .then((oldValue, newValue) -> dettaglioOrdineGrid.autosizeColumns())
-                .listen();
 
         imgCopyToNumeroOrdineCliente.setOnMouseClicked(event -> {
             javafx.scene.input.Clipboard clipboard = javafx.scene.input.Clipboard.getSystemClipboard();
@@ -114,7 +107,7 @@ public class OrdineController implements Initializable {
         pesoColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(dettaglioOrdine -> dettaglioOrdine.getProdotto().getPeso() + " Kg"));
         pericolositaColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(dettaglioOrdine -> dettaglioOrdine.getProdotto().getPericolosita()));
         quantitaColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(DettaglioOrdineDTO::getQuantita));
-        importoTotaleColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(dettaglioOrdine -> dettaglioOrdine.getProdotto().getPrezzo() * dettaglioOrdine.getQuantita() + " €"));
+        importoTotaleColumn.setRowCellFactory(dettaglioOrdineDTO -> new MFXTableRowCell<>(dettaglioOrdine -> String.format("%.2f€", dettaglioOrdine.getProdotto().getPrezzo() * dettaglioOrdine.getQuantita())));
 
         dettaglioOrdineGrid.getTableColumns().addAll(codiceEANColumn, nomeColumn, prezzoColumn, pesoColumn, pericolositaColumn, quantitaColumn, importoTotaleColumn);
 

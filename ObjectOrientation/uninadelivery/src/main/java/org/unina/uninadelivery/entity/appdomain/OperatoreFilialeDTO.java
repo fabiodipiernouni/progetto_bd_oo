@@ -9,7 +9,6 @@ import java.util.List;
 @ToString(callSuper=true)
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
 public class OperatoreFilialeDTO extends UtenteDTO {
     @NonNull
     private FilialeDTO filiale;

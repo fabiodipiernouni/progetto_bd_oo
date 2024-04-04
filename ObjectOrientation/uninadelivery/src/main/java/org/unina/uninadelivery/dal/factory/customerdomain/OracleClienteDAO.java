@@ -3,7 +3,6 @@ package org.unina.uninadelivery.dal.factory.customerdomain;
 import org.unina.uninadelivery.dal.exception.ConsistencyException;
 import org.unina.uninadelivery.dal.exception.PersistenceException;
 import org.unina.uninadelivery.dal.factory.DatabaseSingleton;
-import org.unina.uninadelivery.dal.factory.customerdomain.ClienteDAO;
 import org.unina.uninadelivery.entity.customerdomain.ClienteDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 
@@ -17,7 +16,11 @@ import java.util.Optional;
 
 class OracleClienteDAO implements ClienteDAO {
 
-    private final Connection connection = DatabaseSingleton.getInstance().connect();
+    private final Connection connection;
+
+    OracleClienteDAO() throws PersistenceException {
+        connection = DatabaseSingleton.getInstance().connect();
+    }
 
     private ClienteDTO getByResultSet(ResultSet resultSet) throws SQLException, PersistenceException {
         long idCliente = resultSet.getLong("id");
@@ -39,23 +42,28 @@ class OracleClienteDAO implements ClienteDAO {
         if (resultSet.wasNull())
             partitaIVA = null;
 
-        if(
-                !(
-                        (codiceFiscale != null && partitaIVA == null && ragioneSociale == null) ||
-                                (codiceFiscale == null && partitaIVA != null && ragioneSociale != null)
-                )
-        )
-            throw new ConsistencyException("Problema di consistenza: il cliente deve avere o codice fiscale o entrambe ragione sociale e partita IVA");
+        if(codiceFiscale != null && partitaIVA == null && ragioneSociale == null)
+            return new ClienteDTO(
+                    idCliente,
+                    nome,
+                    cognome,
+                    email,
+                    codiceFiscale
+            );
+        else
+            if(codiceFiscale == null && partitaIVA != null && ragioneSociale != null)
+                return new ClienteDTO(
+                        idCliente,
+                        nome,
+                        cognome,
+                        ragioneSociale,
+                        email,
+                        partitaIVA
+                );
 
-        return new ClienteDTO(
-                idCliente,
-                nome,
-                cognome,
-                ragioneSociale,
-                email,
-                codiceFiscale,
-                partitaIVA
-        );
+       else
+           throw new ConsistencyException("Problema di consistenza: il cliente deve avere o codice fiscale o entrambe ragione sociale e partita IVA");
+
     }
 
     public Optional<ClienteDTO> select(long idCliente) throws PersistenceException {
@@ -78,6 +86,7 @@ class OracleClienteDAO implements ClienteDAO {
 
         }
         catch(SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
         }
         finally {
@@ -138,6 +147,7 @@ class OracleClienteDAO implements ClienteDAO {
 
         }
         catch(SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
         }
         finally {

@@ -1,9 +1,6 @@
 package org.unina.uninadelivery.presentation.controller.appdomain;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXPasswordField;
-import io.github.palexdev.materialfx.controls.MFXTextField;
-import io.github.palexdev.materialfx.controls.MFXTooltip;
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.validation.Constraint;
 import io.github.palexdev.materialfx.validation.Severity;
 import io.github.palexdev.mfxresources.fonts.MFXFontIcon;
@@ -16,11 +13,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import lombok.Setter;
-import org.unina.uninadelivery.presentation.exception.LoginErrorException;
 import org.unina.uninadelivery.presentation.helper.ResourceLoader;
 import org.unina.uninadelivery.presentation.orchestrator.appdomain.LoginOrchestration;
 import org.unina.uninadelivery.presentation.orchestrator.appdomain.LoginOrchestrator;
 
+import javax.security.auth.login.LoginException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -44,6 +41,9 @@ public class LoginController implements Initializable {
     @FXML
     public Label validationLabel;
 
+    @FXML
+    public MFXProgressSpinner accessSpinner;
+
 
     public LoginController() {
     }
@@ -53,7 +53,11 @@ public class LoginController implements Initializable {
         try {
             if (txtUsername.isValid() && txtPassword.isValid()) {
                 LoginOrchestration orchestrator = LoginOrchestrator.getLoginOrchestrator();
-                Boolean isValid = orchestrator.loginClicked(txtUsername.getText(), txtPassword.getText());
+                Boolean isValid = orchestrator.doLoginClicked(txtUsername.getText(), txtPassword.getText(),
+                        null,
+                        eventRunning -> { Platform.runLater(()-> accessSpinner.setVisible(true));},
+                        eventSucceeded -> { Platform.runLater(()-> accessSpinner.setVisible(false));}, eventFailed -> { Platform.runLater(()-> accessSpinner.setVisible(false));});
+
                 if (!isValid) {
                     txtUsername.getStyleClass().add("invalid");
                     txtPassword.getStyleClass().add("invalid");
@@ -65,7 +69,7 @@ public class LoginController implements Initializable {
                     validationLabel.setVisible(false);
                 }
             }
-        } catch (LoginErrorException e) {
+        } catch (LoginException e) {
             validationLabel.setText("Errore durante il login (" + e.getMessage() + ")");
             validationLabel.setVisible(true);
         }
@@ -151,8 +155,5 @@ public class LoginController implements Initializable {
         });
 
         loginButton.disableProperty().bind(txtUsername.getValidator().validProperty().not().or(txtPassword.getValidator().validProperty().not()));
-
     }
-
-
 }

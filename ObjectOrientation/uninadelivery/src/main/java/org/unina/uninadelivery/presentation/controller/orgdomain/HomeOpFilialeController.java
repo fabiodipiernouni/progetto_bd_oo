@@ -6,10 +6,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.unina.uninadelivery.bll.customerdomain.CustomerService;
 import org.unina.uninadelivery.bll.exception.ServiceException;
-import org.unina.uninadelivery.bll.shipmentdomain.ShipmentService;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
+import org.unina.uninadelivery.presentation.orchestrator.appdomain.HomeOrchestrator;
+import org.unina.uninadelivery.presentation.exception.HomeException;
 import org.unina.uninadelivery.presentation.helper.Session;
 
 import java.net.URL;
@@ -18,8 +18,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class HomeOpFilialeController implements Initializable {
-    final CustomerService customerAsyncService;
-    final ShipmentService shipmentService;
     final OperatoreFilialeDTO operatoreFilialeDTO;
 
     private final Stage dashboardStage;
@@ -38,56 +36,115 @@ public class HomeOpFilialeController implements Initializable {
     public Label lblOrdiniPackagingDaTrasportare;
     @FXML
     public Label lblCntOrdiniTrasportoNonConclusi;
+    private Task<Integer> cntOrdiniTrasportoNonConclusiAsync;
+    private Task<Integer> cntSpedizioniDaLavorareAsync;
+    private Task<Integer> cntOrdiniPackagingDaTrasportareAsync;
+    private Task<Integer> cntOrdiniDaLavorareTaskAsync;
+    
+    private final HomeOrchestrator homeOrchestrator;
 
     public HomeOpFilialeController(Stage dashboardStage) {
         this.dashboardStage = dashboardStage;
-        customerAsyncService = new CustomerService();
-        shipmentService = new ShipmentService();
 
         Session session = Session.getInstance();
         operatoreFilialeDTO = (OperatoreFilialeDTO) session.getUserDto().getValue();
+        homeOrchestrator = new HomeOrchestrator(dashboardStage);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //Setup task per il conteggio degli ordini da lavorare
-        //TODO: dovremmo passare per un orchestratore, una boundary non può chiamare direttamente il service
-        Task<Integer> cntOrdiniDaLavorareTaskAsync = customerAsyncService.getCountOrdiniDaLavorareTask(operatoreFilialeDTO.getFiliale());
+        //Richiedo al controller di effettuare il setup dei task per i conteggi
+
+        try {
+            cntOrdiniDaLavorareTaskAsync = homeOrchestrator.homeOpFilialeSetupOrdiniDaLavorare(operatoreFilialeDTO.getFiliale());
+        } catch (HomeException e) {
+            homeOrchestrator.manageError("Errore ricezione conteggi", e);
+            return;
+        }
+
         cntOrdiniDaLavorareTaskAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblCntOrdiniClienteFiliale.setText(newValue.toString());
         });
+
         cntOrdiniDaLavorareTaskAsync.setOnFailed(event -> {
             System.out.println("Task failed...");
             if (cntOrdiniDaLavorareTaskAsync.getException() instanceof ServiceException)
-                System.out.println("...with a ServiceException");
+                homeOrchestrator.manageError("Errore ricezione conteggi", new HomeException(cntOrdiniDaLavorareTaskAsync.getException().getMessage()));
             else
-                System.out.println("...with an unknown exception");
+                homeOrchestrator.manageError("Errore ricezione conteggi", new HomeException("Errore durante il conteggio degli ordini da lavorare"));
         });
-        //TODO: aggiungere gestione errori OnFailed per tutti i task (vedi esempio sopra)
 
         //Setup task per il conteggio delle spedizioni da lavorare
-        Task<Integer> cntSpedizioniDaLavorareAsync = shipmentService.getCountSpedizioniDaLavorare(operatoreFilialeDTO);
+        try {
+            cntSpedizioniDaLavorareAsync = homeOrchestrator.homeOpFilialeSetupSpedizioniDaLavorare(operatoreFilialeDTO);
+        } catch (HomeException e) {
+            homeOrchestrator.manageError("Errore ricezione conteggi", e);
+            return;
+        }
         cntSpedizioniDaLavorareAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblSpedizioniDaLavorare.setText(newValue.toString());
         });
 
+        cntSpedizioniDaLavorareAsync.setOnFailed(event -> {
+            System.out.println("Task failed...");
+            if (cntSpedizioniDaLavorareAsync.getException() instanceof ServiceException)
+                homeOrchestrator.manageError("Errore ricezione conteggi", new HomeException(cntSpedizioniDaLavorareAsync.getException().getMessage()));
+            else
+                homeOrchestrator.manageError("Errore ricezione conteggi", new HomeException("Errore durante il conteggio degli ordini da lavorare"));
+        });
+
         //Setup task per il conteggio degli ordini di packaging conclusi in attesa di trasporto
-        Task<Integer> cntOrdiniPackagingDaTrasportareAsync = shipmentService.getCountOrdiniDiLavoroPackagingConclusiAttesaTrasporto(operatoreFilialeDTO.getFiliale());
+        try {
+            cntOrdiniPackagingDaTrasportareAsync = homeOrchestrator.homeOpFilialeSetupOrdiniDiLavoroPackagingConclusiAttesaTrasporto(operatoreFilialeDTO.getFiliale());
+        } catch (HomeException e) {
+            homeOrchestrator.manageError("Errore ricezione conteggi", e);
+            return;
+        }
+
         cntOrdiniPackagingDaTrasportareAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblOrdiniPackagingDaTrasportare.setText(newValue.toString());
         });
 
+        cntOrdiniPackagingDaTrasportareAsync.setOnFailed(event -> {
+            System.out.println("Task failed...");
+            if (cntOrdiniPackagingDaTrasportareAsync.getException() instanceof ServiceException)
+                homeOrchestrator.manageError("Errore ricezione conteggi", new HomeException(cntOrdiniPackagingDaTrasportareAsync.getException().getMessage()));
+            else
+                homeOrchestrator.manageError("Errore ricezione conteggi", new HomeException("Errore durante il conteggio degli ordini da lavorare"));
+        });
+
         //Setup task per il conteggio degli ordini di trasporto non conclusi
-        Task<Integer> cntOrdiniTrasportoNonConclusiAsync = shipmentService.getCountOrdiniDiLavoroSpedizioneDaTerminare(operatoreFilialeDTO.getFiliale());
+        try {
+            cntOrdiniTrasportoNonConclusiAsync = homeOrchestrator.homeOpFilialeSetupOrdiniDiLavoroSpedizioneDaTerminare(operatoreFilialeDTO.getFiliale());
+        } catch (HomeException e) {
+            homeOrchestrator.manageError("Errore ricezione conteggi", e);
+            return;
+        }
+
         cntOrdiniTrasportoNonConclusiAsync.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblCntOrdiniTrasportoNonConclusi.setText(newValue.toString());
         });
 
+        cntOrdiniTrasportoNonConclusiAsync.setOnFailed(event -> {
+            System.out.println("Task failed...");
+            if (cntOrdiniTrasportoNonConclusiAsync.getException() instanceof ServiceException)
+                homeOrchestrator.manageError("Errore ricezione conteggi", new HomeException(cntOrdiniTrasportoNonConclusiAsync.getException().getMessage()));
+            else
+                homeOrchestrator.manageError("Errore ricezione conteggi", new HomeException("Errore durante il conteggio degli ordini da lavorare"));
+        });
+    }
+
+    public void updateData() {
         //Eseguo i task
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
-        executorService.submit(cntOrdiniDaLavorareTaskAsync);
-        executorService.submit(cntSpedizioniDaLavorareAsync);
-        executorService.submit(cntOrdiniTrasportoNonConclusiAsync);
-        executorService.submit(cntOrdiniPackagingDaTrasportareAsync);
+        try {
+            ExecutorService executorService = Executors.newFixedThreadPool(4);
+            executorService.submit(cntOrdiniDaLavorareTaskAsync);
+            executorService.submit(cntSpedizioniDaLavorareAsync);
+            executorService.submit(cntOrdiniTrasportoNonConclusiAsync);
+            executorService.submit(cntOrdiniPackagingDaTrasportareAsync);
+            executorService.shutdown();
+        } catch (Exception e) {
+            homeOrchestrator.manageError("Errore ricezione conteggi", new HomeException("Errore durante il conteggio degli ordini da lavorare"));
+        }
     }
 }

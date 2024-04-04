@@ -37,6 +37,10 @@ public interface OrdineClienteDAO {
 
     List<OrdineClienteDTO> select(FilialeDTO filiale, ClienteDTO cliente, LocalDate dataInizio, LocalDate dataFine) throws PersistenceException ;
 
+    List<OrdineClienteDTO> select(ClienteDTO cliente, LocalDate dataInizio, LocalDate dataFine) throws PersistenceException ;
+
+    List<OrdineClienteDTO> select(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException ;
+
     List<OrdineClienteDTO> select(FilialeDTO filiale, String statoOrdine, ClienteDTO cliente, LocalDate dataInizio, LocalDate dataFine) throws PersistenceException;
 
     Optional<OrdineClienteDTO> getOrdineMaggiorNumeroDiProdotti(LocalDate dataInizio, LocalDate dataFine) throws PersistenceException;

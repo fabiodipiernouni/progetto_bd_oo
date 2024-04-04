@@ -12,7 +12,6 @@ import java.util.List;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class UtenteDTO {
 
     private Long id;

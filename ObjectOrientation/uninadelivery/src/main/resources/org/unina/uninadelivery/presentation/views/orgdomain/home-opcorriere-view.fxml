@@ -6,84 +6,99 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.orgdomain.HomeOpCorriereController">
+<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.unina.uninadelivery.presentation.controller.orgdomain.HomeOpCorriereController">
 
     <children>
         <Pane layoutX="57.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_1">
             <children>
-                <Label fx:id="lblCntOrdiniPackagingDaPrendereInCarico" layoutX="14.0" layoutY="140.0" text="-1" textFill="WHITE">
+                <Label fx:id="lblCntOrdiniPackagingDaPrendereInCarico" layoutX="14.0" layoutY="140.0" text="-1"
+                       textFill="WHITE">
                     <font>
-                        <Font name="Verdana Bold" size="36.0" />
-                    </font></Label>
-                <Label layoutX="15.0" layoutY="174.0" prefHeight="113.0" prefWidth="170.0" text="Ordini packaging da prendere in carico" textFill="WHITE" wrapText="true">
-                    <font>
-                        <Font name="Verdana" size="18.0" />
+                        <Font name="Verdana Bold" size="36.0"/>
                     </font>
                 </Label>
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+                <Label layoutX="15.0" layoutY="174.0" prefHeight="113.0" prefWidth="170.0"
+                       text="Ordini packaging da prendere in carico" textFill="WHITE" wrapText="true">
+                    <font>
+                        <Font name="Verdana" size="18.0"/>
+                    </font>
+                </Label>
+                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/icons8-box-64.png" />
+                        <Image url="@../../icons/icons8-box-64.png"/>
                     </image>
                 </ImageView>
-            </children></Pane>
+            </children>
+        </Pane>
         <Pane layoutX="280.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_2">
             <children>
                 <Label fx:id="lblOrdiniPackagingDaTerminare" layoutX="14.0" layoutY="140.0" text="-1">
                     <font>
-                        <Font name="Verdana Bold" size="36.0" />
+                        <Font name="Verdana Bold" size="36.0"/>
                     </font>
                 </Label>
-                <Label layoutX="15.0" layoutY="174.0" prefHeight="103.0" prefWidth="170.0" text="Ordini packaging presi in carico da terminare" wrapText="true">
+                <Label layoutX="15.0" layoutY="174.0" prefHeight="103.0" prefWidth="170.0"
+                       text="Ordini packaging presi in carico da terminare" wrapText="true">
                     <font>
-                        <Font name="Verdana" size="18.0" />
+                        <Font name="Verdana" size="18.0"/>
                     </font>
                 </Label>
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/icons8-logistics-64.png" />
+                        <Image url="@../../icons/icons8-logistics-64.png"/>
                     </image>
                 </ImageView>
             </children>
         </Pane>
         <Pane layoutX="513.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_3">
             <children>
-                <Label fx:id="lblOrdiniTrasportoDaPrendereInCarico" layoutX="14.0" layoutY="140.0" text="-1" textFill="WHITE">
+                <Label fx:id="lblOrdiniTrasportoDaPrendereInCarico" layoutX="14.0" layoutY="140.0" text="-1"
+                       textFill="WHITE">
                     <font>
-                        <Font name="Verdana Bold" size="36.0" />
+                        <Font name="Verdana Bold" size="36.0"/>
                     </font>
                 </Label>
-                <Label layoutX="15.0" layoutY="174.0" prefHeight="103.0" prefWidth="170.0" text="Ordini di trasporto da prendere in carico" textFill="WHITE" wrapText="true">
+                <Label layoutX="15.0" layoutY="174.0" prefHeight="103.0" prefWidth="170.0"
+                       text="Ordini di trasporto da prendere in carico" textFill="WHITE" wrapText="true">
                     <font>
-                        <Font name="Verdana" size="18.0" />
+                        <Font name="Verdana" size="18.0"/>
                     </font>
                 </Label>
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/icons8-work-order-64.png" />
+                        <Image url="@../../icons/icons8-work-order-64.png"/>
                     </image>
                 </ImageView>
             </children>
         </Pane>
         <Pane layoutX="743.0" layoutY="148.0" prefHeight="304.0" prefWidth="200.0" styleClass="pane_4">
             <children>
-                <Label fx:id="lblCntOrdiniTrasportoDaTerminare" layoutX="14.0" layoutY="140.0" text="-1" textFill="WHITE">
+                <Label fx:id="lblCntOrdiniTrasportoDaTerminare" layoutX="14.0" layoutY="140.0" text="-1"
+                       textFill="WHITE">
                     <font>
-                        <Font name="Verdana Bold" size="36.0" />
+                        <Font name="Verdana Bold" size="36.0"/>
                     </font>
                 </Label>
-                <Label layoutX="15.0" layoutY="174.0" prefHeight="89.0" prefWidth="170.0" text="Ordini di trasporto presi in carico da terminare" textFill="WHITE" wrapText="true">
+                <Label layoutX="15.0" layoutY="174.0" prefHeight="89.0" prefWidth="170.0"
+                       text="Ordini di trasporto presi in carico da terminare" textFill="WHITE" wrapText="true">
                     <font>
-                        <Font name="Verdana" size="18.0" />
+                        <Font name="Verdana" size="18.0"/>
                     </font>
                 </Label>
-                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="68.0" layoutY="45.0" pickOnBounds="true"
+                           preserveRatio="true">
                     <image>
-                        <Image url="@../../icons/icons8-shipping-64.png" />
+                        <Image url="@../../icons/icons8-shipping-64.png"/>
                     </image>
                 </ImageView>
             </children>
             <padding>
-                <Insets right="30.0" />
+                <Insets right="30.0"/>
             </padding>
         </Pane>
     </children>

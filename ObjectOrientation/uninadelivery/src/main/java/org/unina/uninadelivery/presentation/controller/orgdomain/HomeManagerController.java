@@ -56,29 +56,27 @@ public class HomeManagerController implements Initializable {
         this.managerOrchestrator = new ManagerOrchestrator(dashboardStage, this);
     }
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        filtroDataInizio.setOnAction(event -> {
-            LocalDate dataInizio = filtroDataInizio.getValue();
-            LocalDate dataFine = filtroDataFine.getValue();
-
-            if(dataFine != null && dataInizio != null && dataInizio.isAfter(dataFine))
-                //TODO: convertire in un dialog
-                System.out.println("Data inizio deve essere prima di data fine");
-            else
-                managerOrchestrator.caricaStatistiche(dataInizio, dataFine);
-        });
-
+        filtroDataInizio.setOnAction(event -> updateData());
         filtroDataFine.setOnAction(filtroDataInizio.getOnAction());
-
 
         filtroDataInizio.setValue(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
         filtroDataFine.setValue(LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()));
         filtroDataInizio.fireEvent(new ActionEvent());
-
     }
 
+    public void updateData() {
+        LocalDate dataInizio = filtroDataInizio.getValue();
+        LocalDate dataFine = filtroDataFine.getValue();
+
+        if (dataFine != null && dataInizio != null && dataInizio.isAfter(dataFine)) {
+            filtroDataInizio.setValue(null);
+            filtroDataFine.setValue(null);
+            managerOrchestrator.wrongFilters();
+        } else
+            managerOrchestrator.caricaStatistiche(dataInizio, dataFine);
+    }
 
     public void setNumeroTotaleOrdini(int numeroTotaleOrdini) {
         lblCntNumeroTotaleOrdini.setText(String.valueOf(numeroTotaleOrdini));
@@ -88,45 +86,37 @@ public class HomeManagerController implements Initializable {
         lblCntNumeroMedioOrdini.setText(String.format("%.2f", numeroMedioOrdini));
     }
 
-
     public void setNumeroSpedizioniCreate(int numeroSpedizioniCreate) {
         lblCntNumeroSpedizioniCreate.setText(String.valueOf(numeroSpedizioniCreate));
     }
 
-
-    public void setNumeroSpedizioniCompletate (int numeroSpedizioniCompletate) {
+    public void setNumeroSpedizioniCompletate(int numeroSpedizioniCompletate) {
         lblCntNumeroSpedizioniCompletate.setText(String.valueOf(numeroSpedizioniCompletate));
     }
 
-    public void setOrdineMaggiorNumeroProdotti (OrdineClienteDTO ordine) {
-        if(ordine == null) {
+    public void setOrdineMaggiorNumeroProdotti(OrdineClienteDTO ordine) {
+        if (ordine == null) {
             lblNumeroOrdineMaggiorNumeroProdotti.setText("Nessun ordine");
             btnOrdineMaggiorNumeroProdotti.setVisible(false);
-        }
-        else {
+        } else {
             lblNumeroOrdineMaggiorNumeroProdotti.setText(ordine.getNumeroOrdine());
             btnOrdineMaggiorNumeroProdotti.setVisible(true);
             btnOrdineMaggiorNumeroProdotti.setOnMouseClicked(event -> {
                 managerOrchestrator.visualizzaOrdine(ordine);
             });
-
         }
-
     }
 
     public void setOrdineMinorNumeroProdotti(OrdineClienteDTO ordine) {
-        if(ordine == null) {
+        if (ordine == null) {
             lblNumeroOrdineMinorNumeroProdotti.setText("Nessun ordine");
             btnOrdineMinorNumeroProdotti.setVisible(false);
-        }
-        else {
+        } else {
             lblNumeroOrdineMinorNumeroProdotti.setText(ordine.getNumeroOrdine());
             btnOrdineMinorNumeroProdotti.setVisible(true);
             btnOrdineMinorNumeroProdotti.setOnMouseClicked(event -> {
                 managerOrchestrator.visualizzaOrdine(ordine);
             });
         }
-
     }
-
 }

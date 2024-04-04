@@ -8,6 +8,7 @@ import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
 import org.unina.uninadelivery.entity.orgdomain.MagazzinoDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDTO;
+import org.unina.uninadelivery.entity.shipmentdomain.OrdineDiLavoroPackagingDetailDTO;
 import org.unina.uninadelivery.entity.shipmentdomain.SpedizioneDTO;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public interface OrdineDiLavoroPackagingDAO {
 
     List<OrdineDiLavoroPackagingDTO> select(OperatoreCorriereDTO operatoreCorriere) throws PersistenceException;
 
-    int getCount(FilialeDTO filiale, String stato) throws PersistenceException;
+    int getCount(FilialeDTO filiale, SpedizioneDTO spedizione, boolean in, boolean not, String stato) throws PersistenceException;
 
     int getCountLavoratiNonSpediti(FilialeDTO filiale) throws PersistenceException;
 
@@ -38,7 +39,9 @@ public interface OrdineDiLavoroPackagingDAO {
 
     void genera(OrdineClienteDTO ordineCliente, FilialeDTO filiale) throws PersistenceException;
 
-    List<OrdineDiLavoroPackagingDTO> select(SpedizioneDTO spedizione) throws PersistenceException;
+    List<OrdineDiLavoroPackagingDTO> select(FilialeDTO filiale, SpedizioneDTO spedizione) throws PersistenceException;
 
     Optional<OrdineDiLavoroPackagingDTO> select(long idOrdineLavoroOrigine) throws PersistenceException;
+
+    List<OrdineDiLavoroPackagingDetailDTO> selectDetails(FilialeDTO filiale, OrdineDiLavoroPackagingDTO ordine) throws PersistenceException;
 }

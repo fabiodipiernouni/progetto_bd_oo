@@ -11,7 +11,6 @@ public class UninaApplication extends Application {
     public void stop() {
         LoginOrchestrator loginOrchestrator = LoginOrchestrator.getLoginOrchestrator(null);
         loginOrchestrator.applicationStopped();
-
     }
 
     @Override

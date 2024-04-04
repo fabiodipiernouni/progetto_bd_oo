@@ -2,11 +2,10 @@ package org.unina.uninadelivery.presentation.controller.customerdomain;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
+import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.StringFilter;
-import io.github.palexdev.materialfx.utils.others.observables.When;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +14,7 @@ import javafx.stage.Stage;
 import org.unina.uninadelivery.entity.appdomain.UtenteDTO;
 import org.unina.uninadelivery.entity.customerdomain.ClienteDTO;
 import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
+import org.unina.uninadelivery.presentation.controller.DashboardController;
 import org.unina.uninadelivery.presentation.helper.Session;
 import org.unina.uninadelivery.presentation.orchestrator.customerdomain.CustomerOrchestrator;
 
@@ -48,7 +48,7 @@ public class OrdiniController implements Initializable {
     private MFXDatePicker dataFinePicker;
 
     @FXML
-    private MFXPaginatedTableView<OrdineClienteDTO> ordiniClienteGrid;
+    private MFXTableView<OrdineClienteDTO> ordiniClienteGrid;
 
     public OrdiniController(Stage dashboardStage, CustomerOrchestrator customerOrchestrator, ClienteDTO clienteDTO) {
         this.dashboardStage = dashboardStage;
@@ -69,20 +69,15 @@ public class OrdiniController implements Initializable {
 
         clienteEmailLabel.setText(clienteDTO.getEmail());
 
-
         setup();
 
         ordiniClienteGrid.autosizeColumnsOnInitialization();
 
-        When.onChanged(ordiniClienteGrid.currentPageProperty())
-                .then((oldValue, newValue) -> ordiniClienteGrid.autosizeColumns())
-                .listen();
 
 
     }
 
     private void setup() {
-
         MFXTableColumn<OrdineClienteDTO> dataOrdineColumn = new MFXTableColumn<>("Data Ordine", false, Comparator.comparing(OrdineClienteDTO::getDataOrdine));
         MFXTableColumn<OrdineClienteDTO> statoColumn = new MFXTableColumn<>("Stato", false, Comparator.comparing(OrdineClienteDTO::getStato));
         MFXTableColumn<OrdineClienteDTO> numeroOrdineColumn = new MFXTableColumn<>("Numero Ordine", false, Comparator.comparing(OrdineClienteDTO::getNumeroOrdine));
@@ -126,7 +121,6 @@ public class OrdiniController implements Initializable {
                     button.setOnAction(event -> {
                         customerOrchestrator.creaSpedizioneClicked(ordineCliente);
                     });
-
                 }
                 else {
                     //crea un tasto
@@ -166,10 +160,6 @@ public class OrdiniController implements Initializable {
                 });
             }
 
-
-
-
-
         ordiniClienteGrid.getTableColumns().addAll(dataOrdineColumn, statoColumn, numeroOrdineColumn, importoTotaleColumn, actionColumn, action2Column);
 
         ordiniClienteGrid.getFilters().addAll(
@@ -182,11 +172,12 @@ public class OrdiniController implements Initializable {
             LocalDate dataInizio = dataInizioPicker.getValue();
             LocalDate dataFine = dataFinePicker.getValue();
 
-            if(dataFine != null && dataInizio != null && dataInizio.isAfter(dataFine))
-                //TODO: convertire in un dialog
-                System.out.println("Data inizio deve essere prima di data fine");
-
-            customerOrchestrator.visualizzaOrdiniDataClicked(clienteDTO, dataInizio, dataFine);
+            if(dataFine != null && dataInizio != null && dataInizio.isAfter(dataFine)) {
+                DashboardController dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
+                dashboardController.showDialog("error", "Errore", "Data inizio deve essere prima di data fine");
+            }
+            else
+                customerOrchestrator.visualizzaOrdiniDataClicked(clienteDTO, dataInizio, dataFine);
         });
 
         dataFinePicker.setOnAction(dataInizioPicker.getOnAction());

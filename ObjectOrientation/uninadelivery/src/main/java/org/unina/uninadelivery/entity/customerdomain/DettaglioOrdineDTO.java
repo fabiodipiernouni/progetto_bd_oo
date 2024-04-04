@@ -10,7 +10,6 @@ import java.util.List;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class DettaglioOrdineDTO {
     private long id;
 

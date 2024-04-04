@@ -16,7 +16,6 @@ import java.util.List;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class OrdineClienteDTO {
 
     private long id;
@@ -47,4 +46,7 @@ public class OrdineClienteDTO {
     @NonNull
     private List<DettaglioOrdineDTO> dettaglio;
 
+    public String getIntestazioneCliente() {
+        return cliente.getIntestazione();
+    }
 }

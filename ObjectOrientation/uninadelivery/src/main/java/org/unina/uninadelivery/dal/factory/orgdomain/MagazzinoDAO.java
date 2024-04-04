@@ -18,4 +18,5 @@ public interface MagazzinoDAO {
 
     List<MerceStoccataDTO> selectMerciStoccate(MagazzinoDTO magazzino) throws PersistenceException;
 
+    MerceStoccataDTO selectMerciStoccateById(long id) throws PersistenceException;
 }

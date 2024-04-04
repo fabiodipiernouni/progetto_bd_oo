@@ -8,7 +8,6 @@ import lombok.*;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class GruppoCorriereDTO {
     private long id;
 

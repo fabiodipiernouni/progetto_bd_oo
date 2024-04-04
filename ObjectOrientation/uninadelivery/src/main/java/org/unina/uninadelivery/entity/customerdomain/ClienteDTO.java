@@ -2,11 +2,9 @@ package org.unina.uninadelivery.entity.customerdomain;
 
 import lombok.*;
 
-@AllArgsConstructor
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class ClienteDTO {
 
     private long id;
@@ -32,7 +30,31 @@ public class ClienteDTO {
     realmente questa distinzione abbiamo deciso di non farlo
     */
 
-    //TODO: dovrei mettere anche nel costruttore il controllo: codiceFiscale != null XOR (ragioneSociale != NULL && partitaIVA != NULL) ???
+    public ClienteDTO(long id, @NonNull String nome, @NonNull String cognome, @NonNull String email, @NonNull String codiceFiscale) {
+        this.id = id;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.ragioneSociale = null;
+        this.email = email;
+        this.codiceFiscale = codiceFiscale;
+        this.partitaIVA = null;
+    }
 
+    public ClienteDTO(long id, @NonNull String nome, @NonNull String cognome, @NonNull String email, @NonNull String ragioneSociale, @NonNull String partitaIVA) {
+        this.id = id;
+        this.nome = nome;
+        this.cognome = cognome;
+        this.ragioneSociale = ragioneSociale;
+        this.email = email;
+        this.codiceFiscale = null;
+        this.partitaIVA = partitaIVA;
+    }
+
+    public String getIntestazione() {
+        if(ragioneSociale != null && ragioneSociale.length()>0)
+            return ragioneSociale;
+
+        return nome + " " + cognome;
+    }
 
 }

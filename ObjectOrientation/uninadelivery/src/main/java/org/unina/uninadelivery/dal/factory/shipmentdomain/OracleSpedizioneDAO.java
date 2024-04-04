@@ -19,7 +19,11 @@ import java.util.List;
 import java.util.Optional;
 
 class OracleSpedizioneDAO implements SpedizioneDAO {
-    private final Connection connection = DatabaseSingleton.getInstance().connect();
+    private final Connection connection;
+
+    OracleSpedizioneDAO() throws PersistenceException {
+        connection = DatabaseSingleton.getInstance().connect();
+    }
 
     private SpedizioneDTO getByResultSet(ResultSet resultSet) throws SQLException, PersistenceException {
         Optional<UtenteDTO> organizzatore = FactoryAppDomain.buildUtenteDAO().select(resultSet.getLong("idUtenteOrganizzatore"));
@@ -102,21 +106,17 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
     public Optional<SpedizioneDTO> select(OrdineClienteDTO ordineCliente) throws PersistenceException {
         Optional<SpedizioneDTO> spedizione = Optional.empty();
 
-
         Statement statement = null;
         ResultSet resultSet = null;
 
         try {
-
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * From Spedizione WHERE idOrdineCliente = " + ordineCliente.getId());
 
             if (resultSet.next())
                 spedizione = Optional.of(getByResultSet(resultSet));
 
-
             return spedizione;
-
         } catch (SQLException sqe) {
             throw new PersistenceException(sqe.getMessage());
         } finally {
@@ -131,7 +131,6 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
                 //non faccio niente
             }
         }
-
     }
 
     @Override
@@ -153,7 +152,6 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
 
         if (stato != null)
             query += " AND stato = '" + stato + "'";
-
 
         Statement statement = null;
         ResultSet resultSet = null;
@@ -366,6 +364,68 @@ class OracleSpedizioneDAO implements SpedizioneDAO {
                     resultSet.close();
                 if (statement != null)
                     statement.close();
+            } catch (SQLException sqe) {
+                //non faccio niente
+            }
+        }
+    }
+
+    @Override
+    public void update(Long numeroSpedizione, LocalDate dataInizioLavorazione, LocalDate dataFineLavorazione, String stato, String trackingNumber, String trackingStatus) throws PersistenceException {
+        PreparedStatement preparedStatement = null;
+
+        try {
+            String query = "UPDATE Spedizione SET";
+
+            if (dataInizioLavorazione != null)
+                query += " dataInizioLavorazione = ?";
+
+            if (dataFineLavorazione != null)
+                query += ", dataFineLavorazione = ?";
+
+            if (stato != null)
+                query += ", stato = ?";
+
+            if (trackingNumber != null)
+                query += ", trackingNumber = ?";
+
+            if (trackingStatus != null)
+                query += ", trackingStatus = ?";
+
+            query += " WHERE id = ?";
+
+            query = query.replace("SET,", "SET");
+
+            preparedStatement = connection.prepareStatement(query);
+
+            int i = 1;
+
+            if (dataInizioLavorazione != null)
+                preparedStatement.setObject(i++, dataInizioLavorazione);
+
+            if (dataFineLavorazione != null)
+                preparedStatement.setObject(i++, dataFineLavorazione);
+
+            if (stato != null)
+                preparedStatement.setString(i++, stato);
+
+            if (trackingNumber != null)
+                preparedStatement.setString(i++, trackingNumber);
+
+            if (trackingStatus != null)
+                preparedStatement.setString(i++, trackingStatus);
+
+            preparedStatement.setLong(i, numeroSpedizione);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqe) {
+            throw new PersistenceException(sqe.getMessage());
+        } finally {
+            //libero le risorse
+
+            try {
+                if (preparedStatement != null)
+                    preparedStatement.close();
             } catch (SQLException sqe) {
                 //non faccio niente
             }

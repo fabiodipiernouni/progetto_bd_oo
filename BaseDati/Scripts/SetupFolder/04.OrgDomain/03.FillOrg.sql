@@ -651,6 +651,8 @@ insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values 
 insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (54, 'Daniele_corriere_40', 'daniele', 2, 40);
 insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (55, 'Giovanni_corriere_41', 'giovanni', 2, 41);
 insert into utente (ID, USERNAME, PASSWORD, IDPROFILO, IDGRUPPOCORRIERE) values (56, 'Giuseppe_corriere_42', 'giuseppe', 2, 42);
+insert into UTENTE (ID, USERNAME, PASSWORD, MATRICOLAUNINA, IDPROFILO, IDFILIALEOPERATORE, IDGRUPPOCORRIERE)
+values(57, 'Manager', 'manager', NULL, 3, NULL, NULL);
 
 
 

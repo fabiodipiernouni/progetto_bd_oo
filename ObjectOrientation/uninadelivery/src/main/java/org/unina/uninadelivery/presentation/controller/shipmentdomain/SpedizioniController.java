@@ -1,12 +1,8 @@
 package org.unina.uninadelivery.presentation.controller.shipmentdomain;
 
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
-import io.github.palexdev.materialfx.controls.MFXRadioButton;
-import io.github.palexdev.materialfx.controls.MFXTableColumn;
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.StringFilter;
-import io.github.palexdev.materialfx.utils.others.observables.When;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -27,10 +23,11 @@ import java.util.ResourceBundle;
 public class SpedizioniController implements Initializable {
 
     private final Stage dashboardStage;
+    private final UtenteDTO utente;
     private OdlOrchestrator odlOrchestrator;
     private final DashboardController dashboardController;
     @FXML
-    protected MFXPaginatedTableView<SpedizioneDTO> spedizioniGrid;
+    protected MFXTableView<SpedizioneDTO> spedizioniGrid;
 
     @FXML
     protected MFXRadioButton filtroTuttiRadioBox;
@@ -41,17 +38,16 @@ public class SpedizioniController implements Initializable {
     public SpedizioniController(Stage dashboardStage) {
         this.dashboardStage = dashboardStage;
         this.dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
+        Session session = Session.getInstance();
+        utente = session.getUserDto().getValue();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.odlOrchestrator = OdlOrchestrator.getOdlOrchestrator(dashboardStage);
-        this.odlOrchestrator.setSpedizioniController(this);
+        this.odlOrchestrator.setupSpedizioniController(this);
         spedizioniGrid.autosizeColumnsOnInitialization();
 
-        When.onChanged(spedizioniGrid.currentPageProperty())
-                .then((oldValue, newValue) -> spedizioniGrid.autosizeColumns())
-                .listen();
         ToggleGroup group = new ToggleGroup();
 
         filtroEmesseDaMe.setToggleGroup(group);
@@ -59,19 +55,11 @@ public class SpedizioniController implements Initializable {
         filtroTuttiRadioBox.setSelected(true);
 
         filtroTuttiRadioBox.setOnAction(event -> {
-            try {
-                odlOrchestrator.filtroTutteSpedizioniClicked();
-            } catch (SpedizioniException e) {
-                dashboardController.showDialog("errore", "Errore", e.getMessage());
-            }
+            this.updateData();
         });
 
         filtroEmesseDaMe.setOnAction(event -> {
-            try {
-                odlOrchestrator.filtroSpedizioniEmesseDaMeClicked();
-            } catch (SpedizioniException e) {
-                dashboardController.showDialog("errore", "Errore", e.getMessage());
-            }
+            this.updateData();
         });
 
         setupTable();
@@ -97,9 +85,9 @@ public class SpedizioniController implements Initializable {
 
             button.setOnAction(event -> {
                 try {
-                    odlOrchestrator.visualizzaSpedizioneClicked(spedizione);
+                    odlOrchestrator.visualizzaSpedizioneClicked(utente, spedizione);
                 } catch (SpedizioniException e) {
-                    dashboardController.showDialog("errore", "Errore", e.getMessage());
+                    dashboardController.showDialog("error", "Errore", e.getMessage());
                 }
             });
 
@@ -122,16 +110,17 @@ public class SpedizioniController implements Initializable {
             filtroTuttiRadioBox.setVisible(true);
             filtroEmesseDaMe.setVisible(true);
         }
+    }
 
+    public void updateData() {
         try {
-            odlOrchestrator.paginaSpedizioniPronta();
+            odlOrchestrator.paginaSpedizioniPronta(filtroEmesseDaMe.isSelected());
         } catch (SpedizioniException e) {
-            dashboardController.showDialog("errore", "Errore", e.getMessage());
+            dashboardController.showDialog("error", "Errore", e.getMessage());
         }
     }
 
     public void setListaSpedizioni(List<SpedizioneDTO> listaSpedizioni) {
-        spedizioniGrid.getItems().clear();
         spedizioniGrid.setItems(FXCollections.observableArrayList(listaSpedizioni));
     }
 }

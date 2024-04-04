@@ -4,8 +4,10 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="600" prefWidth="Infinity" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.SpedizioniController">
-
-    <MFXPaginatedTableView fx:id="spedizioniGrid" layoutX="58.0" layoutY="300.0" prefHeight="266.0" prefWidth="850.0" />
-    <MFXRadioButton fx:id="filtroTuttiRadioBox" layoutX="69.0" layoutY="265.0" selected="true" text="Tutti" visible="false" />
-    <MFXRadioButton fx:id="filtroEmesseDaMe" layoutX="140.0" layoutY="265.0" text="Emesse da me" visible="false" />
+    <children>
+        <MFXRadioButton fx:id="filtroTuttiRadioBox" layoutX="69.0" layoutY="265.0" selected="true" text="Tutti"
+                        visible="false"/>
+        <MFXRadioButton fx:id="filtroEmesseDaMe" layoutX="140.0" layoutY="265.0" text="Emesse da me" visible="false"/>
+        <MFXTableView fx:id="spedizioniGrid" layoutX="58.0" layoutY="300.0" prefHeight="266.0" prefWidth="850.0"/>
+    </children>
 </AnchorPane>

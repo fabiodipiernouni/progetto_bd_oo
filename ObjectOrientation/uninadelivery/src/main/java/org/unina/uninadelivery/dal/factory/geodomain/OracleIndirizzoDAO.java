@@ -12,7 +12,11 @@ import java.sql.Statement;
 import java.util.Optional;
 
 class OracleIndirizzoDAO implements IndirizzoDAO {
-    private final Connection connection = DatabaseSingleton.getInstance().connect();
+    private final Connection connection;
+
+    OracleIndirizzoDAO() throws PersistenceException{
+        connection = DatabaseSingleton.getInstance().connect();
+    }
 
     public Optional<IndirizzoDTO> select(long id) throws PersistenceException {
         Optional<IndirizzoDTO> indirizzo = Optional.empty();
@@ -81,6 +85,7 @@ class OracleIndirizzoDAO implements IndirizzoDAO {
 
         }
         catch(SQLException throwables) {
+            throwables.printStackTrace();
             throw new PersistenceException(throwables.getMessage());
         }
         finally {

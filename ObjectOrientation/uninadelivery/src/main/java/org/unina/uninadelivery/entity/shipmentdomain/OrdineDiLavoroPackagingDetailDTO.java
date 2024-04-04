@@ -8,7 +8,6 @@ import org.unina.uninadelivery.entity.orgdomain.MerceStoccataDTO;
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class OrdineDiLavoroPackagingDetailDTO {
     private OrdineDiLavoroPackagingDTO ordineDiLavoroPackaging;
     private DettaglioOrdineDTO dettaglioOrdineCliente;

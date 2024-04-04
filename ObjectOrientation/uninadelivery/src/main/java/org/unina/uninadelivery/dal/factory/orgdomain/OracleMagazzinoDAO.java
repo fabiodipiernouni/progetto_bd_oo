@@ -20,7 +20,11 @@ import java.util.List;
 import java.util.Optional;
 
 class OracleMagazzinoDAO implements MagazzinoDAO {
-    private final Connection connection = DatabaseSingleton.getInstance().connect();
+    private final Connection connection;
+
+    OracleMagazzinoDAO() throws PersistenceException {
+        connection = DatabaseSingleton.getInstance().connect();
+    }
 
     private MagazzinoDTO getByResultSet(ResultSet resultSet, FilialeDTO filiale) throws SQLException, PersistenceException {
         long id = resultSet.getLong("id");
@@ -28,12 +32,13 @@ class OracleMagazzinoDAO implements MagazzinoDAO {
 
         long idIndirizzo = resultSet.getLong("idIndirizzo");
         Optional<IndirizzoDTO> indirizzo = FactoryGeoDomain.buildIndirizzoDAO().select(idIndirizzo);
-        if(indirizzo.isEmpty())
+        if (indirizzo.isEmpty())
             throw new ConsistencyException("Indirizzo non trovato");
 
         return new MagazzinoDTO(id, nome, indirizzo.get(), filiale);
 
     }
+
     private MagazzinoDTO getByResultSet(ResultSet resultSet) throws SQLException, PersistenceException {
 
         long idFiliale = resultSet.getLong("idFiliale");
@@ -56,26 +61,24 @@ class OracleMagazzinoDAO implements MagazzinoDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM Magazzino WHERE id= " + id);
 
-            if(resultSet.next())
+            if (resultSet.next())
                 magazzino = Optional.of(getByResultSet(resultSet));
 
             return magazzino;
 
-        }
-        catch(SQLException throwables) {
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
             throw new PersistenceException(throwables.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
 
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(statement != null)
+                if (statement != null)
                     statement.close();
 
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio nulla
             }
         }
@@ -98,23 +101,69 @@ class OracleMagazzinoDAO implements MagazzinoDAO {
 
 
             return listaMagazzini;
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(statement != null)
+                if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio nulla
             }
         }
 
+    }
+
+    public MerceStoccataDTO selectMerciStoccateById(long id) throws PersistenceException {
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        MerceStoccataDTO merce = null;
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM MerceStoccata WHERE id= " + id);
+
+            if (resultSet.next()) {
+                long idMerce = resultSet.getLong("id");
+                ProdottoDTO prodotto = FactoryOrgDomain.buildProdottoDAO().select(resultSet.getLong("idProdotto")).get();
+                int quantitaReale = resultSet.getInt("quantitaReale");
+                int quantitaPrenotata = resultSet.getInt("quantitaPrenotata");
+                int quantitaDisponibile = resultSet.getInt("quantitaDisponibile");
+                int idMagazzino = resultSet.getInt("idMagazzino");
+
+                String settoreMagazzinoStr = resultSet.getString("settoreMagazzino");
+                Character settoreMagazzino;
+
+                if (resultSet.wasNull())
+                    settoreMagazzino = null;
+                else if (settoreMagazzinoStr.isEmpty())
+                    settoreMagazzino = null;
+                else
+                    settoreMagazzino = settoreMagazzinoStr.charAt(0);
+                MagazzinoDTO magazzino = FactoryOrgDomain.buildMagazzinoDAO().select(idMagazzino).get();
+                merce = new MerceStoccataDTO(idMerce, prodotto, quantitaReale, quantitaPrenotata, quantitaDisponibile, magazzino, settoreMagazzino);
+            }
+
+            return merce;
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
+            throw new PersistenceException(sqe.getMessage());
+        } finally {
+            //libero le risorse
+            try {
+                if (resultSet != null)
+                    resultSet.close();
+                if (statement != null)
+                    statement.close();
+            } catch (SQLException sqe) {
+                //non faccio nulla
+            }
+        }
     }
 
     public List<MerceStoccataDTO> selectMerciStoccate(MagazzinoDTO magazzino) throws PersistenceException {
@@ -127,43 +176,44 @@ class OracleMagazzinoDAO implements MagazzinoDAO {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM MerceStoccata WHERE idMagazzino= " + magazzino.getId());
 
-            long id;
-            ProdottoDTO prodotto;
-            int quantitaReale;
-            int quantitaPrenotata;
-            int quantitaDisponibile;
-            char settoreMagazzino;
             MerceStoccataDTO merce;
 
             while (resultSet.next()) {
-                id = resultSet.getLong("id");
-                prodotto = FactoryOrgDomain.buildProdottoDAO().select(resultSet.getLong("idProdotto")).get();
-                quantitaReale = resultSet.getInt("quantitaReale");
-                quantitaPrenotata = resultSet.getInt("quantitaPrenotata");
-                quantitaDisponibile = resultSet.getInt("quantitaDisponibile");
-                settoreMagazzino = resultSet.getString("settoreMagazzino").charAt(0);
+                long id = resultSet.getLong("id");
+                ProdottoDTO prodotto = FactoryOrgDomain.buildProdottoDAO().select(resultSet.getLong("idProdotto")).get();
+                int quantitaReale = resultSet.getInt("quantitaReale");
+                int quantitaPrenotata = resultSet.getInt("quantitaPrenotata");
+                int quantitaDisponibile = resultSet.getInt("quantitaDisponibile");
 
-                merce = new MerceStoccataDTO(id, prodotto, quantitaReale, quantitaPrenotata, quantitaDisponibile, settoreMagazzino);
+                String settoreMagazzinoStr = resultSet.getString("settoreMagazzino");
+
+                Character settoreMagazzino;
+
+                if (resultSet.wasNull())
+                    settoreMagazzino = null;
+                else if (settoreMagazzinoStr.isEmpty())
+                    settoreMagazzino = null;
+                else
+                    settoreMagazzino = settoreMagazzinoStr.charAt(0);
+
+                merce = new MerceStoccataDTO(id, prodotto, quantitaReale, quantitaPrenotata, quantitaDisponibile, magazzino, settoreMagazzino);
                 merce.setMagazzino(magazzino);
 
                 listaMerciStoccate.add(merce);
-
             }
 
             return listaMerciStoccate;
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
             try {
-                if(resultSet != null)
+                if (resultSet != null)
                     resultSet.close();
-                if(statement != null)
+                if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio nulla
             }
         }
@@ -180,30 +230,28 @@ class OracleMagazzinoDAO implements MagazzinoDAO {
         try {
             statement = connection.createStatement();
             resultSet = statement.executeQuery("""
-                SELECT Magazzino.*
-                FROM DettaglioOrdineMagazzino
-                JOIN Magazzino
-                on Magazzino.id = DettaglioOrdineMagazzino.IdMagazzino
-                WHERE idDettaglioOrdine= """ + dettaglioOrdine.getId());
+                    SELECT Magazzino.*
+                    FROM DettaglioOrdineMagazzino
+                    JOIN Magazzino
+                    on Magazzino.id = DettaglioOrdineMagazzino.IdMagazzino
+                    WHERE idDettaglioOrdine= """ + dettaglioOrdine.getId());
 
             while (resultSet.next())
                 listaMagazzini.add(getByResultSet(resultSet));
 
 
             return listaMagazzini;
-        }
-        catch(SQLException sqe) {
+        } catch (SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
-        }
-        finally {
+        } finally {
             //libero le risorse
             try {
                 if (resultSet != null)
                     resultSet.close();
                 if (statement != null)
                     statement.close();
-            }
-            catch(SQLException sqe) {
+            } catch (SQLException sqe) {
                 //non faccio nulla
             }
 

@@ -33,4 +33,6 @@ public interface SpedizioneDAO {
     List<SpedizioneDTO> select(FilialeDTO filiale) throws PersistenceException;
 
     List<SpedizioneDTO> select(OperatoreFilialeDTO operatoreFiliale) throws PersistenceException;
+
+    void update(Long numeroSpedizione, LocalDate dataInizioLavorazione, LocalDate dataFineLavorazione, String stato, String trackingNumber, String trackingStatus) throws PersistenceException;
 }

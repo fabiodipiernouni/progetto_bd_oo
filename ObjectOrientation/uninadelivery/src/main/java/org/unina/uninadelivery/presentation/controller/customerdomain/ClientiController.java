@@ -1,11 +1,10 @@
 package org.unina.uninadelivery.presentation.controller.customerdomain;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXPaginatedTableView;
+import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTableColumn;
 import io.github.palexdev.materialfx.controls.cell.MFXTableRowCell;
 import io.github.palexdev.materialfx.filter.StringFilter;
-import io.github.palexdev.materialfx.utils.others.observables.When;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,38 +21,20 @@ public class ClientiController implements Initializable {
     private final Stage dashboardStage;
 
     @FXML
-    private MFXPaginatedTableView<ClienteDTO> clientiGrid;
+    private MFXTableView<ClienteDTO> clientiGrid;
 
     private CustomerOrchestrator customerOrchestrator;
 
-
     public ClientiController(Stage dashboardStage) {
-
         this.dashboardStage = dashboardStage;
-        this.customerOrchestrator = new CustomerOrchestrator(dashboardStage, this);
+        this.customerOrchestrator = new CustomerOrchestrator(dashboardStage, this, null);
     }
-
-    /*
-    @FXML
-    public void onVisualizzaOrdine(ActionEvent actionEvent) {
-        CustomerOrchestrator orchestrator = new CustomerOrchestrator(dashboardStage);
-        /*Node source = (Node) actionEvent.getSource();
-        Window theStage = source.getScene().getWindow();
-        /
-
-
-        orchestrator.visualizzaOrdineClicked(3);
-    }*/
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setup();
 
         clientiGrid.autosizeColumnsOnInitialization();
-
-        When.onChanged(clientiGrid.currentPageProperty())
-                .then((oldValue, newValue) -> clientiGrid.autosizeColumns())
-                .listen();
     }
 
     private void setup() {
@@ -85,22 +66,23 @@ public class ClientiController implements Initializable {
         });
 
 
-       clientiGrid.getTableColumns().addAll(nameColumn, ragioneSocialeColumn, partitaIVAColumn, codiceFiscaleColumn, actionColumn);
+        clientiGrid.getTableColumns().addAll(nameColumn, ragioneSocialeColumn, partitaIVAColumn, codiceFiscaleColumn, actionColumn);
 
-       clientiGrid.getFilters().addAll(
-           new StringFilter<>("Nome", cliente -> cliente.getCognome() + " " + cliente.getNome()),
-           new StringFilter<>("Ragione Sociale", ClienteDTO::getRagioneSociale),
-           new StringFilter<>("Partita IVA", ClienteDTO::getPartitaIVA),
-           new StringFilter<>("Codice Fiscale", ClienteDTO::getCodiceFiscale)
-       );
+        clientiGrid.getFilters().addAll(
+                new StringFilter<>("Nome", cliente -> cliente.getCognome() + " " + cliente.getNome()),
+                new StringFilter<>("Ragione Sociale", ClienteDTO::getRagioneSociale),
+                new StringFilter<>("Partita IVA", ClienteDTO::getPartitaIVA),
+                new StringFilter<>("Codice Fiscale", ClienteDTO::getCodiceFiscale)
+        );
+    }
 
-
-       customerOrchestrator.paginaClientiPronta();
-
+    public void updateData() {
+        customerOrchestrator.paginaClientiPronta();
     }
 
     public void setListaClienti(List<ClienteDTO> clienti) {
         clientiGrid.getItems().clear();
         clientiGrid.setItems(FXCollections.observableArrayList(clienti));
+
     }
 }

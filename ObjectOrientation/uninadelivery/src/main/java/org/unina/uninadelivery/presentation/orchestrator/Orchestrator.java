@@ -13,16 +13,27 @@ public class Orchestrator {
 
     protected static Orchestrator orchestrator;
 
-    // metti un commento opendoc al costruttore
-
     /**
      * Costruttore della classe Orchestrator, è protetta rendendo la classe non instanziabile ma derivabile
+     *
      * @param dashboardStage
      */
     protected Orchestrator(Stage dashboardStage) {
         this.dashboardStage = dashboardStage;
+        if (dashboardStage.getScene() != null)
+            this.dashboardController = (DashboardController) dashboardStage.getScene().getUserData();
+        //else vuol dire che l'orchestrator è stato creato prima che la dashboard fosse caricata, questo succede con loginOrchestrator
+
         Session session = Session.getInstance();
-        if(session.containsKey("application.yml"))
+        if (session.containsKey("application.yml"))
             yamlValues = (Map<String, Object>) session.getSessionData("application.yml");
+    }
+
+    public void taskRunning() {
+        this.dashboardController.showLoadingView();
+    }
+
+    public void taskCompleted() {
+        this.dashboardController.hideLoadingView();
     }
 }

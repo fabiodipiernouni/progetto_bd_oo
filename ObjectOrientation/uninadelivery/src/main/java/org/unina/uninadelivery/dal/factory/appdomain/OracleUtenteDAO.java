@@ -3,7 +3,6 @@ package org.unina.uninadelivery.dal.factory.appdomain;
 import org.unina.uninadelivery.dal.exception.ConsistencyException;
 import org.unina.uninadelivery.dal.exception.PersistenceException;
 import org.unina.uninadelivery.dal.factory.DatabaseSingleton;
-
 import org.unina.uninadelivery.dal.factory.orgdomain.FactoryOrgDomain;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
 import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
@@ -17,7 +16,11 @@ import java.util.List;
 import java.util.Optional;
 
 class OracleUtenteDAO implements UtenteDAO {
-    private final Connection connection = DatabaseSingleton.getInstance().connect();
+    private final Connection connection;
+
+    public OracleUtenteDAO() throws PersistenceException {
+        this.connection = DatabaseSingleton.getInstance().connect();
+    }
 
     private UtenteDTO getByResultSet(ResultSet resultSet) throws SQLException, PersistenceException {
 
@@ -97,13 +100,11 @@ class OracleUtenteDAO implements UtenteDAO {
                 );
                 break;
 
-
             default:
                 throw new ConsistencyException("profilo non riconosciuto");
         }
 
         return utente;
-
     }
 
 
@@ -127,6 +128,7 @@ class OracleUtenteDAO implements UtenteDAO {
 
         }
         catch(SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
         }
         finally {
@@ -167,6 +169,7 @@ class OracleUtenteDAO implements UtenteDAO {
                 return funzioni;
             }
             catch(SQLException sqe) {
+                sqe.printStackTrace();
                 throw new PersistenceException(sqe.getMessage());
             }
             finally {
@@ -180,19 +183,14 @@ class OracleUtenteDAO implements UtenteDAO {
                 catch(SQLException sqe) {
                     //non faccio nulla
                 }
-
         }
-
     }
-
 
     @Override
     public Optional<UtenteDTO> select(String usernameIn, String passwordIn) throws PersistenceException {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         Optional<UtenteDTO> utente = Optional.empty();
-
-
 
         try {
 
@@ -216,6 +214,7 @@ class OracleUtenteDAO implements UtenteDAO {
 
         }
         catch(SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
         }
         finally {
@@ -232,15 +231,5 @@ class OracleUtenteDAO implements UtenteDAO {
             }
         }
 
-    }
-
-    @Override
-    public void closeConnection() {
-        try {
-            if(!connection.isClosed()) connection.close();
-        }
-        catch(Exception ex) {
-            //non faccio nulla
-        }
     }
 }

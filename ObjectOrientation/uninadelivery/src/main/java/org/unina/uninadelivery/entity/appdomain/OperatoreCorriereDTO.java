@@ -10,7 +10,6 @@ import java.util.List;
 @ToString(callSuper=true)
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
 public class OperatoreCorriereDTO extends UtenteDTO {
     @NonNull
     private GruppoCorriereDTO gruppoCorriere;

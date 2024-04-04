@@ -2,17 +2,15 @@ package org.unina.uninadelivery.entity.shipmentdomain;
 
 import lombok.*;
 import org.unina.uninadelivery.entity.appdomain.OperatoreCorriereDTO;
-import org.unina.uninadelivery.entity.appdomain.OperatoreFilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 import org.unina.uninadelivery.entity.orgdomain.GruppoCorriereDTO;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class OrdineDiLavoroDTO {
 
     private long id;
@@ -41,4 +39,20 @@ public class OrdineDiLavoroDTO {
 
     private String noteAggiuntiveOperatore;
 
+    @NonNull
+    private List<PaccoDTO> pacchi;
+
+    protected OrdineDiLavoroDTO(long id, @NonNull LocalDate dataCreazione, LocalDate dataInizioPianificazione, LocalDate dataInizioLavorazione, LocalDate dataFineLavorazione, GruppoCorriereDTO gruppoCorriere, OperatoreCorriereDTO operatoreCorriere, @NonNull FilialeDTO filiale, @NonNull SpedizioneDTO spedizione, @NonNull String stato, String noteAggiuntiveOperatore) {
+        this.id = id;
+        this.dataCreazione = dataCreazione;
+        this.dataInizioPianificazione = dataInizioPianificazione;
+        this.dataInizioLavorazione = dataInizioLavorazione;
+        this.dataFineLavorazione = dataFineLavorazione;
+        this.gruppoCorriere = gruppoCorriere;
+        this.operatoreCorriere = operatoreCorriere;
+        this.filiale = filiale;
+        this.spedizione = spedizione;
+        this.stato = stato;
+        this.noteAggiuntiveOperatore = noteAggiuntiveOperatore;
+    }
 }

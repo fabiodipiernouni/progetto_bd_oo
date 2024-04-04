@@ -1,24 +1,25 @@
 package org.unina.uninadelivery.entity.orgdomain;
 
+import javafx.stage.Stage;
 import lombok.*;
+import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import org.unina.uninadelivery.entity.geodomain.IndirizzoDTO;
 
 @AllArgsConstructor
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class MagazzinoDTO {
 
-    long id;
+    private long id;
 
     @NonNull
-    String nome;
+    private String nome;
 
     @NonNull
-    IndirizzoDTO indirizzo;
+    private IndirizzoDTO indirizzo;
 
     @NonNull
-    FilialeDTO filiale;
+    private FilialeDTO filiale;
 
 }

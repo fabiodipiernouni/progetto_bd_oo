@@ -2,7 +2,6 @@ package org.unina.uninadelivery.dal.factory.orgdomain;
 
 import org.unina.uninadelivery.dal.exception.PersistenceException;
 import org.unina.uninadelivery.dal.factory.DatabaseSingleton;
-import org.unina.uninadelivery.dal.factory.orgdomain.FilialeDAO;
 import org.unina.uninadelivery.entity.orgdomain.FilialeDTO;
 
 import java.sql.Connection;
@@ -12,7 +11,11 @@ import java.sql.Statement;
 import java.util.Optional;
 
 class OracleFilialeDAO implements FilialeDAO {
-    private final Connection connection = DatabaseSingleton.getInstance().connect();
+    private final Connection connection;
+
+    OracleFilialeDAO() throws PersistenceException {
+        connection = DatabaseSingleton.getInstance().connect();
+    }
 
     public Optional<FilialeDTO> select(long id) throws PersistenceException {
         Optional<FilialeDTO>  filiale = Optional.empty();
@@ -59,6 +62,7 @@ class OracleFilialeDAO implements FilialeDAO {
 
         }
         catch(SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
         }
         finally {

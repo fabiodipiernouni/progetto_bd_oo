@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXPaginatedTableView?>
+<?import io.github.palexdev.materialfx.controls.MFXTableView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.OrdinePackagingController">
+<AnchorPane fx:id="rootAnchorPane" prefHeight="600" prefWidth="1000" styleClass="innerForm" stylesheets="@../../css/Primary.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.unina.uninadelivery.presentation.controller.shipmentdomain.OrdinePackagingController">
     <Pane layoutX="58.0" layoutY="19.0" prefHeight="200.0" prefWidth="417.0" styleClass="pane_2">
         <children>
             <Label layoutX="23.0" layoutY="24.0" text="Spedizione Numero:">
@@ -112,22 +112,22 @@
             </ImageView>
         </children>
     </Pane>
-    <MFXPaginatedTableView fx:id="dettGrid" layoutX="58.0" layoutY="300.0" prefWidth="850.0">
+    <MFXTableView fx:id="dettGrid" layoutX="58.0" layoutY="257.0" prefHeight="152.0" prefWidth="850.0" AnchorPane.topAnchor="255.0">
 
-    </MFXPaginatedTableView>
-   <Label layoutX="58.0" layoutY="267.0" text="Informazioni Aggiuntive">
-      <font>
-         <Font name="Verdana" size="14.0" />
-      </font>
-   </Label>
-   <Pane layoutX="58.0" layoutY="488.0" prefHeight="52.0" prefWidth="850.0" styleClass="pane_2">
-      <children>
-         <MFXButton fx:id="actionButton" layoutX="731.0" layoutY="9.0" prefHeight="35.0" prefWidth="105.0" />
-         <Label fx:id="actionLabel" layoutX="22.0" layoutY="17.0" text="Informazioni Aggiuntive">
-            <font>
-               <Font name="Verdana" size="14.0" />
-            </font>
-         </Label>
-      </children>
-   </Pane>
+    </MFXTableView>
+    <Label layoutX="58.0" layoutY="235.0" text="Informazioni Aggiuntive">
+        <font>
+            <Font name="Verdana" size="14.0" />
+        </font>
+    </Label>
+    <Pane layoutX="58.0" layoutY="540.0" prefHeight="52.0" prefWidth="850.0" styleClass="pane_2" AnchorPane.bottomAnchor="8.0">
+        <children>
+            <MFXButton fx:id="actionButton" layoutX="687.0" layoutY="9.0" prefHeight="35.0" prefWidth="149.0" />
+            <Label fx:id="actionLabel" layoutX="22.0" layoutY="17.0" text="Informazioni Aggiuntive">
+                <font>
+                    <Font name="Verdana" size="14.0" />
+                </font>
+            </Label>
+        </children>
+    </Pane>
 </AnchorPane>

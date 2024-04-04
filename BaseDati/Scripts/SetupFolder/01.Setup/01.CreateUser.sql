@@ -52,3 +52,28 @@ GRANT CREATE SYNONYM TO uninaTest;
 
 GRANT CREATE PUBLIC SYNONYM TO uninaTest;
 
+-- account di produzione
+
+create user uninaDelivery identified by UnidevProd4010$;
+
+grant create session to uninaDelivery;
+
+grant create table to uninaDelivery;
+
+grant create view to uninaDelivery;
+
+grant create sequence to uninaDelivery;
+
+grant create any procedure to uninaDelivery;
+
+grant create any trigger to uninaDelivery;
+
+grant execute any procedure to uninaDelivery;
+
+grant create any sequence to uninaDelivery;
+
+grant unlimited tablespace to uninaDelivery;
+
+GRANT CREATE SYNONYM TO uninaDelivery;
+
+GRANT CREATE PUBLIC SYNONYM TO uninaDelivery;

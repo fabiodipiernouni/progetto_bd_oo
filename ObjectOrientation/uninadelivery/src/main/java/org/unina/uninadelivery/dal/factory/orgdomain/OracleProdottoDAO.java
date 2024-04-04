@@ -12,7 +12,11 @@ import java.sql.Statement;
 import java.util.Optional;
 
 class OracleProdottoDAO implements ProdottoDAO {
-    private final Connection connection = DatabaseSingleton.getInstance().connect();
+    private final Connection connection;
+
+    OracleProdottoDAO() throws PersistenceException {
+        connection = DatabaseSingleton.getInstance().connect();
+    }
 
     public Optional<ProdottoDTO> select(long id) throws PersistenceException {
 
@@ -70,6 +74,7 @@ class OracleProdottoDAO implements ProdottoDAO {
 
         }
         catch(SQLException throwables) {
+            throwables.printStackTrace();
             throw new PersistenceException(throwables.getMessage());
         }
         finally {

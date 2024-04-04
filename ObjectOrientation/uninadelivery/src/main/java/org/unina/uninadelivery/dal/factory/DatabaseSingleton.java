@@ -1,15 +1,17 @@
 package org.unina.uninadelivery.dal.factory;
 
 
+import org.unina.uninadelivery.dal.exception.PersistenceException;
+import org.yaml.snakeyaml.Yaml;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Map;
-
-import org.yaml.snakeyaml.Yaml;
 
 
 /**
@@ -23,7 +25,7 @@ public class DatabaseSingleton {
     private Connection connection = null;
 
 
-    // costruttore privato che sovrascrive quello predefinito
+    // costruttore privato => non ereditabile
     private DatabaseSingleton(){
         Yaml yaml = new Yaml();
 
@@ -56,15 +58,38 @@ public class DatabaseSingleton {
         return istanza;
     }
 
+    public  Connection getTheConnection() {
+        return connection;
+    }
+
+    public void closeConnection() {
+        try {
+            if(!isConnectionClosed())
+                connection.close();
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Boolean isConnectionClosed() {
+        try {
+            return connection == null || connection.isClosed();
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+            return true;
+        }
+    }
 
 
     /**
      * Metodo pubblico per ottenere la connessione
      */
-    public Connection connect() {
+    public Connection connect() throws PersistenceException {
         try {
             //se la connessione non esiste oppure è stata chiusa
-            if(connection == null || connection.isClosed()) {
+            if(isConnectionClosed()) {
                 Map<String, Object> database = (Map<String, Object>) yamlValues.get("database");
 
                 URI res = getClass().getResource("/" + (database.get("wallet"))).toURI();
@@ -91,8 +116,9 @@ public class DatabaseSingleton {
                 connection.setSchema((String)database.get("schema"));
             }
         }
-        catch(Exception throwables) {
-            throwables.printStackTrace();
+        catch(Exception e) {
+            e.printStackTrace();
+            throw new PersistenceException(e.getMessage());
         }
 
         return connection;

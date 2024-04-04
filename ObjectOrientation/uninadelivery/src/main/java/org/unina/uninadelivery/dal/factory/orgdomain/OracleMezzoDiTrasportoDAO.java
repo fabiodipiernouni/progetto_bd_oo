@@ -14,7 +14,11 @@ import java.util.Optional;
 
 class OracleMezzoDiTrasportoDAO implements MezzoDiTrasportoDAO {
 
-    private final Connection connection = DatabaseSingleton.getInstance().connect();
+    private final Connection connection;
+
+    OracleMezzoDiTrasportoDAO() throws PersistenceException {
+        connection = DatabaseSingleton.getInstance().connect();
+    }
 
     public Optional<MezzoDiTrasportoDTO> select(long id) throws PersistenceException {
         Optional<MezzoDiTrasportoDTO> mezzo = Optional.empty();
@@ -34,7 +38,8 @@ class OracleMezzoDiTrasportoDAO implements MezzoDiTrasportoDAO {
                 mezzo = Optional.of(new MezzoDiTrasportoDTO(
                         resultSet.getLong("id"),
                         resultSet.getString("targa"),
-                        resultSet.getString("tipo"),
+                        resultSet.getString("tipomezzo"),
+                        resultSet.getFloat("pesotrasportabile"),
                         gruppoCorriere.get()
                 ));
             }
@@ -43,10 +48,21 @@ class OracleMezzoDiTrasportoDAO implements MezzoDiTrasportoDAO {
 
         }
         catch (SQLException sqe){
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
         }
-
-
+        finally {
+            //libero le risorse
+            try {
+                if(resultSet != null)
+                    resultSet.close();
+                if(statement != null)
+                    statement.close();
+            }
+            catch(SQLException sqe) {
+                //non faccio nulla
+            }
+        }
     }
 
     @Override
@@ -87,7 +103,8 @@ class OracleMezzoDiTrasportoDAO implements MezzoDiTrasportoDAO {
                 mezzi.add(new MezzoDiTrasportoDTO(
                         resultSet.getLong("id"),
                         resultSet.getString("targa"),
-                        resultSet.getString("tipo"),
+                        resultSet.getString("tipomezzo"),
+                        resultSet.getFloat("pesotrasportabile"),
                         gruppoCorriere
                 ));
 
@@ -97,6 +114,7 @@ class OracleMezzoDiTrasportoDAO implements MezzoDiTrasportoDAO {
 
         }
         catch(SQLException sqe) {
+            sqe.printStackTrace();
             throw new PersistenceException(sqe.getMessage());
         }
         finally {

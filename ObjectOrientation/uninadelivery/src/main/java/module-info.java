@@ -38,4 +38,6 @@ module org.unina.uninadelivery {
     exports org.unina.uninadelivery.presentation.model.customerdomain;
     opens org.unina.uninadelivery.presentation.model.shipmentdomain to javafx.fxml;
     exports org.unina.uninadelivery.presentation.model.shipmentdomain;
+    exports org.unina.uninadelivery.presentation.orchestrator.appdomain;
+    opens org.unina.uninadelivery.presentation.orchestrator.appdomain to javafx.fxml;
 }

@@ -7,10 +7,10 @@ import org.unina.uninadelivery.entity.customerdomain.OrdineClienteDTO;
 import java.time.LocalDate;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Getter
 @Setter
-@EqualsAndHashCode
 public class SpedizioneDTO {
     private long id;
 
